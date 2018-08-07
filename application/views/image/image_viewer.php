@@ -179,12 +179,16 @@
     map.addControl(new L.Control.Draw({
         edit: {
             featureGroup: drawnItems,
-            
+            remove: false,
+            edit: false,
             poly: {
                 allowIntersection: false
             }
         },
         draw: {
+            polyline : false,
+            circle: false,
+            circlemarker: false,
             polygon: {
                 allowIntersection: false,
                 showArea: false
@@ -248,6 +252,8 @@
         var geo_json_str = JSON.stringify(collection);
         saveGeoJson(geo_json_str);
     });
+    
+
     
     
     $.get( "http://<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/0", function( data ) {
