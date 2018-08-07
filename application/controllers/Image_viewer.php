@@ -25,18 +25,22 @@
                     $this->load->view('errors/not_exist', $data);
                     return;
                 }
-                $data['title'] = "CIL Image Viewer | 2D |".$image_id;
+                $data['title'] = "CIL Image Viewer | 2D | ".$image_id;
                 $data['serverName'] = "localhost";
                 $data['folder_postfix'] = $image_id;
-                $data['rgb'] = $json->is_rgb;
+                if($json->is_rgb)
+                    $data['rgb'] = "true";
+                else
+                    $data['rgb'] = "false";
+                
                 $data['image_id'] = $image_id;
                 $data['max_zoom'] = $json->max_zoom;
                 $data['max_z'] = $json->max_z;
                 $data['init_lat'] =  $json->init_lat;
                 $data['init_lng'] =  $json->init_lng;
+                $data['init_zoom'] = $json->init_zoom;
                 
-                
-                $this->load->view('2d_rgb/2d_rgb_viewer', $data);
+                $this->load->view('image/image_viewer', $data);
             }
         }
         

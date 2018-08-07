@@ -159,6 +159,7 @@
     var cil_id = "<?php echo $image_id; ?>";
     var zindex = 0;
     var z_max = <?php echo $max_z; ?>;
+    var rgb = <?php echo $rgb; ?>;
     if(z_max == 0)
         document.getElementById('z_slicer_id').style.display = 'none';
     
@@ -168,7 +169,7 @@
             osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             layer1 = L.tileLayer(osmUrl, {tms: true,
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
-            map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: 2 }),
+            map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: <?php echo $init_zoom; ?> }),
             drawnItems = L.featureGroup().addTo(map);
     layer1.addTo(map);
     /* L.control.layers({
@@ -200,15 +201,18 @@
         command.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'command');
 
-            div.innerHTML = '<form><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
+            div.innerHTML = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
                             '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
                             '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
-                            '</form>'; 
+                            '</div>'; 
             return div;
         };
         
         command.addTo(map);
 
+        
+    if(!rgb)
+        document.getElementById('rgb_div_id').style.display = 'none';    
     // Create an empty GeoJSON collection
     /*var collection = {
         "type": "FeatureCollection",
