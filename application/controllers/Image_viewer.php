@@ -6,8 +6,14 @@
     {
         public function view($image_id="0")
         {
+            $lag = $this->input->get('lat', TRUE);
+            $lng = $this->input->get('lng', TRUE);
+            $zoom = $this->input->get('zoom', TRUE);
             
             $db_params = $this->config->item('db_params');
+            $data['base_url'] = $this->config->item('base_url');
+            
+            
             $dbutil = new DBUtil();
             $array = $dbutil->getImageInfo($db_params,$image_id);
             if(is_null($array))
@@ -26,7 +32,7 @@
                     return;
                 }
                 $data['title'] = "CIL Image Viewer | 2D | ".$image_id;
-                $data['serverName'] = "localhost";
+                $data['serverName'] = $this->config->item('base_url');
                 $data['folder_postfix'] = $image_id;
                 if($json->is_rgb)
                     $data['rgb'] = "true";
@@ -36,11 +42,22 @@
                 $data['image_id'] = $image_id;
                 $data['max_zoom'] = $json->max_zoom;
                 $data['max_z'] = $json->max_z;
-                $data['init_lat'] =  $json->init_lat;
-                $data['init_lng'] =  $json->init_lng;
-                $data['init_zoom'] = $json->init_zoom;
+                if(is_null($lag))
+                    $data['init_lat'] =  $json->init_lat;
+                else
+                    $data['init_lat'] =  $lag;
                 
-                $this->load->view('image/image_viewer', $data);
+                if(is_null($lng))
+                    $data['init_lng'] =  $json->init_lng;
+                else
+                    $data['init_lng'] = $lng;
+                
+                if(is_null($zoom))
+                    $data['init_zoom'] = $json->init_zoom;
+                else
+                    $data['init_zoom'] = $zoom;
+                
+                $this->load->view('image/image_viewer_display', $data);
             }
         }
         

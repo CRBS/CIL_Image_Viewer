@@ -111,7 +111,9 @@
                 </div>
                 
             </div>
-            <div class="col-md-1"></div>
+            <div class="col-md-1">
+                <a id="settings_id" href="#">&#x2699;</a>
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -150,6 +152,39 @@
             <!----------End Annotation Model----------------->  
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Settings Model--------------------->    
+            <div class="modal fade" id="settings_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #ccccff">
+                      <h5 class="modal-title">Settings</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="settings-modal-body-id">
+
+                        <div class="row">
+                            <div class="col-md-3">Sharable URL:</div>
+                            <div class="col-md-9">
+                                <textarea id="sharable_url_id" rows="4" cols="40"></textarea>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Annotation Model----------------->  
+            </div>
+        </div>
     </div>    
 
   
@@ -160,12 +195,13 @@
     var zindex = 0;
     var z_max = <?php echo $max_z; ?>;
     var rgb = <?php echo $rgb; ?>;
+    var base_url = "<?php echo $base_url; ?>";
     if(z_max == 0)
         document.getElementById('z_slicer_id').style.display = 'none';
     
     
     var selectedLayer = null;
-    var osmUrl = 'http://<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/0.tar/0/{z}/{x}/{y}.png',
+    var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/0.tar/0/{z}/{x}/{y}.png',
             osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             layer1 = L.tileLayer(osmUrl, {tms: true,
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
@@ -256,7 +292,7 @@
 
     
     
-    $.get( "http://<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/0", function( data ) {
+    $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/0", function( data ) {
         //alert(JSON.stringify(data) );
         map.removeLayer(drawnItems);
         drawnItems = L.geoJSON(data);
@@ -286,7 +322,7 @@
         }
         if(coor != null)
         {
-            var aurl = 'http://<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
+            var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
             //alert(aurl);
             $.get( aurl, function( data ) {
                 if(isObjectDefined(data.Description) && data.Description.length >0)
@@ -324,7 +360,7 @@
         document.getElementById('annotation_desc_id').value = "";
         if(coor != null)
         {
-            var aurl = 'http://<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
+            var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
             //alert(aurl);
             $.get( aurl, function( data ) {
                 document.getElementById('annotation_desc_id').value = data.Description;
@@ -345,7 +381,7 @@
     
     function saveGeoJson(geo_json_str)
     {
-        $.post('http://<?php echo $serverName; ?>/image_annotation_service/geodata/'+cil_id+'/'+zindex, geo_json_str, function(returnedData) {
+        $.post('<?php echo $serverName; ?>/image_annotation_service/geodata/'+cil_id+'/'+zindex, geo_json_str, function(returnedData) {
             // do something here with the returnedData
             //console.log(returnedData);
         });
@@ -394,12 +430,12 @@
             zindex = parseInt(temp);
             document.getElementById("zindex_value").innerHTML = "Z slice:"+zindex;
           
-            var url = "http://<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
+            var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
             
             layer1.setUrl(url);
             
             
-            $.get( "http://<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
+            $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
                 //alert(JSON.stringify(data) );
                 map.removeLayer(drawnItems);
                 drawnItems = L.geoJSON(data);
@@ -539,7 +575,7 @@
             if(coor != null)
             {
                 var desc = document.getElementById("annotation_desc_id").value;
-                var aurl = 'http://<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
+                var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
                 //alert(aurl);
 
                 $.post(aurl, desc, function(returnedData) {
@@ -551,6 +587,19 @@
         });
         
         
+        $("#settings_id").click(function() 
+        {
+           $("#settings_modal_id").modal('show');
+           var center = map.getCenter();
+           console.log(center);
+           //var bounds = map.getBounds();
+           //console.log(bounds);
+           
+           var zoom = map.getZoom();
+           console.log(zoom);
+           
+           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+        });
         
     });
 </script>
