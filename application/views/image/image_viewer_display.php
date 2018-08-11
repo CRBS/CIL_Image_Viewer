@@ -191,8 +191,9 @@
 <div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc"></div>
 
 <script>
+    var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
-    var zindex = 0;
+    var zindex = <?php echo $zindex; ?>;
     var z_max = <?php echo $max_z; ?>;
     var rgb = <?php echo $rgb; ?>;
     var base_url = "<?php echo $base_url; ?>";
@@ -201,7 +202,7 @@
     
     
     var selectedLayer = null;
-    var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/0.tar/0/{z}/{x}/{y}.png',
+    var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/<?php echo $zindex; ?>.tar/<?php echo $zindex; ?>/{z}/{x}/{y}.png',
             osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             layer1 = L.tileLayer(osmUrl, {tms: true,
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
@@ -253,6 +254,10 @@
         
     if(!rgb)
         document.getElementById('rgb_div_id').style.display = 'none';    
+    
+    //Z slice z_index zindex_value
+    document.getElementById('zindex_value').innerHTML = "Z slice:"+zindex;
+    document.getElementById('z_index').value = zindex;
     // Create an empty GeoJSON collection
     /*var collection = {
         "type": "FeatureCollection",
@@ -292,7 +297,7 @@
 
     
     
-    $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/0", function( data ) {
+    $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
         //alert(JSON.stringify(data) );
         map.removeLayer(drawnItems);
         drawnItems = L.geoJSON(data);
@@ -310,10 +315,10 @@
         var coor = null;
         if(isObjectDefined(selectedLayer._bounds))
         {
-            coor = selectedLayer._bounds._northEast.lat+"-"+
-            selectedLayer._bounds._northEast.lng+"-"+
-            selectedLayer._bounds._southWest.lat+"-"+
-            selectedLayer._bounds._southWest.lng;
+            coor = selectedLayer._bounds._northEast.lat.toFixed(nplaces)+"-"+
+            selectedLayer._bounds._northEast.lng.toFixed(nplaces)+"-"+
+            selectedLayer._bounds._southWest.lat.toFixed(nplaces)+"-"+
+            selectedLayer._bounds._southWest.lng.toFixed(nplaces);
            
         }
         else if(isObjectDefined(selectedLayer._latlng))
@@ -343,10 +348,11 @@
         
         if(isObjectDefined(selectedLayer._bounds))
         {
-            coor = selectedLayer._bounds._northEast.lat+"-"+
-            selectedLayer._bounds._northEast.lng+"-"+
-            selectedLayer._bounds._southWest.lat+"-"+
-            selectedLayer._bounds._southWest.lng;
+            coor = selectedLayer._bounds._northEast.lat.toFixed(nplaces)+"-"+
+            selectedLayer._bounds._northEast.lng.toFixed(nplaces)+"-"+
+            selectedLayer._bounds._southWest.lat.toFixed(nplaces)+"-"+
+            selectedLayer._bounds._southWest.lng.toFixed(nplaces);
+           
            
         }
         else if(isObjectDefined(selectedLayer._latlng))
@@ -560,10 +566,10 @@
         
             if(isObjectDefined(selectedLayer._bounds))
             {
-                coor = selectedLayer._bounds._northEast.lat+"-"+
-                selectedLayer._bounds._northEast.lng+"-"+
-                selectedLayer._bounds._southWest.lat+"-"+
-                selectedLayer._bounds._southWest.lng;
+                coor = selectedLayer._bounds._northEast.lat.toFixed(nplaces)+"-"+
+                    selectedLayer._bounds._northEast.lng.toFixed(nplaces)+"-"+
+                    selectedLayer._bounds._southWest.lat.toFixed(nplaces)+"-"+
+                    selectedLayer._bounds._southWest.lng.toFixed(nplaces);
 
             }
             else if(isObjectDefined(selectedLayer._latlng))
@@ -598,7 +604,7 @@
            var zoom = map.getZoom();
            console.log(zoom);
            
-           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
         });
         
     });
