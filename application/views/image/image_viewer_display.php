@@ -96,10 +96,10 @@
             <div class="col-md-3">
                 
                 <div id="z_slicer_id" class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <span id="zindex_value">Z slice:0</span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <!-- <a id="backward_id" href="#"><span class="glyphicon glyphicon-step-backward"></span></a>
                         <a id="forward_id" href="#"><span class="glyphicon glyphicon-step-forward"></span></a> -->
                         <a id="backward_id" href="#">&#8612;</a> 
