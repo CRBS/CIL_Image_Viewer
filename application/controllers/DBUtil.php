@@ -18,7 +18,7 @@ class DBUtil
             return null;
         }
         $input = array();
-        $sql = "select max_z, is_rgb, max_zoom, init_lat, init_lng, init_zoom,is_public ".
+        $sql = "select max_z, is_rgb, max_zoom, init_lat, init_lng, init_zoom,is_public , is_timeseries, max_t ".
                " from images where image_id = $1";
         array_push($input,$image_id);
         
@@ -52,6 +52,15 @@ class DBUtil
               $array['is_public'] = true;
             else
               $array['is_public'] = false;
+            
+            
+            $temp = $row[7];
+            if(strcmp($temp, 't')==0)
+              $array['is_timeseries'] = true;
+            else
+              $array['is_timeseries'] = false;
+            
+            $array['max_t'] = intval($row[8]);
         }
         
         pg_close($conn);

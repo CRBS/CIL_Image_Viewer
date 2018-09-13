@@ -38,6 +38,9 @@
                     return;
                 }
                 
+                
+                if($json->is_timeseries)
+                    $data['title'] = "CIL Image Viewer | Time series | ".$image_id;
                 if($json->max_z == 0)
                     $data['title'] = "CIL Image Viewer | 2D | ".$image_id;
                 else
@@ -68,7 +71,13 @@
                 else
                     $data['init_zoom'] = $zoom;
                 
-                $this->load->view('image/image_viewer_display', $data);
+                
+                $data['max_t'] = $json->max_t;
+                
+                if(!$json->is_timeseries)
+                    $this->load->view('image/image_viewer_display', $data);
+                else
+                    $this->load->view('image/image_viewer_display_ts', $data);
             }
         }
         
