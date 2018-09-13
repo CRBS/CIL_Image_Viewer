@@ -131,7 +131,7 @@
                             <a id="forward_id" href="#">&#8614;</a>
                         </div>
                         <div class="col-md-12">
-                            <input autocomplete="off" id="t_index" type="range"  min="0" max="0" value="0">
+                            <input autocomplete="off" id="t_index" type="range"  min="0" max="<?php echo $max_t;  ?>" value="0">
                         </div>
                 </div>
             </div>
@@ -217,6 +217,7 @@
     var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
     var zindex = <?php echo $zindex; ?>;
+    var tindex = <?php echo $tindex; ?>;
     var z_max = <?php echo $max_z; ?>;
     var rgb = <?php echo $rgb; ?>;
     var base_url = "<?php echo $base_url; ?>";
@@ -225,7 +226,7 @@
     
     
     var selectedLayer = null;
-    var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/<?php echo $zindex; ?>.tar/<?php echo $zindex; ?>/{z}/{x}/{y}.png',
+    var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_time_filter/<?php echo $folder_postfix; ?>/z<?php echo $zindex; ?>/<?php echo $tindex; ?>.tar/<?php echo $tindex; ?>/{z}/{x}/{y}.png',
             osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             layer1 = L.tileLayer(osmUrl, {tms: true,
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
@@ -486,7 +487,7 @@
         document.getElementById ("contrast").addEventListener ("change", handleCommand, false);
         document.getElementById ("brightness").addEventListener ("change", handleCommand, false);
         document.getElementById ("z_index").addEventListener ("change", handleCommand, false);
-    
+        document.getElementById ("t_index").addEventListener ("change", handleCommand, false);
 </script>
 </body>
 </html>

@@ -1,27 +1,37 @@
 <?php
     require_once 'GeneralUtil.php';
     require_once 'DBUtil.php';
+    require_once 'DataLocalUtil.php';
     
     class Image_viewer extends CI_Controller
     {
         public function view($image_id="0")
         {
+            $image_tar_dir = $this->config->item('image_tar_dir');
             $lag = $this->input->get('lat', TRUE);
             $lng = $this->input->get('lng', TRUE);
             $zoom = $this->input->get('zoom', TRUE);
             $zindex = $this->input->get('zindex', TRUE);
+            $tindex = $this->input->get('tindex', TRUE);
             
             if(is_null($zindex) || !is_numeric($zindex))
               $zindex = 0;
+            if(is_null($tindex) || !is_numeric($tindex))
+              $tindex = 0;
             
             $data['zindex'] = intval($zindex);
-            
+            $data['tindex'] = intval($tindex);
+
             $db_params = $this->config->item('db_params');
             $data['base_url'] = $this->config->item('base_url');
             
             
             $dbutil = new DBUtil();
+            $localutil = new DataLocalUtil();
             $array = $dbutil->getImageInfo($db_params,$image_id);
+            if(is_null($array))
+               $array =  $localutil->getLocalImageInfo ($image_id, $image_tar_dir);
+                
             if(is_null($array))
             {
                 $data['test'] = "test";

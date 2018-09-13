@@ -3,26 +3,43 @@
 require_once './application/libraries/REST_Controller.php';
 require_once 'GeneralUtil.php';
 require_once 'DBUtil.php';
+require_once 'DataLocalUtil.php';
 
 class Image_annotation_service extends REST_Controller
 {
     private $success = "success";
-    
-    
+        
     public function imageinfo_get($image_id="0")
     {
+        error_reporting(0);
+        $localutil = new DataLocalUtil();
         $db_params = $this->config->item('db_params');
+        $image_tar_dir = $this->config->item('image_tar_dir');
         $dbutil = new DBUtil();
         $array = $dbutil->getImageInfo($db_params,$image_id);
         if(is_null($array))
         {
-            $array = array();
-            $array[$this->$success] = false;
-            $this->response($array);
+            $larray = $localutil->getLocalImageInfo($image_id, $image_tar_dir);
+            /*if($larray[$this->success])
+            {
+                $this->response($larray);
+                return;
+            }
+            else
+            {
+                $array = array();
+                $array['test'] = true;
+                $array[$this->success] = false;
+                $this->response($array);
+                return;
+            }*/
+            $this->response($larray);
+            return;
         }
         else
         {
             $this->response($array);
+            return;
         }
     }
     
