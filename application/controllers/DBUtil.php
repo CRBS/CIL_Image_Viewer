@@ -10,6 +10,63 @@ class DBUtil
     
     private $success = "success";
     
+    public function insertImage($db_params,$image_id,$array)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        $sql = "insert into images(id,image_id,max_z,is_rgb,update_timestamp,is_public,max_zoom, init_lat, \n".
+               " init_lng, init_zoom, is_timeseries, max_t) \n".
+               " values(nextval('general_sequence'),$1,$2,$3,now(), $4, $5,$6, $7, $8, $9, $10)";
+        $input = array();
+        array_push($input,$image_id);
+        array_push($input,$array['max_z']);
+        array_push($input,$array['is_rgb']);
+        array_push($input,$array['is_public']);
+        array_push($input,$array['max_zoom']);
+        array_push($input,$array['init_lat']);
+        array_push($input,$array['init_lng']);
+        array_push($input,$array['init_zoom']);
+        array_push($input,$array['is_timeseries']);
+        array_push($input,$array['max_t']);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        $success = false;
+        if($row = pg_fetch_row($result))
+        {
+            $success = true;
+        }
+        pg_close($conn);
+        return $success;
+    }
+    
+    private function imageExist($db_params,$image_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        $sql = "select image_id from images where image_id = $1";
+        $input = array();
+        array_push($input,$image_id);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        $exist = false;
+        if($row = pg_fetch_row($result))
+        {
+            $exist = true;
+        }
+        pg_close($conn);
+        return $exist;
+    }
+    
     public function getImageInfo($db_params,$image_id)
     {
         $conn = pg_pconnect($db_params);

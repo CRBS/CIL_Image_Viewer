@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col-md-2">Is RGB:</div>
         <div class="col-md-4">
-            <input  type="checkbox" name="vehicle1" value="Bike" <?php if($ijson->is_rgb) echo "checked"; ?>>
+            <input  type="checkbox" name="is_rgb" value="is_rgb" <?php if($ijson->is_rgb) echo "checked"; ?>>
         </div>
         <div class="col-md-6"></div>
     </div>

@@ -47,4 +47,52 @@
                 return;
             }
         }
+        
+        public function update()
+        {
+            $max_z = $this->input->post('max_z', TRUE);
+            $is_rgb = "true";
+            $temp = $this->input->post('is_rgb', TRUE);
+            if(is_null($temp))
+                $is_rgb = "false";
+            $max_zoom = $this->input->post('max_zoom', TRUE);
+            $init_lat = $this->input->post('init_lat', TRUE);
+            $init_lng = $this->input->post('init_lng', TRUE);
+            $init_zoom = $this->input->post('init_zoom', TRUE);
+            $is_public = "true";
+            $temp = $this->input->post('is_public', TRUE);
+            if(is_null($temp))
+                $is_public = "false";
+            
+            $is_timeseries = "true";
+            $temp = $this->input->post('is_timeseries', TRUE);
+            if(is_null($temp))
+                $is_timeseries = "false";
+            
+            $max_t = $this->input->post('max_t', TRUE);
+            
+            $array = array();
+            $array['max_z'] = $max_z;
+            $array['is_rgb'] = $is_rgb;
+            $array['max_zoom'] = $max_zoom;
+            $array['init_lat'] = $init_lat;
+            $array['init_lng'] = $init_lng;
+            $array['init_zoom'] = $init_zoom;
+            $array['is_public'] = $is_public;
+            $array['is_timeseries'] = $is_timeseries;
+            $array['max_t'] = $max_t;
+            
+            
+            /*
+            echo "<br/>max_z:".$max_z;
+            echo "<br/>is_rgb:".$is_rgb;
+            echo "<br/>max_zoom:".$max_zoom;
+            echo "<br/>init_lat:".$init_lat;
+            echo "<br/>init_lng:".$init_lng;
+            echo "<br/>init_zoom:".$init_zoom;
+            echo "<br/>is_public:".$is_public;
+            echo "<br/>is_timeseries:".$is_timeseries;
+            echo "<br/>max_t:".$max_t;
+            */
+        }
     }
