@@ -10,6 +10,49 @@ class DBUtil
     
     private $success = "success";
     
+    public function handleImageUpdate($db_params,$image_id,$array)
+    {
+        if($this->imageExist($db_params, $image_id))
+            $this->updateImage ($db_params, $image_id, $array);
+        else
+            $this->insertImage ($db_params, $image_id, $array);
+                
+    }
+    
+    public function updateImage($db_params,$image_id,$array)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        $sql = "update images set max_z = $1, is_rgb = $2, update_timestamp=now(), \n".
+               " is_public = $3, max_zoom = $4, init_lat = $5, init_lng = $6, \n".
+               " init_zoom = $7, is_timeseries = $8, max_t = $9 where image_id = $10";
+        $input = array();
+        array_push($input,$array['max_z']);
+        array_push($input,$array['is_rgb']);
+        array_push($input,$array['is_public']);
+        array_push($input,$array['max_zoom']);
+        array_push($input,$array['init_lat']);
+        array_push($input,$array['init_lng']);
+        array_push($input,$array['init_zoom']);
+        array_push($input,$array['is_timeseries']);
+        array_push($input,$array['max_t']);
+        array_push($input,$image_id);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        $success = false;
+        if($row = pg_fetch_row($result))
+        {
+            $success = true;
+        }
+        pg_close($conn);
+        return $success;
+    }
+    
     public function insertImage($db_params,$image_id,$array)
     {
         $conn = pg_pconnect($db_params);

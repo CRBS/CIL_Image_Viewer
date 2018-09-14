@@ -18,6 +18,7 @@
             
             $dbutil = new DBUtil();
             $db_params = $this->config->item('db_params');
+            $image_tar_dir = $this->config->item('image_tar_dir');
             $localutil = new DataLocalUtil();
             $array = $dbutil->getImageInfo($db_params,$image_id);
             if(is_null($array))
@@ -50,6 +51,7 @@
         
         public function update()
         {
+            $image_id = $this->input->post('image_id', TRUE);
             $max_z = $this->input->post('max_z', TRUE);
             $is_rgb = "true";
             $temp = $this->input->post('is_rgb', TRUE);
@@ -82,7 +84,9 @@
             $array['is_timeseries'] = $is_timeseries;
             $array['max_t'] = $max_t;
             
-            
+            $dbutil = new DBUtil();
+            $db_params = $this->config->item('db_params');
+            $dbutil->handleImageUpdate($db_params, $image_id, $array);
             /*
             echo "<br/>max_z:".$max_z;
             echo "<br/>is_rgb:".$is_rgb;

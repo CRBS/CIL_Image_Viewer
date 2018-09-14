@@ -12,6 +12,7 @@
 <body>
 <div class="container">
     <form action="/admin/update" method="post">
+    <input type="hidden" name="image_id" value="<?php echo $image_id; ?>">
     <div class="row">
         <div class="col-md-2">
                 <img src="/images/CIL_logo_final_75H.jpg" height="50px"/>
