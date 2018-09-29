@@ -87,7 +87,15 @@
                 if(!$json->is_timeseries)
                     $this->load->view('image/image_viewer_display', $data);
                 else
-                    $this->load->view('image/image_viewer_display_ts', $data);
+                {
+                    if($data['zindex'] == 0)
+                        $data['zindex'] = 1;
+                    
+                    if($data['tindex'] ==0)
+                        $data['tindex'] = 1;
+                    $this->load->view('image/image_viewer_display_ts2', $data);
+            
+                }
             }
         }
         
