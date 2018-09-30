@@ -30,8 +30,8 @@ class DataLocalUtil
         $array['max_z'] = $max_z;
         $array['is_rgb'] = true;
         $array['max_zoom'] = 7;
-        $array['init_lat'] = -65;
-        $array['init_lng'] = -70;
+        $array['init_lat'] = -15;//-65;
+        $array['init_lng'] = -7;//-70;
         $array['init_zoom'] = 1;
         $array['is_public'] = true;
         $array['is_timeseries'] = false;

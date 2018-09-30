@@ -110,28 +110,28 @@
             <div class="col-md-3">
                 <div id="z_slicer_id" class="row">
                         <div class="col-md-6">
-                            <span id="zindex_value">Z slice:0</span>
+                            <span id="zindex_value">Z slice:1</span>
                         </div>
                         <div class="col-md-6">
                             <a id="backward_id" href="#">&#8612;</a> 
                             <a id="forward_id" href="#">&#8614;</a>
                         </div>
                         <div class="col-md-12">
-                            <input autocomplete="off" id="z_index" type="range"  min="0" max="<?php echo $max_z; ?>" value="0">
+                            <input autocomplete="off" id="z_index" type="range"  min="1" max="<?php echo $max_z; ?>" value="1">
                         </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div id="t_slicer_id" class="row">
                         <div class="col-md-6">
-                            <span id="tindex_value">Time:0</span>
+                            <span id="tindex_value">Time:1</span>
                         </div>
                         <div class="col-md-6">
                             <a id="backward_id" href="#">&#8612;</a> 
                             <a id="forward_id" href="#">&#8614;</a>
                         </div>
                         <div class="col-md-12">
-                            <input autocomplete="off" id="t_index" type="range"  min="0" max="<?php echo $max_t;  ?>" value="0">
+                            <input autocomplete="off" id="t_index" type="range"  min="1" max="<?php echo $max_t;  ?>" value="1">
                         </div>
                 </div>
             </div>
@@ -225,8 +225,6 @@
     if(z_max == 0)
         document.getElementById('z_slicer_id').style.display = 'none';
     
-    //http://localhost/leaflet_data/tar_time_filter/CIL_10489/10489_t0001_z0001.tar/10489_t0001_z0001/0/0/0.png
-    
     <?php
         $nid = str_replace("CIL_", "", $image_id);
         $t_digit = str_pad( $tindex, 4, "0", STR_PAD_LEFT );
@@ -242,10 +240,7 @@
             map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: <?php echo $init_zoom; ?> }),
             drawnItems = L.featureGroup().addTo(map);
     layer1.addTo(map);
-    /* L.control.layers({
-        'osm': layer1.addTo(map),
-    }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
-    */
+
     map.addControl(new L.Control.Draw({
         edit: {
             featureGroup: drawnItems,
@@ -288,16 +283,6 @@
     if(!rgb)
         document.getElementById('rgb_div_id').style.display = 'none';    
     
-    //Z slice z_index zindex_value
-    document.getElementById('zindex_value').innerHTML = "Z slice:"+zindex;
-    document.getElementById('z_index').value = zindex;
-    
-
-    // Create an empty GeoJSON collection
-    /*var collection = {
-        "type": "FeatureCollection",
-        "features": []
-    };*/
     
     map.on(L.Draw.Event.CREATED, function (event) {
         var layer = event.layer;
@@ -305,26 +290,9 @@
         drawnItems.on('click', onClick);
         drawnItems.addLayer(layer);
         
-        /*if (layer instanceof L.Marker) 
-        {
-            // Create GeoJSON object from marker
-            var geojson = layer.toGeoJSON();
-            // Push GeoJSON object to collection
-            collection.features.push(geojson);
-            console.log(collection);
-        }*/
+
         var collection = drawnItems.toGeoJSON();
-        /*var bounds = map.getBounds();
-
-        collection.bbox = [[
-            bounds.getSouthWest().lng,
-            bounds.getSouthWest().lat,
-            bounds.getNorthEast().lng,
-            bounds.getNorthEast().lat
-        ]]; */
-
-        // Do what you want with this:
-        //console.log(collection);
+        
         var geo_json_str = JSON.stringify(collection);
         saveGeoJson(geo_json_str);
     });
@@ -413,11 +381,6 @@
         setTimeout(function () {window.scrollTo(0, 0);},100);
         return;
         
-        /*drawnItems.removeLayer(e.layer);
-        var collection = drawnItems.toGeoJSON();
-        var geo_json_str = JSON.stringify(collection);
-        saveGeoJson(geo_json_str);
-        console.log(collection);*/
     }
     
     function saveGeoJson(geo_json_str)
@@ -473,12 +436,15 @@
             }
           
             var temp = document.getElementById("z_index").value;
+            //alert("Z value:"+temp);
+            document.getElementById("zindex_value").innerHTML = "Z slice:"+temp;
             zindex = parseInt(temp);
             document.getElementById("zindex_value").innerHTML = "Z slice:"+zindex;
           
             var temp = document.getElementById("t_index").value;
-            tindex = parseInt(temp)+1;
-            document.getElementById("tindex_value").innerHTML = "Time:"+tindex;
+            document.getElementById("tindex_value").innerHTML = "Time:"+temp;
+            tindex = parseInt(temp);
+            
           
             //alert(nid);
             var z_digit = padToFour(zindex);
@@ -537,7 +503,7 @@
         $("#forward_id").click(function() 
         {
             //alert("backward_id");
-            if(zindex+1 < z_max)
+            if(zindex+1 <= z_max)
             {
                 zindex=zindex+1;
                 //alert(zindex);
