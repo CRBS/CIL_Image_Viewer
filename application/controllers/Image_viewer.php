@@ -51,7 +51,7 @@
                 
                 if($json->is_timeseries)
                     $data['title'] = "CIL Image Viewer | Time series | ".$image_id;
-                if($json->max_z == 0)
+                else if($json->max_z == 0)
                     $data['title'] = "CIL Image Viewer | 2D | ".$image_id;
                 else
                     $data['title'] = "CIL Image Viewer | Z stack | ".$image_id;

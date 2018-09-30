@@ -127,8 +127,8 @@
                             <span id="tindex_value">Time:1</span>
                         </div>
                         <div class="col-md-6">
-                            <a id="backward_id" href="#">&#8612;</a> 
-                            <a id="forward_id" href="#">&#8614;</a>
+                            <a id="tbackward_id" href="#">&#8612;</a> 
+                            <a id="tforward_id" href="#">&#8614;</a>
                         </div>
                         <div class="col-md-12">
                             <input autocomplete="off" id="t_index" type="range"  min="1" max="<?php echo $max_t;  ?>" value="1">
@@ -220,6 +220,7 @@
     var zindex = <?php echo $zindex; ?>;
     var tindex = <?php echo $tindex; ?>;
     var z_max = <?php echo $max_z; ?>;
+    var t_max = <?php echo $max_t; ?>;
     var rgb = <?php echo $rgb; ?>;
     var base_url = "<?php echo $base_url; ?>";
     if(z_max == 0)
@@ -283,6 +284,12 @@
     if(!rgb)
         document.getElementById('rgb_div_id').style.display = 'none';    
     
+    
+    //Adjust the z index and the t index based on the URL parameters
+    document.getElementById('zindex_value').innerHTML = "Z slice:"+zindex;
+    document.getElementById('z_index').value = zindex;
+    document.getElementById('tindex_value').innerHTML = "Time:"+tindex;
+    document.getElementById('t_index').value = tindex;
     
     map.on(L.Draw.Event.CREATED, function (event) {
         var layer = event.layer;
@@ -436,7 +443,6 @@
             }
           
             var temp = document.getElementById("z_index").value;
-            //alert("Z value:"+temp);
             document.getElementById("zindex_value").innerHTML = "Z slice:"+temp;
             zindex = parseInt(temp);
             document.getElementById("zindex_value").innerHTML = "Z slice:"+zindex;
@@ -488,6 +494,29 @@
 
 <script>
     $( function() {
+
+        $("#tbackward_id").click(function() 
+        {
+            //alert("backward_id");
+            if(tindex-1 >= 0)
+            {
+                tindex=tindex-1;
+                document.getElementById("t_index").value = tindex;
+                handleCommand(); 
+            }
+        });
+        
+        $("#tforward_id").click(function() 
+        {
+            //alert("tforward_id");
+            if(tindex+1 <= t_max)
+            {
+                tindex=tindex+1;
+                document.getElementById("t_index").value = tindex;
+                handleCommand(); 
+            }
+        });
+        
 
         $("#backward_id").click(function() 
         {
@@ -621,7 +650,7 @@
            var zoom = map.getZoom();
            console.log(zoom);
            
-           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&tindex="+tindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
         });
         
     });
