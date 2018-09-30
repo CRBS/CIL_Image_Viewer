@@ -521,7 +521,7 @@ $config['proxy_ips'] = '';
 
 $config['broad_dir'] = '/export2/broad_data';
 
-//$config['image_tar_dir'] = '/var/www/html/leaflet_data';
+//$config['image_tar_dir'] = '/export2/image_viewer_data';
 $config['image_tar_dir'] = 'C:/leaflet_data';
 
 //$config['wib_error_log'] = '/var/www/html/wibjs.log';
