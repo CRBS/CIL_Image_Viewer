@@ -230,8 +230,10 @@
         $nid = str_replace("CIL_", "", $image_id);
         $t_digit = str_pad( $tindex, 4, "0", STR_PAD_LEFT );
         $z_digit = str_pad( $zindex, 4, "0", STR_PAD_LEFT );
-        $tar_name = $nid."_t".$t_digit."_z".$z_digit;
-    
+        if($max_z > 0)
+            $tar_name = $nid."_t".$t_digit."_z".$z_digit;
+        else
+            $tar_name = $nid."_t".$t_digit;
     ?>
     var selectedLayer = null;
     var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_time_filter/<?php echo $image_id; ?>/<?php echo $tar_name.".tar"; ?>/<?php echo $tar_name; ?>/{z}/{x}/{y}.png',
@@ -456,8 +458,11 @@
             var z_digit = padToFour(zindex);
             var t_digit = padToFour(tindex);
             
-            var tar_name = nid+"_t"+t_digit+"_z"+z_digit;
-            
+            var tar_name = "";
+            if(z_max > 0)
+                tar_name = nid+"_t"+t_digit+"_z"+z_digit;
+            else
+                tar_name = nid+"_t"+t_digit;
             var url = "<?php echo $serverName; ?>/Leaflet_data/tar_time_filter/"+cil_id+"/"+tar_name+".tar/"+tar_name+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
             //alert(url);
             
