@@ -106,7 +106,7 @@
                         <a id="forward_id" href="#">&#8614;</a>
                     </div>
                     <div class="col-md-12">
-                        <input autocomplete="off" id="z_index" type="range"  min="0" max="112" value="0">
+                        <input autocomplete="off" id="z_index" type="range"  min="0" max="<?php echo $max_z; ?>" value="0">
                     </div>
                 </div>
                 
