@@ -8,6 +8,19 @@
         private $success = "success";
         public function image($image_id="0")
         {
+            
+            $this->load->library('session');
+            $this->load->helper('url');
+            /********Check session**************************/
+            $login = $this->session->userdata('login');
+            $base_url = $this->config->item('base_url');
+            if(is_null($login))
+            {
+               redirect ($base_url."/login");
+               return;
+            }
+            /******End check session **********************/
+            
             error_reporting(0);
             if(strcmp($image_id, "0") == 0)
             {
