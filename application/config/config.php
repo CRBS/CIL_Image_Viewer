@@ -535,3 +535,5 @@ $config['place_holder_image'] = "C:/Users/wawong/Documents/apache/CIL_Image_View
 
 $config['db_params'] = $configJson->cil_annotation_pgsql_db;
 
+$config['users'] = $configJson->users;
+

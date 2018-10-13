@@ -16,7 +16,7 @@
             $base_url = $this->config->item('base_url');
             if(is_null($login))
             {
-               redirect ($base_url."/login");
+               redirect ($base_url."/login/".$image_id);
                return;
             }
             /******End check session **********************/
