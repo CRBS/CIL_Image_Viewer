@@ -1,6 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
+$cil_annotation_config_file = "C:/data/cil_annotation_service_config.json";
+//$cil_annotation_config_file = "/var/www/cil_annotation_service_config.json";
+
+$json_str = file_get_contents($cil_annotation_config_file);
+$configJson = json_decode($json_str);
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -23,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+$config['base_url'] = 'http://localhost';
 
 /*
 |--------------------------------------------------------------------------
@@ -168,6 +174,9 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | By default CodeIgniter uses search-engine friendly segment based URLs:
 | example.com/who/what/where/
 |
+| By default CodeIgniter enables access to the $_GET array.  If for some
+| reason you would like to disable it, set 'allow_get_array' to FALSE.
+|
 | You can optionally enable standard query string based URLs:
 | example.com?who=me&what=something&where=here
 |
@@ -182,24 +191,11 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
+$config['allow_get_array'] = TRUE;
 $config['enable_query_strings'] = FALSE;
 $config['controller_trigger'] = 'c';
 $config['function_trigger'] = 'm';
 $config['directory_trigger'] = 'd';
-
-/*
-|--------------------------------------------------------------------------
-| Allow $_GET array
-|--------------------------------------------------------------------------
-|
-| By default CodeIgniter enables access to the $_GET array.  If for some
-| reason you would like to disable it, set 'allow_get_array' to FALSE.
-|
-| WARNING: This feature is DEPRECATED and currently available only
-|          for backwards compatibility purposes!
-|
-*/
-$config['allow_get_array'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -379,8 +375,11 @@ $config['encryption_key'] = '';
 */
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
+//$config['sess_expiration'] = 7200;
+$config['sess_expiration'] = 0;
+//$config['sess_save_path'] = NULL;
+$config['sess_save_path'] = 'C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/temp';
+//$config['sess_save_path'] = '/var/www/temp';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
@@ -414,8 +413,8 @@ $config['cookie_httponly'] 	= FALSE;
 | Determines whether to standardize newline characters in input data,
 | meaning to replace \r\n, \r, \n occurrences with the PHP_EOL value.
 |
-| WARNING: This feature is DEPRECATED and currently available only
-|          for backwards compatibility purposes!
+| This is particularly useful for portability between UNIX-based OSes,
+| (usually \n) and Windows (\r\n).
 |
 */
 $config['standardize_newlines'] = FALSE;
@@ -521,3 +520,20 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+
+$config['broad_dir'] = '/export2/broad_data';
+
+//$config['image_tar_dir'] = '/export2/image_viewer_data';
+$config['image_tar_dir'] = 'C:/leaflet_data';
+
+//$config['wib_error_log'] = '/var/www/html/wibjs.log';
+$config['wib_error_log'] = 'C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/wibjs.log';
+
+//$config['place_holder_image'] = "/var/www/html/images/empty.png";
+$config['place_holder_image'] = "C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/images/empty.png";
+
+$config['db_params'] = $configJson->cil_annotation_pgsql_db;
+
+$config['users'] = $configJson->users;
+
