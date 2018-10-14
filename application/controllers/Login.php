@@ -6,7 +6,7 @@ class Login extends CI_Controller
     {
         
        
-        $this->load->library('session');
+        //$this->load->library('session');
         $this->load->helper('url');
         
         $username = $this->input->post('username', TRUE);

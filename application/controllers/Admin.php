@@ -9,7 +9,7 @@
         public function image($image_id="0")
         {
             
-            $this->load->library('session');
+            //$this->load->library('session');
             $this->load->helper('url');
             /********Check session**************************/
             $login = $this->session->userdata('login');
