@@ -522,7 +522,7 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 
-$config['broad_dir'] = '/export2/broad_data';
+//$config['broad_dir'] = '/export2/broad_data';
 
 //$config['image_tar_dir'] = '/export2/image_viewer_data';
 $config['image_tar_dir'] = 'C:/leaflet_data';

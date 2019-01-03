@@ -188,7 +188,7 @@
     </div>    
 
   
-<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc"></div>
+<div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
 
 <script>
     var nplaces = 5;
@@ -203,7 +203,7 @@
     
     var selectedLayer = null;
     var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/<?php echo $zindex; ?>.tar/<?php echo $zindex; ?>/{z}/{x}/{y}.png',
-            osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            osmAttrib = '<a href="http://openstreetmap.org/copyright">Cell Image Library - <?php echo $image_id; ?></a>',
             layer1 = L.tileLayer(osmUrl, {tms: true,
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
             map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: <?php echo $init_zoom; ?> }),
