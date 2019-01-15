@@ -402,7 +402,38 @@ class DBUtil
         array_push($input, $index);
         array_push($input, $json_str);
         
+        
         $sql = "insert into image_annotation(id, cil_id, z_index, geo_json, update_timestamp) ".
+               " values(nextval('general_sequence'), $1, $2, $3,now())";
+        $result = pg_query_params($conn,$sql,$input);
+        
+        if (!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        
+        pg_close($conn);
+        
+        return true;
+        
+    }
+    
+    
+    public function insertGeoDataHisotry($db_params,$cil_id, $index, $json_str)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return null;
+        }
+        $input = array();
+        array_push($input, $cil_id);
+        array_push($input, $index);
+        array_push($input, $json_str);
+        
+        
+        $sql = "insert into image_annotation_history(id, cil_id, z_index, geo_json, update_timestamp) ".
                " values(nextval('general_sequence'), $1, $2, $3,now())";
         $result = pg_query_params($conn,$sql,$input);
         

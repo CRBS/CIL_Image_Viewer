@@ -81,6 +81,8 @@ class Image_annotation_service extends REST_Controller
         $json_str = file_get_contents('php://input', 'r');
         $index = intval($sindex);
         
+        $dbutil->insertGeoDataHisotry($db_params,$cil_id,$index,$json_str);
+        
         $exists = $dbutil->geoDataExist($db_params,$cil_id,$index);
         if(!$exists)
             $dbutil->insertGeoData($db_params,$cil_id,$index,$json_str);
