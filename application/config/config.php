@@ -537,3 +537,4 @@ $config['db_params'] = $configJson->cil_annotation_pgsql_db;
 
 $config['users'] = $configJson->users;
 
+$config['salt'] = 'WLBH5nRcN2';

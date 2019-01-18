@@ -73,6 +73,7 @@ class DBUtil
         array_push($input,$array['is_timeseries']);
         array_push($input,$array['max_t']);
         $result = pg_query_params($conn,$sql,$input);
+        
         if(!$result) 
         {
             pg_close($conn);
