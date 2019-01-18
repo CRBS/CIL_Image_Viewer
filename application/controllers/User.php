@@ -9,6 +9,7 @@
         public function login($image_id="0")
         {
             $this->load->helper('url');
+            $base_url = $this->config->item('base_url');
             $db_params = $this->config->item('db_params');
             $salt = $this->config->item('salt');
             $dbutil = new DBUtil();
@@ -22,7 +23,8 @@
                 $auth = $dbutil->authenticateWebUser($db_params, $username, $passkey);
                 if($auth)
                 {
-                    echo "Correct password";
+                    $this->session->set_userdata('data_login', "true");
+                    redirect ($base_url."/image_viewer/".$image_id);
                     return;
                 }
                 else

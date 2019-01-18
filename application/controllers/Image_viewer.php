@@ -54,8 +54,17 @@
                 if(isset($json->is_public) && !$json->is_public)
                 {
                     $base_url = $this->config->item('base_url');
-                    redirect ($base_url."/user/login/".$image_id);
-                    return;
+                    //redirect ($base_url."/user/login/".$image_id);
+                    //return;
+                    /********Check session**************************/
+                    $data_login = $this->session->userdata('data_login');
+
+                    if(is_null($data_login))
+                    {
+                       redirect ($base_url."/user/login/".$image_id);
+                       return;
+                    }
+                    /******End check session **********************/
                 }
                 
                 
