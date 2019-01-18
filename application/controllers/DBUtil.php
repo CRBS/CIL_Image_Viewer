@@ -263,6 +263,34 @@ class DBUtil
         
     }
     
+    
+    public function authenticateWebUser($db_params,$username,$password)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        $input = array();
+        $sql = "select id from users where username = $1 and passkey = $2";
+        array_push($input,$username);
+        array_push($input,$password);
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        $exists = false;
+        if($row = pg_fetch_row($result))
+        {
+            $exists = true;
+        }
+        pg_close($conn);
+       
+        return $exists;
+    }
+    
     public function geoDataExist($db_params,$cil_id, $sindex)
     {
         $conn = pg_pconnect($db_params);

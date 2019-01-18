@@ -7,6 +7,8 @@
     {
         public function view($image_id="0")
         {
+            $this->load->helper('url');
+            
             $image_tar_dir = $this->config->item('image_tar_dir');
             $lag = $this->input->get('lat', TRUE);
             $lng = $this->input->get('lng', TRUE);
@@ -41,10 +43,18 @@
             {
                 $json_str = json_encode($array);
                 $json = json_decode($json_str);
+                
                 if(!$json->success)
                 {
                     $data['test'] = "test";
                     $this->load->view('errors/not_exist', $data);
+                    return;
+                }
+                
+                if(isset($json->is_public) && !$json->is_public)
+                {
+                    $base_url = $this->config->item('base_url');
+                    redirect ($base_url."/user/login/".$image_id);
                     return;
                 }
                 
