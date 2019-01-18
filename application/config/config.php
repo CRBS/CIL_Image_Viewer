@@ -30,6 +30,7 @@ $configJson = json_decode($json_str);
 |
 */
 $config['base_url'] = 'http://localhost';
+//$config['base_url'] = 'https://microbial.crbs.ucsd.edu';
 
 /*
 |--------------------------------------------------------------------------
