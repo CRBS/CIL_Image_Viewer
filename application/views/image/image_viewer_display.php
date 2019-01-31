@@ -348,17 +348,22 @@
         
         if(isObjectDefined(selectedLayer._bounds))
         {
+            //console.log(selectedLayer);
             coor = selectedLayer._bounds._northEast.lat.toFixed(nplaces)+"-"+
             selectedLayer._bounds._northEast.lng.toFixed(nplaces)+"-"+
             selectedLayer._bounds._southWest.lat.toFixed(nplaces)+"-"+
             selectedLayer._bounds._southWest.lng.toFixed(nplaces);
            
+            
            
         }
         else if(isObjectDefined(selectedLayer._latlng))
         {
-            coor = selectedLayer._latlng.lat+"-"+selectedLayer._latlng.lng;
+            coor = selectedLayer._latlng.lat+"-"+selectedLayer._latlng.lng;            
             //console.log(e.layer);
+            
+            //Get pixel values
+            console.log(map.unproject([selectedLayer._latlng.lat,selectedLayer._latlng.lng], map.getZoom()));
         }
         //console.log(coor);
         
@@ -602,7 +607,7 @@
            //console.log(bounds);
            
            var zoom = map.getZoom();
-           console.log(zoom);
+           //console.log(zoom);
            
            document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
         });
