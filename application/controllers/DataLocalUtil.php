@@ -75,6 +75,8 @@ class DataLocalUtil
         $array['is_public'] = true;
         $array['is_timeseries'] = false;
         $array['max_t'] = 0;
+        $array['x_pixel_offset'] = 0;
+        $array['y_pixel_offset'] = 0;
         //$array['data_path'] = $data_path;
         
         return $array;

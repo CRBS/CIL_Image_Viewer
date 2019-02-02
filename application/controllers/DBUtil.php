@@ -119,7 +119,7 @@ class DBUtil
             return null;
         }
         $input = array();
-        $sql = "select max_z, is_rgb, max_zoom, init_lat, init_lng, init_zoom,is_public , is_timeseries, max_t ".
+        $sql = "select max_z, is_rgb, max_zoom, init_lat, init_lng, init_zoom,is_public , is_timeseries, max_t,x_pixel_offset, y_pixel_offset ".
                " from images where image_id = $1";
         array_push($input,$image_id);
         
@@ -162,6 +162,8 @@ class DBUtil
               $array['is_timeseries'] = false;
             
             $array['max_t'] = intval($row[8]);
+            $array['x_pixel_offset'] = intval($row[9]);
+            $array['y_pixel_offset'] = intval($row[10]);
         }
         
         pg_close($conn);

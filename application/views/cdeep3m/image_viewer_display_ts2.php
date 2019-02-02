@@ -72,9 +72,11 @@
                         <a id="contrast_backward_id" href="#">&#8612;</a> 
                         <a id="contrast_forward_id" href="#">&#8614;</a>
                     </div>
+                    
                     <div class="col-md-12">
                         <input autocomplete="off" id="contrast" type="range"  min="1" max="200" value="100">
                     </div>
+                    
                 </div>
             </div>
             <div class="col-md-3">
@@ -95,26 +97,47 @@
             </div>
             <div class="col-md-3">
                 
-                <div id="z_slicer_id" class="row">
-                    <div class="col-md-8">
-                        <span id="zindex_value">Z slice:0</span>
-                    </div>
-                    <div class="col-md-4">
-                        <!-- <a id="backward_id" href="#"><span class="glyphicon glyphicon-step-backward"></span></a>
-                        <a id="forward_id" href="#"><span class="glyphicon glyphicon-step-forward"></span></a> -->
-                        <a id="backward_id" href="#">&#8612;</a> 
-                        <a id="forward_id" href="#">&#8614;</a>
-                    </div>
-                    <div class="col-md-12">
-                        <input autocomplete="off" id="z_index" type="range"  min="0" max="<?php echo $max_z; ?>" value="0">
-                    </div>
-                </div>
+                
                 
             </div>
             <div class="col-md-1">
                 <a id="settings_id" href="#">&#x2699;</a>
             </div>
         </div>
+    
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+                <div id="z_slicer_id" class="row">
+                        <div class="col-md-6">
+                            <span id="zindex_value">Z slice:1</span>
+                        </div>
+                        <div class="col-md-6">
+                            <a id="backward_id" href="#">&#8612;</a> 
+                            <a id="forward_id" href="#">&#8614;</a>
+                        </div>
+                        <div class="col-md-12">
+                            <input autocomplete="off" id="z_index" type="range"  min="1" max="<?php echo $max_z; ?>" value="1">
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div id="t_slicer_id" class="row">
+                        <div class="col-md-6">
+                            <span id="tindex_value">Time:1</span>
+                        </div>
+                        <div class="col-md-6">
+                            <a id="tbackward_id" href="#">&#8612;</a> 
+                            <a id="tforward_id" href="#">&#8614;</a>
+                        </div>
+                        <div class="col-md-12">
+                            <input autocomplete="off" id="t_index" type="range"  min="1" max="<?php echo $max_t;  ?>" value="1">
+                        </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    
         <div class="row">
             <div class="col-md-12">
             <!----------Annotation Model--------------------->    
@@ -188,31 +211,39 @@
     </div>    
 
   
-<div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
+<div id="map" style="width: 100%; height: 600px; border: 1px solid #ccc"></div>
 
 <script>
     var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
+    var nid = <?php echo str_replace("CIL_", "", $image_id); ?>;
     var zindex = <?php echo $zindex; ?>;
+    var tindex = <?php echo $tindex; ?>;
     var z_max = <?php echo $max_z; ?>;
+    var t_max = <?php echo $max_t; ?>;
     var rgb = <?php echo $rgb; ?>;
     var base_url = "<?php echo $base_url; ?>";
     if(z_max == 0)
         document.getElementById('z_slicer_id').style.display = 'none';
     
-    
+    <?php
+        $nid = str_replace("CIL_", "", $image_id);
+        $t_digit = str_pad( $tindex, 4, "0", STR_PAD_LEFT );
+        $z_digit = str_pad( $zindex, 4, "0", STR_PAD_LEFT );
+        if($max_z > 0)
+            $tar_name = $nid."_t".$t_digit."_z".$z_digit;
+        else
+            $tar_name = $nid."_t".$t_digit;
+    ?>
     var selectedLayer = null;
-    var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/<?php echo $zindex; ?>.tar/<?php echo $zindex; ?>/{z}/{x}/{y}.png',
-            osmAttrib = '<a href="http://cellimagelibrary.org/images/<?php echo $image_id; ?>">Cell Image Library - <?php echo $image_id; ?></a>',
+    var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_time_filter/<?php echo $image_id; ?>/<?php echo $tar_name.".tar"; ?>/<?php echo $tar_name; ?>/{z}/{x}/{y}.png',
+            osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             layer1 = L.tileLayer(osmUrl, {tms: true,
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
             map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: <?php echo $init_zoom; ?> }),
             drawnItems = L.featureGroup().addTo(map);
     layer1.addTo(map);
-    /* L.control.layers({
-        'osm': layer1.addTo(map),
-    }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
-    */
+
     map.addControl(new L.Control.Draw({
         edit: {
             featureGroup: drawnItems,
@@ -255,14 +286,12 @@
     if(!rgb)
         document.getElementById('rgb_div_id').style.display = 'none';    
     
-    //Z slice z_index zindex_value
+    
+    //Adjust the z index and the t index based on the URL parameters
     document.getElementById('zindex_value').innerHTML = "Z slice:"+zindex;
     document.getElementById('z_index').value = zindex;
-    // Create an empty GeoJSON collection
-    /*var collection = {
-        "type": "FeatureCollection",
-        "features": []
-    };*/
+    document.getElementById('tindex_value').innerHTML = "Time:"+tindex;
+    document.getElementById('t_index').value = tindex;
     
     map.on(L.Draw.Event.CREATED, function (event) {
         var layer = event.layer;
@@ -270,26 +299,9 @@
         drawnItems.on('click', onClick);
         drawnItems.addLayer(layer);
         
-        /*if (layer instanceof L.Marker) 
-        {
-            // Create GeoJSON object from marker
-            var geojson = layer.toGeoJSON();
-            // Push GeoJSON object to collection
-            collection.features.push(geojson);
-            console.log(collection);
-        }*/
+
         var collection = drawnItems.toGeoJSON();
-        /*var bounds = map.getBounds();
-
-        collection.bbox = [[
-            bounds.getSouthWest().lng,
-            bounds.getSouthWest().lat,
-            bounds.getNorthEast().lng,
-            bounds.getNorthEast().lat
-        ]]; */
-
-        // Do what you want with this:
-        //console.log(collection);
+        
         var geo_json_str = JSON.stringify(collection);
         saveGeoJson(geo_json_str);
     });
@@ -348,35 +360,19 @@
         
         if(isObjectDefined(selectedLayer._bounds))
         {
-            //console.log(selectedLayer);
             coor = selectedLayer._bounds._northEast.lat.toFixed(nplaces)+"-"+
             selectedLayer._bounds._northEast.lng.toFixed(nplaces)+"-"+
             selectedLayer._bounds._southWest.lat.toFixed(nplaces)+"-"+
             selectedLayer._bounds._southWest.lng.toFixed(nplaces);
            
-            
            
         }
         else if(isObjectDefined(selectedLayer._latlng))
         {
-            coor = selectedLayer._latlng.lat+"-"+selectedLayer._latlng.lng;            
+            coor = selectedLayer._latlng.lat+"-"+selectedLayer._latlng.lng;
             //console.log(e.layer);
-            
-            var pixelPosition = e.layerPoint;
-            var latLng = map.layerPointToLatLng(pixelPosition);
-            var my_z =  <?php echo $max_zoom; ?>;
-            
-            //console.log(map.getCenter());
-            var northWest = map.project(map.getBounds().getNorthWest(), map.getMaxZoom());
-            var southEast = map.project(map.getBounds().getSouthEast(), map.getMaxZoom());
-            var current = map.project(latLng, map.getMaxZoom());
-            
-            console.log(current);
-            console.log("X:"+(current.x)+"  Y:"+(current.y-17822));
-            
-
         }
-        
+        //console.log(coor);
         
         
         document.getElementById('annotation_desc_id').value = "";
@@ -394,11 +390,6 @@
         setTimeout(function () {window.scrollTo(0, 0);},100);
         return;
         
-        /*drawnItems.removeLayer(e.layer);
-        var collection = drawnItems.toGeoJSON();
-        var geo_json_str = JSON.stringify(collection);
-        saveGeoJson(geo_json_str);
-        console.log(collection);*/
     }
     
     function saveGeoJson(geo_json_str)
@@ -418,6 +409,11 @@
         return x !== undefined;
     }
   
+    function padToFour(number) 
+    {
+        if (number<=9999) { number = ("000"+number).slice(-4); }
+        return number;
+    }
 
     
      // add the event handler
@@ -449,10 +445,26 @@
             }
           
             var temp = document.getElementById("z_index").value;
+            document.getElementById("zindex_value").innerHTML = "Z slice:"+temp;
             zindex = parseInt(temp);
             document.getElementById("zindex_value").innerHTML = "Z slice:"+zindex;
           
-            var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
+            var temp = document.getElementById("t_index").value;
+            document.getElementById("tindex_value").innerHTML = "Time:"+temp;
+            tindex = parseInt(temp);
+            
+          
+            //alert(nid);
+            var z_digit = padToFour(zindex);
+            var t_digit = padToFour(tindex);
+            
+            var tar_name = "";
+            if(z_max > 0)
+                tar_name = nid+"_t"+t_digit+"_z"+z_digit;
+            else
+                tar_name = nid+"_t"+t_digit;
+            var url = "<?php echo $serverName; ?>/Leaflet_data/tar_time_filter/"+cil_id+"/"+tar_name+".tar/"+tar_name+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
+            //alert(url);
             
             layer1.setUrl(url);
             
@@ -479,7 +491,7 @@
         document.getElementById ("contrast").addEventListener ("change", handleCommand, false);
         document.getElementById ("brightness").addEventListener ("change", handleCommand, false);
         document.getElementById ("z_index").addEventListener ("change", handleCommand, false);
-    
+        document.getElementById ("t_index").addEventListener ("change", handleCommand, false);
 </script>
 </body>
 </html>
@@ -487,6 +499,29 @@
 
 <script>
     $( function() {
+
+        $("#tbackward_id").click(function() 
+        {
+            //alert("backward_id");
+            if(tindex-1 >= 0)
+            {
+                tindex=tindex-1;
+                document.getElementById("t_index").value = tindex;
+                handleCommand(); 
+            }
+        });
+        
+        $("#tforward_id").click(function() 
+        {
+            //alert("tforward_id");
+            if(tindex+1 <= t_max)
+            {
+                tindex=tindex+1;
+                document.getElementById("t_index").value = tindex;
+                handleCommand(); 
+            }
+        });
+        
 
         $("#backward_id").click(function() 
         {
@@ -502,7 +537,7 @@
         $("#forward_id").click(function() 
         {
             //alert("backward_id");
-            if(zindex+1 < z_max)
+            if(zindex+1 <= z_max)
             {
                 zindex=zindex+1;
                 //alert(zindex);
@@ -618,9 +653,9 @@
            //console.log(bounds);
            
            var zoom = map.getZoom();
-           //console.log(zoom);
+           console.log(zoom);
            
-           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&tindex="+tindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
         });
         
     });
