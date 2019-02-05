@@ -2,8 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-$cil_annotation_config_file = "C:/data/cil_annotation_service_config.json";
-//$cil_annotation_config_file = "/var/www/cil_annotation_service_config.json";
+//$cil_annotation_config_file = "C:/data/cil_annotation_service_config.json"; //Staging database
+$cil_annotation_config_file = "C:/data/cil_annotation_service_config_prod.json"; //Production database
+//$cil_annotation_config_file = "/var/www/cil_annotation_service_config.json"; //Staging database
+//$cil_annotation_config_file = "/var/www/cil_annotation_service_config_prod.json"; //Production database
 
 $json_str = file_get_contents($cil_annotation_config_file);
 $configJson = json_decode($json_str);
@@ -29,8 +31,9 @@ $configJson = json_decode($json_str);
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost';
-//$config['base_url'] = 'https://microbial.crbs.ucsd.edu';
+$config['base_url'] = 'http://localhost'; //Development 
+//$config['base_url'] = 'https://microbial.crbs.ucsd.edu'; //staging
+//$config['base_url'] = 'https://spirilli.crbs.ucsd.edu' //Production
 
 /*
 |--------------------------------------------------------------------------
