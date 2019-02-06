@@ -26,7 +26,7 @@
     <script src="/leaflet_js/Draw.Marker.js"></script>
     <script src="/leaflet_js/Draw.Circle.js"></script>
     <script src="/leaflet_js/Draw.CircleMarker.js"></script>
-    <script src="/leaflet_js/Draw.Polygon.js"></script>
+    <script src="/leaflet_js/Draw.Polygon.js"></script> 
     <script src="/leaflet_js/Draw.Rectangle.js"></script>
 
 
@@ -214,22 +214,14 @@
     }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
     */
     map.addControl(new L.Control.Draw({
-        edit: {
-            featureGroup: drawnItems,
-            remove: false,
-            edit: false,
-            poly: {
-                allowIntersection: false
-            }
-        },
+        edit: false,
         draw: {
+            polygon: false,
             polyline : false,
+            
             circle: false,
             circlemarker: false,
-            polygon: {
-                allowIntersection: false,
-                showArea: false
-            }
+            
         }
     }));
 

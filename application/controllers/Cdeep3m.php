@@ -111,7 +111,7 @@
                     $data['y_pixel_offset'] = $json->y_pixel_offset;
                 
                 if(!$json->is_timeseries)
-                    $this->load->view('image/image_viewer_display', $data);
+                    $this->load->view('cdeep3m/image_viewer_display', $data);
                 else
                 {
                     if($data['zindex'] == 0)
@@ -119,7 +119,7 @@
                     
                     if($data['tindex'] ==0)
                         $data['tindex'] = 1;
-                    $this->load->view('image/image_viewer_display_ts2', $data);
+                    $this->load->view('cdeep3m/image_viewer_display_ts2', $data);
             
                 }
                 
