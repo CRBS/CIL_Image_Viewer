@@ -2,8 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-//$cil_annotation_config_file = "C:/data/cil_annotation_service_config.json"; //Staging database
-$cil_annotation_config_file = "C:/data/cil_annotation_service_config_prod.json"; //Production database
+$cil_annotation_config_file = "C:/data/cil_annotation_service_config.json"; //Staging database
+//$cil_annotation_config_file = "C:/data/cil_annotation_service_config_prod.json"; //Production database
 //$cil_annotation_config_file = "/var/www/cil_annotation_service_config.json"; //Staging database
 //$cil_annotation_config_file = "/var/www/cil_annotation_service_config_prod.json"; //Production database
 

@@ -107,7 +107,7 @@
                 if(isset($json->x_pixel_offset))
                     $data['x_pixel_offset'] = $json->x_pixel_offset;
                 
-                if(isset($json->x_pixel_offset))
+                if(isset($json->y_pixel_offset))
                     $data['y_pixel_offset'] = $json->y_pixel_offset;
                 
                 if(!$json->is_timeseries)

@@ -55,6 +55,15 @@
 </head>
 
 <body>
+    <script>
+        var x_pixel_offset = <?php if(isset($x_pixel_offset)) echo $x_pixel_offset; else echo 0;?>;
+        var y_pixel_offset = <?php if(isset($y_pixel_offset)) echo $y_pixel_offset; else echo 0;?>;
+        
+        var is_point = false;
+        var point_x_location = 0;
+        var point_y_location = 0;
+        
+    </script>
 <div class="container">
         <div class="row">
             <div class="col-md-2">
@@ -117,12 +126,63 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-            <!----------Annotation Model--------------------->    
+            <!----------Crop Model--------------------->    
+            <div class="modal fade" id="crop_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #ccccff">
+                      <h5 class="modal-title">Cropping</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="annotation-modal-body-id">
+                        <div class="row">
+                            <div class="col-md-4">
+                                X location:
+                            </div>
+                            <div class="col-md-8">
+                                <input id="x_location_id" type="text" name="x_location_id">
+                            </div>
+                            <div class="col-md-4">
+                                Y location:
+                            </div>
+                            <div class="col-md-8">
+                                <input id="y_location_id" type="text" name="y_location_id">
+                            </div>
+                            <div class="col-md-4">
+                                Width in Pixel
+                            </div>
+                            <div class="col-md-8">
+                                <input id="width_in_pixel" type="text" name="width_in_pixel" value="1000">
+                            </div>
+                            <div class="col-md-4">
+                                Height in Pixel
+                            </div>
+                            <div class="col-md-8">
+                                <input id="width_in_pixel" type="text" name="height_in_pixel" value="1000">
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <br/>
+                        
+                    
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Crop Model-----------------> 
+            </div>
+            <div class="col-md-12">
+            <!----------Option Model--------------------->    
             <div class="modal fade" id="annotation_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
                     <div class="modal-header" style="background-color: #ccccff">
-                      <h5 class="modal-title">Annotation</h5>
+                      <h5 class="modal-title">Options</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -130,18 +190,22 @@
                     <div class="modal-body" id="annotation-modal-body-id">
 
                         <div class="row">
-                            <div class="col-md-2">Description:</div>
-                            <div class="col-md-10">
-                                <textarea id="annotation_desc_id" rows="4" cols="40"></textarea>
+                            <div class="col-md-4">
+                                <button id="crop_modal_action" type="button" class="btn btn-info" onclick="show_crop_modal()">Crop the image</button>
                             </div>
-                        </div>
-                        <br/>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <center><button id="submit_annotation_id" type="button" class="btn btn-info" data-dismiss="modal">Submit</button></center>
+                            <div class="col-md-4">
+                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info">Cdeep3M Test</button>
                             </div>
+                            <div class="col-md-4">
+                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info">Run Cdeep3M</button>
+                            </div>
+            
                         </div>
+                            
                     </div>
+                        <br/>
+                        
+                    
                     <div class="modal-footer">
                       <button id="remove_annotation_id" type="button" class="btn btn-danger" data-dismiss="modal">Remove</button>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -149,7 +213,7 @@
                   </div>
                 </div>
             </div>
-            <!----------End Annotation Model----------------->  
+            <!----------End Option Model----------------->  
             </div>
         </div>
         <div class="row">
@@ -363,23 +427,16 @@
             var southEast = map.project(map.getBounds().getSouthEast(), map.getMaxZoom());
             var current = map.project(latLng, map.getMaxZoom());
             
-            console.log(current);
-            console.log("X:"+(current.x)+"  Y:"+(current.y-17822));
+            //console.log(current);
+            console.log("X:"+(current.x-x_pixel_offset)+"  Y:"+(current.y-y_pixel_offset));
             
+            is_point = true;
+            point_x_location = current.x-x_pixel_offset;
+            point_y_location = current.y-y_pixel_offset;
+        }
+        
+        
 
-        }
-        
-        
-        
-        document.getElementById('annotation_desc_id').value = "";
-        if(coor != null)
-        {
-            var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
-            //alert(aurl);
-            $.get( aurl, function( data ) {
-                document.getElementById('annotation_desc_id').value = data.Description;
-            });
-        }
         
         $('#annotation_modal_id').modal('show');
         //document.getElementById("annotation_modal_id").showModal(); 
@@ -615,7 +672,18 @@
            document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
         });
         
+        
     });
+    
+    function show_crop_modal()
+    {
+        
+        //alert("Crop");
+        $('#annotation_modal_id').modal('hide');
+        $("#crop_modal_id").modal('show');
+        document.getElementById('x_location_id').value = point_x_location;
+        document.getElementById('y_location_id').value = point_y_location;
+    }
 </script>
 
 
