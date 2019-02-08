@@ -19,14 +19,37 @@ class DBUtil
                 
     }
     
+    public function getOriginalFileLocation($db_params,$image_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return null;
+        $sql = "select original_file_location from images where image_id = $1";
+        $input = array();
+        array_push($input,$image_id);  //1
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        $location = null;
+        if($row = pg_fetch_row($result))
+        {
+            $location = $row[0];
+        }
+        pg_close($conn);
+        return $location;
+    }
+    
     public function insertCroppingInfo($db_params,$image_id, $upper_left_x, $upper_left_y,
-            $width, $height,$contact_email, $original_file_location)
+            $width, $height,$contact_email, $original_file_location,$starting_z,$ending_z)
     {
         $conn = pg_pconnect($db_params);
         if (!$conn) 
             return false;
-        $sql = "insert into cropping_processes(id,image_id,upper_left_x, upper_left_y,width,height, contact_email,original_file_location,submit_time) ".
-               " values(nextval('general_sequence'), $1, $2,$3,$4,$5,$6,$7,now())";
+        $sql = "insert into cropping_processes(id,image_id,upper_left_x, upper_left_y,width,height, contact_email,original_file_location,submit_time,starting_z,ending_z) ".
+               " values(nextval('general_sequence'), $1, $2,$3,$4,$5,$6,$7,now(),$8,$9)";
         $input = array();
         array_push($input,$image_id);  //1
         array_push($input,$upper_left_x); //2
@@ -35,6 +58,8 @@ class DBUtil
         array_push($input,$height); //5
         array_push($input,$contact_email); //6
         array_push($input,$original_file_location); //7
+        array_push($input,$starting_z); //8
+        array_push($input,$ending_z); //8
         $result = pg_query_params($conn,$sql,$input);
         if(!$result) 
         {
