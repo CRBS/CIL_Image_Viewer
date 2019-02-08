@@ -19,6 +19,33 @@ class DBUtil
                 
     }
     
+    public function insertCroppingInfo($db_params,$image_id, $upper_left_x, $upper_left_y,
+            $width, $height,$contact_email, $original_file_location)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        $sql = "insert into cropping_processes(id,image_id,upper_left_x, upper_left_y,width,height, contact_email,original_file_location,submit_time) ".
+               " values(nextval('general_sequence'), $1, $2,$3,$4,$5,$6,$7,now())";
+        $input = array();
+        array_push($input,$image_id);  //1
+        array_push($input,$upper_left_x); //2
+        array_push($input,$upper_left_y); //3
+        array_push($input,$width); //4
+        array_push($input,$height); //5
+        array_push($input,$contact_email); //6
+        array_push($input,$original_file_location); //7
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return $success;
+    }
+    
     public function updateImage($db_params,$image_id,$array)
     {
         $conn = pg_pconnect($db_params);
