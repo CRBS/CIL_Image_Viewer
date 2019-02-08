@@ -137,32 +137,73 @@
                       </button>
                     </div>
                     <div class="modal-body" id="annotation-modal-body-id">
+                        <form action="/image_process/crop_image" method="post">
                         <div class="row">
                             <div class="col-md-4">
                                 X location:
                             </div>
-                            <div class="col-md-8">
-                                <input id="x_location_id" type="text" name="x_location_id">
+                            <div class="col-md-6">
+                                <input id="x_location" type="text" name="x_location">
+                            </div>
+                            <div class="col-md-2">
+                                Pixels
                             </div>
                             <div class="col-md-4">
                                 Y location:
                             </div>
-                            <div class="col-md-8">
-                                <input id="y_location_id" type="text" name="y_location_id">
+                            <div class="col-md-6">
+                                <input id="y_location" type="text" name="y_location">
+                            </div>
+                            <div class="col-md-2">
+                                Pixels
                             </div>
                             <div class="col-md-4">
-                                Width in Pixel
+                                Width:
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <input id="width_in_pixel" type="text" name="width_in_pixel" value="1000">
                             </div>
+                            <div class="col-md-2">
+                                Pixels
+                            </div>
                             <div class="col-md-4">
-                                Height in Pixel
+                                Height:
+                            </div>
+                            <div class="col-md-6">
+                                <input id="height_in_pixel" type="text" name="height_in_pixel" value="1000">
+                            </div>
+                            <div class="col-md-2">
+                                Pixels
+                            </div>
+                            <div class="col-md-4">
+                                Staring Z index
+                            </div>
+                            <div class="col-md-6">
+                                <input id="starting_z_index" type="text" name="starting_z_index" value="0">
+                            </div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4">
+                                Ending Z index
+                            </div>
+                            <div class="col-md-6">
+                                <input id="ending_z_index" type="text" name="ending_z_index" value="0">
+                            </div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-12">
+                                <br/>
+                            </div>
+                            <div class="col-md-4">
+                                Email address:
                             </div>
                             <div class="col-md-8">
-                                <input id="width_in_pixel" type="text" name="height_in_pixel" value="1000">
+                                <input id="email" type="text" name="email">
+                            </div>
+                            <div class="col-md-12">
+                                <br/>
+                                <center><button type="submit" class="btn btn-info">Submit</button></center>
                             </div>
                         </div>
+                        </form>
                         
                     </div>
                     <br/>
@@ -681,8 +722,8 @@
         //alert("Crop");
         $('#annotation_modal_id').modal('hide');
         $("#crop_modal_id").modal('show');
-        document.getElementById('x_location_id').value = point_x_location;
-        document.getElementById('y_location_id').value = point_y_location;
+        document.getElementById('x_location').value = point_x_location;
+        document.getElementById('y_location').value = point_y_location;
     }
 </script>
 
