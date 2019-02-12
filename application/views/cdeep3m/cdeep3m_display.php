@@ -238,6 +238,7 @@
                     <div class="modal-body" id="annotation-modal-body-id">
                         <form action="/image_process/crop_image/<?php echo $image_id; ?>" method="post">
                         <div class="row">
+                            <!---- X ------>
                             <div class="col-md-4">
                                 X location:
                             </div>
@@ -247,6 +248,8 @@
                             <div class="col-md-2">
                                 Pixels
                             </div>
+                            <!----End X ------>
+                            <!---- Y ------>
                             <div class="col-md-4">
                                 Y location:
                             </div>
@@ -256,6 +259,8 @@
                             <div class="col-md-2">
                                 Pixels
                             </div>
+                            <!----End Y ------>
+                            <!---- Width ------>
                             <div class="col-md-4">
                                 Width:
                             </div>
@@ -265,6 +270,8 @@
                             <div class="col-md-2">
                                 Pixels
                             </div>
+                            <!----End Width ------>
+                            <!---- Height ------>
                             <div class="col-md-4">
                                 Height:
                             </div>
@@ -274,6 +281,8 @@
                             <div class="col-md-2">
                                 Pixels
                             </div>
+                            <!----End Height ------>
+                            <!---- Z starting index------>
                             <div class="col-md-4">
                                 Staring Z index
                             </div>
@@ -281,6 +290,8 @@
                                 <input id="starting_z_index" type="text" name="starting_z_index" value="0">
                             </div>
                             <div class="col-md-2"></div>
+                            <!----End Z starting index------>
+                            <!---- Z ending index------>
                             <div class="col-md-4">
                                 Ending Z index
                             </div>
@@ -288,15 +299,18 @@
                                 <input id="ending_z_index" type="text" name="ending_z_index" value="0">
                             </div>
                             <div class="col-md-2"></div>
+                            <!----End Z ending index------>
                             <div class="col-md-12">
                                 <br/>
                             </div>
+                            <!---- Email ------>
                             <div class="col-md-4">
                                 Email address:
                             </div>
                             <div class="col-md-8">
                                 <input id="email" type="text" name="email">
                             </div>
+                            <!----End email------>
                             <div class="col-md-12">
                                 <br/>
                                 <center><button type="submit" class="btn btn-info">Submit</button></center>

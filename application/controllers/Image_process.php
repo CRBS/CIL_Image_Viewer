@@ -33,11 +33,11 @@
             echo "<br/>ending_z_index:".$ending_z_index;
             echo "<br/>email:".$email;*/
             
-            $dbutil->insertCroppingInfo($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
+            $id = $dbutil->insertCroppingInfo($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
                     $email, $original_file_location,$starting_z_index,$ending_z_index);
             
-            redirect ($base_url."/cdeep3m/".$image_id);
-            
+            //redirect ($base_url."/cdeep3m/".$image_id);
+            echo "<br/>".$id;
         }
         
         
