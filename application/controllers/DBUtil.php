@@ -20,7 +20,7 @@ class DBUtil
     }
     
     
-    public function getCropProcessInfo($id=0)
+    public function getCropProcessInfo($db_params,$id=0)
     {
         $conn = pg_pconnect($db_params);
         if (!$conn) 
@@ -29,7 +29,7 @@ class DBUtil
                " from cropping_processes where id = $1";
         $input = array();
         array_push($input, $id);
-        $result = pg_query($conn,$sql,$input);
+        $result = pg_query_params($conn,$sql,$input);
         if(!$result) 
         {
             pg_close($conn);

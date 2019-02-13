@@ -13,7 +13,8 @@ class Image_process_rest extends REST_Controller
     public function cropimage_info_get($id=0)
     {
         $dbutil = new DBUtil();
-        $json = $dbutil->getCropProcessInfo($id);
+        $db_params = $this->config->item('db_params');
+        $json = $dbutil->getCropProcessInfo($db_params,$id);
         if(is_null($json))
         {
             $output = array();
