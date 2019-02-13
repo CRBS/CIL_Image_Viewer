@@ -19,13 +19,51 @@ class DBUtil
                 
     }
     
+    
+    public function getCropProcessInfo($id=0)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return null;
+        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time ".
+               " from cropping_processes where id = $1";
+        $input = array();
+        array_push($input, $id);
+        $result = pg_query($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        $output = array();
+        if($row = pg_fetch_row($result))
+        {
+            $output['success'] = true;
+            $output['id'] = $row[0];
+            $output['image_id'] = $row[1];
+            $output['width'] = intval($row[2]);
+            $output['height'] = intval($row[3]);
+            $output['upper_left_x'] = intval($row[4]);
+            $output['upper_left_y'] = intval($row[5]);
+            $output['starting_z'] = intval($row[6]);
+            $output['ending_z'] = intval($row[7]);
+            $output['contact_email'] = $row[8];
+            $output['submit_time'] = $row[9];
+        }
+        pg_close($conn);
+        
+        $json_str = json_encode($output);
+        $json = json_decode($json_str);
+        return $json;
+    }
+    
     public function getNextId($db_params)
     {
         $conn = pg_pconnect($db_params);
         if (!$conn) 
             return null;
         $sql = "select nextval('general_sequence')";
-         $result = pg_query($conn,$sql);
+        $result = pg_query($conn,$sql);
         if(!$result) 
         {
             pg_close($conn);
