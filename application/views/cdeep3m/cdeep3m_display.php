@@ -248,7 +248,7 @@
                                 X location:
                             </div>
                             <div class="col-md-6">
-                                <input id="x_location" type="text" name="x_location">
+                                <input id="x_location" type="text" name="x_location" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -259,7 +259,7 @@
                                 Y location:
                             </div>
                             <div class="col-md-6">
-                                <input id="y_location" type="text" name="y_location">
+                                <input id="y_location" type="text" name="y_location" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -270,7 +270,7 @@
                                 Width:
                             </div>
                             <div class="col-md-6">
-                                <input id="width_in_pixel" type="text" name="width_in_pixel" value="1000">
+                                <input id="width_in_pixel" type="text" name="width_in_pixel" value="1000" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -281,7 +281,7 @@
                                 Height:
                             </div>
                             <div class="col-md-6">
-                                <input id="height_in_pixel" type="text" name="height_in_pixel" value="1000">
+                                <input id="height_in_pixel" type="text" name="height_in_pixel" value="1000" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -292,30 +292,41 @@
                                 Staring Z index
                             </div>
                             <div class="col-md-6">
-                                <input id="starting_z_index" type="text" name="starting_z_index" value="0">
+                                <input id="starting_z_index" type="text" name="starting_z_index" value="0" class="form-control">
                             </div>
                             <div class="col-md-2"></div>
                             <!----End Z starting index------>
                             <!---- Z ending index------>
                             <div class="col-md-4">
-                                Ending Z index
+                                Ending Z index:
                             </div>
                             <div class="col-md-6">
-                                <input id="ending_z_index" type="text" name="ending_z_index" value="0">
+                                <input id="ending_z_index" type="text" name="ending_z_index" value="0" class="form-control">
                             </div>
                             <div class="col-md-2"></div>
                             <!----End Z ending index------>
-                            <div class="col-md-12">
-                                <br/>
-                            </div>
+                            
+                            
                             <!---- Email ------>
                             <div class="col-md-4">
                                 Email address:
                             </div>
                             <div class="col-md-8">
-                                <input id="email" type="text" name="email">
+                                <input id="email" type="text" name="email" class="form-control">
                             </div>
                             <!----End email------>
+                            <div class="col-md-12">
+                                <br/>
+                            </div>
+                            <!----Contrast enhancement----->
+                            <div class="col-md-5">
+                                Contrast enhancement:
+                            </div>
+                            <div class="col-md-1">
+                                <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" checked>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <!----End contrast enhancement----->
                             <div class="col-md-12">
                                 <br/>
                                 <center><button type="submit" class="btn btn-info">Submit</button></center>
@@ -441,7 +452,7 @@
         draw: {
             polygon: false,
             polyline : false,
-            
+            rectangle: false,
             circle: false,
             circlemarker: false,
             

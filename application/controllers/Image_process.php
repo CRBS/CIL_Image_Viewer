@@ -23,7 +23,10 @@
             $starting_z_index = $this->input->post('starting_z_index', TRUE);
             $ending_z_index = $this->input->post('ending_z_index', TRUE);
             $email = $this->input->post('email', TRUE);
-            
+            $contrast_e_str = $this->input->post('contrast_e',TRUE);
+            $contrast_e = false;
+            if(!is_null($contrast_e_str))
+                $contrast_e = true;
             
             /*echo "<br/>x_location:".$x_location;
             echo "<br/>y_location:".$y_location;
@@ -34,7 +37,7 @@
             echo "<br/>email:".$email;*/
             
             $id = $dbutil->insertCroppingInfo($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
-                    $email, $original_file_location,$starting_z_index,$ending_z_index);
+                    $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e);
             
             //redirect ($base_url."/cdeep3m/".$image_id);
             echo "<br/>".$id;
