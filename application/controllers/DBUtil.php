@@ -25,7 +25,7 @@ class DBUtil
         $conn = pg_pconnect($db_params);
         if (!$conn) 
             return null;
-        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location ".
+        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,max_x,max_y ".
                " from cropping_processes where id = $1";
         $input = array();
         array_push($input, $id);
@@ -50,6 +50,8 @@ class DBUtil
             $output['contact_email'] = $row[8];
             $output['submit_time'] = $row[9];
             $output['original_file_location'] = $row[10];
+            $output['max_x'] = $row[11];
+            $output['max_y'] = $row[12];
         }
         pg_close($conn);
         
@@ -233,9 +235,12 @@ class DBUtil
             return null;
         }
         $input = array();
-        $sql = "select max_z, is_rgb, max_zoom, init_lat, init_lng, init_zoom,is_public , is_timeseries, max_t,x_pixel_offset, y_pixel_offset ".
+        $sql = "select max_z, is_rgb, max_zoom, init_lat, init_lng, init_zoom,is_public , is_timeseries, max_t,x_pixel_offset, y_pixel_offset,max_x, max_y ".
                " from images where image_id = $1";
         array_push($input,$image_id);
+        
+        
+        //error_log($sql, 3, "C:/Test/imageinfo.log");
         
         $result = pg_query_params($conn,$sql,$input);
         if(!$result) 
@@ -278,6 +283,8 @@ class DBUtil
             $array['max_t'] = intval($row[8]);
             $array['x_pixel_offset'] = intval($row[9]);
             $array['y_pixel_offset'] = intval($row[10]);
+            $array['max_x'] =  intval($row[11]);
+            $array['max_y'] =  intval($row[12]);
         }
         
         pg_close($conn);

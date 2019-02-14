@@ -64,6 +64,8 @@
         
         public function update()
         {
+            $this->load->helper('url');
+            $base_url = $this->config->item('base_url');
             $image_id = $this->input->post('image_id', TRUE);
             $max_z = $this->input->post('max_z', TRUE);
             $is_rgb = "true";
@@ -111,5 +113,6 @@
             echo "<br/>is_timeseries:".$is_timeseries;
             echo "<br/>max_t:".$max_t;
             */
+            redirect ($base_url."/image_viewer/".$image_id);
         }
     }

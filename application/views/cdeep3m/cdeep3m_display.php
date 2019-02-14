@@ -238,6 +238,11 @@
                     <div class="modal-body" id="annotation-modal-body-id">
                         <form action="/image_process/crop_image/<?php echo $image_id; ?>" method="post">
                         <div class="row">
+                           <div class="col-md-12">
+                           <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
+                           </div>
+                        </div>
+                        <div class="row">
                             <!---- X ------>
                             <div class="col-md-4">
                                 X location:
@@ -400,7 +405,7 @@
                   </div>
                 </div>
             </div>
-            <!----------End Annotation Model----------------->  
+            <!----------End Settings Model----------------->  
             </div>
         </div>
     </div>    
@@ -835,8 +840,11 @@
         //alert("Crop");
         $('#annotation_modal_id').modal('hide');
         $("#crop_modal_id").modal('show');
-        document.getElementById('x_location').value = point_x_location;
-        document.getElementById('y_location').value = point_y_location;
+        document.getElementById('x_location').value = Math.round(point_x_location);
+        if(point_y_location < 0)
+            document.getElementById('y_location').value = 0;
+        else
+            document.getElementById('y_location').value = Math.round(point_y_location);
     }
     
     function show_cdeep3m_test_model()

@@ -110,6 +110,13 @@
                 if(isset($json->y_pixel_offset))
                     $data['y_pixel_offset'] = $json->y_pixel_offset;
                 
+                if(isset($json->max_x))
+                    $data['max_x'] = $json->max_x;
+                
+                if(isset($json->max_y))
+                    $data['max_y'] = $json->max_y;
+                
+                
                 if(!$json->is_timeseries)
                     $this->load->view('cdeep3m/cdeep3m_display', $data);
                 else
