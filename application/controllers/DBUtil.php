@@ -25,7 +25,7 @@ class DBUtil
         $conn = pg_pconnect($db_params);
         if (!$conn) 
             return null;
-        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,max_x,max_y ".
+        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,contrast_enhancement ".
                " from cropping_processes where id = $1";
         $input = array();
         array_push($input, $id);
@@ -50,8 +50,10 @@ class DBUtil
             $output['contact_email'] = $row[8];
             $output['submit_time'] = $row[9];
             $output['original_file_location'] = $row[10];
-            $output['max_x'] = $row[11];
-            $output['max_y'] = $row[12];
+            $contrast_enhancement = $row[11];
+            $output['contrast_enhancement'] = false;
+            if(strcmp($contrast_enhancement,"t")==0)
+                    $output['contrast_enhancement'] = true;
         }
         pg_close($conn);
         
