@@ -3,6 +3,7 @@
     require_once 'GeneralUtil.php';
     require_once 'DBUtil.php';
     require_once 'DataLocalUtil.php';
+    require_once 'CurlUtil.php';
     
     class Image_process extends CI_Controller
     {
@@ -11,8 +12,11 @@
         {
             $this->load->helper('url');
             $dbutil = new DBUtil();
+            $cutil = new CurlUtil();
             $base_url = $this->config->item('base_url');
             $db_params = $this->config->item('db_params');
+            $image_service_prefix = $this->config->item('image_service_prefix');
+            $image_service_auth = $this->config->item('image_service_auth');
             
             $original_file_location = $dbutil->getOriginalFileLocation($db_params, $image_id);
             
@@ -39,8 +43,14 @@
             $id = $dbutil->insertCroppingInfo($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
                     $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e);
             
+            if(is_numeric($id))
+            {
+                $url = $image_service_prefix."/image_process_service/crop/stage/".$id;
+                $response = $cutil->curl_post($url, null, $image_service_auth);
+            }
+            
             //redirect ($base_url."/cdeep3m/".$image_id);
-            echo "<br/>".$id;
+            echo "<br/>".$response;
         }
         
         
