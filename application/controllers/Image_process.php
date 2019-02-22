@@ -49,8 +49,8 @@
                 $response = $cutil->curl_post($url, null, $image_service_auth);
             }
             
-            //redirect ($base_url."/cdeep3m/".$image_id);
-            echo "<br/>".$response;
+            redirect ($base_url."/cdeep3m/".$image_id);
+            //echo "<br/>".$response;
         }
         
         

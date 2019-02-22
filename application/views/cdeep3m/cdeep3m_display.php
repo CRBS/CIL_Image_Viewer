@@ -856,6 +856,8 @@
             document.getElementById('y_location').value = 0;
         else
             document.getElementById('y_location').value = Math.round(point_y_location);
+        
+        document.getElementById('starting_z_index').value = zindex;
     }
     
     function show_cdeep3m_test_model()
