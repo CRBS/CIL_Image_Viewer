@@ -6,9 +6,54 @@
     
     class Cdeep3m extends CI_Controller
     {
+        
+        public function login($image_id="0")
+        {
+            $this->load->helper('url');
+            $base_url = $this->config->item('base_url');
+            $db_params = $this->config->item('db_params');
+            $salt = $this->config->item('salt');
+            $dbutil = new DBUtil();
+            $username = $this->input->post('username', TRUE);
+            $password = $this->input->post('password', TRUE);
+            $data['image_id'] = $image_id;
+            $data['wrong_password'] = false;
+            if(!is_null($username) && !is_null($password))
+            {
+                $passkey = crypt($password,$salt);
+                $auth = $dbutil->authenticateWebUser($db_params, $username, $passkey);
+                if($auth)
+                {
+                    $this->session->set_userdata('data_login', "true");
+                    redirect ($base_url."/cdeep3m/".$image_id);
+                    return;
+                }
+                else
+                {
+                    $data['title'] = "CIL login";
+                    $data['wrong_password'] = true;
+                    $this->load->view('cdeep3m/image_login_display', $data);
+                    return;
+                }
+            }
+            
+            $data['title'] = "CIL login";
+            $this->load->view('cdeep3m/image_login_display', $data);
+        }
+        
         public function view($image_id="0")
         {
             $this->load->helper('url');
+            
+            $base_url = $this->config->item('base_url');
+            /********Session check**************************/
+            $data_login = $this->session->userdata('data_login');
+            if(is_null($data_login))
+            {
+                redirect ($base_url."/cdeep3m/login/".$image_id);
+                return;
+            }
+            /********End session check **********************/
             
             $image_tar_dir = $this->config->item('image_tar_dir');
             $lag = $this->input->get('lat', TRUE);
@@ -62,7 +107,7 @@
 
                     if(is_null($data_login))
                     {
-                       redirect ($base_url."/user/login/".$image_id);
+                       redirect ($base_url."/cdeep3m/login/".$image_id);
                        return;
                     }
                     /******End check session **********************/
