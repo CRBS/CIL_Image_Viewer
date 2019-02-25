@@ -11,6 +11,7 @@
         public function crop_image($image_id)
         {
             $this->load->helper('url');
+            
             $dbutil = new DBUtil();
             $cutil = new CurlUtil();
             $base_url = $this->config->item('base_url');
@@ -31,14 +32,7 @@
             $contrast_e = false;
             if(!is_null($contrast_e_str))
                 $contrast_e = true;
-            
-            /*echo "<br/>x_location:".$x_location;
-            echo "<br/>y_location:".$y_location;
-            echo "<br/>width_in_pixel:".$width_in_pixel;
-            echo "<br/>height_in_pixel:".$height_in_pixel;
-            echo "<br/>starting_z_index:".$starting_z_index;
-            echo "<br/>ending_z_index:".$ending_z_index;
-            echo "<br/>email:".$email;*/
+
             
             $id = $dbutil->insertCroppingInfo($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
                     $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e);
@@ -50,7 +44,7 @@
             }
             
             redirect ($base_url."/cdeep3m/".$image_id);
-            //echo "<br/>".$response;
+
         }
         
         

@@ -52,6 +52,8 @@
     
     <link rel="stylesheet" href="/css/custom.css"> 
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />    
+    
+    <script src="/js/custom.js"></script>
 </head>
 
 <body>
@@ -124,6 +126,8 @@
                 <a id="settings_id" href="#">&#x2699;</a>
             </div>
         </div>
+    
+        <!--- Row --->
         <div class="row">
             <div class="col-md-12">
                 <!----------Cdeep3m test Model--------------------->
@@ -236,7 +240,7 @@
                       </button>
                     </div>
                     <div class="modal-body" id="annotation-modal-body-id">
-                        <form action="/image_process/crop_image/<?php echo $image_id; ?>" method="post">
+                        <form id="crop_image_id" action="/image_process/crop_image/<?php echo $image_id; ?>" method="post" onsubmit="return validateCropImage(this.email)">
                         <div class="row">
                            <div class="col-md-12">
                            <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
@@ -345,6 +349,38 @@
                 </div>
             </div>
             <!----------End Crop Model-----------------> 
+            </div>
+            <div class="col-md-12">
+                <!----------Error Model--------------------->    
+            <div class="modal fade" id="error_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #E74C3C">
+                      <h5 class="modal-title">Error</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="annotation-modal-body-id">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <center>Invalid email address!</center>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <center><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></center>
+                            </div>
+                        </div>
+                    </div>
+                     <br/>
+
+                  </div>
+                </div>
+            </div>
+            <!----------End Error Model----------------->  
             </div>
             <div class="col-md-12">
             <!----------Option Model--------------------->    
