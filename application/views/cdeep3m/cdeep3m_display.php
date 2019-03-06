@@ -135,7 +135,7 @@
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
                     <div class="modal-header" style="background-color: #ccccff">
-                      <h5 class="modal-title">Cdeep3m Test</h5>
+                      <h5 class="modal-title">Preview Cdeep3m result</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -143,11 +143,17 @@
                     <div class="modal-body" id="annotation-modal-body-id">
                         <form action="/image_process/crop_image/<?php echo $image_id; ?>" method="post">
                         <div class="row">
+                           <div class="col-md-12">
+                           <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="row">
                             <div class="col-md-4">
                                 X location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_x_location" type="text" name="ct_x_location">
+                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -156,7 +162,7 @@
                                 Y location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_y_location" type="text" name="ct_y_location">
+                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -165,7 +171,7 @@
                                 Width:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000">
+                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -174,7 +180,7 @@
                                 Height:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000">
+                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -183,7 +189,7 @@
                                  Z index
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_z_index" type="text" name="ct_z_index" value="0">
+                                <input id="ct_z_index" type="text" name="ct_z_index" value="0" class="form-control">
                             </div>
                             <div class="col-md-2"></div>
                             
@@ -191,23 +197,33 @@
                                  Training model:
                             </div>
                             <div class="col-md-6">
-                                 <select>
+                                 <select class="form-control">
                                     <option value="XRM nuclei">XRM nuclei</option>
                                     <option value="Tomo Vesicles">Tomo Vesicles</option>
                                     <option value="SEMTEM membranes">SEMTEM membranes</option>
                                  </select> 
                             </div>
                             <div class="col-md-2"></div>
-                            
-                            <div class="col-md-12">
-                                <br/>
-                            </div>
+
                             <div class="col-md-4">
                                 Email address:
                             </div>
                             <div class="col-md-8">
-                                <input id="email" type="text" name="email">
+                                <input id="email" type="text" name="email" class="form-control">
                             </div>
+                            <div class="col-md-12">
+                                <br/>
+                            </div>
+                            <!----Contrast enhancement----->
+                            <div class="col-md-5">
+                                Contrast enhancement:
+                            </div>
+                            <div class="col-md-1">
+                                <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" checked>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <!----End contrast enhancement----->
+                            
                             <div class="col-md-12">
                                 <br/>
                                 <center><button type="submit" class="btn btn-info">Submit</button></center>
@@ -246,6 +262,7 @@
                            <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
                            </div>
                         </div>
+                        <hr>
                         <div class="row">
                             <!---- X ------>
                             <div class="col-md-4">
