@@ -130,18 +130,18 @@
         <!--- Row --->
         <div class="row">
             <div class="col-md-12">
-                <!----------Cdeep3m test Model--------------------->
+                <!----------Cdeep3m preview Model--------------------->
                 <div class="modal fade" id="cdeep3m_test_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
-                    <div class="modal-header" style="background-color: #ccccff">
-                      <h5 class="modal-title">Preview Cdeep3m result</h5>
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Preview Cdeep3m result</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
                     </div>
                     <div class="modal-body" id="annotation-modal-body-id">
-                        <form action="/image_process/crop_image/<?php echo $image_id; ?>" method="post">
+                        <form action="/image_process/preview_cdeep3m_image/<?php echo $image_id; ?>" method="post" onsubmit="return validatePreviewImage(this)>
                         <div class="row">
                            <div class="col-md-12">
                            <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 

@@ -7,7 +7,7 @@ function validateEmail(email) {
 function validateCropImage(email)
 {
    
-    console.log(email.value);
+    //console.log(email.value);
     if(!validateEmail(email.value))
     {
         $("#error_modal_id").modal('show');
@@ -17,4 +17,16 @@ function validateCropImage(email)
         return true;
 }
 
+
+function validatePreviewImage(form)
+{
+    var email = form.email.value;
+    if(!validateEmail(email))
+    {
+        $("#error_modal_id").modal('show');
+        return false;
+    }
+    else
+        return true;
+}
 

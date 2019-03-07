@@ -7,6 +7,11 @@
     
     class Image_process extends CI_Controller
     {
+        
+        public function preview_cdeep3m_image($image_id)
+        {
+            
+        }
 
         public function crop_image($image_id)
         {
