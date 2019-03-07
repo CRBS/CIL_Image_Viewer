@@ -141,7 +141,7 @@
                       </button>
                     </div>
                     <div class="modal-body" id="annotation-modal-body-id">
-                        <form action="/image_process/preview_cdeep3m_image/<?php echo $image_id; ?>" method="post" onsubmit="return validatePreviewImage(this)>
+                        <form action="/image_process/preview_cdeep3m_image/<?php echo $image_id; ?>" method="post" onsubmit="return validatePreviewImage(this)">
                         <div class="row">
                            <div class="col-md-12">
                            <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
@@ -374,7 +374,7 @@
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
                     <div class="modal-header" style="background-color: #E74C3C">
-                      <h5 class="modal-title">Error</h5>
+                      <h5 class="modal-title" style="color:white">Error</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -383,7 +383,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <center>Invalid email address!</center>
+                                <center><div id="error_message_id">Invalid email address!</div></center>
                             </div>
                         </div>
                         <br/>

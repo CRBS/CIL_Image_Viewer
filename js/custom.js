@@ -24,6 +24,7 @@ function validatePreviewImage(form)
     if(!validateEmail(email))
     {
         $("#error_modal_id").modal('show');
+        document.getElementById('error_message_id').innerHTML = "Invalid email address.";
         return false;
     }
     else

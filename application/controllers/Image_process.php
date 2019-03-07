@@ -10,7 +10,16 @@
         
         public function preview_cdeep3m_image($image_id)
         {
-            
+            $this->load->helper('url');
+            /********Session check**************************/
+            $data_login = $this->session->userdata('data_login');
+            if(is_null($data_login))
+            {
+                redirect ($base_url."/cdeep3m/login/".$image_id);
+                return;
+            }
+            /********End session check **********************/
+            echo "<br/>".$image_id;
         }
 
         public function crop_image($image_id)
