@@ -249,8 +249,9 @@
             <div class="modal fade" id="crop_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
-                    <div class="modal-header" style="background-color: #ccccff">
-                      <h5 class="modal-title">Cropping</h5>
+                    <!-- <div class="modal-header" style="background-color: #ccccff"> #3498DB -->
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color: white">Cropping</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -404,8 +405,8 @@
             <div class="modal fade" id="annotation_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
-                    <div class="modal-header" style="background-color: #ccccff">
-                      <h5 class="modal-title">Options</h5>
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color: white">Options</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
