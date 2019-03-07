@@ -197,10 +197,21 @@
                                  Training model:
                             </div>
                             <div class="col-md-6">
-                                 <select class="form-control">
-                                    <option value="XRM nuclei">XRM nuclei</option>
+                                 <select name="training_models" id="training_models" class="form-control">
+                                    <!-- <option value="XRM nuclei">XRM nuclei</option>
                                     <option value="Tomo Vesicles">Tomo Vesicles</option>
-                                    <option value="SEMTEM membranes">SEMTEM membranes</option>
+                                    <option value="SEMTEM membranes">SEMTEM membranes</option> -->
+                                    <?php
+                                        if(isset($training_models) && is_array($training_models))
+                                        {
+                                            foreach($training_models as $tm)
+                                            {
+                                                echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+                                                
+                                            }
+                                        }
+                                    
+                                    ?>
                                  </select> 
                             </div>
                             <div class="col-md-2"></div>

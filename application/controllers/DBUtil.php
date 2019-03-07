@@ -10,6 +10,7 @@ class DBUtil
     
     private $success = "success";
     
+    
     public function handleImageUpdate($db_params,$image_id,$array)
     {
         if($this->imageExist($db_params, $image_id))
@@ -17,6 +18,34 @@ class DBUtil
         else
             $this->insertImage ($db_params, $image_id, $array);
                 
+    }
+    
+    
+    public function getTrainingModels($db_params)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return null;
+        $sql = " select id, name, doi_url from cdeep3m_training_model order by id asc";
+        $result = pg_query($conn,$sql);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        $main = array();
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['id'] = intval($row[0]);
+            $array['name'] = $row[1];
+            $array['doi_url'] = $row[2];
+            array_push($main, $array);
+        }
+        pg_close($conn);
+        $json_str = json_encode($main);
+        $json = json_decode($json_str);
+        return $json;
     }
     
     

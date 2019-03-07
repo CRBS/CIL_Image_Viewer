@@ -75,6 +75,9 @@
             
             
             $dbutil = new DBUtil();
+            $data['training_models'] = $dbutil->getTrainingModels($db_params);
+            
+            
             $localutil = new DataLocalUtil();
             $array = $dbutil->getImageInfo($db_params,$image_id);
             if(is_null($array))
