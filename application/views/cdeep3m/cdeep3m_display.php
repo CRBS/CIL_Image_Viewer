@@ -130,12 +130,138 @@
         <!--- Row --->
         <div class="row">
             <div class="col-md-12">
+                <!----------Cdeep3m run Model--------------------->
+                <div class="modal fade" id="cdeep3m_run_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Run Cdeep3m</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="annotation-modal-body-id">
+                        <form action="/image_process/run_cdeep3m/<?php echo $image_id; ?>" method="post" onsubmit="return validatePreviewImage(this)">
+                        <div class="row">
+                           <div class="col-md-12">
+                           <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">
+                                X location:
+                            </div>
+                            <div class="col-md-6">
+                                <input id="r_x_location" type="text" name="r_x_location" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                Pixels
+                            </div>
+                            <div class="col-md-4">
+                                Y location:
+                            </div>
+                            <div class="col-md-6">
+                                <input id="r_y_location" type="text" name="r_y_location" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                Pixels
+                            </div>
+                            <div class="col-md-4">
+                                Width:
+                            </div>
+                            <div class="col-md-6">
+                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                Pixels
+                            </div>
+                            <div class="col-md-4">
+                                Height:
+                            </div>
+                            <div class="col-md-6">
+                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                Pixels
+                            </div>
+                            <div class="col-md-4">
+                                 Z index
+                            </div>
+                            <div class="col-md-6">
+                                <input id="ct_z_index" type="text" name="ct_z_index" value="0" class="form-control">
+                            </div>
+                            <div class="col-md-2"></div>
+                            
+                            <div class="col-md-4">
+                                 Training model:
+                            </div>
+                            <div class="col-md-6">
+                                 <select name="training_models" id="training_models" class="form-control">
+                                    <!-- <option value="XRM nuclei">XRM nuclei</option>
+                                    <option value="Tomo Vesicles">Tomo Vesicles</option>
+                                    <option value="SEMTEM membranes">SEMTEM membranes</option> -->
+                                    <?php
+                                        if(isset($training_models) && is_array($training_models))
+                                        {
+                                            foreach($training_models as $tm)
+                                            {
+                                                echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+                                                
+                                            }
+                                        }
+                                    
+                                    ?>
+                                 </select> 
+                            </div>
+                            <div class="col-md-2"></div>
+
+                            <div class="col-md-4">
+                                Email address:
+                            </div>
+                            <div class="col-md-8">
+                                <input id="email" type="text" name="email" class="form-control">
+                            </div>
+                            <div class="col-md-12">
+                                <br/>
+                            </div>
+                            <!----Contrast enhancement----->
+                            <div class="col-md-5">
+                                Contrast enhancement:
+                            </div>
+                            <div class="col-md-1">
+                                <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" checked>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <!----End contrast enhancement----->
+                            
+                            <div class="col-md-12">
+                                <br/>
+                                <center><button type="submit" class="btn btn-info">Submit</button></center>
+                            </div>
+                        </div>
+                        </form>
+                        
+                    </div>
+                    <br/>
+                        
+                    
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+           
+           <!----------End Cdeep3m run Model--------------------->
+            </div>
+            <div class="col-md-12">
                 <!----------Cdeep3m preview Model--------------------->
                 <div class="modal fade" id="cdeep3m_test_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
                     <div class="modal-header" style="background-color: #8bc4ea">
-                      <h5 class="modal-title" style="color:white">Preview Cdeep3m result</h5>
+                      <h5 class="modal-title" style="color:white">Cdeep3m preview</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -429,10 +555,10 @@
                                 <button id="crop_modal_action" type="button" class="btn btn-info" onclick="show_crop_modal()">Crop the image</button>
                             </div>
                             <div class="col-md-4">
-                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_test_model()">Cdeep3M Test</button>
+                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_test_model()">Cdeep3M Preview</button>
                             </div>
                             <div class="col-md-4">
-                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info">Run Cdeep3M</button>
+                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_run_model()">Run Cdeep3M</button>
                             </div>
             
                         </div>
@@ -932,6 +1058,14 @@
         $("#cdeep3m_test_modal_id").modal('show');
         document.getElementById('ct_x_location').value = point_x_location;
         document.getElementById('ct_y_location').value = point_y_location;
+    }
+    
+    function show_cdeep3m_run_model()
+    {
+        $('#annotation_modal_id').modal('hide');
+        $("#cdeep3m_run_modal_id").modal('show');
+        document.getElementById('r_x_location').value = point_x_location;
+        document.getElementById('r_y_location').value = point_y_location;
     }
     
 </script>
