@@ -31,7 +31,42 @@
                 return;
             }
             /********End session check **********************/
-            echo "<br/>".$image_id;
+            
+            $dbutil = new DBUtil();
+            $cutil = new CurlUtil();
+            $base_url = $this->config->item('base_url');
+            $db_params = $this->config->item('db_params');
+            $image_service_prefix = $this->config->item('image_service_prefix');
+            $image_service_auth = $this->config->item('image_service_auth');
+            
+            $original_file_location = $dbutil->getOriginalFileLocation($db_params, $image_id);
+            
+            $x_location = $this->input->post('ct_x_location', TRUE);
+            $y_location = $this->input->post('ct_y_location', TRUE);
+            $width_in_pixel = $this->input->post('ct_width_in_pixel', TRUE);
+            $height_in_pixel = $this->input->post('ct_height_in_pixel', TRUE);
+            $starting_z_index = $this->input->post('ct_starting_z_index', TRUE);
+            $ending_z_index = $this->input->post('ct_ending_z_index', TRUE);
+            $ct_training_models = $this->input->post('ct_training_models', TRUE);
+            $email = $this->input->post('email', TRUE);
+            $contrast_e_str = $this->input->post('contrast_e',TRUE);
+            $contrast_e = false;
+            if(!is_null($contrast_e_str))
+                $contrast_e = true;
+            
+            echo "<br/>image_id:".$image_id;
+            echo "<br/>x_location:".$x_location;
+            echo "<br/>y_location:".$y_location;
+            echo "<br/>width_in_pixel:".$width_in_pixel;
+            echo "<br/>height_in_pixel:".$height_in_pixel;
+            echo "<br/>starting_z_index:".$starting_z_index;
+            echo "<br/>ending_z_index:".$ending_z_index;
+            echo "<br/>ct_training_models:".$ct_training_models;
+            echo "<br/>email:".$email;
+            if($contrast_e)
+                echo "<br/>contrast_e:true";
+            else
+                echo "<br/>contrast_e:true";
         }
 
         public function crop_image($image_id)

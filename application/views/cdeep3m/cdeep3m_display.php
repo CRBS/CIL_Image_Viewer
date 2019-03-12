@@ -311,19 +311,30 @@
                             <div class="col-md-2">
                                 Pixels
                             </div>
+                            <!---- Z starting index------>
                             <div class="col-md-4">
-                                 Z index
+                                Staring Z index
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_z_index" type="text" name="ct_z_index" value="0" class="form-control">
+                                <input id="ct_starting_z_index" type="text" name="starting_z_index" value="0" class="form-control">
                             </div>
                             <div class="col-md-2"></div>
+                            <!----End Z starting index------>
+                            <!---- Z ending index------>
+                            <div class="col-md-4">
+                                Ending Z index:
+                            </div>
+                            <div class="col-md-6">
+                                <input id="ct_ending_z_index" type="text" name="ending_z_index" value="0" class="form-control">
+                            </div>
+                            <div class="col-md-2"></div>
+                            <!----End Z ending index------>
                             
                             <div class="col-md-4">
                                  Training model:
                             </div>
                             <div class="col-md-6">
-                                 <select name="training_models" id="training_models" class="form-control">
+                                 <select name="ct_training_models" id="ct_training_models" class="form-control">
                                     <!-- <option value="XRM nuclei">XRM nuclei</option>
                                     <option value="Tomo Vesicles">Tomo Vesicles</option>
                                     <option value="SEMTEM membranes">SEMTEM membranes</option> -->
