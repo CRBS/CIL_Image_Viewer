@@ -136,6 +136,61 @@ class DBUtil
         return $location;
     }
     
+    
+    public function insertCroppingInfoWithTraining($db_params,$image_id, $upper_left_x, $upper_left_y,
+            $width, $height,$contact_email, $original_file_location,$starting_z,$ending_z,$contrast_enhancement, 
+            $is_cdeep3m_preview, $is_cdeep3m_run, $training_model_url)
+    {
+        $id = $this->getNextId($db_params);
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        if($contrast_enhancement)
+            $contrast_enhancement = 'true';
+        else
+            $contrast_enhancement = 'false';
+        
+        if($is_cdeep3m_preview)
+            $is_cdeep3m_preview = 'true';
+        else
+            $is_cdeep3m_preview = 'false';
+        
+        if($is_cdeep3m_run)
+            $is_cdeep3m_run = 'true';
+        else
+            $is_cdeep3m_run = 'false';
+        
+        $sql = "insert into cropping_processes(id,image_id,upper_left_x, upper_left_y,width,height, ".
+               "\n contact_email,original_file_location,submit_time,starting_z,ending_z,contrast_enhancement, ".
+               "\n is_cdeep3m_preview,is_cdeep3m_run,training_model_url) ".
+               "\n values(".$id.",$1,$2,$3,$4,$5, ".
+               "\n $6, $7, now(), $8, $9, ".$contrast_enhancement.", ".
+               "\n ".$is_cdeep3m_preview.", ".$is_cdeep3m_run.", 'training_model_url')";
+        
+        $input = array();
+        array_push($input,$image_id);  //1
+        array_push($input,$upper_left_x); //2
+        array_push($input,$upper_left_y); //3
+        array_push($input,$width); //4
+        array_push($input,$height); //5
+        array_push($input,$contact_email); //6
+        array_push($input,$original_file_location); //7
+        array_push($input,$starting_z); //8
+        array_push($input,$ending_z); //9
+        array_push($input,$training_model_url); //10
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return $id;
+    }
+    
+    
     public function insertCroppingInfo($db_params,$image_id, $upper_left_x, $upper_left_y,
             $width, $height,$contact_email, $original_file_location,$starting_z,$ending_z,$contrast_enhancement)
     {
@@ -160,7 +215,7 @@ class DBUtil
         array_push($input,$contact_email); //6
         array_push($input,$original_file_location); //7
         array_push($input,$starting_z); //8
-        array_push($input,$ending_z); //8
+        array_push($input,$ending_z); //9
         $result = pg_query_params($conn,$sql,$input);
         if(!$result) 
         {

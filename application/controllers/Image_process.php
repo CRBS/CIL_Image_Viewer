@@ -54,6 +54,10 @@
             if(!is_null($contrast_e_str))
                 $contrast_e = true;
             
+            $is_cdeep3m_preview = true;
+            $is_cdeep3m_run = false;
+            
+            
             echo "<br/>image_id:".$image_id;
             echo "<br/>x_location:".$x_location;
             echo "<br/>y_location:".$y_location;
@@ -67,6 +71,12 @@
                 echo "<br/>contrast_e:true";
             else
                 echo "<br/>contrast_e:true";
+            
+            $id = $dbutil->insertCroppingInfoWithTraining($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
+                    $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e,
+                    $is_cdeep3m_preview, $is_cdeep3m_run, $ct_training_models);
+            
+             echo "<br/><br/>New ID:".$email;
         }
 
         public function crop_image($image_id)
