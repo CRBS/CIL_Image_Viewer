@@ -214,8 +214,8 @@ class DBUtil
         array_push($input,$height); //5
         array_push($input,$contact_email); //6
         array_push($input,$original_file_location); //7
-        array_push($input,$starting_z); //8
-        array_push($input,$ending_z); //9
+        array_push($input,intval($starting_z)); //8
+        array_push($input,intval($ending_z)); //9
         $result = pg_query_params($conn,$sql,$input);
         if(!$result) 
         {
