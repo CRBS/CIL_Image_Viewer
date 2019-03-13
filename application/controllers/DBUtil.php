@@ -165,7 +165,7 @@ class DBUtil
                "\n is_cdeep3m_preview,is_cdeep3m_run,training_model_url) ".
                "\n values(".$id.",$1,$2,$3,$4,$5, ".
                "\n $6, $7, now(), $8, $9, ".$contrast_enhancement.", ".
-               "\n ".$is_cdeep3m_preview.", ".$is_cdeep3m_run.", 'training_model_url')";
+               "\n ".$is_cdeep3m_preview.", ".$is_cdeep3m_run.", $10)";
         
         $input = array();
         array_push($input,$image_id);  //1
@@ -175,8 +175,8 @@ class DBUtil
         array_push($input,$height); //5
         array_push($input,$contact_email); //6
         array_push($input,$original_file_location); //7
-        array_push($input,$starting_z); //8
-        array_push($input,$ending_z); //9
+        array_push($input,intval($starting_z)); //8
+        array_push($input,intval($ending_z)); //9
         array_push($input,$training_model_url); //10
         
         $result = pg_query_params($conn,$sql,$input);

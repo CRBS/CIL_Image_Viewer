@@ -76,7 +76,7 @@
                     $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e,
                     $is_cdeep3m_preview, $is_cdeep3m_run, $ct_training_models);
             
-             echo "<br/><br/>New ID:".$email;
+             echo "<br/><br/>New ID:".$id;
         }
 
         public function crop_image($image_id)
