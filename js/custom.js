@@ -31,3 +31,15 @@ function validatePreviewImage(form)
         return true;
 }
 
+function validateRunCdeep3m(form)
+{
+    var email = form.r_email.value;
+    if(!validateEmail(email))
+    {
+        $("#error_modal_id").modal('show');
+        document.getElementById('error_message_id').innerHTML = "Invalid email address.";
+        return false;
+    }
+    else
+        return true;
+}

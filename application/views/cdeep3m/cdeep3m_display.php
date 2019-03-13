@@ -141,7 +141,7 @@
                       </button>
                     </div>
                     <div class="modal-body" id="annotation-modal-body-id">
-                        <form action="/image_process/run_cdeep3m/<?php echo $image_id; ?>" method="post" onsubmit="return validatePreviewImage(this)">
+                        <form action="/image_process/run_cdeep3m/<?php echo $image_id; ?>" method="post" onsubmit="return validateRunCdeep3m(this)">
                         <div class="row">
                            <div class="col-md-12">
                            <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
