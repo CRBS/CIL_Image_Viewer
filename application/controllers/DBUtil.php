@@ -54,7 +54,7 @@ class DBUtil
         $conn = pg_pconnect($db_params);
         if (!$conn) 
             return null;
-        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,contrast_enhancement ".
+        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,contrast_enhancement,is_cdeep3m_preview,is_cdeep3m_run,training_model_url ".
                " from cropping_processes where id = $1";
         $input = array();
         array_push($input, $id);
@@ -83,6 +83,18 @@ class DBUtil
             $output['contrast_enhancement'] = false;
             if(strcmp($contrast_enhancement,"t")==0)
                     $output['contrast_enhancement'] = true;
+            
+            $is_cdeep3m_preview = $row[12];
+            $output['is_cdeep3m_preview'] = false;
+            if(strcmp($is_cdeep3m_preview,"t")==0)
+                $output['is_cdeep3m_preview'] = true;
+            
+            $is_cdeep3m_run = $row[13];
+            $output['is_cdeep3m_run'] = false;
+            if(strcmp($is_cdeep3m_run,"t")==0)
+                $output['is_cdeep3m_run'] = true;
+            
+            $output['training_model_url'] = $row[14];
         }
         pg_close($conn);
         
