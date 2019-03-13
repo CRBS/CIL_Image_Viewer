@@ -77,6 +77,15 @@
                     $is_cdeep3m_preview, $is_cdeep3m_run, $ct_training_models);
             
              echo "<br/><br/>New ID:".$id;
+             
+             if(is_numeric($id))
+            {
+                $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
+                $response = $cutil->curl_post($url, null, $image_service_auth);
+                $json = json_decode($response);
+                echo "<br/><br/>".  json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+            }
+             
         }
 
         public function crop_image($image_id)
