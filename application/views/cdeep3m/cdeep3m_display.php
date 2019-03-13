@@ -171,7 +171,7 @@
                                 Width:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control">
+                                <input id="r_width_in_pixel" type="text" name="r_width_in_pixel" value="1000" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -180,24 +180,35 @@
                                 Height:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control">
+                                <input id="r_height_in_pixel" type="text" name="r_height_in_pixel" value="1000" class="form-control">
                             </div>
                             <div class="col-md-2">
                                 Pixels
                             </div>
+                            <!---- Z starting index------>
                             <div class="col-md-4">
-                                 Z index
+                                Starting Z index
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_z_index" type="text" name="ct_z_index" value="0" class="form-control">
+                                <input id="r_starting_z_index" type="text" name="r_starting_z_index" value="0" class="form-control">
                             </div>
                             <div class="col-md-2"></div>
+                            <!----End Z starting index------>
+                            <!---- Z ending index------>
+                            <div class="col-md-4">
+                                Ending Z index:
+                            </div>
+                            <div class="col-md-6">
+                                <input id="r_ending_z_index" type="text" name="r_ending_z_index" value="0" class="form-control">
+                            </div> 
+                            <div class="col-md-2"></div>
+                            <!----End Z ending index------>
                             
                             <div class="col-md-4">
                                  Training model:
                             </div>
                             <div class="col-md-6">
-                                 <select name="training_models" id="training_models" class="form-control">
+                                 <select name="r_training_models" id="r_training_models" class="form-control">
                                     <!-- <option value="XRM nuclei">XRM nuclei</option>
                                     <option value="Tomo Vesicles">Tomo Vesicles</option>
                                     <option value="SEMTEM membranes">SEMTEM membranes</option> -->
@@ -220,7 +231,7 @@
                                 Email address:
                             </div>
                             <div class="col-md-8">
-                                <input id="email" type="text" name="email" class="form-control">
+                                <input id="r_email" type="text" name="r_email" class="form-control">
                             </div>
                             <div class="col-md-12">
                                 <br/>
@@ -230,7 +241,7 @@
                                 Contrast enhancement:
                             </div>
                             <div class="col-md-1">
-                                <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" checked>
+                                <input type="checkbox" id="r_contrast_e" name="r_contrast_e" value="contrast_e" checked>
                             </div>
                             <div class="col-md-6"></div>
                             <!----End contrast enhancement----->
@@ -313,7 +324,7 @@
                             </div>
                             <!---- Z starting index------>
                             <div class="col-md-4">
-                                Staring Z index
+                                Z index
                             </div>
                             <div class="col-md-6">
                                 <input id="ct_starting_z_index" type="text" name="starting_z_index" value="0" class="form-control">
@@ -321,13 +332,13 @@
                             <div class="col-md-2"></div>
                             <!----End Z starting index------>
                             <!---- Z ending index------>
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 Ending Z index:
                             </div>
                             <div class="col-md-6">
                                 <input id="ct_ending_z_index" type="text" name="ending_z_index" value="0" class="form-control">
-                            </div>
-                            <div class="col-md-2"></div>
+                            </div> 
+                            <div class="col-md-2"></div> -->
                             <!----End Z ending index------>
                             
                             <div class="col-md-4">

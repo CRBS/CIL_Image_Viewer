@@ -46,7 +46,7 @@
             $width_in_pixel = $this->input->post('ct_width_in_pixel', TRUE);
             $height_in_pixel = $this->input->post('ct_height_in_pixel', TRUE);
             $starting_z_index = $this->input->post('ct_starting_z_index', TRUE);
-            $ending_z_index = $this->input->post('ct_ending_z_index', TRUE);
+            $ending_z_index = $this->input->post('ct_ending_z_index', TRUE); // Same as the starting Z index
             $ct_training_models = $this->input->post('ct_training_models', TRUE);
             $email = $this->input->post('email', TRUE);
             $contrast_e_str = $this->input->post('contrast_e',TRUE);
