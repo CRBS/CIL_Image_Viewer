@@ -416,7 +416,7 @@
                       </button>
                     </div>
                     <div class="modal-body" id="annotation-modal-body-id">
-                        <form id="crop_image_id" action="/image_process/crop_image/<?php echo $image_id; ?>" method="post" onsubmit="return validateCropImage(this.email)">
+                        <form id="crop_image_id" action="/image_process/crop_image/<?php echo $image_id; ?>" method="post" onsubmit="return validateCropImage(this)">
                         <div class="row">
                            <div class="col-md-12">
                            <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
