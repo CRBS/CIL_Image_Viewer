@@ -52,12 +52,12 @@
             echo "<br/>height_in_pixel:".$height_in_pixel;
             echo "<br/>starting_z_index:".$starting_z_index;
             echo "<br/>ending_z_index:".$ending_z_index;
-            echo "<br/>ct_training_models:".$ct_training_models;
+            echo "<br/>training_models:".$ct_training_models;
             echo "<br/>email:".$email;
             if($contrast_e)
                 echo "<br/>contrast_e:true";
             else
-                echo "<br/>contrast_e:true";
+                echo "<br/>contrast_e:false";
         }
         public function preview_cdeep3m_image($image_id)
         {
@@ -109,7 +109,7 @@
             if($contrast_e)
                 echo "<br/>contrast_e:true";
             else
-                echo "<br/>contrast_e:true";
+                echo "<br/>contrast_e:false";
             
             $id = $dbutil->insertCroppingInfoWithTraining($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
                     $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e,
