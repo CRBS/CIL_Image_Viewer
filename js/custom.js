@@ -89,8 +89,30 @@ function validatePreviewImage(form)
         document.getElementById('error_message_id').innerHTML = "Invalid email address.";
         return false;
     }
-    else
-        return true;
+    
+    
+    var x_location = form.ct_x_location.value;
+    if(!isGoodNumber(x_location, 'X location'))
+        return false;
+    
+    var y_location = form.ct_y_location.value;
+    if(!isGoodNumber(y_location, 'Y location'))
+        return false;
+    
+    var width_in_pixel = form.ct_width_in_pixel.value;
+    if(!isGoodNumber(width_in_pixel, 'Width'))
+        return false;
+    
+    var height_in_pixel = form.ct_height_in_pixel.value;
+    if(!isGoodNumber(height_in_pixel, 'Height'))
+        return false;
+    
+    var starting_z_index = form.starting_z_index.value;
+    if(!isGoodNumber(starting_z_index, 'Z index'))
+        return false;
+    
+    
+    return true;
 }
 
 function validateRunCdeep3m(form)
