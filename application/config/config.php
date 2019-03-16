@@ -545,4 +545,6 @@ $config['image_service_prefix'] = $configJson->image_service_prefix;
 
 $config['image_service_auth'] = $configJson->image_service_auth;
 
+$config['image_metadata_auth'] = $configJson->image_metadata_auth;
+
 $config['salt'] = 'WLBH5nRcN2';

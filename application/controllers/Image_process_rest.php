@@ -24,4 +24,45 @@ class Image_process_rest extends REST_Controller
         }
         $this->response($json);
     }
+    
+    public function image_process_finished_post($crop_id=0)
+    {
+        $dbutil = new DBUtil();
+        $db_params = $this->config->item('db_params');
+        if(!is_numeric($crop_id))
+        {
+            $array['success'] = false;
+            $array['error_message'] = "Crop ID is not a number";
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            $this->response($json);
+            return;
+        }
+        $crop_id = intval($crop_id);
+        $image_metadata_auth = $this->config->item('image_metadata_auth');
+        
+        $header = $this->input->get_request_header('Authorization');
+        if(!is_null($header))
+        {
+            $header = str_replace("Basic ", "", $header);
+        }
+        else
+            $header = "Nothing";
+        $decoded_header = trim(base64_decode($header));
+        $array = array();
+        if(strcmp($decoded_header, $image_metadata_auth)==0)
+        {
+            $array['success'] = true;
+            $dbutil->updateIprocessFinishTime($db_params,$crop_id);
+        }
+        else 
+        {
+            $array['success'] = false;
+            $array['error_message'] = "Invalid authorization";
+        }
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        $this->response($json);
+        
+    }
 }
