@@ -74,6 +74,39 @@ class Image_annotation_service extends REST_Controller
         $this->response($array);
     }
     
+    
+    public function report_crop_finished_post($stage_or_prod="stage", $crop_id="0")
+    {
+        $dbutil = new DBUtil();
+        $db_params = $this->config->item('db_params');
+        if(strcmp($stage_or_prod,"stage") == 0 && is_numeric($crop_id))
+        {
+            //$json_str = $this->curl_get($this->stage_crop_prefix."/".$crop_id, null);
+            if(is_null($json_str))
+            {
+                 $array = array();
+                 $array['success'] = false;
+                 $array['error_message'] = "Cannot locate the cropping ID:".$crop_id;
+                 $this->response($array);
+                 return;
+            }
+            
+            $dbutil->updateCropFinished($db_params, intval($crop_id));
+            $array = array();
+            $array['success'] = true;
+            $this->response($array);
+            return;
+        }
+        
+        
+        $array = array();
+        $array['success'] = false;
+        $array['error_message'] = "Out of scope with the cropping ID:".$crop_id;
+        $this->response($array);
+        return;
+    }
+    
+    
     public function geodata_post($cil_id="0",$sindex="0")
     {
         $db_params = $this->config->item('db_params');

@@ -597,6 +597,27 @@ class DBUtil
         return true;
     }
     
+    public function updateCropFinished($db_params,$crop_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return null;
+        }
+        $input = array();
+        array_push($input, $crop_id);
+        $sql = "update cropping_processes set crop_finish_time = now() where id = $1";
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        
+        return true;        
+    }
+    
     public function updateGeoData($db_params,$cil_id, $index, $json_str)
     {
         $conn = pg_pconnect($db_params);
