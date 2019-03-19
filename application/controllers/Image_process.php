@@ -129,7 +129,8 @@
                 $json = json_decode($response);
                 echo "<br/><br/>".  json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
             }
-             
+            $this->session->set_userdata(Constants::$waiting_for_result_key, "TRUE");
+            redirect ($base_url."/cdeep3m/".$image_id);
         }
 
         public function crop_image($image_id)

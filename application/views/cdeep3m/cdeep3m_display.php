@@ -54,6 +54,8 @@
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />    
     
     <script src="/js/custom.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -650,9 +652,10 @@
                         <div class="row">
                             
                             <div class="col-md-12">
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
+                                <center><i class="fa fa-spinner fa-spin" style="font-size:48px;color:#ccccff"></i></center>
+                            </div>
+                            <div class="col-md-12">
+                                <center>In progress...</center>
                             </div>
                         </div>
                         
@@ -1132,3 +1135,13 @@
 </script>
 
 
+<script>
+    <?php
+        if(isset($waiting_for_result))
+        {
+    ?>
+            $("#spin_modal_id").modal('show');
+    <?php
+        }
+    ?>
+</script>

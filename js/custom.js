@@ -112,7 +112,7 @@ function validatePreviewImage(form)
         return false;
     
     
-    
+    //$("#spin_modal_id").modal('show');
     return true;
 }
 
