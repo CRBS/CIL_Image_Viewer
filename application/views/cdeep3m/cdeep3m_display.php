@@ -55,7 +55,8 @@
     
     <script src="/js/custom.js"></script>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 </head>
 
 <body>
@@ -641,8 +642,8 @@
             <div class="modal fade" id="spin_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
-                    <div class="modal-header" style="background-color: #ccccff">
-                      <h5 class="modal-title">Waiting...</h5>
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Waiting...</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -652,10 +653,13 @@
                         <div class="row">
                             
                             <div class="col-md-12">
-                                <center><i class="fa fa-spinner fa-spin" style="font-size:48px;color:#ccccff"></i></center>
+                                <center><!--<i class="fa fa-spinner fa-spin" style="font-size:48px;color:#ccccff"></i>--> <div class="loader"></div> </center>
                             </div>
                             <div class="col-md-12">
                                 <center>In progress...</center>
+                            </div>
+                            <div class="col-md-12">
+                                <center><div id='seconds-counter'> </div></center>
                             </div>
                         </div>
                         
@@ -1140,6 +1144,19 @@
         if(isset($waiting_for_result))
         {
     ?>
+            var seconds = 0;
+            var el = document.getElementById('seconds-counter');
+
+            function incrementSeconds() {
+                seconds += 1;
+                el.innerText = "You have been here for " + seconds + " seconds.";
+            }
+
+            var cancel = setInterval(incrementSeconds, 1000);
+            $('#spin_modal_id').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
             $("#spin_modal_id").modal('show');
     <?php
         }
