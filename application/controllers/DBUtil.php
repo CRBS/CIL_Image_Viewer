@@ -21,7 +21,7 @@ class DBUtil
                 
     }
     
-    public function isCropProcessFinished($db_params, $crop_id)
+    public function isProcessFinished($db_params, $crop_id)
     {
         if(!is_numeric($crop_id))
             return false;
@@ -29,7 +29,7 @@ class DBUtil
         $conn = pg_pconnect($db_params);
         if (!$conn) 
             return false;
-        $sql = "select id from cropping_processes where crop_finish_time is not null and id = $1";
+        $sql = "select id from cropping_processes where finish_time is not null and id = $1";
         $input = array();
         array_push($input, $crop_id);
         $result = pg_query_params($conn,$sql,$input);

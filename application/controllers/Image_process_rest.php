@@ -25,11 +25,11 @@ class Image_process_rest extends REST_Controller
         $this->response($json);
     }
     
-    public function is_crop_finished_get($crop_id=0)
+    public function is_process_finished_get($crop_id=0)
     {
         $dbutil = new DBUtil();
         $db_params = $this->config->item('db_params');
-        $finished = $dbutil->isCropProcessFinished($db_params, $crop_id);
+        $finished = $dbutil->isProcessFinished($db_params, $crop_id);
         $array = array();
         if($finished)
             $array['finished'] = true;

@@ -1159,27 +1159,30 @@
     ?>
             var seconds = 0;
             var el = document.getElementById('seconds-counter');
-
-            function incrementSeconds() {
-                seconds += 1;
-                finished = false;
-                $crop_url = base_url+"/image_process_rest/is_crop_finished/"+crop_id;
-                if(seconds%2==0)
-                {
-                    $.getJSON($crop_url, function(data) {
-                        finished = data.finished;
-                    });
-                }
-                
-                el.innerText = "You have been here for " + seconds + " seconds. "+$crop_url+"-"+finished;
-            }
-
             var cancel = setInterval(incrementSeconds, 1000);
             $('#spin_modal_id').modal({
                 backdrop: 'static',
                 keyboard: false
             });
+            
             $("#spin_modal_id").modal('show');
+            function incrementSeconds() {
+                seconds += 1;
+                finished = false;
+                $crop_url = base_url+"/image_process_rest/is_process_finished/"+crop_id;
+                
+                $.getJSON($crop_url, function(data) {
+                        console.log(data);
+                        finished = data.finished;
+                        el.innerText = "You have been here for " + seconds + " seconds. "+$crop_url+"-"+finished;
+                        if(finished)
+                            clearInterval(cancel);
+                    });
+                
+                
+               
+            }
+            
     <?php
         }
     ?>
