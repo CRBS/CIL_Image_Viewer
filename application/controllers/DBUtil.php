@@ -11,6 +11,7 @@ class DBUtil
     private $success = "success";
     
     
+    
     public function handleImageUpdate($db_params,$image_id,$array)
     {
         if($this->imageExist($db_params, $image_id))
@@ -20,6 +21,31 @@ class DBUtil
                 
     }
     
+    public function isCropProcessFinished($db_params, $crop_id)
+    {
+        if(!is_numeric($crop_id))
+            return false;
+        $crop_id = intval($crop_id);
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        $sql = "select id from cropping_processes where crop_finish_time is not null and id = $1";
+        $input = array();
+        array_push($input, $crop_id);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        $finished = false;
+        if($row = pg_fetch_row($result))
+        {
+            $finished = true;
+        }
+        pg_close($conn);
+        return $finished;
+    }
     
     public function getTrainingModels($db_params)
     {

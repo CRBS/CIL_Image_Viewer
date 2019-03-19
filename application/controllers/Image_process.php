@@ -130,6 +130,7 @@
                 echo "<br/><br/>".  json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
             }
             $this->session->set_userdata(Constants::$waiting_for_result_key, "TRUE");
+            $this->session->set_userdata(Constants::$crop_id_key, $id);
             redirect ($base_url."/cdeep3m/".$image_id);
         }
 

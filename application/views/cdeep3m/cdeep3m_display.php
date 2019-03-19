@@ -68,6 +68,16 @@
         var point_x_location = 0;
         var point_y_location = 0;
         
+        var base_url = '<?php echo $base_url; ?>';
+        var crop_id = 0;
+        <?php
+            if(isset($crop_id))
+            {
+        ?> 
+                crop_id  = <?php echo $crop_id; ?>;
+        <?php
+            }
+        ?>
     </script>
 <div class="container">
         <div class="row">
@@ -1140,6 +1150,9 @@
 
 
 <script>
+    
+   
+    
     <?php
         if(isset($waiting_for_result))
         {
@@ -1149,7 +1162,16 @@
 
             function incrementSeconds() {
                 seconds += 1;
-                el.innerText = "You have been here for " + seconds + " seconds.";
+                finished = false;
+                $crop_url = base_url+"/image_process_rest/is_crop_finished/"+crop_id;
+                if(seconds%2==0)
+                {
+                    $.getJSON($crop_url, function(data) {
+                        finished = data.finished;
+                    });
+                }
+                
+                el.innerText = "You have been here for " + seconds + " seconds. "+$crop_url+"-"+finished;
             }
 
             var cancel = setInterval(incrementSeconds, 1000);

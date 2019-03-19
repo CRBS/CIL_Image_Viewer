@@ -46,6 +46,7 @@
             $this->load->helper('url');
             
             $base_url = $this->config->item('base_url');
+            $data['base_url'] = $base_url;
             /********Session check**************************/
             $data_login = $this->session->userdata('data_login');
             if(is_null($data_login))
@@ -62,6 +63,13 @@
                 $data['waiting_for_result'] = true;
             }
             $this->session->set_userdata(Constants::$waiting_for_result_key, NULL);
+            
+            $crop_id = $this->session->userdata(Constants::$crop_id_key);
+            if(!is_null($crop_id))
+            {
+                $data['crop_id'] = intval($crop_id);
+            }
+            $this->session->set_userdata(Constants::$crop_id_key, NULL);
             /************End checking the sessions***********/
             
             
