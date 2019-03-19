@@ -112,6 +112,7 @@ function validatePreviewImage(form)
         return false;
     
     
+    
     return true;
 }
 

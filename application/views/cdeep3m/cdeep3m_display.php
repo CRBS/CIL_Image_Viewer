@@ -632,6 +632,45 @@
             <!----------End Settings Model----------------->  
             </div>
         </div>
+        <!-----------New row------------------>
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Spinning Modal--------------------->    
+            <div class="modal fade" id="spin_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #ccccff">
+                      <h5 class="modal-title">Waiting...</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="settings-modal-body-id">
+
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Spinning Modal----------------->  
+            </div>
+        </div>
+        
+        <!-----------End new row--------------->
+        
     </div>    
 
   

@@ -4,6 +4,7 @@
     require_once 'DBUtil.php';
     require_once 'DataLocalUtil.php';
     require_once 'CurlUtil.php';
+    require_once 'Constants.php';
     
     class Image_process extends CI_Controller
     {
@@ -58,6 +59,10 @@
                 echo "<br/>contrast_e:true";
             else
                 echo "<br/>contrast_e:false";
+            
+            $this->session->set_userdata(Constants::$waiting_for_result_key, "TRUE");
+            redirect ($base_url."/cdeep3m/".$image_id);
+            
         }
         public function preview_cdeep3m_image($image_id)
         {

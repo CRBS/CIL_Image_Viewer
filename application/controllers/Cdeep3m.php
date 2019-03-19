@@ -3,7 +3,7 @@
     require_once 'GeneralUtil.php';
     require_once 'DBUtil.php';
     require_once 'DataLocalUtil.php';
-    
+    require_once 'Constants.php';
     class Cdeep3m extends CI_Controller
     {
         
@@ -54,6 +54,16 @@
                 return;
             }
             /********End session check **********************/
+            
+            /************Checking the sessions***************/
+            $waiting_for_result = $this->session->userdata(Constants::$waiting_for_result_key);
+            if(!is_null($waiting_for_result))
+            {
+                $data['waiting_for_result'] = true;
+            }
+            $this->session->set_userdata(Constants::$waiting_for_result_key, NULL);
+            /************End checking the sessions***********/
+            
             
             $image_tar_dir = $this->config->item('image_tar_dir');
             $lag = $this->input->get('lat', TRUE);
