@@ -600,7 +600,6 @@ class DBUtil
         return true;
     }
     
-    
     public function updateIprocessFinishTime($db_params,$crop_id)
     {
         $conn = pg_pconnect($db_params);
