@@ -52,6 +52,8 @@ class Image_process_rest extends REST_Controller
         $this->response($json);
     }
     
+    
+    /*
     public function image_process_finished_post($crop_id=0)
     {
         $dbutil = new DBUtil();
@@ -92,7 +94,7 @@ class Image_process_rest extends REST_Controller
         $this->response($json);
         
     }
-    
+    */
     
     public function report_process_finished_post($stage_or_prod="stage", $crop_id="0")
     {
@@ -125,7 +127,7 @@ class Image_process_rest extends REST_Controller
             if(strcmp($decoded_header, $image_metadata_auth)==0)
             {
                 $array['success'] = true;
-                $dbutil->updateCropFinished($db_params,$crop_id);
+                $dbutil->updateIprocessFinishTime($db_params,$crop_id);
             }
             else 
             {
