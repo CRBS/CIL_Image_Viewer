@@ -4,7 +4,7 @@ require_once './application/libraries/REST_Controller.php';
 require_once 'GeneralUtil.php';
 require_once 'DBUtil.php';
 require_once 'DataLocalUtil.php';
-
+require_once 'CurlUtil.php';
 
 class Image_process_rest extends REST_Controller
 {
@@ -28,11 +28,23 @@ class Image_process_rest extends REST_Controller
     public function is_process_finished_get($crop_id=0)
     {
         $dbutil = new DBUtil();
+        $cutil = new CurlUtil();
         $db_params = $this->config->item('db_params');
+        $image_service_auth = $this->config->item('image_service_auth');
+        $image_service_prefix = $this->config->item('image_service_prefix');
+        
         $finished = $dbutil->isProcessFinished($db_params, $crop_id);
         $array = array();
         if($finished)
+        {
+            $url = $image_service_prefix."/image_process_service/cdeep3m_overlay_images/".$crop_id;
+            $auth = $image_service_auth;
+            $cjson_str = $cutil->curl_get($url, $auth);
+            $cjson = json_decode($cjson_str);
             $array['finished'] = true;
+            if(isset($cjson->image_urls))
+                $array['image_urls'] = $cjson->image_urls;
+        }
         else
             $array['finished'] = false;
         $json_str = json_encode($array);
