@@ -1142,8 +1142,8 @@
     {
         $('#annotation_modal_id').modal('hide');
         $("#cdeep3m_run_modal_id").modal('show');
-        document.getElementById('r_x_location').value = point_x_location;
-        document.getElementById('r_y_location').value = point_y_location;
+        document.getElementById('r_x_location').value = Math.round(point_x_location);
+        document.getElementById('r_y_location').value = Math.round(point_y_location);
     }
     
 </script>
