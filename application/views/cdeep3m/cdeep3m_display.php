@@ -688,6 +688,46 @@
         
         <!-----------End new row--------------->
         
+        
+        <!-----------New row------------------>
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Spinning Modal--------------------->    
+            <div class="modal fade" id="cdeep3m_preview_result_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Cdeep3m preview result</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="cdeep3m_preview-modal-body-id">
+
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <center>Finished</center>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Spinning Modal----------------->  
+            </div>
+        </div>
+        
+        <!-----------End new row--------------->
+        
+        
     </div>    
 
   
@@ -1176,7 +1216,17 @@
                         finished = data.finished;
                         el.innerText = "You have been here for " + seconds + " seconds. "+$crop_url+"-"+finished;
                         if(finished)
+                        {
+                            
                             clearInterval(cancel);
+                            $('#spin_modal_id').modal('hide');
+                            $('#cdeep3m_preview_result_modal_id').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+                            $("#cdeep3m_preview_result_modal_id").modal('show');
+
+                        }
                     });
                 
                 
