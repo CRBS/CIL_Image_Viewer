@@ -337,7 +337,7 @@
                             </div>
                             <!---- Z starting index------>
                             <div class="col-md-4">
-                                Z index
+                                Starting Z index
                             </div>
                             <div class="col-md-6">
                                 <input id="ct_starting_z_index" type="text" name="starting_z_index" value="0" class="form-control">
@@ -345,13 +345,13 @@
                             <div class="col-md-2"></div>
                             <!----End Z starting index------>
                             <!---- Z ending index------>
-                            <!-- <div class="col-md-4">
+                             <div class="col-md-4">
                                 Ending Z index:
                             </div>
                             <div class="col-md-6">
                                 <input id="ct_ending_z_index" type="text" name="ending_z_index" value="0" class="form-control">
                             </div> 
-                            <div class="col-md-2"></div> -->
+                            <div class="col-md-2"></div> 
                             <!----End Z ending index------>
                             
                             <div class="col-md-4">
@@ -1176,6 +1176,17 @@
         $("#cdeep3m_test_modal_id").modal('show');
         document.getElementById('ct_x_location').value = Math.round(point_x_location);
         document.getElementById('ct_y_location').value = Math.round(point_y_location);
+        
+        document.getElementById('ct_starting_z_index').value = zindex;
+
+        if(parseInt(zindex)+3 < z_max)
+        {
+            document.getElementById('ct_ending_z_index').value = parseInt(zindex)+3;
+        }
+        else
+        {
+            document.getElementById('ct_ending_z_index').value = zindex;
+        }
     }
     
     function show_cdeep3m_run_model()
