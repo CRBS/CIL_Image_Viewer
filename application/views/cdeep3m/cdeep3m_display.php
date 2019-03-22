@@ -1134,8 +1134,8 @@
         
         $('#annotation_modal_id').modal('hide');
         $("#cdeep3m_test_modal_id").modal('show');
-        document.getElementById('ct_x_location').value = point_x_location;
-        document.getElementById('ct_y_location').value = point_y_location;
+        document.getElementById('ct_x_location').value = Math.round(point_x_location);
+        document.getElementById('ct_y_location').value = Math.round(point_y_location);
     }
     
     function show_cdeep3m_run_model()
