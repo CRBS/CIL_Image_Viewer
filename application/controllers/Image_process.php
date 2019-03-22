@@ -116,6 +116,8 @@
             else
                 echo "<br/>contrast_e:false";
             
+            
+            /*
             $id = $dbutil->insertCroppingInfoWithTraining($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
                     $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e,
                     $is_cdeep3m_preview, $is_cdeep3m_run, $ct_training_models);
@@ -131,7 +133,7 @@
             }
             $this->session->set_userdata(Constants::$waiting_for_result_key, "TRUE");
             $this->session->set_userdata(Constants::$crop_id_key, $id);
-            redirect ($base_url."/cdeep3m/".$image_id);
+            redirect ($base_url."/cdeep3m/".$image_id); */
         }
 
         public function crop_image($image_id)

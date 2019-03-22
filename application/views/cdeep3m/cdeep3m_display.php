@@ -340,7 +340,7 @@
                                 Starting Z index
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_starting_z_index" type="text" name="starting_z_index" value="0" class="form-control">
+                                <input id="ct_starting_z_index" type="text" name="ct_starting_z_index" value="0" class="form-control">
                             </div>
                             <div class="col-md-2"></div>
                             <!----End Z starting index------>
@@ -349,7 +349,7 @@
                                 Ending Z index:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_ending_z_index" type="text" name="ending_z_index" value="0" class="form-control">
+                                <input id="ct_ending_z_index" type="text" name="ct_ending_z_index" value="0" class="form-control">
                             </div> 
                             <div class="col-md-2"></div> 
                             <!----End Z ending index------>
