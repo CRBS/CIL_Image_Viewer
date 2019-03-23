@@ -704,7 +704,7 @@
                     </div>
                     <div class="modal-body" id="cdeep3m_preview-modal-body-id">
 
-                        <div class="row">
+                        <div class="row" id="cdeep3m_preview_row_id">
                             
                             <div class="col-md-12">
                                 <center>Finished</center>
@@ -1236,7 +1236,14 @@
                                 keyboard: false
                             });
                             $("#cdeep3m_preview_result_modal_id").modal('show');
-
+                            
+                            var image_urls = data.image_urls;
+                            var innerHtml = '';
+                            for (i = 0; i < image_urls.length; i++) 
+                            {
+                                    innerHtml = innerHtml+"<div class='col-md-6'><center><a href='"+image_urls[i]+"' target='_blank'><img src='"+image_urls[i]+"' height='200px' width='200px'></a></center></div>";
+                            } 
+                            document.getElementById('cdeep3m_preview_row_id').innerHTML = innerHtml;
                         }
                     });
                 
