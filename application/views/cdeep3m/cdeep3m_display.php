@@ -1239,9 +1239,16 @@
                             
                             var image_urls = data.image_urls;
                             var innerHtml = '';
+                            var counter = 0;
                             for (i = 0; i < image_urls.length; i++) 
                             {
-                                    innerHtml = innerHtml+"<div class='col-md-6'><center><a href='"+image_urls[i]+"' target='_blank'><img src='"+image_urls[i]+"' height='200px' width='200px'></a></center></div>";
+                                counter++;
+                                innerHtml = innerHtml+"<div class='col-md-6'><center><a href='"+image_urls[i]+"' target='_blank'><img src='"+image_urls[i]+"' height='200px' width='200px'></a></center></div>";
+                                if(counter == 2)
+                                {
+                                    innerHtml = innerHtml+"<div class='col-md-12'><br/></div>";
+                                    counter = 0;
+                                }
                             } 
                             document.getElementById('cdeep3m_preview_row_id').innerHTML = innerHtml;
                         }
