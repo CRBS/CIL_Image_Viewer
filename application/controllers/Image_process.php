@@ -131,6 +131,7 @@
             }
             $this->session->set_userdata(Constants::$waiting_for_result_key, "TRUE");
             $this->session->set_userdata(Constants::$crop_id_key, $id);
+            
             redirect ($base_url."/cdeep3m/".$image_id); 
         }
 
@@ -175,8 +176,8 @@
             {
                 $url = $image_service_prefix."/image_process_service/crop/stage/".$id;
                 $response = $cutil->curl_post($url, null, $image_service_auth);
+                $this->session->set_userdata(Constants::$success_email_key, $email);
             }
-            
             redirect ($base_url."/cdeep3m/".$image_id);
 
         }

@@ -58,6 +58,10 @@ function validateCropImage(form)
     var ending_z_index = form.ending_z_index.value;
     if(!isGoodNumber(ending_z_index, 'Ending z index'))
         return false;
+    
+    //$('#crop_modal_id').modal('hide');
+    //document.getElementById('success_email_col_id').innerHTML = '<center>An email will be sent to '+email+' when the result is ready.</center>';
+    //$("#success_email_modal_id").modal('show');
     /*if(isNaN(x_location))
     {
         $("#error_modal_id").modal('show');

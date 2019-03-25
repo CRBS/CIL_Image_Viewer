@@ -70,6 +70,14 @@
                 $data['crop_id'] = intval($crop_id);
             }
             $this->session->set_userdata(Constants::$crop_id_key, NULL);
+            
+            
+            $success_email = $this->session->userdata(Constants::$success_email_key);
+            if(!is_null($success_email))
+            {
+                $data['success_email'] = $success_email;
+            }
+            $this->session->set_userdata(Constants::$success_email_key, NULL);
             /************End checking the sessions***********/
             
             

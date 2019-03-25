@@ -728,6 +728,43 @@
         <!-----------End new row--------------->
         
         
+        <!-----------New row------------------>
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Success Email Modal--------------------->    
+            <div class="modal fade" id="success_email_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Success</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="success_email-modal-body-id">
+
+                        <div class="row" id="success_email_row_id">
+                            
+                            <div class="col-md-12" id="success_email_col_id">
+                                <center></center>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Success Email Modal----------------->  
+            </div>
+        </div>
+        
+        <!-----------End new row--------------->
     </div>    
 
   
@@ -1260,5 +1297,13 @@
             
     <?php
         }
+        else if(isset($success_email))
+        {
     ?>
+            document.getElementById('success_email_col_id').innerHTML = '<center>An email will be sent to <?php echo $success_email; ?> when the result is ready.</center>';
+            $("#success_email_modal_id").modal('show');
+    <?php
+        }
+    ?>
+        
 </script>
