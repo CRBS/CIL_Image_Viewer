@@ -100,6 +100,7 @@ class Image_process_rest extends REST_Controller
     {
         $dbutil = new DBUtil();
         $db_params = $this->config->item('db_params');
+        
         if(!is_numeric($crop_id))
         {
             $array['success'] = false;
@@ -128,6 +129,7 @@ class Image_process_rest extends REST_Controller
             {
                 $array['success'] = true;
                 $dbutil->updateIprocessFinishTime($db_params,$crop_id);
+
             }
             else 
             {
@@ -151,7 +153,10 @@ class Image_process_rest extends REST_Controller
     public function report_crop_finished_post($stage_or_prod="stage", $crop_id="0")
     {
         $dbutil = new DBUtil();
+        $cutil = new CurlUtil();
         $db_params = $this->config->item('db_params');
+        $service_log_dir = $this->config->item('service_log_dir');
+        
         if(!is_numeric($crop_id))
         {
             $array['success'] = false;
@@ -180,6 +185,11 @@ class Image_process_rest extends REST_Controller
             {
                 $array['success'] = true;
                 $dbutil->updateCropFinished($db_params,$crop_id);
+                $image_service_auth = $this->config->item('image_service_auth');
+                $image_service_prefix = $this->config->item('image_service_prefix');
+                $image_service_url = $image_service_prefix."/image_process_service/image_preview_step2/stage/".$crop_id;
+                error_log($image_service_url."\n", 3, $service_log_dir."/image_service_log.txt");
+                $cutil->curl_post($image_service_url, "", $image_service_auth);
             }
             else 
             {
@@ -191,6 +201,7 @@ class Image_process_rest extends REST_Controller
             $this->response($json);
             return;
         }
+        
         
         
         $array = array();
