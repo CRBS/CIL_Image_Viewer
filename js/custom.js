@@ -111,8 +111,12 @@ function validatePreviewImage(form)
     if(!isGoodNumber(height_in_pixel, 'Height'))
         return false;
     
-    var starting_z_index = form.starting_z_index.value;
-    if(!isGoodNumber(starting_z_index, 'Z index'))
+    var starting_z_index = form.ct_starting_z_index.value;
+    if(!isGoodNumber(starting_z_index, 'Starting Z index'))
+        return false;
+    
+    var ending_z_index = form.ct_ending_z_index.value;
+    if(!isGoodNumber(ending_z_index, 'Ending Z index'))
         return false;
     
     
