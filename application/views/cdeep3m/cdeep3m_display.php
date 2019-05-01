@@ -1273,9 +1273,10 @@
                                 keyboard: false
                             });
                             $("#cdeep3m_preview_result_modal_id").modal('show');
-                            
-                            var image_urls = data.image_urls;
                             var innerHtml = '';
+                            /*
+                            //Stop the immediate image display
+                            var image_urls = data.image_urls;
                             var counter = 0;
                             for (i = 0; i < image_urls.length; i++) 
                             {
@@ -1287,6 +1288,9 @@
                                     counter = 0;
                                 }
                             } 
+                            */
+                            innerHtml = "The result is available now. ("+seconds+" seconds elapsed)<br/><center><span style='color=#9ae59a;font-size:20px'>&#10004;</span></center><br/>"+
+                                    "<center><a href='/Cdeep3m_result/view/"+crop_id+"' target='_blank'>See the CDeep3M result</a></center>";   
                             document.getElementById('cdeep3m_preview_row_id').innerHTML = innerHtml;
                         }
                     });
