@@ -1289,8 +1289,9 @@
                                 }
                             } 
                             */
-                            innerHtml = "The result is available now. ("+seconds+" seconds elapsed)<br/><center><span style='color=#9ae59a;font-size:20px'>&#10004;</span></center><br/>"+
-                                    "<center><a href='/Cdeep3m_result/view/"+crop_id+"' target='_blank'>See the CDeep3M result</a></center>";   
+                            innerHtml = "<div class='col-md-12'><center>The result is available now. ("+seconds+" seconds elapsed)</center></div>"+
+                                        "<div class='col-md-12'><center><img src='/images/checkmark.png' alt='Finished' /></center><</div>"+
+                                        "<div class='col-md-12'><center><a href='/cdeep3m_result/view/"+crop_id+"' target='_blank'>See the CDeep3M result</a></center><</div>";   
                             document.getElementById('cdeep3m_preview_row_id').innerHTML = innerHtml;
                         }
                     });
