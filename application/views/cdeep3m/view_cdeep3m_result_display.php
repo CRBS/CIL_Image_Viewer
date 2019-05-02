@@ -14,6 +14,11 @@
         <div class="col-md-12">
             <img src="/images/CIL_logo_final_75H.jpg" height="50px"/>
         </div>
+        <div class="col-md-12">
+            <?php
+                echo $response;
+            ?>
+        </div>
     </div>
     
 </div>
