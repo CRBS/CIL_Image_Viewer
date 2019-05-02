@@ -17,8 +17,13 @@ class Cdeep3m_result extends CI_Controller
         $image_service_auth = $this->config->item('image_service_auth');
         
         $response = $cutil->curl_get($url, $image_service_auth);
-        $data['response'] = $response;
-        
+        //$data['response'] = $response;
+        $json = json_decode($response);
+        if(isset($json->Overlay_images))
+            $data['data_size'] = count($json->Overlay_images);
+        else
+            $data['data_size'] = 0;
+        $data['cdeep3m_result'] = $json;
         $this->load->view('cdeep3m/view_cdeep3m_result_display', $data);
     }
 
