@@ -1290,8 +1290,8 @@
                             } 
                             */
                             innerHtml = "<div class='col-md-12'><center>The result is available now. ("+seconds+" seconds elapsed)</center></div>"+
-                                        "<div class='col-md-12'><center><img src='/images/checkmark.png' alt='Finished' /></center><</div>"+
-                                        "<div class='col-md-12'><center><a href='/cdeep3m_result/view/"+crop_id+"' target='_blank'>See the CDeep3M result</a></center><</div>";   
+                                        "<div class='col-md-12'><center><img src='/images/checkmark.png' alt='Finished' /></center></div>"+
+                                        "<div class='col-md-12'><center><a href='/cdeep3m_result/view/"+crop_id+"' target='_blank' style='color:#8bc4ea'>See the CDeep3M result</a></center></div>";   
                             document.getElementById('cdeep3m_preview_row_id').innerHTML = innerHtml;
                         }
                     });
