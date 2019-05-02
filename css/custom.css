@@ -70,3 +70,21 @@
 }
 
 /******End spinner********/
+
+
+.cil_title {
+    color: #000000;
+    font-family: "DroidSansRegular";
+    font-size: 18px;
+    line-height: 18px;
+    padding-bottom: 3px;
+    border-bottom: 2px solid #000;
+    padding-top: 0px;
+    margin-bottom: 5px;
+    display: block;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: 700;
+}

@@ -20,7 +20,7 @@ class Cdeep3m_result extends CI_Controller
         //$data['response'] = $response;
         $json = json_decode($response);
         if(isset($json->Overlay_images))
-            $data['data_size'] = count($json->Overlay_images);
+            $data['data_size'] = count($json->Overlay_images)-1;
         else
             $data['data_size'] = 0;
         $data['cdeep3m_result'] = $json;
