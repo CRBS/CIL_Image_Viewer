@@ -48,6 +48,10 @@ class DBUtil
             $array['success'] = true;
             $array['contact_email'] = $row[0];
         }
+        else 
+        {
+            $array['success'] = false;
+        }
         pg_close($conn);
         return $array;
     }
