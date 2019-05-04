@@ -8,7 +8,17 @@ require_once 'DataLocalUtil.php';
 class Image_annotation_service extends REST_Controller
 {
     private $success = "success";
-        
+    
+    public function cropinfo_get($crop_id="0")
+    {
+        error_reporting(0);
+        $db_params = $this->config->item('db_params');
+        $dbutil = new DBUtil();
+        $array = $dbutil->getCropInfo($db_params, $crop_id);
+        $this->response($array);
+    }
+
+    
     public function imageinfo_get($image_id="0")
     {
         error_reporting(0);

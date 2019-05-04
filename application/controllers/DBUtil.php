@@ -21,6 +21,37 @@ class DBUtil
                 
     }
     
+    public function getCropInfo($db_params, $crop_id)
+    {
+        if(!is_numeric($crop_id))
+            return NULL;
+        $crop_id = intval($crop_id);
+        $conn = pg_pconnect($db_params);
+        $array = array();
+        if (!$conn) 
+        {
+            $array['success'] = false;
+        }
+        
+        $sql = "select contact_email from cropping_processes where id = $1";
+        $input = array();
+        array_push($input, $crop_id);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            $array['success'] = false;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            $array['success'] = true;
+            $array['contact_email'] = $row[0];
+        }
+        pg_close($conn);
+        return $array;
+    }
+    
     public function isProcessFinished($db_params, $crop_id)
     {
         if(!is_numeric($crop_id))
