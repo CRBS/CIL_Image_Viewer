@@ -360,7 +360,7 @@
                             
                             <!-----Training model-------------->
                             <div class="col-md-4">
-                                 Training model:
+                                 Trained model:
                             </div>
                             <div class="col-md-6">
                                  <select name="ct_training_models" id="ct_training_models" class="form-control">
@@ -389,30 +389,28 @@
                                 {
                             ?>
                             <div class="col-md-4">
-                                Augmentation:
+                                Augspeed:
                             </div>
                             <div class="col-md-6">
                                 <select name="ct_augmentation" id="ct_training_models" class="form-control">
-                                    <option value="16">16</option>
-                                    <option value="8">8</option>
-                                    <option value="4">4</option>
-                                    <option value="2">2</option>
                                     <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="4">4</option>
+                                    <option value="8">8</option>
+                                    <option value="16">16</option>     
                                 </select>
                             </div> 
                             <div class="col-md-2"></div>
                             <div class="col-md-4">
-                                Frame(s):
+                                Neural net:
                             </div>
                             <div class="col-md-6">
-                                <select name="ct_augmentation" id="ct_training_models" class="form-control">
-                                    <option value="1fm">1fm</option>
-                                    <option value="3fm">3fm</option>
-                                    <option value="5fm">5fm</option>
-                                    <option value="Unet">Unet</option>
-                                </select>
+                                <input type="checkbox" name="1fm_3fm" value="1fm_3fm" checked>1fm, 3fm&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" name="1fm_5fm" value="1fm_5fm">1fm, 5fm&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" name="5fm" value="5fm">5fm
                             </div> 
                             <div class="col-md-2"></div> 
+                            <div class="col-md-12"><br/></div>
                             <?php
                                 }
                             ?>
