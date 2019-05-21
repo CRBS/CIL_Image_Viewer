@@ -46,6 +46,8 @@
             $this->load->helper('url');
             
             $base_url = $this->config->item('base_url');
+            $data['enable_augmentation'] = $this->config->item('enable_augmentation');
+            
             $data['base_url'] = $base_url;
             /********Session check**************************/
             $data_login = $this->session->userdata('data_login');

@@ -289,7 +289,7 @@
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
                     <div class="modal-header" style="background-color: #8bc4ea">
-                      <h5 class="modal-title" style="color:white">Cdeep3m preview</h5>
+                      <h5 class="modal-title" style="color:white">CDeep3M Preview</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -349,7 +349,7 @@
                             <div class="col-md-2"></div>
                             <!----End Z starting index------>
                             <!---- Z ending index------>
-                             <div class="col-md-4">
+                            <div class="col-md-4">
                                 Ending Z index:
                             </div>
                             <div class="col-md-6">
@@ -358,6 +358,7 @@
                             <div class="col-md-2"></div> 
                             <!----End Z ending index------>
                             
+                            <!-----Training model-------------->
                             <div class="col-md-4">
                                  Training model:
                             </div>
@@ -380,6 +381,42 @@
                                  </select> 
                             </div>
                             <div class="col-md-2"></div>
+                            <!-----End Training model-------------->
+                            
+                            <!------------------Augmentation---------------->
+                            <?php
+                                if(isset($enable_augmentation) && $enable_augmentation)
+                                {
+                            ?>
+                            <div class="col-md-4">
+                                Augmentation:
+                            </div>
+                            <div class="col-md-6">
+                                <select name="ct_augmentation" id="ct_training_models" class="form-control">
+                                    <option value="16">16</option>
+                                    <option value="8">8</option>
+                                    <option value="4">4</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
+                                </select>
+                            </div> 
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4">
+                                Frame(s):
+                            </div>
+                            <div class="col-md-6">
+                                <select name="ct_augmentation" id="ct_training_models" class="form-control">
+                                    <option value="1fm">1fm</option>
+                                    <option value="3fm">3fm</option>
+                                    <option value="5fm">5fm</option>
+                                    <option value="Unet">Unet</option>
+                                </select>
+                            </div> 
+                            <div class="col-md-2"></div> 
+                            <?php
+                                }
+                            ?>
+                            <!------------------End Augmentation---------------->
 
                             <div class="col-md-4">
                                 Email address:

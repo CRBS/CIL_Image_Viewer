@@ -553,3 +553,5 @@ $config['service_log_dir'] = "C:/Users/wawong/Documents/apache/CIL_Image_Viewer/
 $config['cdeep3m_result_service'] = $configJson->cdeep3m_result_service;
 
 $config['salt'] = 'WLBH5nRcN2';
+ 
+$config['enable_augmentation'] = false;
