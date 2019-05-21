@@ -522,7 +522,7 @@
                                 Contrast enhancement:
                             </div>
                             <div class="col-md-1">
-                                <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" checked>
+                                <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" >
                             </div>
                             <div class="col-md-6"></div>
                             <!----End contrast enhancement----->
@@ -1209,6 +1209,25 @@
             document.getElementById('y_location').value = Math.round(point_y_location);
         
         document.getElementById('starting_z_index').value = zindex;
+        
+        var new_x_location = Math.round(point_x_location);
+        var new_y_location = Math.round(point_y_location);
+        
+        if(max_x <= 1000)
+        {
+            if(new_x_location+300 < max_x)
+                document.getElementById('width_in_pixel').value = 300;
+            else
+                 document.getElementById('width_in_pixel').value = max_x-new_x_location;
+        }
+        
+        if(max_y <= 1000)
+        {
+            if(new_y_location+300 < max_y)
+                document.getElementById('height_in_pixel').value = 300;
+            else
+                document.getElementById('height_in_pixel').value = max_y-new_y_location;
+        }
     }
     
     function show_cdeep3m_test_model()
