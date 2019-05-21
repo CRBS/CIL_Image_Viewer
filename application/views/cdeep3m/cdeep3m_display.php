@@ -64,6 +64,10 @@
         var x_pixel_offset = <?php if(isset($x_pixel_offset)) echo $x_pixel_offset; else echo 0;?>;
         var y_pixel_offset = <?php if(isset($y_pixel_offset)) echo $y_pixel_offset; else echo 0;?>;
         
+        
+        var max_x = <?php if(isset($max_x)) echo $max_x; else echo "0"; ?>;
+        var max_y = <?php if(isset($max_y)) echo $max_y; else echo "0"; ?>;
+        
         var is_point = false;
         var point_x_location = 0;
         var point_y_location = 0;
@@ -303,7 +307,7 @@
                                 X location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control">
+                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control"  >
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -312,7 +316,7 @@
                                 Y location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control">
+                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control"  >
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -340,7 +344,7 @@
                                 Starting Z index
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_starting_z_index" type="text" name="ct_starting_z_index" value="0" class="form-control">
+                                <input id="ct_starting_z_index" type="text" name="ct_starting_z_index" value="0" class="form-control"  >
                             </div>
                             <div class="col-md-2"></div>
                             <!----End Z starting index------>
@@ -349,7 +353,7 @@
                                 Ending Z index:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_ending_z_index" type="text" name="ct_ending_z_index" value="0" class="form-control">
+                                <input id="ct_ending_z_index" type="text" name="ct_ending_z_index" value="0" class="form-control"  >
                             </div> 
                             <div class="col-md-2"></div> 
                             <!----End Z ending index------>
@@ -391,7 +395,8 @@
                                 Contrast enhancement:
                             </div>
                             <div class="col-md-1">
-                                <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" checked>
+                                <!-- <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" checked> -->
+                                <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e">
                             </div>
                             <div class="col-md-6"></div>
                             <!----End contrast enhancement----->
@@ -590,10 +595,10 @@
                                 <button id="crop_modal_action" type="button" class="btn btn-info" onclick="show_crop_modal()">Crop the image</button>
                             </div>
                             <div class="col-md-4">
-                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_test_model()">Cdeep3M Preview</button>
+                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_test_model()">CDeep3M Preview</button>
                             </div>
                             <div class="col-md-4">
-                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_run_model()">Run Cdeep3M</button>
+                                <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_run_model()">Run CDeep3M</button>
                             </div>
             
                         </div>
@@ -1208,13 +1213,31 @@
     
     function show_cdeep3m_test_model()
     {
-        
+
         $('#annotation_modal_id').modal('hide');
         $("#cdeep3m_test_modal_id").modal('show');
-        document.getElementById('ct_x_location').value = Math.round(point_x_location);
-        document.getElementById('ct_y_location').value = Math.round(point_y_location);
+        var new_x_location = Math.round(point_x_location);
+        var new_y_location = Math.round(point_y_location);
+        document.getElementById('ct_x_location').value = new_x_location;
+        document.getElementById('ct_y_location').value = new_y_location;
         
         document.getElementById('ct_starting_z_index').value = zindex;
+        
+        if(max_x <= 1000)
+        {
+            if(new_x_location+300 < max_x)
+                document.getElementById('ct_width_in_pixel').value = 300;
+            else
+                 document.getElementById('ct_width_in_pixel').value = max_x-new_x_location;
+        }
+        
+        if(max_y <= 1000)
+        {
+            if(new_y_location+300 < max_y)
+                document.getElementById('ct_height_in_pixel').value = 300;
+            else
+                document.getElementById('ct_height_in_pixel').value = max_y-new_y_location;
+        }
 
         if(parseInt(zindex)+3 < z_max)
         {
@@ -1262,7 +1285,7 @@
                 $.getJSON($crop_url, function(data) {
                         console.log(data);
                         finished = data.finished;
-                        el.innerText = "You have been here for " + seconds + " seconds. "+$crop_url+"-"+finished;
+                        el.innerText = "You have been here for " + seconds + " seconds. "; //+$crop_url+"-"+finished;
                         if(finished)
                         {
                             
@@ -1290,7 +1313,7 @@
                             } 
                             */
                             innerHtml = "<div class='col-md-12'><center>The result is available now. ("+seconds+" seconds elapsed)</center></div>"+
-                                        "<div class='col-md-12'><center><img src='/images/checkmark.png' alt='Finished' /></center></div>"+
+                                        "<div class='col-md-12'><center><a href='/cdeep3m_result/view/"+crop_id+"' target='_blank' style='color:#8bc4ea'><img src='/images/checkmark.png' alt='Finished'></a></center></div>"+
                                         "<div class='col-md-12'><center><a href='/cdeep3m_result/view/"+crop_id+"' target='_blank' style='color:#8bc4ea'>See the CDeep3M result</a></center></div>";   
                             document.getElementById('cdeep3m_preview_row_id').innerHTML = innerHtml;
                         }
