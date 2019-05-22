@@ -405,8 +405,8 @@
                                 Neural net:
                             </div>
                             <div class="col-md-6">
-                                <input type="checkbox" name="1fm_3fm" value="1fm_3fm" checked>1fm, 3fm&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="checkbox" name="1fm_5fm" value="1fm_5fm">1fm, 5fm&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="checkbox" name="1fm_3fm" value="1fm" checked>1fm&nbsp;&nbsp;
+                                <input type="checkbox" name="1fm_5fm" value="3fm">3fm&nbsp;&nbsp;
                                 <input type="checkbox" name="5fm" value="5fm">5fm
                             </div> 
                             <div class="col-md-2"></div> 
