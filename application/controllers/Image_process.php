@@ -94,6 +94,8 @@
             $ct_training_models = $this->input->post('ct_training_models', TRUE);
             $email = $this->input->post('email', TRUE);
             $contrast_e_str = $this->input->post('contrast_e',TRUE);
+            
+            
             $contrast_e = false;
             if(!is_null($contrast_e_str))
                 $contrast_e = true;

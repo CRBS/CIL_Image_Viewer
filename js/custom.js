@@ -136,3 +136,29 @@ function validateRunCdeep3m(form)
     else
         return true;
 }
+
+function frame_change(option)
+{
+    var fm1 = document.getElementById('fm1');
+    var fm3 = document.getElementById('fm3');
+    var fm5 = document.getElementById('fm5');
+    if(option == 'fm1')
+    {
+        fm1.checked = true;
+        fm3.checked = false;
+        fm5.checked = false;
+    }
+    else if(option == 'fm3')
+    {
+        fm1.checked = false;
+        fm3.checked = true;
+        fm5.checked = false;
+    }
+    else if(option == 'fm5')
+    {
+        fm1.checked = false;
+        fm3.checked = false;
+        fm5.checked = true;
+    }
+
+}

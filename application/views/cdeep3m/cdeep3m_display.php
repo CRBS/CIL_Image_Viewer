@@ -405,9 +405,9 @@
                                 Neural net:
                             </div>
                             <div class="col-md-6">
-                                <input type="checkbox" name="1fm_3fm" value="1fm" checked>1fm&nbsp;&nbsp;
-                                <input type="checkbox" name="1fm_5fm" value="3fm">3fm&nbsp;&nbsp;
-                                <input type="checkbox" name="5fm" value="5fm">5fm
+                                <input type="checkbox" id="fm1" name="fm1" value="1fm" onclick="frame_change('fm1')" checked>1fm&nbsp;&nbsp;
+                                <input type="checkbox" id="fm3" name="fm3" value="3fm" onclick="frame_change('fm3')">3fm&nbsp;&nbsp;
+                                <input type="checkbox" id="fm5" name="fm5" value="5fm" onclick="frame_change('fm5')">5fm
                             </div> 
                             <div class="col-md-2"></div> 
                             <div class="col-md-12"><br/></div>
@@ -441,6 +441,12 @@
                                 <center><button type="submit" class="btn btn-info">Submit</button></center>
                             </div>
                         </div>
+                        
+                        
+                        <script>
+                        
+                        </script>
+                        
                         </form>
                         
                     </div>
@@ -626,16 +632,20 @@
                     <div class="modal-body" id="annotation-modal-body-id">
 
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
                                 <button id="crop_modal_action" type="button" class="btn btn-info" onclick="show_crop_modal()">Crop the image</button>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">
                                 <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_test_model()">CDeep3M Preview</button>
                             </div>
+                            <div class="col-md-1"></div>
+                            <!--
                             <div class="col-md-4">
                                 <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_run_model()">Run CDeep3M</button>
                             </div>
-            
+                            -->
                         </div>
                             
                     </div>
