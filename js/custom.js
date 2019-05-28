@@ -137,6 +137,7 @@ function validateRunCdeep3m(form)
         return true;
 }
 
+/*
 function frame_change(option)
 {
     var fm1 = document.getElementById('fm1');
@@ -161,4 +162,4 @@ function frame_change(option)
         fm5.checked = true;
     }
 
-}
+} */
