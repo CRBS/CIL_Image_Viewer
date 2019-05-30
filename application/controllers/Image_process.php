@@ -94,6 +94,27 @@
             $ct_training_models = $this->input->post('ct_training_models', TRUE);
             $email = $this->input->post('email', TRUE);
             $contrast_e_str = $this->input->post('contrast_e',TRUE);
+            $ct_augmentation = $this->input->post('ct_augmentation',TRUE);
+            if(!is_null($ct_augmentation) && is_numeric($ct_augmentation))
+                $ct_augmentation = intval ($ct_augmentation);
+            $frame = null;
+            
+            $fm1 = $this->input->post('fm1',TRUE);
+            $fm2 = $this->input->post('fm2',TRUE);
+            $fm3 = $this->input->post('fm3',TRUE);
+            
+            if(!is_null($fm1))
+                $frame = "1fm";
+            
+            if(!is_null($frame) && !is_null($fm2))
+                $frame = $frame.",2fm";
+            else if(is_null($frame) && !is_null($fm2))
+                $frame = "2fm";
+            
+            if(!is_null($frame) && !is_null($fm3))
+                $frame = $frame.",3fm";
+            else if(is_null($frame) && !is_null($fm3))
+                $frame = "3fm";
             
             
             $contrast_e = false;
@@ -118,12 +139,16 @@
             else
                 echo "<br/>contrast_e:false";
             
+            echo "<br/>ct_augmentation:".$ct_augmentation."----";
+            echo "<br/>frame:".$frame."----";
+            
+            
             $id = $dbutil->insertCroppingInfoWithTraining($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
                     $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e,
-                    $is_cdeep3m_preview, $is_cdeep3m_run, $ct_training_models);
+                    $is_cdeep3m_preview, $is_cdeep3m_run, $ct_training_models,$ct_augmentation, $frame);
             
              echo "<br/><br/>New ID:".$id;
-             
+            
              if(is_numeric($id))
             {
                 $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
@@ -135,6 +160,8 @@
             $this->session->set_userdata(Constants::$crop_id_key, $id);
             
             redirect ($base_url."/cdeep3m/".$image_id); 
+             
+            
         }
 
         public function crop_image($image_id)

@@ -212,7 +212,7 @@ class DBUtil
     
     public function insertCroppingInfoWithTraining($db_params,$image_id, $upper_left_x, $upper_left_y,
             $width, $height,$contact_email, $original_file_location,$starting_z,$ending_z,$contrast_enhancement, 
-            $is_cdeep3m_preview, $is_cdeep3m_run, $training_model_url)
+            $is_cdeep3m_preview, $is_cdeep3m_run, $training_model_url, $augspeed, $frame)
     {
         $id = $this->getNextId($db_params);
         $conn = pg_pconnect($db_params);
@@ -235,10 +235,10 @@ class DBUtil
         
         $sql = "insert into cropping_processes(id,image_id,upper_left_x, upper_left_y,width,height, ".
                "\n contact_email,original_file_location,submit_time,starting_z,ending_z,contrast_enhancement, ".
-               "\n is_cdeep3m_preview,is_cdeep3m_run,training_model_url) ".
+               "\n is_cdeep3m_preview,is_cdeep3m_run,training_model_url,augspeed,frame) ".
                "\n values(".$id.",$1,$2,$3,$4,$5, ".
                "\n $6, $7, now(), $8, $9, ".$contrast_enhancement.", ".
-               "\n ".$is_cdeep3m_preview.", ".$is_cdeep3m_run.", $10)";
+               "\n ".$is_cdeep3m_preview.", ".$is_cdeep3m_run.", $10,$11, $12)";
         
         $input = array();
         array_push($input,$image_id);  //1
@@ -251,6 +251,9 @@ class DBUtil
         array_push($input,intval($starting_z)); //8
         array_push($input,intval($ending_z)); //9
         array_push($input,$training_model_url); //10
+        array_push($input,$augspeed); //11
+        array_push($input,$frame); //12
+        
         
         $result = pg_query_params($conn,$sql,$input);
         if(!$result) 

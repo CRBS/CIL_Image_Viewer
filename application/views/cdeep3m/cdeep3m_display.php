@@ -392,7 +392,7 @@
                                 Augspeed:
                             </div>
                             <div class="col-md-6">
-                                <select name="ct_augmentation" id="ct_training_models" class="form-control">
+                                <select name="ct_augmentation" id="ct_augmentation" class="form-control">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="4">4</option>
