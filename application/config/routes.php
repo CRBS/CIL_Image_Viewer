@@ -57,3 +57,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['image_viewer/(:any)'] = 'Image_viewer/view/$1';
 
 $route['cdeep3m/(:any)'] = 'Cdeep3m/view/$1';
+
+$route['cdeep3m_prp/(:any)'] = 'Cdeep3m_prp/view/$1';
