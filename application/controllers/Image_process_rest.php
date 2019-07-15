@@ -194,7 +194,7 @@ class Image_process_rest extends REST_Controller
                 
                 $image_service_url = "";
                 if(isset($cropInfoJson->use_prp) && $cropInfoJson->use_prp)
-                   $image_service_url = $image_service_prefix."/image_process_service/image_preview_prp_step2/stage/".$crop_id;    
+                   $image_service_url = $image_service_prefix."/cdeep3m_prp_service/image_preview_step2/stage/".$crop_id;    
                 else
                    $image_service_url = $image_service_prefix."/image_process_service/image_preview_step2/stage/".$crop_id;
                 error_log($image_service_url."\n", 3, $service_log_dir."/image_service_log.txt");
