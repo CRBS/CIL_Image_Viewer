@@ -193,6 +193,9 @@ class Image_process_rest extends REST_Controller
                 $image_service_prefix = $this->config->item('image_service_prefix');
                 
                 $image_service_url = "";
+                
+                $cropInfoJsonStr = json_encode($cropInfoJson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                error_log("\n".$cropInfoJsonStr."\n", 3, $service_log_dir."/image_service_log.txt");
                 if(isset($cropInfoJson->use_prp) && $cropInfoJson->use_prp)
                    $image_service_url = $image_service_prefix."/cdeep3m_prp_service/image_preview_step2/stage/".$crop_id;    
                 else
