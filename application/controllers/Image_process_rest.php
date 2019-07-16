@@ -156,7 +156,7 @@ class Image_process_rest extends REST_Controller
         $cutil = new CurlUtil();
         $db_params = $this->config->item('db_params');
         $service_log_dir = $this->config->item('service_log_dir');
-        
+        error_log("report_crop_finished_post-Crop_id:".$crop_id."\n", 3, $service_log_dir."/image_service_log.txt");
         
         if(!is_numeric($crop_id))
         {

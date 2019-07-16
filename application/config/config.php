@@ -548,7 +548,7 @@ $config['image_service_auth'] = $configJson->image_service_auth;
 $config['image_metadata_auth'] = $configJson->image_metadata_auth;
 
 $config['service_log_dir'] = "C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/log";
-//$config['service_log_dir'] = "/var/www/html/log";
+//$config['service_log_dir'] = "/var/www/logs";
 
 $config['cdeep3m_result_service'] = $configJson->cdeep3m_result_service;
 
