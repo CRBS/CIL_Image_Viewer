@@ -479,7 +479,8 @@
         document.getElementById ("contrast").addEventListener ("change", handleCommand, false);
         document.getElementById ("brightness").addEventListener ("change", handleCommand, false);
         document.getElementById ("z_index").addEventListener ("change", handleCommand, false);
-    
+        
+
 </script>
 </body>
 </html>
@@ -627,3 +628,54 @@
 </script>
 
 
+<script>
+
+var body = document.body,
+    html = document.documentElement;
+
+var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+//alert(height);
+//document.getElementById('map').style = "width: 100%; height: "+height+"px; border: 1px solid #ccc";
+function onElementHeightChange(elm, callback){
+    var lastHeight = elm.clientHeight, newHeight;
+    (function run(){
+        newHeight = elm.clientHeight;
+        if( lastHeight != newHeight )
+        {
+            //alert('Body height changed:'+newHeight);   
+            //document.getElementById('map').style = "width: 100%; height: "+newHeight+"px; border: 1px solid #ccc";
+            callback();
+        }
+        lastHeight = newHeight;
+
+        if( elm.onElementHeightChangeTimer )
+            clearTimeout(elm.onElementHeightChangeTimer);
+
+        elm.onElementHeightChangeTimer = setTimeout(run, 200);
+    })();
+}
+
+
+onElementHeightChange(document.body, function(){
+   
+    
+    var body = document.body,
+    html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+                       
+     //alert('Body height changed:'+height);                   
+    //if(height > 700)
+    //{
+        //document.getElementById('map').style = "width: 100%; height: "+height+"px; border: 1px solid #ccc";
+    //}
+   // else
+    //    document.getElementById('map').style = "width: 100%; height: "+700+"px; border: 1px solid #ccc";
+    
+});   
+    
+    
+</script>
