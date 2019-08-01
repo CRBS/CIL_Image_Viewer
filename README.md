@@ -19,3 +19,6 @@ the web-service call in Javascript to fetch the latest data.
 * PHP curl library
 * [codeigniter-restserver](https://github.com/chriskacerguis/codeigniter-restserver)
 * [Leaflet](https://leafletjs.com/)
+
+## Installation
+* [Installation instructions](https://github.com/CRBS/CIL_Image_Viewer/wiki/Installation)
