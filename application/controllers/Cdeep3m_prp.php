@@ -25,20 +25,20 @@
                 if($auth)
                 {
                     $this->session->set_userdata('data_login', "true");
-                    redirect ($base_url."/cdeep3m/".$image_id);
+                    redirect ($base_url."/cdeep3m_prp/".$image_id);
                     return;
                 }
                 else
                 {
                     $data['title'] = "CIL login";
                     $data['wrong_password'] = true;
-                    $this->load->view('cdeep3m/image_login_display', $data);
+                    $this->load->view('cdeep3m_prp/image_login_display', $data);
                     return;
                 }
             }
             
             $data['title'] = "CIL login";
-            $this->load->view('cdeep3m/image_login_display', $data);
+            $this->load->view('cdeep3m_prp/image_login_display', $data);
         }
         
         public function view($image_id="0")
@@ -53,7 +53,7 @@
             $data_login = $this->session->userdata('data_login');
             if(is_null($data_login))
             {
-                redirect ($base_url."/cdeep3m/login/".$image_id);
+                redirect ($base_url."/cdeep3m_prp/login/".$image_id);
                 return;
             }
             /********End session check **********************/

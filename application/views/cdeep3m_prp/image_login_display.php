@@ -11,7 +11,7 @@
     </head>
 <body>
 <div class="container">
-    <form action="/cdeep3m/login/<?php echo $image_id; ?>" method="POST">
+    <form action="/cdeep3m_prp/login/<?php echo $image_id; ?>" method="POST">
     <div class="row">
         <div class="col-md-12">
             <img src="/images/CIL_logo_final_75H.jpg" height="50px"/>
@@ -36,7 +36,7 @@
         
         <div class="col-md-6">
             <div class="card border-light mb-3">
-                <div class="card-header">Login</div>
+                <div class="card-header">Login1</div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">User name</div>
