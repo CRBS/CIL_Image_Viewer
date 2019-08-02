@@ -296,9 +296,11 @@
             $id = $dbutil->insertCroppingInfoWithTraining($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
                     $email, $original_file_location,$starting_z_index,$ending_z_index,$contrast_e,
                     $is_cdeep3m_preview, $is_cdeep3m_run, $ct_training_models,$ct_augmentation, $frame,$use_prp);
-             echo "<br/><br/>New ID:".$id;
+            echo "<br/><br/>New ID:".$id;
             
-             if(is_numeric($id))
+             
+            
+            if(is_numeric($id))
             {
                 $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
                 $response = $cutil->curl_post($url, null, $image_service_auth);
@@ -309,21 +311,8 @@
             $this->session->set_userdata(Constants::$crop_id_key, $id);
             redirect ($base_url."/cdeep3m_prp/".$image_id);
             
-             
-            /*
-             if(is_numeric($id))
-            {
-                $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
-                $response = $cutil->curl_post($url, null, $image_service_auth);
-                $json = json_decode($response);
-                echo "<br/><br/>".  json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-            }
-            $this->session->set_userdata(Constants::$waiting_for_result_key, "TRUE");
-            $this->session->set_userdata(Constants::$crop_id_key, $id);
             
-            redirect ($base_url."/cdeep3m/".$image_id); 
-            */
-            
+
         }
         
     }
