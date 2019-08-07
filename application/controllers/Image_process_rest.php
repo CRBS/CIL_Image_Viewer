@@ -53,6 +53,40 @@ class Image_process_rest extends REST_Controller
     }
     
     
+    public function crop_process_status_get($crop_id=0)
+    {
+        $dbutil = new DBUtil();
+        $cutil = new CurlUtil();
+        $db_params = $this->config->item('db_params');
+        $image_service_auth = $this->config->item('image_service_auth');
+        $image_service_prefix = $this->config->item('image_service_prefix');
+        
+        $json = $dbutil->getProcessStatus($db_params, $crop_id);
+        if(is_null($json))
+        {
+            $array= array();
+            $array['finished'] = false;
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            $this->response($json);
+            return;
+        }
+        
+        if(isset($json->finished) && $json->finished
+                && isset($json->error) && !$json->error)
+        {
+            $url = $image_service_prefix."/image_process_service/cdeep3m_overlay_images/".$crop_id;
+            $auth = $image_service_auth;
+            $cjson_str = $cutil->curl_get($url, $auth);
+            $cjson = json_decode($cjson_str);
+
+            $json->image_urls = $cjson->image_urls;
+        }
+        
+        $this->response($json);
+    }
+    
+    
     /*
     public function image_process_finished_post($crop_id=0)
     {

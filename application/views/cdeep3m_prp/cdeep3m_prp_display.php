@@ -397,7 +397,8 @@
                                     <option value="2">2</option>
                                     <option value="4">4</option>
                                     <option value="8">8</option>
-                                    <option value="10">16</option>     
+                                    <!-- <option value="10">16</option> --> 
+                                    <option value="16">16</option>
                                 </select>
                             </div> 
                             <div class="col-md-2"></div>
@@ -1347,12 +1348,13 @@
             function incrementSeconds() {
                 seconds += 1;
                 finished = false;
-                $crop_url = base_url+"/image_process_rest/is_process_finished/"+crop_id;
+                //$crop_url = base_url+"/image_process_rest/is_process_finished/"+crop_id;
+                $crop_url = base_url+"/image_process_rest/crop_process_status/"+crop_id;
                 
                 $.getJSON($crop_url, function(data) {
                         console.log(data);
                         finished = data.finished;
-                        el.innerText = "You have been here for " + seconds + " seconds. "; //+$crop_url+"-"+finished;
+                        el.innerText = "You have been here for " + seconds + " seconds. "+"<br/>Status:"+data.message; //+$crop_url+"-"+finished;
                         if(finished)
                         {
                             
@@ -1384,6 +1386,21 @@
                                         "<div class='col-md-12'><center><a href='/cdeep3m_result/view/"+crop_id+"' target='_blank' style='color:#8bc4ea'>See the CDeep3M result</a></center></div>";   
                             document.getElementById('cdeep3m_preview_row_id').innerHTML = innerHtml;
                         }
+                        else if(data.error)
+                        {
+                            clearInterval(cancel);
+                            $('#spin_modal_id').modal('hide');
+                            $('#cdeep3m_preview_result_modal_id').modal({
+                                backdrop: 'static',
+                                keyboard: false
+                            });
+                            $("#cdeep3m_preview_result_modal_id").modal('show');
+                            var innerHtml = '';
+                            
+                            
+                            document.getElementById('cdeep3m_preview_row_id').innerHTML = "Error";
+                        }
+                            
                     });
                 
                 

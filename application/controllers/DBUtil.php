@@ -82,6 +82,72 @@ class DBUtil
         return $finished;
     }
     
+    public function getProcessStatus($db_params, $crop_id)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            $array['finished'] = false;
+            $array['error'] = false;
+            $array['message'] = "Cannot access the status at this moment";
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            return $json;
+        }
+        $sql = "select finish_time, has_error, status_message from cropping_processes where id = $1";
+        $input = array();
+        array_push($input, $crop_id);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            $array['finished'] = false;
+            $array['error'] = false;
+            $array['message'] = "Cannot access the status at this moment";
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            pg_close($conn);
+            return $json;
+        }
+        
+        
+        if($row = pg_fetch_row($result))
+        {
+            $temp = $row[0];
+            if(is_null($temp))
+                $array['finished'] = false;
+            else
+                $array['finished'] = true;
+            
+            $temp = $row[1];
+            if(is_null($temp) || strcmp($temp, 'f') ==0)
+                $array['error'] = false;
+            else
+                $array['error'] = true;
+            
+            $temp = $row[2];
+            if(is_null($temp))
+                $array['message'] = "NA";
+            else
+                $array['message'] = $temp;
+            
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            pg_close($conn);
+            return $json;
+        }
+        
+        
+        $array['finished'] = false;
+        $array['error'] = false;
+        $array['message'] = "Cannot access the status at this moment";
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        pg_close($conn);    
+        return $json;
+    }
+    
+    
     public function getTrainingModels($db_params)
     {
         $conn = pg_pconnect($db_params);
@@ -108,6 +174,9 @@ class DBUtil
         $json = json_decode($json_str);
         return $json;
     }
+    
+    
+    
     
     
     public function getCropProcessInfo($db_params,$id=0)
