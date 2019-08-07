@@ -1354,7 +1354,7 @@
                 $.getJSON($crop_url, function(data) {
                         console.log(data);
                         finished = data.finished;
-                        el.innerText = "You have been here for " + seconds + " seconds. "+"<br/>Status:"+data.message; //+$crop_url+"-"+finished;
+                        el.innerText = "You have been here for " + seconds + " seconds. "+"\nStatus:"+data.message; //+$crop_url+"-"+finished;
                         if(finished)
                         {
                             

@@ -127,7 +127,7 @@ class DBUtil
             
             $temp = $row[2];
             if(is_null($temp))
-                $array['message'] = "NA";
+                $array['message'] = "Pending";
             else
                 $array['message'] = $temp;
             
@@ -752,7 +752,7 @@ class DBUtil
     }
     
     
-    public function updateCropProcess($db_params,$crop_id, $message)
+    public function updateCropProcessMessage($db_params,$crop_id, $message)
     {
         $conn = pg_pconnect($db_params);
         if (!$conn) 

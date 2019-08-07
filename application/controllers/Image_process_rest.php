@@ -184,6 +184,52 @@ class Image_process_rest extends REST_Controller
         return;
     }
     
+    
+    
+    public function update_crop_status_post($stage_or_prod="stage", $crop_id="0")
+    {
+        $dbutil = new DBUtil();
+        $cutil = new CurlUtil();
+        $db_params = $this->config->item('db_params');
+        $service_log_dir = $this->config->item('service_log_dir');
+        error_log("report_crop_finished_post-Crop_id:".$crop_id."\n", 3, $service_log_dir."/image_service_log.txt");
+        
+        $array = array();
+        if(!is_numeric($crop_id))
+        {
+            $array['success'] = false;
+            $array['error_message'] = "Crop ID is not a number";
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            $this->response($json);
+            return;
+        }
+        
+        
+        $crop_id = intval($crop_id);
+        
+        $message = file_get_contents('php://input', 'r');
+        if(is_null($message))
+            $message = "Pending";
+        
+        if(strcmp($stage_or_prod,"stage") == 0)
+        {
+            $array['success'] = $dbutil->updateCropProcessMessage($db_params, $crop_id, $message);
+        }
+        else
+        {
+            $array['success'] = false;
+        }
+        
+        
+        
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        $this->response($json);
+        return;
+    }
+    
+    
     public function report_crop_finished_post($stage_or_prod="stage", $crop_id="0")
     {
         $dbutil = new DBUtil();
