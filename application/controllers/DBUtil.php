@@ -774,6 +774,26 @@ class DBUtil
         return true;   
     }
     
+    public function updateCropError($db_params,$crop_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return fa;se;
+        }
+        $input = array();
+        array_push($input, $crop_id);
+        $sql = "update cropping_processes set has_error = true where id = $1";
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        
+        return true;     
+    }
     
     public function updateCropFinished($db_params,$crop_id)
     {
