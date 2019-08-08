@@ -214,7 +214,26 @@ class Image_process_rest extends REST_Controller
         
         if(strcmp($stage_or_prod,"stage") == 0)
         {
-            $array['success'] = $dbutil->updateCropProcessMessage($db_params, $crop_id, $message);
+            $image_metadata_auth = $this->config->item('image_metadata_auth');
+
+            $header = $this->input->get_request_header('Authorization');
+            if(!is_null($header))
+            {
+                $header = str_replace("Basic ", "", $header);
+            }
+            else
+                $header = "Nothing";
+            $decoded_header = trim(base64_decode($header));
+            $array = array();
+            if(strcmp($decoded_header, $image_metadata_auth)==0)
+            {
+                $array['success'] = $dbutil->updateCropProcessMessage($db_params, $crop_id, $message);
+            }
+            else
+            {
+                $array['success'] = false;
+                $array['error_message'] = "Invalid authorization";
+            }
         }
         else
         {
@@ -281,6 +300,9 @@ class Image_process_rest extends REST_Controller
                 else
                    $image_service_url = $image_service_prefix."/image_process_service/image_preview_step2/stage/".$crop_id;
                 error_log($image_service_url."\n", 3, $service_log_dir."/image_service_log.txt");
+                
+                $dbutil->updateCropProcessMessage($db_params, $crop_id, "The image is cropped and it is launching the PRP POD now.");
+                
                 $cutil->curl_post($image_service_url, "", $image_service_auth);
             }
             else 
