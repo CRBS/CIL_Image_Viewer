@@ -397,8 +397,8 @@
                                     <option value="2">2</option>
                                     <option value="4">4</option>
                                     <option value="8">8</option>
-                                    <!-- <option value="10">16</option> --> 
-                                    <option value="16">16</option>
+                                    <option value="10">10</option>
+                                    <option value="16">16 for debugging</option>
                                 </select>
                             </div> 
                             <div class="col-md-2"></div>
