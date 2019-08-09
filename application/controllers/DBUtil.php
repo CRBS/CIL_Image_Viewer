@@ -751,6 +751,28 @@ class DBUtil
         return true;
     }
     
+    public function updateRunningPod($db_params,$crop_id, $running_pod)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return false;
+        }
+        $input = array();
+        array_push($input, $running_pod);
+        array_push($input, $crop_id);
+        $sql = "update cropping_processes set pod_running = $1 where id = $2";
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        
+        return true;
+    }
+    
     
     public function updateCropProcessMessage($db_params,$crop_id, $message)
     {
