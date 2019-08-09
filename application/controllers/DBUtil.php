@@ -95,7 +95,7 @@ class DBUtil
             $json = json_decode($json_str);
             return $json;
         }
-        $sql = "select finish_time, has_error, status_message from cropping_processes where id = $1";
+        $sql = "select finish_time, has_error, status_message,pod_running from cropping_processes where id = $1";
         $input = array();
         array_push($input, $crop_id);
         $result = pg_query_params($conn,$sql,$input);
@@ -104,6 +104,7 @@ class DBUtil
             $array['finished'] = false;
             $array['error'] = false;
             $array['message'] = "Cannot access the status at this moment";
+            $array['pod_running'] = 'U';
             $json_str = json_encode($array);
             $json = json_decode($json_str);
             pg_close($conn);
@@ -130,6 +131,13 @@ class DBUtil
                 $array['message'] = "Pending";
             else
                 $array['message'] = $temp;
+            
+            
+            $temp = $row[3];
+            if(is_null($temp))
+                $array['pod_running'] = "U";
+            else
+                $array['pod_running'] = $temp;
             
             $json_str = json_encode($array);
             $json = json_decode($json_str);
