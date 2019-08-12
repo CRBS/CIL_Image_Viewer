@@ -279,6 +279,8 @@ class Image_process_rest extends REST_Controller
             {
                 //$array['success'] = $dbutil->updateCropProcessMessage($db_params, $crop_id, $message);
                 $array['success'] = $dbutil->updateRunningPod($db_params, $crop_id, $pod_name);
+                
+                $dbutil->updateCropProcessMessage($db_params, $crop_id, "The GPU node instance has been created. The GPU node ID is cil-cdeep3m-".strtolower($pod_name)."-".$crop_id).".";
             }
             else
             {
@@ -414,7 +416,7 @@ class Image_process_rest extends REST_Controller
                    $image_service_url = $image_service_prefix."/image_process_service/image_preview_step2/stage/".$crop_id;
                 error_log($image_service_url."\n", 3, $service_log_dir."/image_service_log.txt");
                 
-                $dbutil->updateCropProcessMessage($db_params, $crop_id, "The image is cropped and it is launching the PRP POD now.");
+                $dbutil->updateCropProcessMessage($db_params, $crop_id, "The image is cropped and it is launching the PRP POD now. The process ID is ".$crop_id);
                 
                 $cutil->curl_post($image_service_url, "", $image_service_auth);
             }
