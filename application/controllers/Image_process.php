@@ -100,21 +100,23 @@
             $frame = null;
             
             $fm1 = $this->input->post('fm1',TRUE);
-            $fm2 = $this->input->post('fm2',TRUE);
             $fm3 = $this->input->post('fm3',TRUE);
+            $fm5 = $this->input->post('fm5',TRUE);
+            
+            
             
             if(!is_null($fm1))
                 $frame = "1fm";
-            
-            if(!is_null($frame) && !is_null($fm2))
-                $frame = $frame.",2fm";
-            else if(is_null($frame) && !is_null($fm2))
-                $frame = "2fm";
             
             if(!is_null($frame) && !is_null($fm3))
                 $frame = $frame.",3fm";
             else if(is_null($frame) && !is_null($fm3))
                 $frame = "3fm";
+            
+            if(!is_null($frame) && !is_null($fm5))
+                $frame = $frame.",5fm";
+            else if(is_null($frame) && !is_null($fm5))
+                $frame = "5fm";
             
             
             $contrast_e = false;
@@ -250,21 +252,21 @@
             $frame = null;
             
             $fm1 = $this->input->post('fm1',TRUE);
-            $fm2 = $this->input->post('fm2',TRUE);
             $fm3 = $this->input->post('fm3',TRUE);
+            $fm5 = $this->input->post('fm5',TRUE);
             
             if(!is_null($fm1))
                 $frame = "1fm";
-            
-            if(!is_null($frame) && !is_null($fm2))
-                $frame = $frame.",2fm";
-            else if(is_null($frame) && !is_null($fm2))
-                $frame = "2fm";
             
             if(!is_null($frame) && !is_null($fm3))
                 $frame = $frame.",3fm";
             else if(is_null($frame) && !is_null($fm3))
                 $frame = "3fm";
+            
+            if(!is_null($frame) && !is_null($fm5))
+                $frame = $frame.",5fm";
+            else if(is_null($frame) && !is_null($fm5))
+                $frame = "5fm";
             
             
             $contrast_e = false;
@@ -299,7 +301,7 @@
             echo "<br/><br/>New ID:".$id;
             
              
-            
+            /*
             if(is_numeric($id))
             {
                 $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
@@ -311,7 +313,7 @@
             $this->session->set_userdata(Constants::$crop_id_key, $id);
             redirect ($base_url."/cdeep3m_prp/".$image_id);
             
-            
+            */
 
         }
         
