@@ -59,6 +59,8 @@ function validateCropImage(form)
     if(!isGoodNumber(ending_z_index, 'Ending z index'))
         return false;
     
+
+    
     //$('#crop_modal_id').modal('hide');
     //document.getElementById('success_email_col_id').innerHTML = '<center>An email will be sent to '+email+' when the result is ready.</center>';
     //$("#success_email_modal_id").modal('show');
@@ -95,6 +97,15 @@ function validatePreviewImage(form)
     }
     
     
+    
+    if(!form.fm1.checked && !form.fm3.checked && !form.fm5.checked)
+    {
+        $("#error_modal_id").modal('show');
+        document.getElementById('error_message_id').innerHTML = "You have to choose one of options in Neural net.";
+        return false;
+    }
+    
+    
     var x_location = form.ct_x_location.value;
     if(!isGoodNumber(x_location, 'X location'))
         return false;
@@ -120,6 +131,8 @@ function validatePreviewImage(form)
         return false;
     
     
+
+    
     //$("#spin_modal_id").modal('show');
     return true;
 }
@@ -127,6 +140,8 @@ function validatePreviewImage(form)
 function validateRunCdeep3m(form)
 {
     var email = form.r_email.value;
+    
+    
     if(!validateEmail(email))
     {
         $("#error_modal_id").modal('show');
