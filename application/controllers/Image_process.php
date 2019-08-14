@@ -301,7 +301,7 @@
             echo "<br/><br/>New ID:".$id;
             
              
-            /*
+            
             if(is_numeric($id))
             {
                 $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
@@ -313,7 +313,7 @@
             $this->session->set_userdata(Constants::$crop_id_key, $id);
             redirect ($base_url."/cdeep3m_prp/".$image_id);
             
-            */
+            
 
         }
         
