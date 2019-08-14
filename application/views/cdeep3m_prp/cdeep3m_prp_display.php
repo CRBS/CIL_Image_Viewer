@@ -822,7 +822,7 @@
     </div>    
 
   
-<div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
+<div id="map" style="width: 100%; height: 900px; border: 1px solid #ccc"></div>
 
 <script>
     var nplaces = 5;
@@ -1397,8 +1397,10 @@
                             $("#cdeep3m_preview_result_modal_id").modal('show');
                             var innerHtml = '';
                             
-                            
-                            document.getElementById('cdeep3m_preview_row_id').innerHTML = "Error";
+                            innerHtml = "<div class='col-md-12'><center><img src='/images/warning_cross.png' alt='Finished'></center></div>"+
+                                        "<div class='col-md-12'><center>Error! Please see <a href='https://cildata.crbs.ucsd.edu/cdeep3m_results/"+crop_id+"/log/CDEEP3M_prp.log' target='_blank' style='color:#8bc4ea'>the log file.</a></center></div>"+ 
+                                        "<div class='col-md-12'><center><a href='https://cildata.crbs.ucsd.edu/cdeep3m_results/"+crop_id+"/log/logs.tar' target='_blank' style='color:#8bc4ea'>Download all log files.</a></center></div>";
+                            document.getElementById('cdeep3m_preview_row_id').innerHTML = innerHtml;
                         }
                             
                     });
