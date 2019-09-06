@@ -382,6 +382,7 @@
                                    
                                     <?php
                                      
+                                        //if(true)
                                         if(!isset($cdeep3m_settings))
                                         {
                                             if(isset($training_models) && is_array($training_models))

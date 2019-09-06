@@ -106,7 +106,7 @@
             $data['training_models'] = $dbutil->getTrainingModels($db_params);
             
             $tempJson = $dbutil->getPreferredCdeep3mSettings($db_params, $image_id);
-            if(!is_null($tempJson))
+            if(!is_null($tempJson) && isset($tempJson->preferred_model))
             {
                 $data['cdeep3m_settings'] = $tempJson;
                
