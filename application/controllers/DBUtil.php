@@ -21,6 +21,36 @@ class DBUtil
                 
     }
     
+    public function getPreferredCdeep3mSettings($db_params, $image_id)
+    {
+        $conn = pg_pconnect($db_params);
+        $sql = "select id, image_id, preferred_model from preferred_cdeep3m_settings where image_id = $1";
+        if (!$conn) 
+        {
+            return null;
+        }
+        $input = array();
+        array_push($input, $image_id);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        
+        $array = array();
+        if($row = pg_fetch_row($result))
+        {
+             $array['id'] = intval($row[0]);
+             $array['image_id'] = $row[1];
+             $array['preferred_model'] = $row[2];
+        }
+        
+        pg_close($conn);
+        return $array;
+    }
+    
+    
     public function getCropInfo($db_params, $crop_id)
     {
         if(!is_numeric($crop_id))
