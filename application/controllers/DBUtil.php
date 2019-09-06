@@ -45,9 +45,10 @@ class DBUtil
              $array['image_id'] = $row[1];
              $array['preferred_model'] = $row[2];
         }
-        
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
         pg_close($conn);
-        return $array;
+        return $json;
     }
     
     

@@ -226,19 +226,34 @@
                             </div>
                             <div class="col-md-6">
                                  <select name="r_training_models" id="r_training_models" class="form-control">
-                                    <!-- <option value="XRM nuclei">XRM nuclei</option>
-                                    <option value="Tomo Vesicles">Tomo Vesicles</option>
-                                    <option value="SEMTEM membranes">SEMTEM membranes</option> -->
+
                                     <?php
-                                        if(isset($training_models) && is_array($training_models))
+                                     
+                                        if(!isset($cdeep3m_settings))
                                         {
-                                            foreach($training_models as $tm)
+                                            if(isset($training_models) && is_array($training_models))
                                             {
-                                                echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
-                                                
+                                                foreach($training_models as $tm)
+                                                {
+                                                    echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+
+                                                }
+                                            }
+                                            echo "<option value=\"test\">test</option>";
+                                        }
+                                        else 
+                                        {
+                                            if(isset($training_models) && is_array($training_models))
+                                            {
+                                                foreach($training_models as $tm)
+                                                {
+                                                    if(strcmp($tm->name, $cdeep3m_settings->preferred_model) == 0)
+                                                        echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+
+                                                }
                                             }
                                         }
-                                    
+                                        
                                     ?>
                                  </select> 
                             </div>
@@ -364,19 +379,34 @@
                             </div>
                             <div class="col-md-6">
                                  <select name="ct_training_models" id="ct_training_models" class="form-control">
-                                    <!-- <option value="XRM nuclei">XRM nuclei</option>
-                                    <option value="Tomo Vesicles">Tomo Vesicles</option>
-                                    <option value="SEMTEM membranes">SEMTEM membranes</option> -->
+                                   
                                     <?php
-                                        if(isset($training_models) && is_array($training_models))
+                                     
+                                        if(!isset($cdeep3m_settings))
                                         {
-                                            foreach($training_models as $tm)
+                                            if(isset($training_models) && is_array($training_models))
                                             {
-                                                echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
-                                                
+                                                foreach($training_models as $tm)
+                                                {
+                                                    echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+
+                                                }
+                                            }
+                                            
+                                        }
+                                        else 
+                                        {
+                                            if(isset($training_models) && is_array($training_models))
+                                            {
+                                                foreach($training_models as $tm)
+                                                {
+                                                    if(strcmp($tm->name, $cdeep3m_settings->preferred_model) == 0)
+                                                        echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+
+                                                }
                                             }
                                         }
-                                    
+                                        
                                     ?>
                                  </select> 
                             </div>

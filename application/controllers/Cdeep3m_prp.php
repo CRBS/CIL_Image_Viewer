@@ -105,6 +105,12 @@
             $dbutil = new DBUtil();
             $data['training_models'] = $dbutil->getTrainingModels($db_params);
             
+            $tempJson = $dbutil->getPreferredCdeep3mSettings($db_params, $image_id);
+            if(!is_null($tempJson))
+            {
+                $data['cdeep3m_settings'] = $tempJson;
+               
+            }
             
             $localutil = new DataLocalUtil();
             $array = $dbutil->getImageInfo($db_params,$image_id);
