@@ -192,7 +192,8 @@ class DBUtil
         $conn = pg_pconnect($db_params);
         if (!$conn) 
             return null;
-        $sql = " select id, name, doi_url from cdeep3m_training_model order by id asc";
+        //$sql = " select id, name, doi_url from cdeep3m_training_model order by id asc";
+        $sql = "select id, model_name, doi from trained_models order by id asc";
         $result = pg_query($conn,$sql);
         if(!$result) 
         {

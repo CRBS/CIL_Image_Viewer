@@ -235,11 +235,12 @@
                                             {
                                                 foreach($training_models as $tm)
                                                 {
-                                                    echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+                                                    $postfix = str_replace("https://doi.org/10.7295/W9CDEEP3M", "", $tm->doi_url);
+                                                    echo "<option value=\"".$tm->doi_url."\">".$tm->name."(".$postfix.")</option>";
 
                                                 }
                                             }
-                                            echo "<option value=\"test\">test</option>";
+                                            //echo "<option value=\"test\">test</option>";
                                         }
                                         else 
                                         {
@@ -389,8 +390,9 @@
                                             {
                                                 foreach($training_models as $tm)
                                                 {
-                                                    echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
-
+                                                    //echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+                                                    $postfix = str_replace("https://doi.org/10.7295/W9CDEEP3M", "", $tm->doi_url);
+                                                    echo "<option value=\"".$tm->doi_url."\">".$tm->name." (".$postfix.")</option>";
                                                 }
                                             }
                                             
@@ -402,7 +404,11 @@
                                                 foreach($training_models as $tm)
                                                 {
                                                     if(strcmp($tm->name, $cdeep3m_settings->preferred_model) == 0)
-                                                        echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+                                                    {
+                                                        //echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
+                                                        $postfix = str_replace("https://doi.org/10.7295/W9CDEEP3M", "", $tm->doi_url);
+                                                    echo "<option value=\"".$tm->doi_url."\">".$tm->name." (".$postfix.")</option>";
+                                                    }
 
                                                 }
                                             }
