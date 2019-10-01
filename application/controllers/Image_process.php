@@ -216,7 +216,7 @@
         
         
         /*****************************PRP*******************************************************/
-        public function preview_cdeep3m_prp_image($image_id)
+        public function preview_cdeep3m_prp_image($image_id, $public="0")
         {
             $this->load->helper('url');
             /********Session check**************************/
@@ -311,7 +311,10 @@
             }
             $this->session->set_userdata(Constants::$waiting_for_result_key, "TRUE");
             $this->session->set_userdata(Constants::$crop_id_key, $id);
-            redirect ($base_url."/cdeep3m_prp/".$image_id);
+            if(strcmp($public,"public")==0)
+                redirect ($base_url."/cdeep3m_prp_public/".$image_id);    
+            else
+                redirect ($base_url."/cdeep3m_prp/".$image_id);
             
             
 

@@ -311,7 +311,7 @@
                       </button>
                     </div>
                     <div class="modal-body" id="annotation-modal-body-id">
-                        <form action="/image_process/preview_cdeep3m_prp_image/<?php echo $image_id; ?>" method="post" onsubmit="return validatePreviewImage(this)">
+                        <form action="/image_process/preview_cdeep3m_prp_image/<?php echo $image_id; ?>/public" method="post" onsubmit="return validatePreviewImage(this)">
                         <div class="row">
                            <div class="col-md-12">
                            <?php if(isset($max_x)) echo "Max X:".$max_x,", "; ?><?php if(isset($max_y)) echo "Max Y:".$max_y.", "; ?><?php if(isset($max_z)) echo "Max Z:".$max_z; ?> 
@@ -421,7 +421,7 @@
                                     ?>
                                  </select> 
                             </div>
-                            <div class="col-md-2"></div>
+                            <div class="col-md-2"><a href="http://cellimagelibrary.org/cdeep3m" target="_blank">Details</a></div>
                             <!-----End Training model-------------->
                             
                             <!------------------Augmentation---------------->

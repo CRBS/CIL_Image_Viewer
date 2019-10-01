@@ -19,12 +19,16 @@ $height = 1000;
 $contact_email = "wawong@gmail.com";
 $original_file_location = "/export2/ftp/data/telescience/home/CCDB_DATA_USER.portal/P2080/Experiment_8186/Subject_8188/Tissue_8190/Microscopy_8192/080309fl2_mo0cropcontadj.rec";
 $starting_z=0;
-$ending_z = 5;
+$ending_z = 3;
 $contrast_enhancement = false;
 $is_cdeep3m_preview = true;
 $is_cdeep3m_run = false;
 $training_model_url = "https://doi.org/10.7295/W9CDEEP3M50682";
-$augspeed = 10;
+
+
+//$augspeed = 10;
+$augspeed = 1;
+
 $frame = "1fm,3fm,5fm";
 $use_prp = true;
 
