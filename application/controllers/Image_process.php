@@ -151,7 +151,7 @@
             
              echo "<br/><br/>New ID:".$id;
             
-             if(is_numeric($id))
+            if(is_numeric($id))
             {
                 $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
                 $response = $cutil->curl_post($url, null, $image_service_auth);
