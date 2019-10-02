@@ -80,6 +80,15 @@
                 $data['success_email'] = $success_email;
             }
             $this->session->set_userdata(Constants::$success_email_key, NULL);
+            
+            
+            
+            $expected_runtime = $this->session->userdata(Constants::$expected_runtime);
+            if(!is_null($expected_runtime))
+            {
+                $data['expected_runtime'] = $expected_runtime;
+            }
+            $this->session->set_userdata(Constants::$expected_runtime, NULL);
             /************End checking the sessions***********/
             
             

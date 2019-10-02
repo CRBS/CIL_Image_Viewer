@@ -1395,7 +1395,8 @@
                 $.getJSON($crop_url, function(data) {
                         console.log(data);
                         finished = data.finished;
-                        el.innerText = "You have been here for " + seconds + " seconds. "+"\nStatus:"+data.message; //+$crop_url+"-"+finished;
+                        var expectedTime = "<?php if(isset($expected_runtime))   echo $expected_runtime;     ?>";
+                        el.innerText = expectedTime+"You have been here for " + seconds + " seconds. "+"\nStatus:"+data.message; //+$crop_url+"-"+finished;
                         if(finished)
                         {
                             

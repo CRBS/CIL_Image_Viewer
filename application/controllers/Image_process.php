@@ -242,7 +242,12 @@
             $width_in_pixel = $this->input->post('ct_width_in_pixel', TRUE);
             $height_in_pixel = $this->input->post('ct_height_in_pixel', TRUE);
             $starting_z_index = $this->input->post('ct_starting_z_index', TRUE);
+            $starting_z_index = intval($starting_z_index);
+            
             $ending_z_index = $this->input->post('ct_ending_z_index', TRUE); // Same as the starting Z index
+            $ending_z_index = intval($ending_z_index);
+            
+            
             $ct_training_models = $this->input->post('ct_training_models', TRUE);
             $email = $this->input->post('email', TRUE);
             $contrast_e_str = $this->input->post('contrast_e',TRUE);
@@ -250,6 +255,7 @@
             if(!is_null($ct_augmentation) && is_numeric($ct_augmentation))
                 $ct_augmentation = intval ($ct_augmentation);
             $frame = null;
+            
             
             $fm1 = $this->input->post('fm1',TRUE);
             $fm3 = $this->input->post('fm3',TRUE);
@@ -277,6 +283,7 @@
             $is_cdeep3m_run = false;
             
             
+            
             echo "<br/>image_id:".$image_id;
             echo "<br/>x_location:".$x_location;
             echo "<br/>y_location:".$y_location;
@@ -293,6 +300,24 @@
             
             echo "<br/>ct_augmentation:".$ct_augmentation."----";
             echo "<br/>frame:".$frame."----";
+            
+            
+            /*******Run time calculation****************/
+            $num_of_slices = $ending_z_index-$starting_z_index;
+            $runTimeArray = $dbutil->calculateRunTime($db_params, $image_id, $ct_training_models, $ct_augmentation, $frame, $num_of_slices);
+            if(!is_null($runTimeArray) && count($runTimeArray)> 2)
+            {
+                //$runsTimeJsonStr = json_encode($runTimeArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+                //echo $runsTimeJsonStr;
+                
+                //echo "Runtime array size:".count($runTimeArray);
+                $averageTime = $this->getAverageRuntime($runTimeArray);
+                //$expected_runtime = "Expected process time is between ".$runTimeArray[count($runTimeArray)-1]." and ".$runTimeArray[0]." seconds.";
+                $expected_runtime = "The average process time is ".$averageTime." seconds based on ".count($runTimeArray)." trials.";
+                echo $expected_runtime;
+                $this->session->set_userdata(Constants::$expected_runtime, $expected_runtime);
+            }
+            
             
             $use_prp = true;
             $id = $dbutil->insertCroppingInfoWithTraining($db_params, $image_id, $x_location, $y_location, $width_in_pixel, $height_in_pixel, 
@@ -318,6 +343,20 @@
             
             
 
+        }
+        
+        private function getAverageRuntime($runTimeArray)
+        {
+            $count = count($runTimeArray);
+            $sum = 0;
+            foreach($runTimeArray as $rtime)
+            {
+                $sum = $sum+$rtime;
+            }
+            
+            $average = $sum/$count;
+            $average = intval($average);
+            return $average;
         }
         
     }

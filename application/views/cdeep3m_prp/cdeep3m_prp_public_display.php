@@ -323,7 +323,7 @@
                                 X location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control"   disabled>
+                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control"   readonly>
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -332,7 +332,7 @@
                                 Y location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control"   disabled>
+                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control"   readonly>
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -341,7 +341,7 @@
                                 Width:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control" disabled>
+                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control" readonly>
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -350,7 +350,7 @@
                                 Height:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control" disabled>
+                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control" readonly>
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -360,7 +360,7 @@
                                 Starting Z index
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_starting_z_index" type="text" name="ct_starting_z_index" value="0" class="form-control"  disabled>
+                                <input id="ct_starting_z_index" type="text" name="ct_starting_z_index" value="0" class="form-control"  readonly>
                             </div>
                             <div class="col-md-2"></div>
                             <!----End Z starting index------>
@@ -369,7 +369,7 @@
                                 Ending Z index:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_ending_z_index" type="text" name="ct_ending_z_index" value="0" class="form-control"  disabled>
+                                <input id="ct_ending_z_index" type="text" name="ct_ending_z_index" value="0" class="form-control"  readonly>
                             </div> 
                             <div class="col-md-2"></div> 
                             <!----End Z ending index------>
@@ -434,12 +434,11 @@
                             </div>
                             <div class="col-md-6">
                                 <select name="ct_augmentation" id="ct_augmentation" class="form-control">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="4">4</option>
-                                    <option value="8">8</option>
                                     <option value="10">10</option>
-                                   
+                                    <option value="8">8</option>
+                                    <option value="4">4</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
                                 </select>
                             </div> 
                             <div class="col-md-2"></div>
@@ -1395,7 +1394,8 @@
                 $.getJSON($crop_url, function(data) {
                         console.log(data);
                         finished = data.finished;
-                        el.innerText = "You have been here for " + seconds + " seconds. "+"\nStatus:"+data.message; //+$crop_url+"-"+finished;
+                        var expectedTime = "<?php if(isset($expected_runtime))   echo $expected_runtime;     ?>";
+                        el.innerText = expectedTime+"\n\n You have been here for " + seconds + " seconds. "+"\n\nStatus:"+data.message; //+$crop_url+"-"+finished;
                         if(finished)
                         {
                             
