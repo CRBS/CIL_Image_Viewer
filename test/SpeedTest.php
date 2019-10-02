@@ -23,51 +23,90 @@ $ending_z = 3;
 $contrast_enhancement = false;
 $is_cdeep3m_preview = true;
 $is_cdeep3m_run = false;
-$training_model_url = "https://doi.org/10.7295/W9CDEEP3M50682";
+
+$model_array = array();
+array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M3");
+array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50682");
+array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50681");
+array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50673");
 
 
+//$training_model_url = "https://doi.org/10.7295/W9CDEEP3M3";
+//$training_model_url = "https://doi.org/10.7295/W9CDEEP3M50682";
+//$training_model_url = "https://doi.org/10.7295/W9CDEEP3M50681";
+//$training_model_url = "https://doi.org/10.7295/W9CDEEP3M50673";
+
+
+$augspeedArray = array();
+array_push($augspeedArray,1);
+array_push($augspeedArray,2);
+array_push($augspeedArray,4);
+array_push($augspeedArray,8);
+array_push($augspeedArray,10);
+//$augspeed = 1;
+//$augspeed = 2;
+//$augspeed = 4;
+//$augspeed = 8;
 //$augspeed = 10;
-$augspeed = 1;
 
-$frame = "1fm,3fm,5fm";
+
+$frameArray = array();
+array_push($frameArray,"1fm");
+array_push($frameArray,"1fm,3fm");
+array_push($frameArray,"1fm,3fm,5fm");
+//$frame = "1fm,3fm,5fm";
 $use_prp = true;
 
 $dbutil = new DBUtil();
 $cutil = new CurlUtil();
 
 
-for($i=0;$i<10;$i++)
+
+foreach($model_array as $training_model_url)
 {
-    $id = $dbutil->insertCroppingInfoWithTraining($db_params, $image_id, $upper_left_x, $upper_left_y, $width, $height, $contact_email, $original_file_location, $starting_z, $ending_z, $contrast_enhancement, 
-            $is_cdeep3m_preview, $is_cdeep3m_run, $training_model_url, $augspeed, $frame, $use_prp);
-
-
-    if(is_numeric($id))
+    foreach($augspeedArray as $augspeed)
     {
-        $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
-        $response = $cutil->curl_post($url, null, $image_service_auth);
-        $json = json_decode($response);
-        echo "<br/><br/>".  json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    }
-
-
-    while(true)
-    {
-        $finished = $dbutil->isProcessFinished($db_params,$id);
-        if($finished)
+        foreach($frameArray as $frame)
         {
-            echo "\nFinished!";
-            break;
-        }
-        else
-        {
-            $status = $dbutil->getProcessStatus($db_params, $id);
-            echo "\nCrop ID:".$id;
-            echo "\nStatus:".$status->message;
-            sleep(1);
-        }
+            for($i=0;$i<10;$i++)
+            {
+                $id = $dbutil->insertCroppingInfoWithTraining($db_params, $image_id, $upper_left_x, $upper_left_y, $width, $height, $contact_email, $original_file_location, $starting_z, $ending_z, $contrast_enhancement, 
+                        $is_cdeep3m_preview, $is_cdeep3m_run, $training_model_url, $augspeed, $frame, $use_prp);
 
 
+                if(is_numeric($id))
+                {
+                    $url = $image_service_prefix."/image_process_service/image_preview/stage/".$id;
+                    $response = $cutil->curl_post($url, null, $image_service_auth);
+                    $json = json_decode($response);
+                    echo "<br/><br/>".  json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+                }
+
+
+                while(true)
+                {
+                    $finished = $dbutil->isProcessFinished($db_params,$id);
+                    if($finished)
+                    {
+                        echo "\nFinished!";
+                        break;
+                    }
+                    else
+                    {
+                        $status = $dbutil->getProcessStatus($db_params, $id);
+                        echo "\nCrop ID:".$id;
+                        echo "\nStatus:".$status->message;
+                        sleep(1);
+                    }
+
+
+                }
+
+            }
+            
+        }
+            
     }
-    
+            
+            
 }
