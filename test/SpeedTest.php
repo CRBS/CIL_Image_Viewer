@@ -25,7 +25,7 @@ $is_cdeep3m_preview = true;
 $is_cdeep3m_run = false;
 
 $model_array = array();
-array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M3");
+//array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M3");
 array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50682");
 array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50681");
 array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50673");

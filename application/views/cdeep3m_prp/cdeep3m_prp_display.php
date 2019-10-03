@@ -421,7 +421,7 @@
                                     ?>
                                  </select> 
                             </div>
-                            <div class="col-md-2"></div>
+                            <div class="col-md-2"><a href="http://cellimagelibrary.org/cdeep3m" target="_blank">Details</a></div>
                             <!-----End Training model-------------->
                             
                             <!------------------Augmentation---------------->
