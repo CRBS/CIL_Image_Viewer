@@ -25,7 +25,7 @@ $is_cdeep3m_preview = true;
 $is_cdeep3m_run = false;
 
 $model_array = array();
-//array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M3");
+array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M3");
 array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50682");
 array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50681");
 array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50673");
@@ -82,11 +82,16 @@ foreach($model_array as $training_model_url)
                     echo "<br/><br/>".  json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
                 }
 
-
+                $seconds = 0;
                 while(true)
                 {
                     $finished = $dbutil->isProcessFinished($db_params,$id);
-                    if($finished)
+                    if($seconds > 1800)
+                    {
+                        echo "Time out";
+                        break;
+                    }
+                    else if($finished)
                     {
                         echo "\nFinished!";
                         break;
@@ -98,7 +103,8 @@ foreach($model_array as $training_model_url)
                         echo "\nStatus:".$status->message;
                         sleep(1);
                     }
-
+                    
+                    $seconds++;
 
                 }
 
