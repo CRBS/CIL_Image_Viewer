@@ -120,7 +120,54 @@ class DBUtil
         return $json;
     }
     
-    
+    public function getRuntimeTable()
+    {
+        $conn = pg_pconnect($db_params);
+        if(!$conn) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        
+        $sql = "select distinct image_id, training_model_url, augspeed, frame, avg(EXTRACT(EPOCH FROM (finish_time - submit_time))) as avg_time, count(*) as num_trials  from cropping_processes where  width = 1000 and ".
+               " height = 1000    and use_prp = true ".
+               " and finish_time is not null and submit_time is not null and (ending_z-starting_z) = 3 group by image_id, training_model_url, augspeed, frame";
+        
+        $result = pg_query($conn,$sql);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        
+        $main_array = array();
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $image_id = $row[0];
+            $model_url = $row[1];
+            $augspeed = $row[2];
+            $frame = $row[3];
+            $avg_rtime = $row[4];
+            $num_trials = $row[5];
+            
+            
+            $array['image_id'] = $image_id;
+            $array['model_url'] = $model_url;
+            $array['augspeed'] = $augspeed;
+            $array['frame'] = $frame;
+            $array['avg_rtime'] = $avg_rtime;
+            $array['num_trials'] = $num_trials;
+                    
+            array_push($main_array, $array);        
+        }
+        
+        $json_str = json_encode($main_array);
+        $json = json_decode($json_str);
+        pg_close($conn);
+        return $json;
+        
+    }
     
     
     
