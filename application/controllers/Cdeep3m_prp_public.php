@@ -92,6 +92,8 @@
             /************End checking the sessions***********/
             
             
+            
+            
             $image_tar_dir = $this->config->item('image_tar_dir');
             $lag = $this->input->get('lat', TRUE);
             $lng = $this->input->get('lng', TRUE);

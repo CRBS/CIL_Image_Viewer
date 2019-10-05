@@ -379,7 +379,7 @@
                                  Trained model:
                             </div>
                             <div class="col-md-6">
-                                 <select name="ct_training_models" id="ct_training_models" class="form-control">
+                                <select name="ct_training_models" id="ct_training_models" class="form-control" onchange="preview_change_model()">
                                    
                                     <?php
                                      
@@ -1461,4 +1461,54 @@
         }
     ?>
         
+</script>
+
+
+
+
+
+<script>
+
+    function preview_change_model()
+    {
+        var model = document.getElementById('ct_training_models').selectedIndex;
+        //alert("model index:"+model);
+        var ct_augmentation = document.getElementById('ct_augmentation').value;
+        //alert("ct_augmentation:"+ct_augmentation);
+        
+        var fm1 = document.getElementById('fm1').checked;
+        var fm3 = document.getElementById('fm3').checked;
+        var fm5 = document.getElementById('fm5').checked;
+        
+        var frame ="";
+        if(fm1)
+            frame = "1fm";
+        if(fm1 && fm3)
+            frame = "1fm_3fm";
+        else if(fm3)
+            frame = "3fm";
+        
+        
+        if(fm1 && fm3 && fm5)
+            frame = "1fm_3fm_5fm";
+        else if(fm1 && fm3)
+            frame = "1fm_3fm";
+        else if(fm3 && fm5)
+            frame = "fm3_5fm";
+        else if(fm3)
+            frame = "3fm";
+        
+        var image_id = "<?php echo $image_id; ?>";
+        
+        
+        
+        //alert("frame:"+frame);
+        //alert(image_id);
+        
+        url = base_url+"/rest/average_runtime/"+image_id+"/"+model+"/"+ct_augmentation+"/"+frame;
+        alert(url);
+        
+    }
+   
+    
 </script>
