@@ -36,7 +36,7 @@
         
         <div class="col-md-6">
             <div class="card border-light mb-3">
-                <div class="card-header">Login1</div>
+                <div class="card-header">Login</div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">User name</div>

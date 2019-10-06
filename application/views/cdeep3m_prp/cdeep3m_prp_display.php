@@ -323,7 +323,7 @@
                                 X location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control"  >
+                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control"   >
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -332,7 +332,7 @@
                                 Y location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control"  >
+                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control"   >
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -341,7 +341,7 @@
                                 Width:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control">
+                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control" >
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -350,7 +350,7 @@
                                 Height:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control">
+                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control" >
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -379,7 +379,7 @@
                                  Trained model:
                             </div>
                             <div class="col-md-6">
-                                 <select name="ct_training_models" id="ct_training_models" class="form-control">
+                                <select name="ct_training_models" id="ct_training_models" class="form-control" onchange="showRuntime()">
                                    
                                     <?php
                                      
@@ -433,13 +433,12 @@
                                 Augspeed:
                             </div>
                             <div class="col-md-6">
-                                <select name="ct_augmentation" id="ct_augmentation" class="form-control">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="4">4</option>
-                                    <option value="8">8</option>
+                                <select name="ct_augmentation" id="ct_augmentation" class="form-control" onchange="showRuntime()">
                                     <option value="10">10</option>
-                                    <option value="16">16 for debugging</option>
+                                    <!-- <option value="8">8</option> -->
+                                    <option value="4">4</option>
+                                    <option value="2">2</option>
+                                    <option value="1">1</option>
                                 </select>
                             </div> 
                             <div class="col-md-2"></div>
@@ -450,9 +449,9 @@
                                 <!-- <input type="checkbox" id="fm1" name="fm1" value="1fm" onclick="frame_change('fm1')" checked>1fm&nbsp;&nbsp;
                                 <input type="checkbox" id="fm3" name="fm3" value="3fm" onclick="frame_change('fm3')">3fm&nbsp;&nbsp;
                                 <input type="checkbox" id="fm5" name="fm5" value="5fm" onclick="frame_change('fm5')">5fm -->
-                                <input type="checkbox" id="fm1" name="fm1" value="1fm" checked>1fm&nbsp;&nbsp;
-                                <input type="checkbox" id="fm3" name="fm3" value="3fm">3fm&nbsp;&nbsp;
-                                <input type="checkbox" id="fm5" name="fm5" value="5fm">5fm
+                                <input type="checkbox" id="fm1" name="fm1" value="1fm" checked onchange="showRuntime()">1fm&nbsp;&nbsp;
+                                <input type="checkbox" id="fm3" name="fm3" value="3fm" onchange="showRuntime()">3fm&nbsp;&nbsp;
+                                <input type="checkbox" id="fm5" name="fm5" value="5fm" onchange="showRuntime()">5fm
                             </div> 
                             <div class="col-md-2"></div> 
                             <div class="col-md-12"><br/></div>
@@ -480,6 +479,12 @@
                             </div>
                             <div class="col-md-6"></div>
                             <!----End contrast enhancement----->
+                            <div class="col-md-12">
+                                <br/>
+                            </div>
+                            <div class="col-md-12">
+                                <div id="average_rt_id" name="average_rt_id"></div>
+                            </div>
                             
                             <div class="col-md-12">
                                 <br/>
@@ -1396,7 +1401,7 @@
                         console.log(data);
                         finished = data.finished;
                         var expectedTime = "<?php if(isset($expected_runtime))   echo $expected_runtime;     ?>";
-                        el.innerText = expectedTime+"You have been here for " + seconds + " seconds. "+"\nStatus:"+data.message; //+$crop_url+"-"+finished;
+                        el.innerText = expectedTime+"\n\n You have been here for " + seconds + " seconds. "+"\n\nStatus:"+data.message; //+$crop_url+"-"+finished;
                         if(finished)
                         {
                             
@@ -1462,4 +1467,73 @@
         }
     ?>
         
+</script>
+
+
+
+
+
+<script>
+
+    function preview_change_model()
+    {
+        //var model = document.getElementById('ct_training_models').selectedIndex;
+        //alert("model index:"+model);
+        
+        showRuntime();
+        
+    }
+    
+    function showRuntime()
+    {
+        var model = document.getElementById('ct_training_models').value;
+        model = model.replace("https://doi.org/10.7295/","");
+        
+        var ct_augmentation = document.getElementById('ct_augmentation').value;
+        //alert("ct_augmentation:"+ct_augmentation);
+        
+        var fm1 = document.getElementById('fm1').checked;
+        var fm3 = document.getElementById('fm3').checked;
+        var fm5 = document.getElementById('fm5').checked;
+        
+        var frame ="";
+        if(fm1)
+            frame = "1fm";
+        if(fm1 && fm3)
+            frame = "1fm_3fm";
+        else if(fm3)
+            frame = "3fm";
+        
+        
+        if(fm1 && fm3 && fm5)
+            frame = "1fm_3fm_5fm";
+        else if(fm1 && fm3)
+            frame = "1fm_3fm";
+        else if(fm3 && fm5)
+            frame = "fm3_5fm";
+        else if(fm3)
+            frame = "3fm";
+        
+        var image_id = "<?php echo $image_id; ?>";
+        
+        
+        
+        //alert("frame:"+frame);
+        //alert(image_id);
+        
+        url = base_url+"/image_process_rest/average_runtime/"+image_id+"/"+model+"/"+ct_augmentation+"/"+frame;
+        //alert(url);
+        
+         $.getJSON(url, function(data) {
+                        console.log(data);
+                        
+            if(data.average_time != null)            
+                document.getElementById('average_rt_id').innerHTML = "Average runtime: "+data.average_time+" seconds based on "+data.count+" trials";
+            else
+                document.getElementById('average_rt_id').innerHTML = "Average runtime: Unknown";
+            
+        });
+    }
+   
+    showRuntime();
 </script>
