@@ -52,6 +52,35 @@ class Image_process_rest extends REST_Controller
         $this->response($json);
     }
     
+    public function average_runtime_get($image_id,$model_id,$augspeed,$frame)
+    {
+        $dbutil = new DBUtil();
+        $cutil = new CurlUtil();
+        $db_params = $this->config->item('db_params');
+        
+       $training_model_url = "https://doi.org/10.7295/".$model_id;
+       
+       $frame = str_replace("_", ",", $frame);
+       
+       $result = $dbutil->getAverageRunTime($db_params, $image_id, $training_model_url, $augspeed, $frame, 3);
+       
+       if(is_null($result))
+       {
+           $array = array();
+           $array['average_time'] = "Unknown";
+           $array['count'] = "Unknown";
+           $json_str = json_encode($array);
+           $json = json_decode($json_str);
+           $this->response($json);
+           return;
+           
+       }
+       
+       $this->response($result);
+       return;
+    }
+    
+    
     
     public function crop_process_status_get($crop_id=0)
     {

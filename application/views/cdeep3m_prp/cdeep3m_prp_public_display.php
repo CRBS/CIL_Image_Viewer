@@ -481,6 +481,10 @@
                             <!----End contrast enhancement----->
                             
                             <div class="col-md-12">
+                                <div id="average_rt_id" name="average_rt_id"></div>
+                            </div>
+                            
+                            <div class="col-md-12">
                                 <br/>
                                 <center><button type="submit" class="btn btn-info">Submit</button></center>
                             </div>
@@ -1471,8 +1475,12 @@
 
     function preview_change_model()
     {
-        var model = document.getElementById('ct_training_models').selectedIndex;
+        //var model = document.getElementById('ct_training_models').selectedIndex;
         //alert("model index:"+model);
+        
+        var model = document.getElementById('ct_training_models').value;
+        model = model.replace("https://doi.org/10.7295/","");
+        
         var ct_augmentation = document.getElementById('ct_augmentation').value;
         //alert("ct_augmentation:"+ct_augmentation);
         
@@ -1505,8 +1513,16 @@
         //alert("frame:"+frame);
         //alert(image_id);
         
-        url = base_url+"/rest/average_runtime/"+image_id+"/"+model+"/"+ct_augmentation+"/"+frame;
+        url = base_url+"/image_process_rest/average_runtime/"+image_id+"/"+model+"/"+ct_augmentation+"/"+frame;
         alert(url);
+        
+         $.getJSON(url, function(data) {
+                        console.log(data);
+                        
+            if(data.average_time != null)            
+            document.getElementById('average_rt_id').innerHTML = "Average runtime:"+data.average_time+" seconds based on "+data.count+" trials";
+            
+        });
         
     }
    

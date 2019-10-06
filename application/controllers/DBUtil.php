@@ -111,7 +111,8 @@ class DBUtil
         $array = array();
         if($row = pg_fetch_row($result))
         {
-            $array['average_time'] = $row[0];
+            if(!is_null($row[0]))
+                $array['average_time'] = intval($row[0]);
             $array['count'] = $row[1];
         }
         
