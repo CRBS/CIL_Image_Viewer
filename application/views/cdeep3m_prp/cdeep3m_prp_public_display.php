@@ -379,7 +379,7 @@
                                  Trained model:
                             </div>
                             <div class="col-md-6">
-                                <select name="ct_training_models" id="ct_training_models" class="form-control" onchange="preview_change_model()">
+                                <select name="ct_training_models" id="ct_training_models" class="form-control" onchange="showRuntime()">
                                    
                                     <?php
                                      
@@ -433,7 +433,7 @@
                                 Augspeed:
                             </div>
                             <div class="col-md-6">
-                                <select name="ct_augmentation" id="ct_augmentation" class="form-control">
+                                <select name="ct_augmentation" id="ct_augmentation" class="form-control" onchange="showRuntime()">
                                     <option value="10">10</option>
                                     <option value="8">8</option>
                                     <option value="4">4</option>
@@ -449,9 +449,9 @@
                                 <!-- <input type="checkbox" id="fm1" name="fm1" value="1fm" onclick="frame_change('fm1')" checked>1fm&nbsp;&nbsp;
                                 <input type="checkbox" id="fm3" name="fm3" value="3fm" onclick="frame_change('fm3')">3fm&nbsp;&nbsp;
                                 <input type="checkbox" id="fm5" name="fm5" value="5fm" onclick="frame_change('fm5')">5fm -->
-                                <input type="checkbox" id="fm1" name="fm1" value="1fm" checked>1fm&nbsp;&nbsp;
-                                <input type="checkbox" id="fm3" name="fm3" value="3fm">3fm&nbsp;&nbsp;
-                                <input type="checkbox" id="fm5" name="fm5" value="5fm">5fm
+                                <input type="checkbox" id="fm1" name="fm1" value="1fm" checked onchange="showRuntime()">1fm&nbsp;&nbsp;
+                                <input type="checkbox" id="fm3" name="fm3" value="3fm" onchange="showRuntime()">3fm&nbsp;&nbsp;
+                                <input type="checkbox" id="fm5" name="fm5" value="5fm" onchange="showRuntime()">5fm
                             </div> 
                             <div class="col-md-2"></div> 
                             <div class="col-md-12"><br/></div>
@@ -479,7 +479,9 @@
                             </div>
                             <div class="col-md-6"></div>
                             <!----End contrast enhancement----->
-                            
+                            <div class="col-md-12">
+                                <br/>
+                            </div>
                             <div class="col-md-12">
                                 <div id="average_rt_id" name="average_rt_id"></div>
                             </div>
@@ -1478,6 +1480,12 @@
         //var model = document.getElementById('ct_training_models').selectedIndex;
         //alert("model index:"+model);
         
+        showRuntime();
+        
+    }
+    
+    function showRuntime()
+    {
         var model = document.getElementById('ct_training_models').value;
         model = model.replace("https://doi.org/10.7295/","");
         
@@ -1514,17 +1522,16 @@
         //alert(image_id);
         
         url = base_url+"/image_process_rest/average_runtime/"+image_id+"/"+model+"/"+ct_augmentation+"/"+frame;
-        alert(url);
+        //alert(url);
         
          $.getJSON(url, function(data) {
                         console.log(data);
                         
             if(data.average_time != null)            
-            document.getElementById('average_rt_id').innerHTML = "Average runtime:"+data.average_time+" seconds based on "+data.count+" trials";
+            document.getElementById('average_rt_id').innerHTML = "Average runtime: "+data.average_time+" seconds based on "+data.count+" trials";
             
         });
-        
     }
    
-    
+    showRuntime();
 </script>
