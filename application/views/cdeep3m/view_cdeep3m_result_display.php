@@ -68,7 +68,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <ul>
-
+                     <?php
+                        $original_file_location = $cropInfo->original_file_location;
+                        $original_file_location = str_replace("/export2", "https://cildata.crbs.ucsd.edu", $original_file_location);
+                        $image_source = $original_file_location;
+                     
+                     ?>
                      <li>Crop ID:<?php echo $cropInfo->id; ?></li>
                      <li>Image source: <a href="http://www.cellimagelibrary.org/images/<?php echo $cropInfo->image_id; ?>" target="_blank" alt="<?php echo $cropInfo->image_id; ?>"><?php echo $cropInfo->image_id; ?></a></li>
                      <li>X location: <?php echo $cropInfo->upper_left_x;  ?> pixels</li>
@@ -79,11 +84,24 @@
                      <li>Augspeed: <?php echo $cropInfo->augspeed;  ?> </li>
                      <li>Frame: <?php echo $cropInfo->frame;  ?> </li>
                      <li>Submit time: <?php echo $cropInfo->submit_time;  ?> </li>
+                     <li>Finish time: <?php echo $cropInfo->finish_time;  ?> </li>
+                     <li>Image source: <a href="<?php echo $original_file_location; ?>" target="_blank" alt="<?php echo $original_file_location; ?>"><?php echo $original_file_location; ?></a></li>
                    </ul>
                 </div>
             </div>
         </div>
         <div class="col-md-12"><?php //echo json_encode($cdeep3m_result, JSON_UNESCAPED_SLASHES); ?></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12"><br/></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-1-6-3rc3&amp;templateURL=https://s3-us-west-2.amazonaws.com/cdeep3m-releases-s3/1.6.3rc3/cdeep3m_1.6.3rc3_basic_cloudformation.json" rel="nofollow"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a>
+        </div>
+        <div class="col-md-12">
+            Download image: wget <?php echo $original_file_location; ?>
+        </div>
     </div>
     
 </div>
