@@ -49,6 +49,7 @@
                     {
                         
                 ?>
+                <div class="col-md-12"><br/></div>
                 <div class="col-md-12">
                 <span class='cil_title'>Download</span>
                 </div>
@@ -62,6 +63,24 @@
                     }
                 
                 ?>
+            </div>
+            <div class="row"><div class="col-md-12"><br/></div></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul>
+
+                     <li>Crop ID:<?php echo $cropInfo->id; ?></li>
+                     <li>Image source: <a href="http://www.cellimagelibrary.org/images/<?php echo $cropInfo->image_id; ?>" target="_blank" alt="<?php echo $cropInfo->image_id; ?>"><?php echo $cropInfo->image_id; ?></a></li>
+                     <li>X location: <?php echo $cropInfo->upper_left_x;  ?> pixels</li>
+                     <li>Y location: <?php echo $cropInfo->upper_left_y;  ?> pixels</li>
+                     <li>Width: <?php echo $cropInfo->width;  ?> pixels</li>
+                     <li>Height: <?php echo $cropInfo->height;  ?> pixels</li>
+                     <li>Training model DOI: <?php echo $cropInfo->training_model_url;  ?> </li>
+                     <li>Augspeed: <?php echo $cropInfo->augspeed;  ?> </li>
+                     <li>Frame: <?php echo $cropInfo->frame;  ?> </li>
+                     <li>Submit time: <?php echo $cropInfo->submit_time;  ?> </li>
+                   </ul>
+                </div>
             </div>
         </div>
         <div class="col-md-12"><?php //echo json_encode($cdeep3m_result, JSON_UNESCAPED_SLASHES); ?></div>

@@ -25,9 +25,9 @@ $is_cdeep3m_preview = true;
 $is_cdeep3m_run = false;
 
 $model_array = array();
-array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M3");
-array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50682");
-array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50681");
+//array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M3");
+//array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50682");
+//array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50681");
 array_push($model_array, "https://doi.org/10.7295/W9CDEEP3M50673");
 
 
@@ -41,7 +41,6 @@ $augspeedArray = array();
 array_push($augspeedArray,1);
 array_push($augspeedArray,2);
 array_push($augspeedArray,4);
-array_push($augspeedArray,8);
 array_push($augspeedArray,10);
 //$augspeed = 1;
 //$augspeed = 2;
