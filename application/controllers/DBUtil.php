@@ -348,7 +348,7 @@ class DBUtil
         $conn = pg_pconnect($db_params);
         if (!$conn) 
             return null;
-        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,contrast_enhancement,is_cdeep3m_preview,is_cdeep3m_run,training_model_url,augspeed, frame, use_prp, finish_time ".
+        $sql = "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,contrast_enhancement,is_cdeep3m_preview,is_cdeep3m_run,training_model_url,augspeed, frame, use_prp, finish_time,pod_running ".
                " from cropping_processes where id = $1";
         $input = array();
         array_push($input, $id);
@@ -413,6 +413,7 @@ class DBUtil
             
             
             $output['finish_time'] = $row[18];
+            $output['pod_running'] = $row[19];
             
         }
         pg_close($conn);
