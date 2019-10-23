@@ -63,7 +63,53 @@
                     }
                 
                 ?>
+                
             </div>
+            <div class="row">
+                <?php
+                    if(isset($cdeep3m_result->Enhanced_files))
+                    {
+                        
+                ?>
+
+                <div class="col-md-12">
+                
+                </div>
+                <?php
+                        foreach($cdeep3m_result->Enhanced_files as $tfile)
+                        {
+                ?>           
+                <div class="col-md-12"><a href='<?php echo $tfile; ?>' target="_self"><?php echo basename($tfile); ?></a></div>         
+                <?php            
+                        }   
+                    }
+                
+                ?>
+                
+            </div>
+            <div class="row">
+                <?php
+                    if(isset($cdeep3m_result->Others_files))
+                    {
+                        
+                ?>
+
+                <div class="col-md-12">
+                
+                </div>
+                <?php
+                        foreach($cdeep3m_result->Others_files as $tfile)
+                        {
+                ?>           
+                <div class="col-md-12"><a href='<?php echo $tfile; ?>' target="_self"><?php echo basename($tfile); ?></a></div>         
+                <?php            
+                        }   
+                    }
+                
+                ?>
+                
+            </div>
+            
             <div class="row"><div class="col-md-12"><br/></div></div>
             <div class="row">
                 <div class="col-md-12">
