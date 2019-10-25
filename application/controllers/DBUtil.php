@@ -359,8 +359,15 @@ class DBUtil
         $output = array();
         if($row = pg_fetch_row($result))
         {
-            $output['max_x'] = $row[0];
-            $output['max_y'] = $row[1];
+            if(!is_null($row[0]))
+                $output['max_x'] = intval($row[0]);
+            else
+                $output['max_x'] = 0;
+            
+            if(!is_null($row[1]))
+                $output['max_y'] = intval($row[1]);
+            else 
+                $output['max_y'] = 0;
         }
         pg_close($conn);
         $json_str = json_encode($output);
@@ -441,6 +448,16 @@ class DBUtil
             $output['finish_time'] = $row[18];
             $output['pod_running'] = $row[19];
             
+            
+            $ijson = $this->getImageWidthHeight($db_params, $output['image_id']);
+            if(!is_null($ijson))
+            {
+                if(isset($ijson->max_x))
+                    $output['image_max_x'] = $ijson->max_x;
+                
+                if(isset($ijson->max_y))
+                    $output['image_max_y'] = $ijson->max_y;
+            }
         }
         pg_close($conn);
         
