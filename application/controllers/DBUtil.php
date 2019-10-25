@@ -340,7 +340,33 @@ class DBUtil
     }
     
     
-    
+    public function getImageWidthHeight($db_params,$image_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return null;
+        $sql = "select max_x,max_y from images where image_id = $1";
+        $input = array();
+        array_push($input, $image_id);
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        
+        $output = array();
+        if($row = pg_fetch_row($result))
+        {
+            $output['max_x'] = $row[0];
+            $output['max_y'] = $row[1];
+        }
+        pg_close($conn);
+        $json_str = json_encode($output);
+        $json = json_decode($json_str);
+        return $json;
+    }
     
     
     public function getCropProcessInfo($db_params,$id=0)

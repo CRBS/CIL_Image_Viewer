@@ -237,8 +237,10 @@
             
             $original_file_location = $dbutil->getOriginalFileLocation($db_params, $image_id);
             
+
             $x_location = $this->input->post('ct_x_location', TRUE);
             $y_location = $this->input->post('ct_y_location', TRUE);
+              
             $width_in_pixel = $this->input->post('ct_width_in_pixel', TRUE);
             $height_in_pixel = $this->input->post('ct_height_in_pixel', TRUE);
             $starting_z_index = $this->input->post('ct_starting_z_index', TRUE);

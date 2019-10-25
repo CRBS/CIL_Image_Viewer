@@ -9,6 +9,22 @@ require_once 'CurlUtil.php';
 class Image_process_rest extends REST_Controller
 {
     private $success = "success";
+    
+    public function image_info_get($image_id="0")
+    {
+        $dbutil = new DBUtil();
+        $db_params = $this->config->item('db_params');
+        $json = $dbutil->getImageWidthHeight($db_params, $image_id);
+        if(is_null($json))
+        {
+            $output = array();
+            $output['success'] = false;
+            $json_str = json_encode($output);
+            $json = json_decode($json_str);
+        }
+        $this->response($json);
+                
+    }
 
     public function cropimage_info_get($id=0)
     {
