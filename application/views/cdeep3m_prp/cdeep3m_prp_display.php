@@ -683,10 +683,10 @@
 
                         <div class="row">
                             <div class="col-md-1"></div>
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <button id="crop_modal_action" type="button" class="btn btn-info" onclick="show_crop_modal()">Crop the image</button>
                             </div>
-                            <div class="col-md-2"></div>
+                            <div class="col-md-2"></div> -->
                             <div class="col-md-3">
                                 <button id="run_cdeep3m_test_action" type="button" class="btn btn-info" onclick="show_cdeep3m_test_model()">CDeep3M Preview</button>
                             </div>
@@ -697,7 +697,17 @@
                             </div>
                             -->
                         </div>
-                            
+                        
+                        <div class="row">
+                            <div class="col-md-12"><br/></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-11">
+                                
+                                <a href ="#" target="_blank">See previous results</a>
+                            </div>
+                        </div>    
                     </div>
                         <br/>
                         

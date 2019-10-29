@@ -793,6 +793,48 @@ class DBUtil
         return $desc;
         
     }
+    
+    
+    public function countLocationResult($db_params, $x, $y, $image_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return 0;
+        }
+        
+        $x0 = $x-5;
+        $x1 = $x+5;
+        
+        $y0 = $y-5;
+        $y1 = $y+5;
+        
+        
+        $sql= "select count(id) from cropping_processes where upper_left_x >= $1 and upper_left_x <= $2 and upper_left_y >= $3 and upper_left_y <= $4 and image_id = $5";
+        $input = array();
+        array_push($input,$x0);
+        array_push($input,$x1);
+        array_push($input,$y0);
+        array_push($input,$y1);
+        array_push($input,$image_id);
+        $result = pg_query_params($conn,$sql,$input);
+        
+        $count= 0;
+        if(!$result) 
+        {
+            pg_close($conn);
+            return 0;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            if(is_numeric($row[0]))
+                $count = intval($row[0]);
+        }
+        pg_close($conn);
+        
+        return $count;
+    }
 
     public function getGeoData($db_params,$cil_id, $sindex)
     {

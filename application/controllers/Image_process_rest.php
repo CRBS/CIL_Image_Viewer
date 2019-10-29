@@ -10,6 +10,19 @@ class Image_process_rest extends REST_Controller
 {
     private $success = "success";
     
+    
+    public function count_location_result_get($x,$y,$image_id)
+    {
+        $dbutil = new DBUtil();
+        $db_params = $this->config->item('db_params');
+        $count = $dbutil->countLocationResult($db_params, $x, $y, $image_id);
+        $array = array();
+        $array['count'] = $count;
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        $this->response($json);
+    }
+    
     public function image_info_get($image_id="0")
     {
         $dbutil = new DBUtil();
