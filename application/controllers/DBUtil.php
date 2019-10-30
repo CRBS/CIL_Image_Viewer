@@ -809,7 +809,7 @@ class DBUtil
         $y1 = $y+5;
         
         
-        $sql= "select id from cropping_processes where upper_left_x >= $1 and upper_left_x <= $2 and upper_left_y >= $3 and upper_left_y <= $4 and image_id = $5";
+        $sql= "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,contrast_enhancement,is_cdeep3m_preview,is_cdeep3m_run,training_model_url,augspeed, frame, use_prp, finish_time,pod_running from cropping_processes where upper_left_x >= $1 and upper_left_x <= $2 and upper_left_y >= $3 and upper_left_y <= $4 and image_id = $5";
         $input = array();
         array_push($input,$x0);
         array_push($input,$x1);
@@ -827,18 +827,81 @@ class DBUtil
         
         $mainArray = array();
         
-        while($row = pg_fetch_row($result))
+        if($row = pg_fetch_row($result))
         {
-            if(is_numeric($row[0]))
+            $output = array();
+            $output['success'] = true;
+            $output['id'] = $row[0];
+            $output['image_id'] = $row[1];
+            $output['width'] = intval($row[2]);
+            $output['height'] = intval($row[3]);
+            $output['upper_left_x'] = intval($row[4]);
+            $output['upper_left_y'] = intval($row[5]);
+            $output['starting_z'] = intval($row[6]);
+            $output['ending_z'] = intval($row[7]);
+            $output['contact_email'] = $row[8];
+            $output['submit_time'] = $row[9];
+            $output['original_file_location'] = $row[10];
+            $contrast_enhancement = $row[11];
+            $output['contrast_enhancement'] = false;
+            if(strcmp($contrast_enhancement,"t")==0)
+                    $output['contrast_enhancement'] = true;
+            
+            $is_cdeep3m_preview = $row[12];
+            $output['is_cdeep3m_preview'] = false;
+            if(strcmp($is_cdeep3m_preview,"t")==0)
+                $output['is_cdeep3m_preview'] = true;
+            
+            $is_cdeep3m_run = $row[13];
+            $output['is_cdeep3m_run'] = false;
+            if(strcmp($is_cdeep3m_run,"t")==0)
+                $output['is_cdeep3m_run'] = true;
+            
+            $output['training_model_url'] = $row[14];
+            
+            $temp = $row[15];
+            if(!is_null($temp))
             {
-                $id = intval($row[0]);
-               
-                array_push($mainArray, $id);
+                if(is_numeric($temp))
+                {
+                   $output['augspeed'] = intval($temp);
+                }
             }
+            
+            $temp = $row[16];
+            if(!is_null($temp))
+            {
+                $output['frame'] =$temp;
+            }
+          
+            $temp = $row[17];
+            if(strcmp($temp,"t")==0)
+                $output['use_prp'] = true;
+            else
+                $output['use_prp'] = false;
+            
+            
+            $output['finish_time'] = $row[18];
+            $output['pod_running'] = $row[19];
+            
+            
+            $ijson = $this->getImageWidthHeight($db_params, $output['image_id']);
+            if(!is_null($ijson))
+            {
+                if(isset($ijson->max_x))
+                    $output['image_max_x'] = $ijson->max_x;
+                
+                if(isset($ijson->max_y))
+                    $output['image_max_y'] = $ijson->max_y;
+            }
+            
+            array_push($mainArray, $output);
         }
         pg_close($conn);
         
-        return $mainArray;
+        $json_str = json_encode($mainArray);
+        $json = json_decode($json_str);
+        return $json;
     }
     
     public function countLocationResult($db_params, $x, $y, $image_id)
