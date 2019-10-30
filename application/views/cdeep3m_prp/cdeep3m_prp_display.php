@@ -82,6 +82,8 @@
         <?php
             }
         ?>
+            
+            var image_id = "<?php echo $image_id; ?>";
     </script>
 <div class="container">
         <div class="row">
@@ -703,9 +705,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-1"></div>
-                            <div class="col-md-11">
+                            <div class="col-md-11" id="see_previous_result_id">
                                 
-                                <a href ="#" target="_blank">See previous results</a>
+                                
                             </div>
                         </div>    
                     </div>
@@ -1062,8 +1064,25 @@
         }
         
         
+        $count_url = base_url+"/image_process_rest/count_location_result/"+point_x_location+"/"+point_y_location+"/"+image_id;
+        //alert($count_url);
+        $.getJSON($count_url, function(data) {
 
-        
+                       var location_count = data.count;
+                       console.log("location_count:"+location_count);
+                       if(location_count > 0)
+                       {
+                          document.getElementById("see_previous_result_id").innerHTML =  "<a  href =\"#\" target=\"_blank\">See previous results ("+location_count+")</a>";
+                       }
+                       else
+                       {
+                           document.getElementById("see_previous_result_id").innerHTML = "";
+                       }
+                       //alert(location_count); 
+                        
+        });
+
+       
         $('#annotation_modal_id').modal('show');
         //document.getElementById("annotation_modal_id").showModal(); 
         setTimeout(function () {window.scrollTo(0, 0);},100);
@@ -1337,7 +1356,7 @@
     
     function show_cdeep3m_test_model()
     {
-
+        //alert("test");
         $('#annotation_modal_id').modal('hide');
         $("#cdeep3m_test_modal_id").modal('show');
         var new_x_location = Math.round(point_x_location);
@@ -1371,6 +1390,8 @@
         {
             document.getElementById('ct_ending_z_index').value = zindex;
         }
+        
+        
     }
     
     function show_cdeep3m_run_model()
@@ -1547,3 +1568,8 @@
    
     showRuntime();
 </script>
+
+
+<script>
+    //alert("test");
+</script>    
