@@ -276,11 +276,11 @@
             else if(is_null($frame) && !is_null($fm5))
                 $frame = "5fm";
             
-            
+            /*
             $contrast_e = false;
             if(!is_null($contrast_e_str))
-                $contrast_e = true;
-            
+                $contrast_e = true; */
+            $contrast_e = true;
             $is_cdeep3m_preview = true;
             $is_cdeep3m_run = false;
             

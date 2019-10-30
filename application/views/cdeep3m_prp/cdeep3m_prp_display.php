@@ -272,6 +272,7 @@
                                 <br/>
                             </div>
                             <!----Contrast enhancement----->
+                            <!--
                             <div class="col-md-5">
                                 Contrast enhancement:
                             </div>
@@ -279,6 +280,8 @@
                                 <input type="checkbox" id="r_contrast_e" name="r_contrast_e" value="contrast_e" checked>
                             </div>
                             <div class="col-md-6"></div>
+                            -->
+                            
                             <!----End contrast enhancement----->
                             
                             <div class="col-md-12">
@@ -325,7 +328,7 @@
                                 X location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control"   >
+                                <input id="ct_x_location" type="text" name="ct_x_location" class="form-control"   readonly>
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -334,7 +337,7 @@
                                 Y location:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control"   >
+                                <input id="ct_y_location" type="text" name="ct_y_location" class="form-control"   readonly>
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -343,7 +346,7 @@
                                 Width:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control" >
+                                <input id="ct_width_in_pixel" type="text" name="ct_width_in_pixel" value="1000" class="form-control" readonly>
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -352,7 +355,7 @@
                                 Height:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control" >
+                                <input id="ct_height_in_pixel" type="text" name="ct_height_in_pixel" value="1000" class="form-control" readonly>
                             </div>
                             <div class="col-md-2">
                                 Pixels
@@ -362,7 +365,7 @@
                                 Starting Z index
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_starting_z_index" type="text" name="ct_starting_z_index" value="0" class="form-control"  >
+                                <input id="ct_starting_z_index" type="text" name="ct_starting_z_index" value="0" class="form-control"  readonly>
                             </div>
                             <div class="col-md-2"></div>
                             <!----End Z starting index------>
@@ -371,7 +374,7 @@
                                 Ending Z index:
                             </div>
                             <div class="col-md-6">
-                                <input id="ct_ending_z_index" type="text" name="ct_ending_z_index" value="0" class="form-control"  >
+                                <input id="ct_ending_z_index" type="text" name="ct_ending_z_index" value="0" class="form-control"  readonly>
                             </div> 
                             <div class="col-md-2"></div> 
                             <!----End Z ending index------>
@@ -471,15 +474,17 @@
                             <div class="col-md-12">
                                 <br/>
                             </div>
-                            <!----Contrast enhancement----->
+                            <!----Preview Contrast enhancement----->
+                            <!--
                             <div class="col-md-5">
                                 Contrast enhancement:
                             </div>
                             <div class="col-md-1">
-                                <!-- <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" checked> -->
+                                
                                 <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e">
                             </div>
-                            <div class="col-md-6"></div>
+                            <div class="col-md-6"></div>  -->
+                            
                             <!----End contrast enhancement----->
                             <div class="col-md-12">
                                 <br/>
@@ -611,13 +616,13 @@
                                 <br/>
                             </div>
                             <!----Contrast enhancement----->
-                            <div class="col-md-5">
+                            <!-- <div class="col-md-5">
                                 Contrast enhancement:
                             </div>
                             <div class="col-md-1">
                                 <input type="checkbox" id="contrast_e" name="contrast_e" value="contrast_e" >
                             </div>
-                            <div class="col-md-6"></div>
+                            <div class="col-md-6"></div> -->
                             <!----End contrast enhancement----->
                             <div class="col-md-12">
                                 <br/>
@@ -1386,7 +1391,7 @@
 
         if(parseInt(zindex)+3 < z_max)
         {
-            document.getElementById('ct_ending_z_index').value = parseInt(zindex)+3;
+            document.getElementById('ct_ending_z_index').value = parseInt(zindex)+4;
         }
         else
         {
