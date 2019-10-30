@@ -34,5 +34,18 @@ class Cdeep3m_result extends CI_Controller
         $this->load->view('cdeep3m/view_cdeep3m_result_display', $data);
     }
 
+    public function location_result($x,$y, $image_id)
+    {
+        $cutil = new CurlUtil();
+        $dbutil = new DBUtil();
+        $db_params = $this->config->item('db_params');
+        $data['title'] = "View Cdeep3m location results";
+        $idArray = $dbutil->getLocationResults($db_params, $x, $y, $image_id);
+        
+        $data['id_array'] = $idArray;
+        
+        
+        $this->load->view('cdeep3m/view_cdeep3m_location_results', $data);
+    }
 }
 

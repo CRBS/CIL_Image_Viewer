@@ -1069,10 +1069,12 @@
         $.getJSON($count_url, function(data) {
 
                        var location_count = data.count;
+                       var px = Math.round(point_x_location); 
+                       var py = Math.round(point_y_location); 
                        console.log("location_count:"+location_count);
                        if(location_count > 0)
                        {
-                          document.getElementById("see_previous_result_id").innerHTML =  "<a  href =\"#\" target=\"_blank\">See previous results ("+location_count+")</a>";
+                          document.getElementById("see_previous_result_id").innerHTML =  "<a  href =\"/cdeep3m_result/location_result/"+px+"/"+py+"/"+image_id+"\" target=\"_blank\">See previous results ("+location_count+")</a>";
                        }
                        else
                        {
