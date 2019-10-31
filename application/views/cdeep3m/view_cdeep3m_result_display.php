@@ -20,8 +20,8 @@
         <div class="col-md-2">Original:<input type="radio" id="original" name="original" value="original" onclick="toggle_radio_btn(this.value)"></div>
         <div class="col-md-2">Segmented:<input type="radio" id="segmented" name="segmented" value="segmented" onclick="toggle_radio_btn(this.value)"></div>
         <div class="col-md-2">Overlay:<input type="radio" id="overlay" name="overlay" value="overlay" onclick="toggle_radio_btn(this.value)"></div>
-        <div id='z_label' class="col-md-1">Z:0</div>   
-        <div class="col-md-3"><input autocomplete="off" id="z_index" type="range" min="0" max="<?php echo $data_size; ?>" value="0" onchange="update_cdeep3m_image()"></div>
+        <div id='z_label' class="col-md-1">Z:2</div>   
+        <div class="col-md-3"><input autocomplete="off" id="z_index" type="range" min="0" max="<?php echo $data_size; ?>" value="2" onchange="update_cdeep3m_image()"></div>
         <div class="col-md-2"><a id="backward_id" href="#" onclick="left_arrow()">↤</a><a id="forward_id" href="#" onclick="right_arrow()">↦</a></div>
         <!--<div class="col-md-12">
             <?php
@@ -38,7 +38,9 @@
             
             <img id="main_image" width="100%" name="main_image" src='<?php 
             
-            if(isset($cdeep3m_result->Original_images) && count($cdeep3m_result->Original_images) > 0) 
+            if(isset($cdeep3m_result->Original_images) && count($cdeep3m_result->Original_images) > 3) 
+                echo  $cdeep3m_result->Original_images[2];
+            else
                 echo  $cdeep3m_result->Original_images[0];
             ?>'>
         </div>
