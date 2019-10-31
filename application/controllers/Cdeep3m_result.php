@@ -40,9 +40,9 @@ class Cdeep3m_result extends CI_Controller
         $dbutil = new DBUtil();
         $db_params = $this->config->item('db_params');
         $data['title'] = "View Cdeep3m location results";
-        $idArray = $dbutil->getLocationResults($db_params, $x, $y, $image_id);
+        $location_results = $dbutil->getLocationResults($db_params, $x, $y, $image_id);
         
-        $data['id_array'] = $idArray;
+        $data['location_results'] = $location_results;
         
         
         $this->load->view('cdeep3m/view_cdeep3m_location_results', $data);

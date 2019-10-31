@@ -827,7 +827,7 @@ class DBUtil
         
         $mainArray = array();
         
-        if($row = pg_fetch_row($result))
+        while($row = pg_fetch_row($result))
         {
             $output = array();
             $output['success'] = true;
