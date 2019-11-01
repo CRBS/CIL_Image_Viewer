@@ -809,7 +809,7 @@ class DBUtil
         $y1 = $y+5;
         
         
-        $sql= "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,contrast_enhancement,is_cdeep3m_preview,is_cdeep3m_run,training_model_url,augspeed, frame, use_prp, finish_time,pod_running from cropping_processes where upper_left_x >= $1 and upper_left_x <= $2 and upper_left_y >= $3 and upper_left_y <= $4 and image_id = $5";
+        $sql= "select id,image_id,width,height,upper_left_x,upper_left_y,starting_z,ending_z,contact_email,submit_time,original_file_location,contrast_enhancement,is_cdeep3m_preview,is_cdeep3m_run,training_model_url,augspeed, frame, use_prp, finish_time,pod_running from cropping_processes where upper_left_x >= $1 and upper_left_x <= $2 and upper_left_y >= $3 and upper_left_y <= $4 and image_id = $5 and finish_time is not NULL";
         $input = array();
         array_push($input,$x0);
         array_push($input,$x1);
@@ -919,7 +919,7 @@ class DBUtil
         $y1 = $y+5;
         
         
-        $sql= "select count(id) from cropping_processes where upper_left_x >= $1 and upper_left_x <= $2 and upper_left_y >= $3 and upper_left_y <= $4 and image_id = $5";
+        $sql= "select count(id) from cropping_processes where upper_left_x >= $1 and upper_left_x <= $2 and upper_left_y >= $3 and upper_left_y <= $4 and image_id = $5 and finish_time is not NULL";
         $input = array();
         array_push($input,$x0);
         array_push($input,$x1);
