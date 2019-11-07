@@ -11,7 +11,7 @@ class Cdeep3m_result extends CI_Controller
     {
         $cutil = new CurlUtil();
         $dbutil = new DBUtil();
-        
+        $db_params = $this->config->item('db_params');
         $data['title'] = "View Cdeep3m result";
         
         $cdeep3m_result_service = $this->config->item('cdeep3m_result_service');
@@ -20,9 +20,18 @@ class Cdeep3m_result extends CI_Controller
         $db_params = $this->config->item('db_params');
         $cropInfo = $dbutil->getCropProcessInfo($db_params, $crop_id);
         if(!is_null($cropInfo))
+        {
+            if(isset($cropInfo->training_model_url))
+            {
+                $doi = $cropInfo->training_model_url;
+
+                $trainedModel = $dbutil->getTrainedModelByDOI($db_params,$doi);
+                if(!is_null($trainedModel))
+                    $data['trained_model'] = $trainedModel;
+            }
             $data['cropInfo'] = $cropInfo;
    
-        
+        }
         $response = $cutil->curl_get($url, $image_service_auth);
         //$data['response'] = $response;
         $json = json_decode($response);

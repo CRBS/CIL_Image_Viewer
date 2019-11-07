@@ -128,7 +128,11 @@
                      <li>Y location: <?php echo $cropInfo->upper_left_y;  ?> pixels</li>
                      <li>Width: <?php echo $cropInfo->width;  ?> pixels</li>
                      <li>Height: <?php echo $cropInfo->height;  ?> pixels</li>
-                     <li>Training model DOI: <?php echo $cropInfo->training_model_url;  ?> </li>
+                     <?php
+                     
+                        $modelID = str_replace("https://doi.org/10.7295", "", $cropInfo->training_model_url);
+                     ?>
+                     <li>Training model: <?php if(isset($trained_model)) echo $trained_model->model_name;  ?> (<a href='<?php  echo $cropInfo->training_model_url;  ?>' ><?php  echo $modelID;  ?></a>) </li>
                      <li>Augspeed: <?php echo $cropInfo->augspeed;  ?> </li>
                      <li>Frame: <?php echo $cropInfo->frame;  ?> </li>
                      <li>Submit time: <?php echo $cropInfo->submit_time;  ?> </li>

@@ -21,6 +21,40 @@ class DBUtil
                 
     }
     
+    
+    public function getTrainedModelByDOI($db_params,$doi)
+    {
+        $conn = pg_pconnect($db_params);
+        $sql = "select id, model_name, doi from trained_models where doi = $1";
+        
+        if (!$conn) 
+        {
+            return null;
+        }
+        $input = array();
+        array_push($input, $doi);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        
+        $array = array();
+        if($row = pg_fetch_row($result))
+        {
+            $array['id'] = $row[0];
+            $array['model_name'] = $row[1];
+            $array['doi'] = $row[2];
+            
+        }
+        
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        pg_close($conn);
+        return $json;
+    }
+    
     public function getPreferredCdeep3mSettings($db_params, $image_id)
     {
         $conn = pg_pconnect($db_params);
