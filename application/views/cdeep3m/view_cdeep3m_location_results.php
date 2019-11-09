@@ -43,7 +43,7 @@ foreach($location_results as $lr)
                     <li>ID: <?php echo $lr->id; ?></li>
                     <li>Image source: <?php echo $lr->image_id; ?></li>
                     <li>X location: <?php echo $lr->upper_left_x; ?></li>
-                    <li>Y location: <?php echo $lr->upper_left_x; ?></li>
+                    <li>Y location: <?php echo $lr->upper_left_y; ?></li>
                     <li>Z location: <?php echo $lr->starting_z; ?></li>
                     <li>Width: <?php echo $lr->width; ?></li>
                     <li>Height: <?php echo $lr->height; ?></li>
