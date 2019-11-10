@@ -228,6 +228,13 @@
             }
             /********End session check **********************/
             
+            
+            $current_lat = $this->input->post('current_lat', TRUE);
+            $current_lng = $this->input->post('current_lng', TRUE);
+            $current_zoom = $this->input->post('current_zoom', TRUE);
+            //echo "current_lat".$current_lat."<br/>current_lng:".$current_lng;
+            //return;
+            
             $dbutil = new DBUtil();
             $cutil = new CurlUtil();
             $base_url = $this->config->item('base_url');
@@ -341,7 +348,22 @@
             if(strcmp($public,"public")==0)
                 redirect ($base_url."/cdeep3m_prp_public/".$image_id);    
             else
-                redirect ($base_url."/cdeep3m_prp/".$image_id);
+            {
+                //redirect ($base_url."/cdeep3m_prp/".$image_id);
+                if(!is_null($starting_z_index) && is_numeric($starting_z_index) && !is_null($current_lat) &&!is_null($current_lng)
+                        && is_numeric($current_lat) && is_numeric($current_lng)
+                         && is_numeric($current_zoom) && is_numeric($current_zoom)
+                        )
+                {
+                    redirect ($base_url."/cdeep3m_prp/".$image_id."?zindex=".$starting_z_index."&lat=".$current_lat."&lng=".$current_lng."&zoom=".$current_zoom);
+                }
+                else 
+                {
+                    redirect ($base_url."/cdeep3m_prp/".$image_id);
+                }
+                
+                
+            }
             
             
 

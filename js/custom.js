@@ -130,8 +130,15 @@ function validatePreviewImage(form)
     if(!isGoodNumber(ending_z_index, 'Ending Z index'))
         return false;
     
-    
+    var center = map.getCenter();
+    var zoom = map.getZoom();
+    //alert("lat"+center.lat+"----lng:"+center.lng);
+    form.current_lat.value = center.lat;
+    form.current_lng.value = center.lng;
+    form.current_zoom.value = zoom;
 
+    //alert("lat"+form.current_lat.value+"----lng:"+form.current_lng.value);
+    //return false;
     
     //$("#spin_modal_id").modal('show');
     return true;
