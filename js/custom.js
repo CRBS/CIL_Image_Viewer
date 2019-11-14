@@ -141,6 +141,9 @@ function validatePreviewImage(form)
     //return false;
     
     //$("#spin_modal_id").modal('show');
+    
+    document.getElementById('prp_submit').disabled = true;
+    document.getElementById('after_submit').innerHTML = "<center><span style='color:#86b300'>Waiting.....</span></center>";
     return true;
 }
 
