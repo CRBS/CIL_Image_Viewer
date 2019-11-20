@@ -476,7 +476,7 @@
                                 Email address:
                             </div>
                             <div class="col-md-8">
-                                <input id="email" type="text" name="email" class="form-control">
+                                <input id="email" type="text" name="email" class="form-control" value="<?php if(isset($user_json) && isset($user_json->email)) echo $user_json->email;   ?>" readonly>
                             </div>
                             <div class="col-md-12">
                                 <br/>

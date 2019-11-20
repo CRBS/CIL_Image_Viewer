@@ -1042,6 +1042,35 @@ class DBUtil
     }
     
     
+    public function getUserInfo($db_params,$username)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return NULL;
+        $sql = "select id,username,email from users where username = $1";
+        $input = array();
+        array_push($input,$username);
+       
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return NULL;
+        }
+        
+        $array = NULL;
+        if($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['id'] = intval($row[0]);
+            $array['username'] = $row[1]; 
+            $array['email'] = $row[2];
+        }
+        
+        pg_close($conn);
+        return $array;
+    }
+    
     public function authenticateWebUser($db_params,$username,$password)
     {
         $conn = pg_pconnect($db_params);

@@ -24,8 +24,17 @@
                 $auth = $dbutil->authenticateWebUser($db_params, $username, $passkey);
                 if($auth)
                 {
+                    $user_info = $dbutil->getUserInfo($db_params, $username);
+                    if(!is_null($user_info))
+                    {
+                        $user_json_str = json_encode($user_info);
+                        $user_json = json_decode($user_json_str);
+                        $this->session->set_userdata('user_json', $user_json);
+                    }
                     $this->session->set_userdata('data_login', "true");
-                    redirect ($base_url."/cdeep3m_prp/".$image_id);
+                   
+                    //echo "Testing...";
+                     redirect ($base_url."/cdeep3m_prp/".$image_id);
                     return;
                 }
                 else
@@ -57,6 +66,18 @@
                 return;
             }
             /********End session check **********************/
+            
+            
+            /***********Getting user_json*******************/
+            $user_json  = $this->session->userdata('user_json');
+            if(!is_null($user_json))
+                $data['user_json'] = $user_json;
+            else
+            { 
+                redirect ($base_url."/cdeep3m_prp/login/".$image_id);
+                return;
+            }
+            /***********End user_json*******************/
             
             /************Checking the sessions***************/
             $waiting_for_result = $this->session->userdata(Constants::$waiting_for_result_key);
