@@ -763,7 +763,7 @@
                         
                     </div>
                     <div class="modal-footer">
-                      
+                        <a href="/logout" class="btn btn-secondary" target="_self">Log out</a>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>

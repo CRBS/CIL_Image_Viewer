@@ -1042,6 +1042,43 @@ class DBUtil
     }
     
     
+    public function getCdeep3mUserInfo($db_params,$username)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return NULL;
+        $sql = "select id, username,pass_hash,email,full_name from cdeep3m_users where username = $1";
+        $input = array();
+        array_push($input,$username);
+       
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return NULL;
+        }
+        
+        $array = NULL;
+        if($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['id'] = intval($row[0]);
+            $array['username'] = $row[1]; 
+            $array['pass_hash'] = $row[2];
+            $array['email'] = $row[3];
+            $array['full_name'] = $row[4];
+        }
+        
+        pg_close($conn);
+        
+        if(is_null($array))
+           return NULL;
+        
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        
+        return $json;
+    }
     public function getUserInfo($db_params,$username)
     {
         $conn = pg_pconnect($db_params);

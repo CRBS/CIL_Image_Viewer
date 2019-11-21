@@ -1,5 +1,5 @@
 <?php
-
+include_once 'PasswordHash.php';
 class Login extends CI_Controller
 {
     public function auth($image_id="0")
@@ -8,6 +8,7 @@ class Login extends CI_Controller
        
         //$this->load->library('session');
         $this->load->helper('url');
+        $hasher = new PasswordHash(8, TRUE);
         
         $username = $this->input->post('username', TRUE);
         $password = $this->input->post('password', TRUE);

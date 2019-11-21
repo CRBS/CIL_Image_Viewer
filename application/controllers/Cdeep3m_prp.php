@@ -1,12 +1,12 @@
 <?php
-
+    include_once 'PasswordHash.php';
     require_once 'GeneralUtil.php';
     require_once 'DBUtil.php';
     require_once 'DataLocalUtil.php';
     require_once 'Constants.php';
     class Cdeep3m_prp extends CI_Controller
     {
-        
+        /*
         public function login($image_id="0")
         {
             $this->load->helper('url');
@@ -49,6 +49,78 @@
             $data['title'] = "CIL login";
             $this->load->view('cdeep3m_prp/image_login_display', $data);
         }
+
+       */
+        
+
+        public function login($image_id="0")
+        {
+            $this->load->helper('url');
+            $base_url = $this->config->item('base_url');
+            $db_params = $this->config->item('db_params');
+            $salt = $this->config->item('salt');
+            $dbutil = new DBUtil();
+            $username = $this->input->post('username', TRUE);
+            $password = $this->input->post('password', TRUE);
+            $data['image_id'] = $image_id;
+            $data['wrong_password'] = false;
+            if(!is_null($username) && !is_null($password))
+            {
+                //$passkey = crypt($password,$salt);
+                //$auth = $dbutil->authenticateWebUser($db_params, $username, $passkey);
+                $user_json = $this->authenticate($username, $password);
+                if(!is_null($user_json))
+                {
+                    //$user_info = $dbutil->getUserInfo($db_params, $username);
+                    if(!is_null($user_json))
+                    {
+                        //$user_json_str = json_encode($user_info);
+                        //$user_json = json_decode($user_json_str);
+                        $this->session->set_userdata('user_json', $user_json);
+                    }
+                    $this->session->set_userdata('data_login', "true");
+                   
+                   
+                    redirect ($base_url."/cdeep3m_prp/".$image_id);
+                    return;
+                }
+                else
+                {
+                    $data['title'] = "CIL login";
+                    $data['wrong_password'] = true;
+                    $this->load->view('cdeep3m_prp/image_login_display', $data);
+                    return;
+                }
+            }
+            
+            $data['title'] = "CIL login";
+            $this->load->view('cdeep3m_prp/image_login_display', $data);
+        }
+
+        
+        
+        private function authenticate($username,$password)
+        {
+            $db_params = $this->config->item('db_params');
+            $dbutil= new DBUtil();
+            $userJson = $dbutil->getCdeep3mUserInfo($db_params, $username);
+            if(is_null($userJson))
+                return NULL;
+            
+            $hasher = new PasswordHash(8, TRUE);
+            if(!isset($userJson->pass_hash))
+                return NULL;
+            
+            echo $userJson->pass_hash;
+            
+            if(!$hasher->CheckPassword($password, $userJson->pass_hash))
+                return NULL;
+            else 
+                return $userJson;
+
+        }
+        
+        
         
         public function view($image_id="0")
         {
