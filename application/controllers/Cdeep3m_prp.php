@@ -51,7 +51,14 @@
         }
 
        */
-        
+        public function logout($image_id="0")
+        {
+            $this->load->helper('url');
+            $this->session->set_userdata('user_json', NULL);
+            $this->session->set_userdata('data_login', NULL);
+            redirect ($base_url."/cdeep3m_prp/login/".$image_id);
+            return;
+        }
 
         public function login($image_id="0")
         {

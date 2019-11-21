@@ -759,11 +759,53 @@
                                 <textarea id="sharable_url_id" rows="4" cols="40"></textarea>
                             </div>
                         </div>
+                        <hr>
+                        <!------New row--------------->
+                        <div class="row">
+                            <div class="col-md-3">User name:</div>
+                            <div class="col-md-9">
+                                <?php
+                                if(isset($user_json) && isset($user_json->username)) 
+                                    echo $user_json->username;
+                                else
+                                    echo "Unknown"
+                                ?>
+                            </div>
+                        </div>
+                        <!------End New row--------------->
                         
+                        
+                        <!------New row--------------->
+                        <div class="row">
+                            <div class="col-md-3">Email:</div>
+                            <div class="col-md-9">
+                                <?php
+                                if(isset($user_json) && isset($user_json->email)) 
+                                    echo $user_json->email;
+                                else
+                                    echo "Unknown"
+                                ?>
+                            </div>
+                        </div>
+                        <!------End New row--------------->
+                        
+                        <!------New row--------------->
+                        <div class="row">
+                            <div class="col-md-3">Full name:</div>
+                            <div class="col-md-9">
+                                <?php
+                                if(isset($user_json) && isset($user_json->full_name)) 
+                                    echo $user_json->full_name;
+                                else
+                                    echo "Unknown"
+                                ?>
+                            </div>
+                        </div>
+                        <!------End New row--------------->
                         
                     </div>
                     <div class="modal-footer">
-                        <a href="/logout" class="btn btn-secondary" target="_self">Log out</a>
+                        <a href="logout/<?php echo $image_id; ?>" class="btn btn-warning" target="_self">Log out</a>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>
