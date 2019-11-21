@@ -602,6 +602,29 @@ class DBUtil
         return $id;
     }
     
+    public function insertUserAction($db_params,$username,$ip_address,$action_type)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        $sql = "insert into cdeep3m_user_actions(id,user_name,ip_address,action_type,action_time) ".
+                " values(nextval('general_sequence'),$1,$2,$3,now())";
+        
+        $input = array();
+        array_push($input,$username);  //1
+        array_push($input,$ip_address); //2
+        array_push($input,$action_type); //3
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+        
+    }
     
     public function insertCroppingInfo($db_params,$image_id, $upper_left_x, $upper_left_y,
             $width, $height,$contact_email, $original_file_location,$starting_z,$ending_z,$contrast_enhancement)

@@ -69,6 +69,9 @@
             $dbutil = new DBUtil();
             $username = $this->input->post('username', TRUE);
             $password = $this->input->post('password', TRUE);
+            
+            $ip_address = $this->input->ip_address();
+            
             $data['image_id'] = $image_id;
             $data['wrong_password'] = false;
             if(!is_null($username) && !is_null($password))
@@ -83,6 +86,8 @@
                     {
                         //$user_json_str = json_encode($user_info);
                         //$user_json = json_decode($user_json_str);
+                        if(isset($user_json->username))
+                            $dbutil->insertUserAction($db_params, $user_json->username, $ip_address, "login");
                         $this->session->set_userdata('user_json', $user_json);
                     }
                     $this->session->set_userdata('data_login', "true");
