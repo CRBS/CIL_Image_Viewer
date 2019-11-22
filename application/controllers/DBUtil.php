@@ -754,6 +754,34 @@ class DBUtil
         return $exist;
     }
     
+    
+    
+    public function getAllDoi2ModelName($db_params)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return null;
+        }
+        $sql = "select id,model_name,doi from trained_models";
+        $result = pg_query($conn,$sql);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        
+        $array = null;
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array[$row[2]] = $row[1]; 
+        }
+        
+        pg_close($conn);
+        return $array;
+    }
+    
     public function getImageInfo($db_params,$image_id)
     {
         $conn = pg_pconnect($db_params);

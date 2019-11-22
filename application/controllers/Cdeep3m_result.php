@@ -48,6 +48,18 @@ class Cdeep3m_result extends CI_Controller
         $cutil = new CurlUtil();
         $dbutil = new DBUtil();
         $db_params = $this->config->item('db_params');
+        
+        
+        $doi2nameMap  = $dbutil->getAllDoi2ModelName($db_params);
+        if(!is_null($doi2nameMap))
+        {
+            //var_dump($doi2nameMap);
+            $data['doi2nameMap'] = $doi2nameMap;
+        }
+        else
+        {
+            //echo "It is a NULL<br/>";
+        }
         $data['title'] = "View Cdeep3m location results";
         $location_results = $dbutil->getLocationResults($db_params, $x, $y, $image_id);
         

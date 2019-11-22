@@ -25,6 +25,8 @@
                 </div>
 <?php
 
+
+
 //var_dump($location_results);
 //$json_str = json_encode($location_results, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 //echo $json_str;
@@ -47,6 +49,22 @@ foreach($location_results as $lr)
                     <li>Z location: <?php echo $lr->starting_z; ?></li>
                     <li>Width: <?php echo $lr->width; ?></li>
                     <li>Height: <?php echo $lr->height; ?></li>
+                    <li>Model: <?php 
+                    if(isset($doi2nameMap))
+                    {
+                        if(array_key_exists($lr->training_model_url, $doi2nameMap))
+                        {
+                            echo $doi2nameMap[$lr->training_model_url]." (".  str_replace("https://doi.org/10.7295/", "", $lr->training_model_url).")";
+                        }
+                        else
+                            echo $lr->training_model_url;
+                    }
+                    else
+                        echo $lr->training_model_url;
+                            
+                            ?></li>
+                    <li>Augspeed: <?php echo $lr->augspeed ?></li>
+                    <li>Frame: <?php echo $lr->frame ?></li>
                     <li>Submit time: <?php echo $lr->submit_time; ?></li>
                     <li>Finish time: <?php echo $lr->finish_time; ?></li>
                     <li><a href="/cdeep3m_result/view/<?php echo $lr->id;  ?>" target="_self">View details</a></li>
