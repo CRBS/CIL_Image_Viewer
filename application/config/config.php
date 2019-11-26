@@ -33,7 +33,7 @@ $configJson = json_decode($json_str);
 */
 $config['base_url'] = 'http://localhost'; //Development 
 //$config['base_url'] = 'https://microbial.crbs.ucsd.edu'; //staging
-//$config['base_url'] = 'https://spirilli.crbs.ucsd.edu'; //Production
+//$config['base_url'] = 'https://cdeep3m-viewer.crbs.ucsd.edu'; //Production
 
 /*
 |--------------------------------------------------------------------------
