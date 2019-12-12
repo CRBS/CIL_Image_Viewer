@@ -5,6 +5,7 @@ require_once 'GeneralUtil.php';
 require_once 'DBUtil.php';
 require_once 'DataLocalUtil.php';
 require_once 'CurlUtil.php';
+require_once 'MailUtil.php';
 
 class Image_process_rest extends REST_Controller
 {
@@ -376,6 +377,7 @@ class Image_process_rest extends REST_Controller
     {
         $dbutil = new DBUtil();
         $cutil = new CurlUtil();
+        $mailer = new MailUtil();
         $db_params = $this->config->item('db_params');
         $service_log_dir = $this->config->item('service_log_dir');
         error_log("update_crop_status_post----Crop_id:".$crop_id."\n", 3, $service_log_dir."/image_service_log.txt");
@@ -391,6 +393,9 @@ class Image_process_rest extends REST_Controller
             return;
         }
         
+        
+        $sendgrid_api_url = $this->config->item('sendgrid_api_url');
+        $sendgrid_api_key = $this->config->item('sendgrid_api_key');
         
         $crop_id = intval($crop_id);
         
@@ -414,6 +419,18 @@ class Image_process_rest extends REST_Controller
             if(strcmp($decoded_header, $image_metadata_auth)==0)
             {
                 $array['success'] = $dbutil->updateCropProcessMessage($db_params, $crop_id, $message);
+                
+                
+                $cropInfoJson = $dbutil->getCropProcessInfo($db_params, $crop_id);
+                if(!is_null($cropInfoJson) && isset($cropInfoJson->contact_email))
+                {
+                    $from  = "cdeep3m@ucsd.edu";
+                    $to = $cropInfoJson->contact_email;
+                    $subject = "Your CDeep3M processs is finished";
+                    $message = "https://cdeep3m-viewer-stage.crbs.ucsd.edu/cdeep3m_result/view/".$crop_id;
+                    $mailer->sendGridMail($to, $from, $subject, $message, $sendgrid_api_url, $sendgrid_api_key);
+                    
+                }
             }
             else
             {
