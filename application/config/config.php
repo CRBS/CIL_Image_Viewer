@@ -555,3 +555,7 @@ $config['cdeep3m_result_service'] = $configJson->cdeep3m_result_service;
 $config['salt'] = 'WLBH5nRcN2';
  
 $config['enable_augmentation'] = true;
+
+$config['sendgrid_api_url'] = $configJson->sendgrid_api_url;
+
+$config['sendgrid_api_key'] = $configJson->sendgrid_api_key;

@@ -191,6 +191,11 @@ class Image_process_rest extends REST_Controller
     
     public function report_process_finished_post($stage_or_prod="stage", $crop_id="0")
     {
+        /*$debugFile = "/tmp/cdeep3m_email_debug.txt";
+        if(file_exists($debugFile))
+            unlink ($debugFile);
+        error_log("\nBefore the if statement", 3, $debugFile);*/
+        
         $dbutil = new DBUtil();
         $db_params = $this->config->item('db_params');
         
@@ -222,6 +227,30 @@ class Image_process_rest extends REST_Controller
             {
                 $array['success'] = true;
                 $dbutil->updateIprocessFinishTime($db_params,$crop_id);
+                
+                
+                
+                /***************Sending email ********************/
+                /*$cropInfoJson = $dbutil->getCropProcessInfo($db_params, $crop_id);
+                if(!is_null($cropInfoJson) && isset($cropInfoJson->contact_email))
+                {
+                    
+                    error_log("\nIn the if statement", 3, $debugFile);
+                    $sendgrid_api_url = $this->config->item('sendgrid_api_url');
+                    $sendgrid_api_key = $this->config->item('sendgrid_api_key');
+                    $from  = "cdeep3m@ucsd.edu";
+                    $to = $cropInfoJson->contact_email;
+                    $subject = "Your CDeep3M processs is finished";
+                    $message = "https://cdeep3m-viewer-stage.crbs.ucsd.edu/cdeep3m_result/view/".$crop_id;
+                    $response = $mailer->sendGridMail($to, $from, $subject, $message, $sendgrid_api_url, $sendgrid_api_key);
+                    error_log("\n".$response, 3, $debugFile);
+                }
+                else 
+                {
+                    error_log("\nIn the else statement", 3, $debugFile);
+                }*/
+                 /***************End Sending email ********************/
+                
                 
                 
                 /*************Deleting the PRP POD*************/     
@@ -394,8 +423,7 @@ class Image_process_rest extends REST_Controller
         }
         
         
-        $sendgrid_api_url = $this->config->item('sendgrid_api_url');
-        $sendgrid_api_key = $this->config->item('sendgrid_api_key');
+        
         
         $crop_id = intval($crop_id);
         
@@ -421,16 +449,6 @@ class Image_process_rest extends REST_Controller
                 $array['success'] = $dbutil->updateCropProcessMessage($db_params, $crop_id, $message);
                 
                 
-                $cropInfoJson = $dbutil->getCropProcessInfo($db_params, $crop_id);
-                if(!is_null($cropInfoJson) && isset($cropInfoJson->contact_email))
-                {
-                    $from  = "cdeep3m@ucsd.edu";
-                    $to = $cropInfoJson->contact_email;
-                    $subject = "Your CDeep3M processs is finished";
-                    $message = "https://cdeep3m-viewer-stage.crbs.ucsd.edu/cdeep3m_result/view/".$crop_id;
-                    $mailer->sendGridMail($to, $from, $subject, $message, $sendgrid_api_url, $sendgrid_api_key);
-                    
-                }
             }
             else
             {

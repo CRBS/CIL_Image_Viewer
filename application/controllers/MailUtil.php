@@ -42,7 +42,7 @@ class MailUtil
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);//New line
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);//New line
         $result = curl_exec($ch);
-        
+        return $result;
     }
     
 }
