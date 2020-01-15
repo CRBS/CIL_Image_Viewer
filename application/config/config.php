@@ -3,12 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 $cil_annotation_config_file = "C:/data/cil_annotation_service_config.json"; //Staging database
+
 //$cil_annotation_config_file = "C:/data/cil_annotation_service_config_prod.json"; //Production database
 //$cil_annotation_config_file = "/var/www/cil_annotation_service_config.json"; //Staging database
 //$cil_annotation_config_file = "/var/www/cil_annotation_service_config_prod.json"; //Production database
 
 $json_str = file_get_contents($cil_annotation_config_file);
 $configJson = json_decode($json_str);
+
+$config['cil_pgsql_db'] = $configJson->cil_pgsql_db;
 /*
 |--------------------------------------------------------------------------
 | Base Site URL

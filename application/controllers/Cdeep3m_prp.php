@@ -133,15 +133,58 @@
         }
         
         
+        private function authenticateByToken($username, $token,$ip_address)
+        {
+            $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+            $db_params = $this->config->item('db_params');
+            $dbutil = new DBUtil();
+            $isTokenCorrect = $dbutil->isTokenCorrect($cil_pgsql_db, $username, $token);
+            if(!$isTokenCorrect)
+            {
+                return false;
+            }
+            
+            $user_json = $dbutil->getPortalUserInfo($cil_pgsql_db, $username);
+            if(is_null($user_json))
+            {
+                return false;
+            }
+            $this->session->set_userdata('data_login', "true");
+            $this->session->set_userdata('user_json', $user_json);
+            if(isset($user_json->username))
+                 $dbutil->insertUserAction($db_params, $user_json->username, $ip_address, "login");
+            return true;
+        }
+        
+        
         
         public function view($image_id="0")
         {
             $this->load->helper('url');
+            $dbutil = new DBUtil();
             
             $base_url = $this->config->item('base_url');
             $data['enable_augmentation'] = $this->config->item('enable_augmentation');
+            $cil_pgsql_db = $this->config->item('cil_pgsql_db');
             
             $data['base_url'] = $base_url;
+            
+            $token = $this->input->get('token', TRUE);
+            $username = $this->input->get('username', TRUE);
+            if(!is_null($username) && !is_null($token))
+            {
+                $ip_address = $this->input->ip_address();
+                /*echo "<br/>Username:".$username;
+                echo "<br/>Token:".$token;
+                
+                $isTokenCorrect = $dbutil->isTokenCorrect($cil_pgsql_db, $username, $token);
+                if($isTokenCorrect)
+                    echo "<br/>Correct";
+                else
+                    echo "<br/>Incorrect";
+                return;*/
+                $this->authenticateByToken($username, $token,$ip_address);
+            }
             /********Session check**************************/
             $data_login = $this->session->userdata('data_login');
             if(is_null($data_login))
@@ -215,7 +258,7 @@
             $data['base_url'] = $this->config->item('base_url');
             
             
-            $dbutil = new DBUtil();
+            
             $data['training_models'] = $dbutil->getTrainingModels($db_params);
             
             $tempJson = $dbutil->getPreferredCdeep3mSettings($db_params, $image_id);

@@ -1092,6 +1092,72 @@ class DBUtil
         
     }
     
+    public function isTokenCorrect($cil_pgsql_db,$username,$token)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $sql = "select id from cil_auth_tokens where username = $1 and token = $2";
+        $input = array();
+        array_push($input,$username);
+        array_push($input,$token);
+    
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        $isCorrect = false;
+        if($row = pg_fetch_row($result))
+        {
+            $isCorrect = true;
+        }
+        pg_close($conn);
+        return $isCorrect;
+        
+    }
+    
+    public function getPortalUserInfo($cil_pgsql_db,$username)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return NULL;
+        $sql = "select id,username,pass_hash,email,full_name from cil_users where username = $1";
+        $input = array();
+        array_push($input,$username);
+       
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return NULL;
+        }
+        
+        $array = NULL;
+        if($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['id'] = intval($row[0]);
+            $array['username'] = $row[1]; 
+            $array['pass_hash'] = $row[2];
+            $array['email'] = $row[3];
+            $array['full_name'] = $row[4];
+        }
+        
+        pg_close($conn);
+        
+        if(is_null($array))
+           return NULL;
+        
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        
+        return $json;
+    }
+    
     
     public function getCdeep3mUserInfo($db_params,$username)
     {
