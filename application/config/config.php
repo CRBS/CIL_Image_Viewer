@@ -2,8 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-$cil_annotation_config_file = "C:/data/cil_annotation_service_config.json"; //Staging database
+$is_prod = false;
 
+$cil_annotation_config_file="";
+if(!$is_prod)
+    $cil_annotation_config_file = "C:/data/cil_annotation_service_config.json"; //Staging database
+else
+    $cil_annotation_config_file = "/var/www/cil_annotation_service_config.json";
 //$cil_annotation_config_file = "C:/data/cil_annotation_service_config_prod.json"; //Production database
 //$cil_annotation_config_file = "/var/www/cil_annotation_service_config.json"; //Staging database
 //$cil_annotation_config_file = "/var/www/cil_annotation_service_config_prod.json"; //Production database
@@ -35,7 +40,7 @@ $config['cil_pgsql_db'] = $configJson->cil_pgsql_db;
 |
 */
 $config['base_url'] = 'http://localhost'; //Development 
-//$config['base_url'] = 'https://microbial.crbs.ucsd.edu'; //staging
+//$config['base_url'] = 'https://cdeep3m-viewer-stage.crbs.ucsd.edu'; //staging
 //$config['base_url'] = 'https://cdeep3m-viewer.crbs.ucsd.edu'; //Production
 
 /*
@@ -385,8 +390,11 @@ $config['sess_cookie_name'] = 'ci_session';
 //$config['sess_expiration'] = 7200;
 $config['sess_expiration'] = 0;
 //$config['sess_save_path'] = NULL;
-$config['sess_save_path'] = 'C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/temp';
-//$config['sess_save_path'] = '/var/www/temp';
+
+if(!$is_prod)
+    $config['sess_save_path'] = 'C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/temp';
+else
+    $config['sess_save_path'] = '/var/www/temp';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
@@ -531,14 +539,20 @@ $config['proxy_ips'] = '';
 
 //$config['broad_dir'] = '/export2/broad_data';
 
-//$config['image_tar_dir'] = '/export2/image_viewer_data';
-$config['image_tar_dir'] = 'C:/leaflet_data';
+if($is_prod)
+    $config['image_tar_dir'] = '/export2/image_viewer_data';
+else
+    $config['image_tar_dir'] = 'C:/leaflet_data';
 
-//$config['wib_error_log'] = '/var/www/html/wibjs.log';
-$config['wib_error_log'] = 'C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/wibjs.log';
+if($is_prod)
+    $config['wib_error_log'] = '/var/www/html/wibjs.log';
+else
+    $config['wib_error_log'] = 'C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/wibjs.log';
 
-//$config['place_holder_image'] = "/var/www/html/images/empty.png";
-$config['place_holder_image'] = "C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/images/empty.png";
+if($is_prod)
+    $config['place_holder_image'] = "/var/www/html/images/empty.png";
+else
+    $config['place_holder_image'] = "C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/images/empty.png";
 
 $config['db_params'] = $configJson->cil_annotation_pgsql_db;
 
@@ -550,8 +564,11 @@ $config['image_service_auth'] = $configJson->image_service_auth;
 
 $config['image_metadata_auth'] = $configJson->image_metadata_auth;
 
-$config['service_log_dir'] = "C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/log";
-//$config['service_log_dir'] = "/var/www/logs";
+if($is_prod)
+    $config['service_log_dir'] = "/var/www/logs";
+else
+    $config['service_log_dir'] = "C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/log";
+
 
 $config['cdeep3m_result_service'] = $configJson->cdeep3m_result_service;
 

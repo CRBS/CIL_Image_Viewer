@@ -344,7 +344,43 @@ class DBUtil
         return $json;
     }
     
-    
+    public function getTrainingModelsProd($cil_pgsql_db)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return null;
+        $sql = "select id, metadata_json from models where publish_date is not null order by  display_order desc";
+        $result = pg_query($conn,$sql);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        $main = array();
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $id = intval($row[0]);
+            $array['id'] = $id;
+            
+            $name = "";
+            $metadata_json_str = $row[1];
+            if(!is_null($metadata_json_str))
+            {
+                $metadata_json = json_decode($metadata_json_str);
+                if(!is_null($metadata_json) && isset($metadata_json->Cdeepdm_model->Name))
+                {
+                    $array['name'] = $metadata_json->Cdeepdm_model->Name;
+                }
+            }
+            $array['doi_url'] = "https://doi.org/10.7295/W9CDEEP3M".$id;
+            array_push($main, $array);
+        }
+        pg_close($conn);
+        $json_str = json_encode($main);
+        $json = json_decode($json_str);
+        return $json;
+    }
     public function getTrainingModels($db_params)
     {
         $conn = pg_pconnect($db_params);

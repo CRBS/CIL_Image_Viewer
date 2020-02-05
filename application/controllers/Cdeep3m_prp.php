@@ -255,11 +255,13 @@
             $data['tindex'] = intval($tindex);
 
             $db_params = $this->config->item('db_params');
+            $cil_pgsql_db = $this->config->item('cil_pgsql_db');
             $data['base_url'] = $this->config->item('base_url');
             
             
             
-            $data['training_models'] = $dbutil->getTrainingModels($db_params);
+            //$data['training_models'] = $dbutil->getTrainingModels($db_params);
+            $data['training_models'] = $dbutil->getTrainingModelsProd($cil_pgsql_db);
             
             $tempJson = $dbutil->getPreferredCdeep3mSettings($db_params, $image_id);
             if(!is_null($tempJson) && isset($tempJson->preferred_model))
