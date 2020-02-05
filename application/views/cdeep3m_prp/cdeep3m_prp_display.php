@@ -260,7 +260,9 @@
                                     ?>
                                  </select> 
                             </div>
-                            <div class="col-md-2"></div>
+                            <div class="col-md-2">
+                                
+                            </div>
 
                             <div class="col-md-4">
                                 Email address:
@@ -453,7 +455,10 @@
                                     <option value="1">1</option>
                                 </select>
                             </div> 
-                            <div class="col-md-2"></div>
+                            <div class="col-md-2">
+                                <a href="#" style="color:#00aaff" title="Augspeed 10: fastest, no addtl augmentation
+Augspeed 1: slowest, 16x augmented (8x for 1fm), higher accuracy" >Info</a>
+                            </div>
                             <div class="col-md-4">
                                 Neural net:
                             </div>
@@ -465,7 +470,11 @@
                                 <input type="checkbox" id="fm3" name="fm3" value="3fm" onchange="showRuntime()">3fm&nbsp;&nbsp;
                                 <input type="checkbox" id="fm5" name="fm5" value="5fm" onchange="showRuntime()">5fm
                             </div> 
-                            <div class="col-md-2"></div> 
+                            <div class="col-md-2">
+                                <a href="#" style="color:#00aaff" title="1fm (1 frame) = 2D model
+3fm (3 frames) = 3D model
+5fm (5 frames) = 3D model" >Info</a>
+                            </div> 
                             <div class="col-md-12"><br/></div>
                             <?php
                                 }
