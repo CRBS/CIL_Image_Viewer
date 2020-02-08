@@ -448,6 +448,7 @@
                             </div>
                             <div class="col-md-6">
                                 <select name="ct_augmentation" id="ct_augmentation" class="form-control" onchange="showRuntime()">
+                                    <!-- <option value="16">16</option> -->  <!-- Debug -->
                                     <option value="10">10</option>
                                     <!-- <option value="8">8</option> -->
                                     <option value="4">4</option>

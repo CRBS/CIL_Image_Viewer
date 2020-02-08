@@ -20,7 +20,7 @@ class MailUtil
             $mail = new PHPMailer(true);
             error_log("\n".date("Y-m-d h:i:sa")."-------PHPMailer instance",3,$email_error_log_file);
             //Server settings
-            $mail->SMTPDebug = 2;                      // Enable verbose debug output
+            $mail->SMTPDebug = 0;                      // Enable verbose debug output
             $mail->isSMTP();
             $mail->SMTPAuth = true;
             $mail->SMTPSecure = "ssl";

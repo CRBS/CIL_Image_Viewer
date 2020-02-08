@@ -579,3 +579,12 @@ $config['enable_augmentation'] = true;
 $config['sendgrid_api_url'] = $configJson->sendgrid_api_url;
 
 $config['sendgrid_api_key'] = $configJson->sendgrid_api_key;
+
+
+/***********Gmail config*******************************/
+$config['gmail_sender'] = $configJson->gmail_sender;
+$config['gmail_sender_name'] = $configJson->gmail_sender_name;
+$config['gmail_sender_pwd'] = $configJson->gmail_sender_pwd;
+$config['gmail_reply_to'] = $configJson->gmail_reply_to;
+$config['gmail_reply_to_name'] = $configJson->gmail_reply_to_name;
+/***********End Gmail config***************************/

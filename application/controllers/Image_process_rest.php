@@ -289,6 +289,8 @@ class Image_process_rest extends REST_Controller
     {
         $dbutil = new DBUtil();
         $cutil = new CurlUtil();
+        $mutil = new MailUtil();
+        date_default_timezone_set( 'America/Los_Angeles' );
         $db_params = $this->config->item('db_params');
         $service_log_dir = $this->config->item('service_log_dir');
         error_log("update_cdeep3m_error_postt----Crop_id:".$crop_id."\n", 3, $service_log_dir."/image_service_log.txt");
@@ -321,7 +323,51 @@ class Image_process_rest extends REST_Controller
             $array = array();
             if(strcmp($decoded_header, $image_metadata_auth)==0)
             {
+                
                 $array['success'] = $dbutil->updateCropError($db_params, $crop_id);
+                /***************Send Gmail*******************/
+                $cropInfoJson = $dbutil->getCropProcessInfo($db_params , $crop_id);
+                $email_log_file = $service_log_dir."/email_error.log";
+                error_log("\n".date("Y-m-d h:i:sa")."-----------------------------------------------------------------------------", 3, $email_log_file);
+                error_log("\n".date("Y-m-d h:i:sa")."----------------------Start sending email", 3, $email_log_file);
+                $email_log_file = $service_log_dir."/email_error.log";
+                $gmail_sender = $this->config->item('gmail_sender');
+                $gmail_sender_name = $this->config->item('gmail_sender_name');
+                $gmail_sender_pwd = $this->config->item('gmail_sender_pwd');
+                $gmail_reply_to = $this->config->item('gmail_reply_to');
+                $gmail_reply_to_name = $this->config->item('gmail_reply_to_name');
+                
+                error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_sender:".$gmail_sender, 3, $email_log_file);
+                error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_sender_name:".$gmail_sender_name, 3, $email_log_file);
+                error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_sender_pwd:".$gmail_sender_pwd, 3, $email_log_file);
+                error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_reply_to:".$gmail_reply_to, 3, $email_log_file);
+                error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_reply_to_name:".$gmail_reply_to_name, 3, $email_log_file);
+                
+                
+                $subject = "Error in your CDeep3M process: ".$crop_id;
+                $message = "See the error log files:<br/>"."http://cildata.crbs.ucsd.edu/cdeep3m_results/".$crop_id."/log/logs.tar";
+                if(!is_null($cropInfoJson))
+                {
+                    if(isset($cropInfoJson->contact_email))
+                    {
+                        error_log("\n".date("Y-m-d h:i:sa")."----------------------contact_email:".$cropInfoJson->contact_email, 3, $email_log_file);
+                    }
+                    else
+                    {
+                        $cropInfoJson_str = json_encode($cropInfoJson, JSON_PRETTY_PRINT );
+                        error_log("\n".date("Y-m-d h:i:sa")."----------------------cropInfoJson_str:".$cropInfoJson_str, 3, $email_log_file);
+                    }
+                }
+                else 
+                {
+                    error_log("\n".date("Y-m-d h:i:sa")."----------------------contact_email is NULL", 3, $email_log_file);
+                }
+                $mutil->sendGmail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd,$cropInfoJson->contact_email, $gmail_reply_to, $gmail_reply_to_name, $subject, $message, $email_log_file);
+                error_log("\n".date("Y-m-d h:i:sa")."----------------------Finished sending email to ".$cropInfoJson->contact_email, 3, $email_log_file);
+                error_log("\n".date("Y-m-d h:i:sa")."-----------------------------------------------------------------------------", 3, $email_log_file);
+                /***************End send Gmail***************/
+                
+                
             }
             else
             {
