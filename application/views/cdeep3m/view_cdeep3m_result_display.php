@@ -180,10 +180,25 @@
                 if(strcmp($original_file_location, "NA") != 0)
                 {
             ?>
-            Download image: wget <?php echo $original_file_location; ?>
+            <br/><b>Step 1) Download image:</b> <br/>wget <?php echo $original_file_location; ?>
             <?php
                 }
             ?>
+        </div>
+        <div class="col-md-12">
+            <br/><b>Step 2) Create the input image folder and the prediction output folder:</b> <br/> mkdir tifs<br/>mkdir predictions
+        </div>
+        <div class="col-md-12">
+            <br/><b>Step 3) Convert the mrc file to TIFF images:</b> <br/> mrc2tif <?php echo basename($original_file_location); ?> tifs/image
+        </div>
+        <div class="col-md-12">
+            <br/><b>Step 4) Download the trained model file:</b> <br/> wget <?php echo $cropInfo->training_model_url; ?> 
+        </div>
+        <div class="col-md-12">
+            <br/><b>Step 5) Unzip the compressed model file:</b> <br/> unzip  $Model_file
+        </div>
+        <div class="col-md-12">
+            <br/><b>Step 6) Run the prediction process</b><br/>runprediction.sh --augspeed <?php echo $cropInfo->augspeed;  ?> --models <?php echo $cropInfo->frame;  ?> $Model_file ~/tifs/ ~/predictions
         </div>
     </div>
     
