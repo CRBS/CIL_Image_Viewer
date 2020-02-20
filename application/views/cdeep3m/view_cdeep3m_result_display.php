@@ -171,37 +171,51 @@
     <div class="row">
         <div class="col-md-12"><br/></div>
     </div>
+    
+    
+    <?php
+                
+        if(strcmp($original_file_location, "NA") != 0)
+        {
+    ?>
     <div class="row">
         <div class="col-md-12">
-            <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-1-6-3rc3&amp;templateURL=https://s3-us-west-2.amazonaws.com/cdeep3m-releases-s3/1.6.3rc3/cdeep3m_1.6.3rc3_basic_cloudformation.json" rel="nofollow"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a>
+            <br/>
         </div>
         <div class="col-md-12">
-            <?php
-                if(strcmp($original_file_location, "NA") != 0)
-                {
-            ?>
-            <br/><b>Step 1) Download image:</b> <br/>wget <?php echo $original_file_location; ?>
-            <?php
-                }
-            ?>
+            <span class='cil_title'>Launch CDeep3M on the AWS cloud</span>
         </div>
         <div class="col-md-12">
-            <br/><b>Step 2) Create the input image folder and the prediction output folder:</b> <br/> mkdir tifs<br/>mkdir predictions
+            <!-- <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-1-6-3rc3&amp;templateURL=https://s3-us-west-2.amazonaws.com/cdeep3m-releases-s3/1.6.3rc3/cdeep3m_1.6.3rc3_basic_cloudformation.json" rel="nofollow"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a> -->
+            <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-py3-docker&templateURL=https://cf-templates-1i8oypshb6jhq-us-west-2.s3-us-west-2.amazonaws.com/cloud_formation_cdeep3m_py3-docker.json" rel="nofollow" target="_blank"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a> 
         </div>
         <div class="col-md-12">
-            <br/><b>Step 3) Convert the mrc file to TIFF images:</b> <br/> mrc2tif <?php echo basename($original_file_location); ?> tifs/image
+            <br/><b>Step 1) Launch the docker container on AWS</b><br/>docker run -it --network=host  --gpus all --entrypoint /bin/bash ncmir/cdeep3m
         </div>
         <div class="col-md-12">
-            <br/><b>Step 4) Download the trained model file:</b> <br/> wget <?php echo $cropInfo->training_model_url; ?> 
+            
+            <br/><b>Step 2) Download image:</b> <br/>wget <?php echo $original_file_location; ?>
+            
         </div>
         <div class="col-md-12">
-            <br/><b>Step 5) Unzip the compressed model file:</b> <br/> unzip  $Model_file
+            <br/><b>Step 3) Create the input image folder:</b> <br/> mkdir tifs
         </div>
         <div class="col-md-12">
-            <br/><b>Step 6) Run the prediction process</b><br/>runprediction.sh --augspeed <?php echo $cropInfo->augspeed;  ?> --models <?php echo $cropInfo->frame;  ?> $Model_file ~/tifs/ ~/predictions
+            <br/><b>Step 4) Convert the mrc file to TIFF images:</b> <br/> mrc2tif <?php echo basename($original_file_location); ?> tifs/image
+        </div>
+        <div class="col-md-12">
+            <br/><b>Step 5) Download the trained model file:</b> <br/> wget <?php echo $cropInfo->training_model_url; ?> 
+        </div>
+        <div class="col-md-12">
+            <br/><b>Step 6) Unzip the compressed model file:</b> <br/> unzip  $Model_file
+        </div>
+        <div class="col-md-12">
+            <br/><b>Step 7) Run the prediction process</b><br/>runprediction.sh --augspeed <?php echo $cropInfo->augspeed;  ?> --models <?php echo $cropInfo->frame;  ?> $Model_file ~/tifs/ ~/predictions
         </div>
     </div>
-    
+    <?php
+        }
+    ?>
 </div>
 </body>
 </html>
