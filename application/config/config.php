@@ -13,6 +13,9 @@ else
 //$cil_annotation_config_file = "/var/www/cil_annotation_service_config.json"; //Staging database
 //$cil_annotation_config_file = "/var/www/cil_annotation_service_config_prod.json"; //Production database
 
+$config['docker_image_type'] = "latest";
+//$config['docker_image_type'] = "stable";
+
 $json_str = file_get_contents($cil_annotation_config_file);
 $configJson = json_decode($json_str);
 

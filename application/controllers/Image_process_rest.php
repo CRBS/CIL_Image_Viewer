@@ -522,6 +522,11 @@ class Image_process_rest extends REST_Controller
         $cutil = new CurlUtil();
         $db_params = $this->config->item('db_params');
         $service_log_dir = $this->config->item('service_log_dir');
+        //$docker_image_type = $this->config->item('docker_image_type');
+        
+        if(file_exists($service_log_dir."/image_service_log.txt"))
+            unlink($service_log_dir."/image_service_log.txt");
+        
         error_log("report_crop_finished_post-Crop_id:".$crop_id."\n", 3, $service_log_dir."/image_service_log.txt");
         
         if(!is_numeric($crop_id))
@@ -563,7 +568,14 @@ class Image_process_rest extends REST_Controller
                 $cropInfoJsonStr = json_encode($cropInfoJson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
                 error_log("\n".$cropInfoJsonStr."\n", 3, $service_log_dir."/image_service_log.txt");
                 if(isset($cropInfoJson->use_prp) && $cropInfoJson->use_prp)
-                   $image_service_url = $image_service_prefix."/cdeep3m_prp_service/image_preview_step2/stage/".$crop_id;    
+                {
+                   $crop_id = intval($crop_id);
+                   $docker_image_type = $dbutil->getDockerImageType($db_params, $crop_id);
+                    
+                   $image_service_url = $image_service_prefix."/cdeep3m_prp_service/image_preview_step2/stage/".$crop_id."/".$docker_image_type;    
+                   error_log("\n".$image_service_url."\n", 3, $service_log_dir."/image_service_log.txt");
+                   
+                }
                 else
                    $image_service_url = $image_service_prefix."/image_process_service/image_preview_step2/stage/".$crop_id;
                 error_log($image_service_url."\n", 3, $service_log_dir."/image_service_log.txt");

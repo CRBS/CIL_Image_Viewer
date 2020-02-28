@@ -557,6 +557,30 @@ class DBUtil
         return $id;
     }
     
+    public function getDockerImageType($db_params, $crop_id)
+    {
+        $defaultType = "stable";
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return $defaultType;
+        $sql = "select docker_image_type from cropping_processes where id = $1";
+        $input = array();
+        array_push($input,$crop_id);  //1
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return $defaultType;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            $defaultType = $row[0];
+        }
+        pg_close($conn);
+        return $defaultType;
+        
+    }
     
     public function getOriginalFileLocation($db_params,$image_id)
     {
@@ -1409,6 +1433,29 @@ class DBUtil
         pg_close($conn);
         
         return true;   
+    }
+    
+    public function updateDockerImageType($db_params, $imageType, $crop_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return fa;se;
+        }
+        $input = array();
+        array_push($input, $imageType);
+        array_push($input, $crop_id);
+        $sql = "update cropping_processes set docker_image_type = $1 where id = $2";
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        
+        return true;  
+        
     }
     
     public function updateCropError($db_params,$crop_id)

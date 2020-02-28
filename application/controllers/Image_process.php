@@ -334,6 +334,12 @@
                     $is_cdeep3m_preview, $is_cdeep3m_run, $ct_training_models,$ct_augmentation, $frame,$use_prp);
             echo "<br/><br/>New ID:".$id;
             
+            if(is_numeric($id))
+            {
+                $docker_image_type = $this->config->item('docker_image_type');
+                $id = intval($id);
+                $dbutil->updateDockerImageType($db_params, $docker_image_type, $id);
+            }
              
             
             if(is_numeric($id))
