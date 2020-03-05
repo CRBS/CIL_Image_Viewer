@@ -212,11 +212,13 @@
                  <div class="col-md-12">
                      <br/><b>Step 3) Launch the docker container </b><br/>docker run -it --network=host  --gpus all --entrypoint /bin/bash ncmir/cdeep3m
                  </div>
+                 
                  <div class="col-md-12">
 
-                    <br/><b>Step 4) Download image:</b> <br/>wget <?php echo $original_file_location; ?>
+                     <br/><b>Step 4) Download image:</b> <br/><span>wget <?php echo $original_file_location; ?></span>
 
                 </div>
+
                 <div class="col-md-12">
                     <br/><b>Step 5) Create the input image folder:</b> <br/> mkdir tifs
                 </div>
