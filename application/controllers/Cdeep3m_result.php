@@ -13,7 +13,7 @@ class Cdeep3m_result extends CI_Controller
         $dbutil = new DBUtil();
         $db_params = $this->config->item('db_params');
         $data['title'] = "View Cdeep3m result";
-        
+        $data['cdeep3m_website']= $this->config->item('cdeep3m_website');
         $cdeep3m_result_service = $this->config->item('cdeep3m_result_service');
         $url = $cdeep3m_result_service."/".$crop_id;
         $image_service_auth = $this->config->item('image_service_auth');

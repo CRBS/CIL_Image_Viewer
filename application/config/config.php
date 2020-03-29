@@ -16,6 +16,10 @@ else
 $config['docker_image_type'] = "latest";
 //$config['docker_image_type'] = "stable";
 
+$config['cdeep3m_website'] = "https://cdeep3m-stage.crbs.ucsd.edu";
+//$config['cdeep3m_website'] = "https://cdeep3m.crbs.ucsd.edu";
+
+
 $json_str = file_get_contents($cil_annotation_config_file);
 $configJson = json_decode($json_str);
 
