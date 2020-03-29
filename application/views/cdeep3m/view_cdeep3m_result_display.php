@@ -51,7 +51,8 @@
             else
                 echo  $cdeep3m_result->Original_images[0];*/
             
-            echo $cdeep3m_result->Original_images[$init_pos];
+            //echo $cdeep3m_result->Original_images[$init_pos];
+            echo $cdeep3m_result->Overlay_images[$init_pos];
             ?>'>
         </div>
         <div class="col-md-6">
@@ -141,13 +142,47 @@
                      <?php
                      }
                      ?>
-                    <li>X location: <?php echo $cropInfo->upper_left_x;  ?> pixels</li>
+                     
+                    <?php
+                    if(strcmp($original_file_location, "NA") != 0)
+                    {
+                    ?>
+                        <li>X location: <?php echo $cropInfo->upper_left_x;  ?> pixels</li> 
+                    <?php
+                    }
+                    ?>
+                    
+                    <?php
+                    if(strcmp($original_file_location, "NA") != 0)
+                    {
+                    ?>
                      <li>Y location: <?php echo $cropInfo->upper_left_y;  ?> pixels</li>
+                    <?php
+                    }
+                    ?>
+                     
+                    <?php
+                    if(strcmp($original_file_location, "NA") != 0)
+                    {
+                    ?>
                      <li>Width: <?php echo $cropInfo->width;  ?> pixels</li>
+                    <?php
+                    }
+                    ?>
+                     
+                     
+                    <?php
+                    if(strcmp($original_file_location, "NA") != 0)
+                    {
+                    ?> 
                      <li>Height: <?php echo $cropInfo->height;  ?> pixels</li>
+                    <?php
+                    }
+                    ?> 
+                     
                      <?php
                      
-                        $modelID = str_replace("https://doi.org/10.7295", "", $cropInfo->training_model_url);
+                        $modelID = str_replace("https://doi.org/10.7295/", "", $cropInfo->training_model_url);
                      ?>
                      <li>Training model: <?php if(isset($trained_model)) echo $trained_model->model_name;  ?> (<a href='<?php  echo $cropInfo->training_model_url;  ?>' ><?php  echo $modelID;  ?></a>) </li>
                      <li>Augspeed: <?php echo $cropInfo->augspeed;  ?> </li>
@@ -164,6 +199,10 @@
                      ?>
                    </ul>
                 </div>
+                <div class="col-md-12">
+                    <br/>
+                    <a href="https://cdeep3m.crbs.ucsd.edu" target="_self" class="btn btn-primary">Go to CDeep3M homepage</a>
+                </div>
             </div>
         </div>
         <div class="col-md-12"><?php //echo json_encode($cdeep3m_result, JSON_UNESCAPED_SLASHES); ?></div>
@@ -178,7 +217,8 @@
         if(strcmp($original_file_location, "NA") != 0)
         {
     ?>
-    <div class="row">
+    
+ <div class="row">
         <div class="col-md-6" style="background-color: #E8E8E8">
              <div class="row">
                 <div class="col-md-12">
@@ -247,7 +287,6 @@
                     <span class='cil_title'>Launch CDeep3M on the AWS cloud</span>
                 </div>
                 <div class="col-md-12">
-                    <!-- <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-1-6-3rc3&amp;templateURL=https://s3-us-west-2.amazonaws.com/cdeep3m-releases-s3/1.6.3rc3/cdeep3m_1.6.3rc3_basic_cloudformation.json" rel="nofollow"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a> -->
                     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-py3-docker&templateURL=https://cf-templates-1i8oypshb6jhq-us-west-2.s3-us-west-2.amazonaws.com/cloud_formation_cdeep3m_py3-docker.json" rel="nofollow" target="_blank"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a> 
                 </div>
                 <div class="col-md-12">
@@ -275,13 +314,151 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     <?php
         }
         else 
         {
     ?>
     
+    
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" collapsed type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            Launch CDeep3M using Docker <img src="/images/docker_logo.png" height="32px" />
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+          <div class="row">
+              <div class="col-md-12">
+                    <span class='cil_title'>Launch CDeep3M using Docker</span>
+                </div>
+                 <div class="col-md-12">
+                    <br/>
+                </div>
+                 <div class="col-md-12">
+                     <a href="https://docs.docker.com/install/" target="_blank"><img src="/images/docker_logo.png" height="32px" /></a>
+                 </div>
+                 
+                 <div class="col-md-12">
+                    <br/>
+                </div>
+                 <div class="col-md-12">
+                     <br/><b>Step 1) Install Docker</b><br/><a href="https://docs.docker.com/install/" target="_blank">https://docs.docker.com/install/</a>
+                 </div>
+                 <div class="col-md-12">
+                    <br/>
+                </div>
+                 <div class="col-md-12">
+                     <b>Step 2) Pull the CDeep3M image </b><br/>docker pull ncmir/cdeep3m
+                 </div>
+                 <div class="col-md-12">
+                    <br/>
+                </div>
+                 <div class="col-md-12">
+                     <b>Step 3) Launch the docker container </b><br/>docker run -it --network=host  --gpus all --entrypoint /bin/bash ncmir/cdeep3m
+                 </div>
+                 
+                <div class="col-md-12">
+                    <br/><b>Step 4) Download the trained model file:</b> <br/> wget <?php echo $cropInfo->training_model_url; ?> 
+                </div>
+                <div class="col-md-12">
+                    <br/><b>Step 5) Untar the model file:</b> <br/> tar -xvf  $MODEL_FILE
+                </div>
+                <div class="col-md-12">
+                    <br/><b>Step 6) Run the prediction process</b><br/>runprediction.sh --augspeed <?php echo $cropInfo->augspeed;  ?> --models <?php echo $cropInfo->frame;  ?> $MODEL_FOLDER $IMAGE_FOLDER ~/predictions
+                </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Launch CDeep3M using Singularity <img src="/images/singularity_logo.svg" height="32px" />
+        </button>
+      </h5>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body">
+          <div class="row">
+              
+                <div class="col-md-12">
+                    <span class='cil_title'>Launch CDeep3M using Singularity</span>
+                </div>
+              <div class="col-md-12">
+                     <a href="https://sylabs.io/" target="_blank"><img src="/images/singularity_logo.svg" height="32px" /></a>
+               </div>
+              <div class="col-md-12">
+                  <br/><b>Step 1) Install Singularity</b><br/><a href="https://sylabs.io/docs/" target="_blank">https://sylabs.io/docs/</a>
+              </div>
+              
+              <div class="col-md-12">
+                  <br/><b>Step 2) Download Singularity image file</b><br/>wget https://doi.org/10.7295/W9CDEEP3M_SINGULARITY
+              </div>
+              
+              <div class="col-md-12">
+                  <br/><b>Step 3) Launch the Singularity container</b><br/>singularity shell --nv cdeep3m-docker.simg
+              </div>
+
+                <div class="col-md-12">
+                    <br/><b>Step 4) Download the trained model file:</b> <br/> wget <?php echo $cropInfo->training_model_url; ?> 
+                </div>
+                <div class="col-md-12">
+                    <br/><b>Step 5) Untar the model file:</b> <br/> tar -xvf  $MODEL_FILE
+                </div>
+                <div class="col-md-12">
+                    <br/><b>Step 6) Run the prediction process</b><br/>runprediction.sh --augspeed <?php echo $cropInfo->augspeed;  ?> --models <?php echo $cropInfo->frame;  ?> $MODEL_FOLDER $IMAGE_FOLDER ~/predictions
+                </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Launch CDeep3M on the AWS cloud <span style="color:black"><b>Amazon Web Services</b></span>
+        </button>
+      </h5>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+          <div class="row">
+                <div class="col-md-12">
+                    <span class='cil_title'>Launch CDeep3M on the AWS cloud</span>
+                </div>
+                <div class="col-md-12">
+
+                    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-py3-docker&templateURL=https://cf-templates-1i8oypshb6jhq-us-west-2.s3-us-west-2.amazonaws.com/cloud_formation_cdeep3m_py3-docker.json" rel="nofollow" target="_blank"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a> 
+                </div>
+                <div class="col-md-12">
+                    <br/><b>Step 1) Launch the docker container on AWS</b><br/>docker run -it --network=host  --gpus all --entrypoint /bin/bash ncmir/cdeep3m
+                </div>
+                
+                
+                <div class="col-md-12">
+                    <br/><b>Step 5) Download the trained model file:</b> <br/> wget <?php echo $cropInfo->training_model_url; ?> 
+                </div>
+                <div class="col-md-12">
+                    <br/><b>Step 6) Untar the model file:</b> <br/> tar -xvf  $MODEL_FILE
+                </div>
+                <div class="col-md-12">
+                    <br/><b>Step 7) Run the prediction process</b><br/>runprediction.sh --augspeed <?php echo $cropInfo->augspeed;  ?> --models <?php echo $cropInfo->frame;  ?> $MODEL_FOLDER $IMAGE_FOLDER ~/predictions
+                </div>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+ <!--   
 <div class="row">
         <div class="col-md-6" style="background-color: #E8E8E8">
              <div class="row">
@@ -339,7 +516,7 @@
                     <span class='cil_title'>Launch CDeep3M on the AWS cloud</span>
                 </div>
                 <div class="col-md-12">
-                    <!-- <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-1-6-3rc3&amp;templateURL=https://s3-us-west-2.amazonaws.com/cdeep3m-releases-s3/1.6.3rc3/cdeep3m_1.6.3rc3_basic_cloudformation.json" rel="nofollow"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a> -->
+
                     <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-py3-docker&templateURL=https://cf-templates-1i8oypshb6jhq-us-west-2.s3-us-west-2.amazonaws.com/cloud_formation_cdeep3m_py3-docker.json" rel="nofollow" target="_blank"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a> 
                 </div>
                 <div class="col-md-12">
@@ -359,7 +536,7 @@
             </div>
         </div>
     </div>    
-    
+    -->
     
     
     <?php
@@ -373,9 +550,14 @@
 
 
 <script>
-    document.getElementById('original').checked = true;
+    /*document.getElementById('original').checked = true;
     document.getElementById('segmented').checked = false;
-    document.getElementById('overlay').checked = false;
+    document.getElementById('overlay').checked = false;*/
+    
+    document.getElementById('original').checked = false;
+    document.getElementById('segmented').checked = false;
+    document.getElementById('overlay').checked = true;
+    
     var max_z = <?php echo $data_size;?>;
     var cjson = JSON.parse('<?php echo json_encode($cdeep3m_result, JSON_UNESCAPED_SLASHES);  ?>');
     function toggle_radio_btn(val)
@@ -456,3 +638,5 @@
     }
     
 </script>
+
+
