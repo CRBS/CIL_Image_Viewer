@@ -347,6 +347,9 @@
       </div>
     </div>
   </div>
+  
+    
+  <!--vcard-->
   <div class="card">
     <div class="card-header" id="headingThree">
       <h5 class="mb-0">
@@ -399,6 +402,50 @@
       </div>
     </div>
   </div>
+  <!--End vcard-->
+  
+  <!--vcard-->
+  <div class="card">
+    <div class="card-header" id="headingFour">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            Launch CDeep3M using Google Colab <span style="color:black"><b>Google</b></span>
+        </button>
+      </h5>
+    </div>
+    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+      <div class="card-body">
+          <div class="row">
+                <div class="col-md-12">
+                    <span class='cil_title'>CDeep3M-Colab Prediction GUI</span>
+                </div>
+                <div class="col-md-12">
+                    Run CDeep3M predictions with a graphical user interface (GUI) on Google Colab's free GPUs. 
+                </div>
+              <div class="col-md-12">
+                  <a href="https://colab.research.google.com/github/haberlmatt/cdeep3m-colab/blob/master/CDeep3M_V2_RetrainingGUI.ipynb" rel="nofollow" target="_blank"><img src="https://camo.githubusercontent.com/52feade06f2fecbf006889a904d221e6a730c194/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667" data-canonical-src="https://colab.research.google.com/assets/colab-badge.svg" style="max-width:100%;" align="middle"></a>
+              </div>
+              <div class="col-md-12">
+                  <br/>
+              </div>
+              <div class="col-md-12">
+                    <span class='cil_title'>CDeep3M-Colab CLI</span>
+               </div>
+              <div class="col-md-12">
+                    If you are comfortable using a command line interface, this provides the most flexible way to use all functionality of CDeep3M while using Googles free GPUs. It performs the complete CDeep3M installation and sets you up with the CDeep3M CLI on colab.
+               </div>
+              <div class="col-md-12">
+                  <a href="https://colab.research.google.com/github/haberlmatt/cdeep3m-colab/blob/master/CDeep3M_V2_installation_and_CLI.ipynb" rel="nofollow"><img src="https://camo.githubusercontent.com/52feade06f2fecbf006889a904d221e6a730c194/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667" data-canonical-src="https://colab.research.google.com/assets/colab-badge.svg" style="max-width:100%;" align="middle"></a>
+              </div>
+              <div class="col-md-12">
+                  <br/>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  <!--End vcard-->
+  
 </div>
  <!--    
  <div class="row">
@@ -609,6 +656,9 @@
       </div>
     </div>
   </div>
+  
+    
+  <!--- vcard ----->  
   <div class="card">
     <div class="card-header" id="headingThree">
       <h5 class="mb-0">
@@ -645,6 +695,53 @@
       </div>
     </div>
   </div>
+  <!--End vcard -->
+  
+  
+  <!--vcard-->
+  <div class="card">
+    <div class="card-header" id="headingFour">
+      <h5 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            Launch CDeep3M using Google Colab <span style="color:black"><b>Google</b></span>
+        </button>
+      </h5>
+    </div>
+    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+      <div class="card-body">
+          <div class="row">
+                <div class="col-md-12">
+                    <span class='cil_title'>CDeep3M-Colab Prediction GUI</span>
+                </div>
+                <div class="col-md-12">
+                    Run CDeep3M predictions with a graphical user interface (GUI) on Google Colab's free GPUs. 
+                </div>
+              <div class="col-md-12">
+                  <a href="https://colab.research.google.com/github/haberlmatt/cdeep3m-colab/blob/master/CDeep3M_V2_RetrainingGUI.ipynb" rel="nofollow" target="_blank"><img src="https://camo.githubusercontent.com/52feade06f2fecbf006889a904d221e6a730c194/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667" data-canonical-src="https://colab.research.google.com/assets/colab-badge.svg" style="max-width:100%;" align="middle"></a>
+              </div>
+              <div class="col-md-12">
+                  <br/>
+              </div>
+              <div class="col-md-12">
+                    <span class='cil_title'>CDeep3M-Colab CLI</span>
+               </div>
+              <div class="col-md-12">
+                    If you are comfortable using a command line interface, this provides the most flexible way to use all functionality of CDeep3M while using Googles free GPUs. It performs the complete CDeep3M installation and sets you up with the CDeep3M CLI on colab.
+               </div>
+              <div class="col-md-12">
+                  <a href="https://colab.research.google.com/github/haberlmatt/cdeep3m-colab/blob/master/CDeep3M_V2_installation_and_CLI.ipynb" rel="nofollow"><img src="https://camo.githubusercontent.com/52feade06f2fecbf006889a904d221e6a730c194/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667" data-canonical-src="https://colab.research.google.com/assets/colab-badge.svg" style="max-width:100%;" align="middle"></a>
+              </div>
+              <div class="col-md-12">
+                  <br/>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  <!--End vcard-->
+  
+  
+  
 </div>
     
  <!--   
