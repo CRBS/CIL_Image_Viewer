@@ -11,6 +11,20 @@ class Image_process_rest extends REST_Controller
 {
     private $success = "success";
     
+    public function geo_data_get($image_id, $slice_index)
+    {
+        $dbutil = new DBUtil();
+        $db_params = $this->config->item('db_params');
+        $json = $dbutil->getGeoData($db_params, $image_id, $slice_index);
+        if(is_null($json))
+        {
+            $output = array();
+            $output['success'] = false;
+            $json_str = json_encode($output);
+            $json = json_decode($json_str);
+        }
+        $this->response($json);
+    }
     
     public function count_location_result_get($x,$y,$image_id)
     {

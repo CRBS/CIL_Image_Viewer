@@ -61,3 +61,5 @@ $route['cdeep3m/(:any)'] = 'Cdeep3m/view/$1';
 $route['cdeep3m_prp/(:any)'] = 'Cdeep3m_prp/view/$1';
 
 $route['cdeep3m_prp_public/(:any)'] = 'Cdeep3m_prp_public/view/$1';
+
+$route['internal_data/(:any)'] = 'internal_data/view/$1';
