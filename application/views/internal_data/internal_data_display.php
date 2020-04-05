@@ -130,8 +130,8 @@
                     <div class="modal-body" id="annotation-modal-body-id">
 
                         <div class="row">
-                            <div class="col-md-2">Description:</div>
-                            <div class="col-md-10">
+                            <div class="col-md-3">Description:</div>
+                            <div class="col-md-9">
                                 <textarea id="annotation_desc_id" rows="4" cols="40"></textarea>
                             </div>
                         </div>
@@ -270,6 +270,17 @@
         drawnItems.on('click', onClick);
         drawnItems.addLayer(layer);
         
+        
+        /**********Feature ID *************************/
+        feature = layer.feature = layer.feature || {}; // Initialize feature
+        feature.type = feature.type || "Feature"; // Initialize feature.type
+        var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+        props.id = new Date().getTime();
+        props.username = '<?php echo $username; ?>';
+        props.desc = '';
+        /*********End feature ID***********************/
+        
+        
         /*if (layer instanceof L.Marker) 
         {
             // Create GeoJSON object from marker
@@ -304,7 +315,7 @@
         drawnItems.addTo(map);
         drawnItems.on('mouseover', mouseOver);
         drawnItems.on('click', onClick);
-        drawnItems.addLayer(layer1);
+        drawnItems.addLayer(geoJson);
     });
     
     
@@ -460,6 +471,7 @@
             $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
                 //alert(JSON.stringify(data) );
                 map.removeLayer(drawnItems);
+                //drawnItems = L.geoJSON(data);
                 drawnItems = L.geoJSON(data);
                 drawnItems.addTo(map);
                 drawnItems.on('mouseover', mouseOver);

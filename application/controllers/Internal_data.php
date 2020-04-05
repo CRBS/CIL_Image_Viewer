@@ -42,6 +42,7 @@
             
             $token = $this->input->get('token', TRUE);
             $username = $this->input->get('username', TRUE);
+            $data['username'] = $username;
             if(!is_null($username) && !is_null($token))
             {
                 $ip_address = $this->input->ip_address();
