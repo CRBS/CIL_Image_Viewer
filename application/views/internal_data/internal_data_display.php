@@ -263,6 +263,8 @@
         "type": "FeatureCollection",
         "features": []
     };*/
+  
+    
     
     map.on(L.Draw.Event.CREATED, function (event) {
         var layer = event.layer;
@@ -604,19 +606,25 @@
             else if(isObjectDefined(selectedLayer._latlng))
             {
                 coor = selectedLayer._latlng.lat+"-"+selectedLayer._latlng.lng;
-                //console.log(e.layer);
             }
-            //alert(cil_id+"/"+zindex+"/"+coor);
+            
             if(coor != null)
             {
                 var desc = document.getElementById("annotation_desc_id").value;
+                
+                /*****Putting feature properties to JSON file**********************/
+                var selectedFeature =  selectedLayer.feature;
+                var selectedProps =  selectedFeature.properties;
+                selectedProps.desc =  desc;
+                var collection = drawnItems.toGeoJSON();
+                var geo_json_str = JSON.stringify(collection);
+                saveGeoJson(geo_json_str);
+                /****End Putting feature properties to JSON file***************/
+                
                 var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
-                //alert(aurl);
-
+                
                 $.post(aurl, desc, function(returnedData) {
-                //alert(returnedData);
-                // do something here with the returnedData
-                //console.log(returnedData);
+                
                 });
             }
         });
