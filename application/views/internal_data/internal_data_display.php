@@ -364,7 +364,10 @@
         selectedLayer = e.layer;
         var selectedFeature =  selectedLayer.feature;
         var selectedProps =  selectedFeature.properties;
-        selectedLayer.bindTooltip(selectedProps.desc+"<br/>"+'<?php if(!is_null($user_json) && isset($user_json->full_name)) echo "<b>Created by: ".$user_json->full_name."</b>"; ?>'+"<br/><b>Timestamp: "+selectedProps.create_time+"</b>" ).openTooltip();
+        var tipDesc = "<b>Description:</b> NA";
+        if(selectedProps.desc.length > 0)
+            tipDesc = "<b>Description:</b> "+selectedProps.desc;
+        selectedLayer.bindTooltip(tipDesc+"<br/>"+'<?php if(!is_null($user_json) && isset($user_json->full_name)) echo "<b>Created by:</b> ".$user_json->full_name; ?>'+"<br/><b>Timestamp:</b> "+selectedProps.create_time).openTooltip();
         
         
         
