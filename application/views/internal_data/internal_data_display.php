@@ -152,6 +152,39 @@
             <!----------End Annotation Model----------------->  
             </div>
         </div>
+    
+    
+    
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Loading Model--------------------->    
+            <div class="modal fade" id="loading_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="loading_dialog_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #ccccff">
+                      <h5 class="modal-title">Loading</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="loading-modal-body-id">
+                        Loading...
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Loading Model----------------->  
+            </div>
+        </div>
+    
+    
+    
+    
         <div class="row">
             <div class="col-md-12">
             <!----------Settings Model--------------------->    
@@ -230,6 +263,14 @@
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
             map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: <?php echo $init_zoom; ?> }),
             drawnItems = L.featureGroup().addTo(map);
+    
+
+    
+    
+    
+    
+    
+    
     layer1.addTo(map);
     /* L.control.layers({
         'osm': layer1.addTo(map),
@@ -254,9 +295,50 @@
             }
         }
     }));
+    
+    var zoomstart = false;
+    var zoomend = false;
+    
 
-
-
+    /*************Zoom detection*********************************/
+    layer1.on('loading', function (event) 
+    {
+        //console.log("Loading");
+        if(zoomstart && !zoomend)
+        {
+            //$('#loading_modal_id').modal('show');
+            zoomstart = false;
+            zoomend = false;
+        }
+        //setTimeout(function () {window.scrollTo(0, 0);},100);
+        
+    });
+    
+    layer1.on('load', function (event) {
+        //console.log("Load");
+        if(!zoomstart && zoomend)
+        {
+            //$('#loading_modal_id').modal('hide');
+            zoomstart = false;
+            zoomend = false;
+        }
+    });
+    
+    map.on("zoomstart", function (e) 
+    { 
+        zoomstart = true;
+        zoomend = false;
+       //console.log("ZOOMSTART", e); 
+   });
+   
+      
+    map.on("zoomend", function (e) 
+    { 
+        //console.log("ZOOMEND", e);
+        zoomstart = false;
+        zoomend = true;
+    });
+    /*************End Zoom detection*********************************/
 
         // create the control
         var command = L.control({position: 'topright'});
@@ -510,6 +592,8 @@
             layer1.setUrl(url);
             
             
+           
+            
             $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
                 //alert(JSON.stringify(data) );
                 map.removeLayer(drawnItems);
@@ -661,7 +745,7 @@
             if(coor != null)
             {
                 var desc = document.getElementById("annotation_desc_id").value;
-                var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
+                var aurl = '<?php //echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
                 
                 $.post(aurl, desc, function(returnedData) {
                 
