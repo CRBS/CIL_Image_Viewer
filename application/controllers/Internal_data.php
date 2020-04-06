@@ -62,6 +62,8 @@
             
             /***********Getting user_json*******************/
             $user_json  = $this->session->userdata('user_json');
+            //echo $user_json->full_name;
+            
             if(!is_null($user_json))
                 $data['user_json'] = $user_json;
             else
