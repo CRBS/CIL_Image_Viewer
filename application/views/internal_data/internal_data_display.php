@@ -303,25 +303,26 @@
     /*************Zoom detection*********************************/
     layer1.on('loading', function (event) 
     {
+        document.getElementById('meesage_box_id').innerHTML = "Loading...";
         //console.log("Loading");
-        if(zoomstart && !zoomend)
+        /*if(zoomstart && !zoomend)
         {
             //$('#loading_modal_id').modal('show');
             zoomstart = false;
             zoomend = false;
-        }
-        //setTimeout(function () {window.scrollTo(0, 0);},100);
-        
+        }*/
+
     });
     
     layer1.on('load', function (event) {
+        document.getElementById('meesage_box_id').innerHTML = "";
         //console.log("Load");
-        if(!zoomstart && zoomend)
+        /*if(!zoomstart && zoomend)
         {
             //$('#loading_modal_id').modal('hide');
             zoomstart = false;
             zoomend = false;
-        }
+        }*/
     });
     
     map.on("zoomstart", function (e) 
@@ -349,7 +350,7 @@
             div.innerHTML = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
                             '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
                             '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
-                            '</div>'; 
+                            '</div><br><div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#995c00"></div>'; 
             return div;
         };
         
@@ -449,7 +450,7 @@
         var tipDesc = "<b>Description:</b> NA";
         if(selectedProps.desc.length > 0)
             tipDesc = "<b>Description:</b> "+selectedProps.desc;
-        selectedLayer.bindTooltip(tipDesc+"<br/>"+'<?php if(!is_null($user_json) && isset($user_json->full_name)) echo "<b>Created by:</b> ".$user_json->full_name; ?>'+"<br/><b>Timestamp:</b> "+selectedProps.create_time).openTooltip();
+        selectedLayer.bindTooltip(tipDesc+"<br/>"+'<?php if(!is_null($user_json) && isset($user_json->full_name)) echo "<b>Annotated by:</b> ".$user_json->full_name; ?>'+"<br/><b>Timestamp:</b> "+selectedProps.create_time).openTooltip();
         
         
         
