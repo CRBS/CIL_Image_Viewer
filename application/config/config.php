@@ -50,6 +50,10 @@ $config['base_url'] = 'http://localhost'; //Development
 //$config['base_url'] = 'https://cdeep3m-viewer-stage.crbs.ucsd.edu'; //staging
 //$config['base_url'] = 'https://cdeep3m-viewer.crbs.ucsd.edu'; //Production
 
+
+$config['cdeep3m_website_url'] = 'http://cdeep3m-stage.crbs.ucsd.edu';
+//$config['cdeep3m_website_url'] = 'http://cdeep3m.crbs.ucsd.edu';
+
 /*
 |--------------------------------------------------------------------------
 | Index File

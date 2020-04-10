@@ -36,6 +36,7 @@
             
             $base_url = $this->config->item('base_url');
             $data['enable_augmentation'] = $this->config->item('enable_augmentation');
+            $data['cdeep3m_website_url'] = $this->config->item('cdeep3m_website_url');
             $cil_pgsql_db = $this->config->item('cil_pgsql_db');
             
             $data['base_url'] = $base_url;

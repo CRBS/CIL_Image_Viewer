@@ -202,7 +202,7 @@
                         <div class="row">
                             <div class="col-md-3">Sharable URL:</div>
                             <div class="col-md-9">
-                                <textarea id="sharable_url_id" rows="4" cols="40"></textarea>
+                                <textarea id="sharable_url_id" rows="6" cols="40"></textarea>
                             </div>
                             <div class="col-md-12"><hr></div>
                             
@@ -766,7 +766,9 @@
            var zoom = map.getZoom();
            //console.log(zoom);
            
-           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           var cdeep3m_website_url = '<?php echo $cdeep3m_website_url; ?>';
+           //document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           document.getElementById('sharable_url_id').value = cdeep3m_website_url+"/internal_data_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
         });
         
     });
