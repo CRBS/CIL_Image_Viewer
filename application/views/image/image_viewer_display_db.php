@@ -130,8 +130,8 @@
                     <div class="modal-body" id="annotation-modal-body-id">
 
                         <div class="row">
-                            <div class="col-md-3">Description:</div>
-                            <div class="col-md-9">
+                            <div class="col-md-2">Description:</div>
+                            <div class="col-md-10">
                                 <textarea id="annotation_desc_id" rows="4" cols="40"></textarea>
                             </div>
                         </div>
@@ -270,18 +270,6 @@
         drawnItems.on('click', onClick);
         drawnItems.addLayer(layer);
         
-        /**********Feature ID *************************/
-        feature = layer.feature = layer.feature || {}; // Initialize feature
-        feature.type = feature.type || "Feature"; // Initialize feature.type
-        var props = feature.properties = feature.properties || {}; // Initialize feature.properties
-        props.id = new Date().getTime();
-        props.username = 'public';
-        props.full_name = 'Public';
-        props.create_time = getCurrentTimeString();
-        props.desc = '';
-        /*********End feature ID***********************/
-        
-        
         /*if (layer instanceof L.Marker) 
         {
             // Create GeoJSON object from marker
@@ -319,29 +307,12 @@
         drawnItems.addLayer(layer1);
     });
     
-    function getCurrentTimeString()
-    {
-        var currentdate = new Date(); 
-        var datetime =(currentdate.getMonth()+1) + "/"
-                + currentdate.getDate()  + "/" 
-                + currentdate.getFullYear() + " @ "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
-        
-        return datetime;
-    }
+    
     function mouseOver(e)
     {
         //console.log("Mouse over");
         selectedLayer = e.layer;
-        var selectedFeature =  selectedLayer.feature;
-        var selectedProps =  selectedFeature.properties;
-        var tipDesc = "<b>Description:</b> NA";
-        if(selectedProps.desc.length > 0)
-            tipDesc = "<b>Description:</b> "+selectedProps.desc;
-        selectedLayer.bindTooltip(tipDesc+"<br/>").openTooltip();
-        /*var coor = null;
+        var coor = null;
         if(isObjectDefined(selectedLayer._bounds))
         {
             coor = selectedLayer._bounds._northEast.lat.toFixed(nplaces)+"-"+
@@ -356,14 +327,14 @@
         }
         if(coor != null)
         {
-            var aurl = '<?php //echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
+            var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
             //alert(aurl);
             $.get( aurl, function( data ) {
                 if(isObjectDefined(data.Description) && data.Description.length >0)
                     selectedLayer.bindTooltip(data.Description).openTooltip();
             });
             
-        }*/
+        }
     }
     
     function onClick(e) 
@@ -371,12 +342,8 @@
         
         //alert("Click");
         selectedLayer = e.layer;
-        selectedLayer = e.layer;
-        var selectedFeature =  selectedLayer.feature;
-        var selectedProps =  selectedFeature.properties;
-        document.getElementById('annotation_desc_id').value = selectedProps.desc;
+      
         
-        /*
         var coor = null;
         
         if(isObjectDefined(selectedLayer._bounds))
@@ -397,7 +364,7 @@
             
             var pixelPosition = e.layerPoint;
             var latLng = map.layerPointToLatLng(pixelPosition);
-            var my_z =  <?php //echo $max_zoom; ?>;
+            var my_z =  <?php echo $max_zoom; ?>;
             
             //console.log(map.getCenter());
             var northWest = map.project(map.getBounds().getNorthWest(), map.getMaxZoom());
@@ -415,13 +382,12 @@
         document.getElementById('annotation_desc_id').value = "";
         if(coor != null)
         {
-            var aurl = '<?php //echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
+            var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
             //alert(aurl);
             $.get( aurl, function( data ) {
                 document.getElementById('annotation_desc_id').value = data.Description;
             });
         }
-        */
         
         $('#annotation_modal_id').modal('show');
         //document.getElementById("annotation_modal_id").showModal(); 
@@ -613,16 +579,7 @@
         
         $("#submit_annotation_id").click(function() 
         {
-            /*****Putting feature properties to JSON file**********************/
-                var selectedFeature =  selectedLayer.feature;
-                var selectedProps =  selectedFeature.properties;
-                selectedProps.desc =  document.getElementById('annotation_desc_id').value;
-                var collection = drawnItems.toGeoJSON();
-                var geo_json_str = JSON.stringify(collection);
-                saveGeoJson(geo_json_str);
-            /****End Putting feature properties to JSON file***************/
-            
-             /*var coor = null;
+            var coor = null;
         
             if(isObjectDefined(selectedLayer._bounds))
             {
@@ -641,7 +598,7 @@
             if(coor != null)
             {
                 var desc = document.getElementById("annotation_desc_id").value;
-                var aurl = '<?php //echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
+                var aurl = '<?php echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
                 //alert(aurl);
 
                 $.post(aurl, desc, function(returnedData) {
@@ -649,7 +606,7 @@
                 // do something here with the returnedData
                 //console.log(returnedData);
                 });
-            }*/
+            }
         });
         
         

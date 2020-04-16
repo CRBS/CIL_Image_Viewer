@@ -104,7 +104,10 @@
                 $data['max_t'] = $json->max_t;
                 
                 if(!$json->is_timeseries)
+                {
                     $this->load->view('image/image_viewer_display', $data);
+                    
+                }
                 else
                 {
                     if($data['zindex'] == 0)
