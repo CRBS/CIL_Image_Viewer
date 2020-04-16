@@ -1,3 +1,10 @@
+<!---
+
+Deprecated on April 16 2020 due to saving the metadata on the geojson.
+Update by Willy Wong
+
+-->
+
 <html>
 <head>
     <title><?php if(isset($title)) echo $title; ?></title>
