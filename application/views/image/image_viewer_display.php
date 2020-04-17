@@ -338,7 +338,7 @@
         var selectedFeature =  selectedLayer.feature;
         var selectedProps =  selectedFeature.properties;
         var tipDesc = "<b>Description:</b> NA";
-        if(selectedProps.desc.length > 0)
+        if(selectedProps.hasOwnProperty("desc") &&  selectedProps.desc.length > 0)
             tipDesc = "<b>Description:</b> "+selectedProps.desc;
         selectedLayer.bindTooltip(tipDesc+"<br/>").openTooltip();
         /*var coor = null;
