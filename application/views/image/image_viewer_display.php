@@ -494,7 +494,7 @@
             document.getElementById("zindex_value").innerHTML = "Z slice:"+zindex;
           
             var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
-            
+            //console.log(url);
             layer1.setUrl(url);
             
             
