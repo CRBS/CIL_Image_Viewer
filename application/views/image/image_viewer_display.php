@@ -279,6 +279,13 @@
         props.full_name = 'Public';
         props.create_time = getCurrentTimeString();
         props.desc = '';
+        //Coordinates
+        var center0 = map.getCenter();
+        var zoom0 = map.getZoom();
+        props.zindex = zindex;
+        props.lat = center0.lat;
+        props.lng = center0.lng;
+        props.zoom = zoom0;
         /*********End feature ID***********************/
         
         
