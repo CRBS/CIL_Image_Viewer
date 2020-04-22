@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title><?php if(isset($title)) echo $title; ?></title>
+    <title>Test <?php if(isset($title)) echo $title; ?></title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/css/leaflet.css"/>
     <script src="/js/leaflet.js"></script>
@@ -51,7 +51,14 @@
     <script src="/js/popper.min.js"></script>
     
     <link rel="stylesheet" href="/css/custom.css"> 
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
+    
+    
+    
+    
+   
+    
+    
 </head>
 
 <body>
@@ -188,7 +195,7 @@
     </div>    
 
   
-<div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
+    <div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
 
 <script>
     var nplaces = 5;
@@ -224,7 +231,7 @@
         },
         draw: {
             polyline : false,
-            circle: true,
+            circle: false,
             circlemarker: false,
             polygon: {
                 allowIntersection: false,
@@ -232,7 +239,6 @@
             }
         }
     }));
-
 
 
 
@@ -245,11 +251,17 @@
             div.innerHTML = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
                             '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
                             '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
-                            '</div>'; 
+                            '</div><br/><div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>'; 
             return div;
         };
         
         command.addTo(map);
+        
+        
+        
+  
+        
+        
 
         
     if(!rgb)
@@ -495,6 +507,12 @@
           
             var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
             
+            
+            document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
+            /*map.removeLayer(layer1);
+            layer1 = L.tileLayer(url, {tms: true,
+		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib });
+            layer1.addTo(map);*/
             layer1.setUrl(url);
             
             
@@ -506,6 +524,8 @@
                 drawnItems.on('mouseover', mouseOver);
                 drawnItems.on('click', onClick);
                 drawnItems.addLayer(layer1);
+                document.getElementById('meesage_box_id').innerHTML = "";
+                
             });
 
 
