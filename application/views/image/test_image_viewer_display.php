@@ -247,7 +247,7 @@
                             '</div>';
                    
         var AnnoSwith = '<div  style="border-style: solid;border-width: thin;background-color:white;">&nbsp'+
-                        '<label class="cil_title2">Annotation:&nbsp&nbsp</label>'+
+                        '<label class="cil_title3">Annotation:&nbsp&nbsp</label>'+
                         '<input id="annotation_check" name="annotation_check" type="checkbox" checked>&nbsp'+
                         '</div>';             
                     
