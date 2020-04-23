@@ -105,7 +105,7 @@
                 
                 if(!$json->is_timeseries)
                 {
-                    $this->load->view('image/image_viewer_display', $data);
+                    $this->load->view('image/test_image_viewer_display', $data);
                     
                 }
                 else

@@ -54,8 +54,7 @@
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
     
     
-    
-    
+
    
     
     
@@ -198,6 +197,7 @@
     <div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
 
 <script>
+    
     var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
     var zindex = <?php echo $zindex; ?>;
@@ -241,17 +241,25 @@
     }));
 
 
-
+        var rgbTool = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
+                            '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
+                            '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
+                            '</div>';
+                   
+        var AnnoSwith = '<div  style="border-style: solid;border-width: thin;background-color:white;">&nbsp'+
+                        '<label class="cil_title2">Annotation:&nbsp&nbsp</label>'+
+                        '<input id="annotation_check" name="annotation_check" type="checkbox" checked>&nbsp'+
+                        '</div>';             
+                    
+        var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
+                    
         // create the control
         var command = L.control({position: 'topright'});
 
         command.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'command');
 
-            div.innerHTML = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
-                            '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
-                            '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
-                            '</div><br/><div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>'; 
+            div.innerHTML = rgbTool+'<br/>'+AnnoSwith+'<br/>'+loadingTool; 
             return div;
         };
         
@@ -476,7 +484,7 @@
      // add the event handler
         function handleCommand() 
         {
-           
+           map.removeLayer(drawnItems);
            var red = 255;
            var green = 255;
            var blue = 255;
@@ -511,23 +519,25 @@
             document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
             /*map.removeLayer(layer1);
             layer1 = L.tileLayer(url, {tms: true,
-		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib });
+		noWrap: true, maxZoom: <?php //echo $max_zoom; ?>, attribution: osmAttrib });
             layer1.addTo(map);*/
             layer1.setUrl(url);
             
-            
+            var isAon = document.getElementById("annotation_check").checked;
             $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
-                //alert(JSON.stringify(data) );
-                map.removeLayer(drawnItems);
-                drawnItems = L.geoJSON(data);
+            //alert(JSON.stringify(data) );
+            
+            //map.removeLayer(drawnItems);
+            drawnItems = L.geoJSON(data);
+            if(isAon)
                 drawnItems.addTo(map);
-                drawnItems.on('mouseover', mouseOver);
-                drawnItems.on('click', onClick);
-                drawnItems.addLayer(layer1);
-                document.getElementById('meesage_box_id').innerHTML = "";
-                
+            drawnItems.on('mouseover', mouseOver);
+            drawnItems.on('click', onClick);
+            drawnItems.addLayer(layer1);
+            document.getElementById('meesage_box_id').innerHTML = "";
             });
-
+            
+            
 
         }
         var rgb = <?php if($rgb) echo "true"; else echo "false"; ?>;
@@ -540,6 +550,33 @@
         document.getElementById ("contrast").addEventListener ("change", handleCommand, false);
         document.getElementById ("brightness").addEventListener ("change", handleCommand, false);
         document.getElementById ("z_index").addEventListener ("change", handleCommand, false);
+        
+        document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
+        function annotation_check_func()
+        {
+            var id = new Date().getTime();
+            
+            var isAon = document.getElementById("annotation_check").checked;
+            
+            //console.log("annotation_check:"+id+":"+isAon);
+            if(!isAon)
+            {
+                //drawnItems.bringToBack();
+               map.removeLayer(layer1);
+               map.removeLayer(drawnItems);
+               layer1.addTo(map);
+            }
+            else
+            {
+                map.removeLayer(layer1);
+                map.removeLayer(drawnItems);
+                layer1.addTo(map);
+                drawnItems.addTo(map);
+               
+            }
+        }
+        
+       
         
 
 </script>
