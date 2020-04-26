@@ -216,6 +216,56 @@
             map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: <?php echo $init_zoom; ?> }),
             drawnItems = L.featureGroup().addTo(map);
     layer1.addTo(map);
+    
+    
+    
+    /*************************JS Loading**********************************/
+    var zooming = false;
+    
+    layer1.on('loading', function (event) 
+    {
+        var tid =  new Date().getTime();
+        console.log("loading..."+tid);
+        //if(!zooming)
+        //{
+           document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
+        //}
+    });
+    
+    layer1.on('load', function (event) 
+    {
+        var tid =  new Date().getTime();
+        console.log("loaded..."+tid);
+        document.getElementById('meesage_box_id').innerHTML = "";
+      
+    });
+    
+    
+    layer1.on('tileloadstart', function (event) 
+    {
+        var tid =  new Date().getTime();
+        console.log("tileloadstart..."+tid);
+        
+    });
+    
+    
+    
+    map.on("zoomstart", function (e) 
+    { 
+        zooming = true;
+   });
+   
+      
+    map.on("zoomend", function (e) 
+    { 
+        zooming = false;
+    });
+    
+    
+    /*************************JS Loading**********************************/
+    
+    
+    
     /* L.control.layers({
         'osm': layer1.addTo(map),
     }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
@@ -517,6 +567,7 @@
             
             
             document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
+            console.log("Moving to slice:"+zindex);
             /*map.removeLayer(layer1);
             layer1 = L.tileLayer(url, {tms: true,
 		noWrap: true, maxZoom: <?php //echo $max_zoom; ?>, attribution: osmAttrib });
@@ -534,7 +585,10 @@
             drawnItems.on('mouseover', mouseOver);
             drawnItems.on('click', onClick);
             drawnItems.addLayer(layer1);
-            document.getElementById('meesage_box_id').innerHTML = "";
+            //document.getElementById('meesage_box_id').innerHTML = "";
+            
+            console.log("Moving to slice:"+zindex+"-----Done");
+            
             });
             
             
