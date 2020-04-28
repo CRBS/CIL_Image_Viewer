@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Test <?php if(isset($title)) echo $title; ?></title>
+    <title><?php if(isset($title)) echo $title; ?></title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/css/leaflet.css"/>
     <script src="/js/leaflet.js"></script>
@@ -51,13 +51,7 @@
     <script src="/js/popper.min.js"></script>
     
     <link rel="stylesheet" href="/css/custom.css"> 
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
-    
-    
-
-   
-    
-    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />    
 </head>
 
 <body>
@@ -194,10 +188,9 @@
     </div>    
 
   
-    <div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
+<div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
 
 <script>
-    
     var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
     var zindex = <?php echo $zindex; ?>;
@@ -216,56 +209,6 @@
             map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: <?php echo $init_zoom; ?> }),
             drawnItems = L.featureGroup().addTo(map);
     layer1.addTo(map);
-    
-    
-    
-    /*************************JS Loading**********************************/
-    var zooming = false;
-    
-    layer1.on('loading', function (event) 
-    {
-        var tid =  new Date().getTime();
-        console.log("loading..."+tid);
-        //if(!zooming)
-        //{
-           document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
-        //}
-    });
-    
-    layer1.on('load', function (event) 
-    {
-        var tid =  new Date().getTime();
-        console.log("loaded..."+tid);
-        document.getElementById('meesage_box_id').innerHTML = "";
-      
-    });
-    
-    
-    layer1.on('tileloadstart', function (event) 
-    {
-        var tid =  new Date().getTime();
-        console.log("tileloadstart..."+tid);
-        
-    });
-    
-    
-    
-    map.on("zoomstart", function (e) 
-    { 
-        zooming = true;
-   });
-   
-      
-    map.on("zoomend", function (e) 
-    { 
-        zooming = false;
-    });
-    
-    
-    /*************************JS Loading**********************************/
-    
-    
-    
     /* L.control.layers({
         'osm': layer1.addTo(map),
     }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
@@ -281,7 +224,7 @@
         },
         draw: {
             polyline : false,
-            circle: false,
+            circle: true,
             circlemarker: false,
             polygon: {
                 allowIntersection: false,
@@ -291,35 +234,22 @@
     }));
 
 
-        var rgbTool = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
-                            '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
-                            '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
-                            '</div>';
-                   
-        var AnnoSwith = '<div  style="border-style: solid;border-width: thin;background-color:white;">&nbsp'+
-                        '<label class="cil_title3">Annotation:&nbsp&nbsp</label>'+
-                        '<input id="annotation_check" name="annotation_check" type="checkbox" checked>&nbsp'+
-                        '</div>';             
-                    
-        var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
-                    
+
+
         // create the control
         var command = L.control({position: 'topright'});
 
         command.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'command');
 
-            div.innerHTML = rgbTool+'<br/>'+AnnoSwith+'<br/>'+loadingTool; 
+            div.innerHTML = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
+                            '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
+                            '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
+                            '</div>'; 
             return div;
         };
         
         command.addTo(map);
-        
-        
-        
-  
-        
-        
 
         
     if(!rgb)
@@ -534,7 +464,7 @@
      // add the event handler
         function handleCommand() 
         {
-           map.removeLayer(drawnItems);
+           
            var red = 255;
            var green = 255;
            var blue = 255;
@@ -565,33 +495,19 @@
           
             var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
             
-            
-            document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
-            console.log("Moving to slice:"+zindex);
-            /*map.removeLayer(layer1);
-            layer1 = L.tileLayer(url, {tms: true,
-		noWrap: true, maxZoom: <?php //echo $max_zoom; ?>, attribution: osmAttrib });
-            layer1.addTo(map);*/
             layer1.setUrl(url);
             
-            var isAon = document.getElementById("annotation_check").checked;
+            
             $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
-            //alert(JSON.stringify(data) );
-            
-            //map.removeLayer(drawnItems);
-            drawnItems = L.geoJSON(data);
-            if(isAon)
+                //alert(JSON.stringify(data) );
+                map.removeLayer(drawnItems);
+                drawnItems = L.geoJSON(data);
                 drawnItems.addTo(map);
-            drawnItems.on('mouseover', mouseOver);
-            drawnItems.on('click', onClick);
-            drawnItems.addLayer(layer1);
-            //document.getElementById('meesage_box_id').innerHTML = "";
-            
-            console.log("Moving to slice:"+zindex+"-----Done");
-            
+                drawnItems.on('mouseover', mouseOver);
+                drawnItems.on('click', onClick);
+                drawnItems.addLayer(layer1);
             });
-            
-            
+
 
         }
         var rgb = <?php if($rgb) echo "true"; else echo "false"; ?>;
@@ -604,33 +520,6 @@
         document.getElementById ("contrast").addEventListener ("change", handleCommand, false);
         document.getElementById ("brightness").addEventListener ("change", handleCommand, false);
         document.getElementById ("z_index").addEventListener ("change", handleCommand, false);
-        
-        document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
-        function annotation_check_func()
-        {
-            var id = new Date().getTime();
-            
-            var isAon = document.getElementById("annotation_check").checked;
-            
-            //console.log("annotation_check:"+id+":"+isAon);
-            if(!isAon)
-            {
-                //drawnItems.bringToBack();
-               map.removeLayer(layer1);
-               map.removeLayer(drawnItems);
-               layer1.addTo(map);
-            }
-            else
-            {
-                map.removeLayer(layer1);
-                map.removeLayer(drawnItems);
-                layer1.addTo(map);
-                drawnItems.addTo(map);
-               
-            }
-        }
-        
-       
         
 
 </script>
