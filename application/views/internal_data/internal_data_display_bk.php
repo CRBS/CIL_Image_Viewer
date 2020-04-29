@@ -51,13 +51,7 @@
     <script src="/js/popper.min.js"></script>
     
     <link rel="stylesheet" href="/css/custom.css"> 
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
-    
-    
-
-   
-    
-    
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />    
 </head>
 
 <body>
@@ -140,14 +134,8 @@
                             <div class="col-md-9">
                                 <textarea id="annotation_desc_id" rows="4" cols="40"></textarea>
                             </div>
-                            <div class="col-md-12"><hr></div>
-                            
-                            <div class="col-md-3">Annotated by:</div><div class="col-md-9" id='annotation_author' name='annotation_author'>NA</div>
-                            <div class="col-md-3">Timestamp:</div><div class="col-md-9" id='created_time_id' name='created_time_id'>NA</div>
-                            
-                            <div class="col-md-12"><br/></div>
                         </div>
-                        
+                        <br/>
                         <div class="row">
                             <div class="col-md-12">
                                 <center><button id="submit_annotation_id" type="button" class="btn btn-info" data-dismiss="modal">Submit</button></center>
@@ -164,6 +152,39 @@
             <!----------End Annotation Model----------------->  
             </div>
         </div>
+    
+    
+    
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Loading Model--------------------->    
+            <div class="modal fade" id="loading_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="loading_dialog_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #ccccff">
+                      <h5 class="modal-title">Loading</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="loading-modal-body-id">
+                        Loading...
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Loading Model----------------->  
+            </div>
+        </div>
+    
+    
+    
+    
         <div class="row">
             <div class="col-md-12">
             <!----------Settings Model--------------------->    
@@ -181,7 +202,7 @@
                         <div class="row">
                             <div class="col-md-3">Sharable URL:</div>
                             <div class="col-md-9">
-                                <textarea id="sharable_url_id" rows="4" cols="40"></textarea>
+                                <textarea id="sharable_url_id" rows="6" cols="40"></textarea>
                             </div>
                             <div class="col-md-12"><hr></div>
                             <div class="col-md-3">User name:</div>
@@ -201,6 +222,8 @@
                                 if(!is_null($user_json->email) && isset($user_json->email))
                                     echo $user_json->email;
                             ?></div>
+                            
+                            
                         </div>
                         
                         
@@ -218,10 +241,9 @@
     </div>    
 
   
-    <div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
+<div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
 
 <script>
-    
     var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
     var zindex = <?php echo $zindex; ?>;
@@ -239,57 +261,15 @@
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
             map = new L.Map('map', { center: new L.LatLng(<?php echo $init_lat; ?>,<?php echo $init_lng; ?>), zoom: <?php echo $init_zoom; ?> }),
             drawnItems = L.featureGroup().addTo(map);
+    
+
+    
+    
+    
+    
+    
+    
     layer1.addTo(map);
-    
-    
-    
-    /*************************JS Loading**********************************/
-    var zooming = false;
-    
-    layer1.on('loading', function (event) 
-    {
-        var tid =  new Date().getTime();
-        //console.log("loading..."+tid);
-        //if(!zooming)
-        //{
-           document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
-        //}
-    });
-    
-    layer1.on('load', function (event) 
-    {
-        var tid =  new Date().getTime();
-        //console.log("loaded..."+tid);
-        document.getElementById('meesage_box_id').innerHTML = "";
-      
-    });
-    
-    
-    layer1.on('tileloadstart', function (event) 
-    {
-        var tid =  new Date().getTime();
-        //console.log("tileloadstart..."+tid);
-        
-    });
-    
-    
-    
-    map.on("zoomstart", function (e) 
-    { 
-        zooming = true;
-   });
-   
-      
-    map.on("zoomend", function (e) 
-    { 
-        zooming = false;
-    });
-    
-    
-    /*************************JS Loading**********************************/
-    
-    
-    
     /* L.control.layers({
         'osm': layer1.addTo(map),
     }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
@@ -313,37 +293,66 @@
             }
         }
     }));
+    
+    var zoomstart = false;
+    var zoomend = false;
+    
 
+    /*************Zoom detection*********************************/
+    layer1.on('loading', function (event) 
+    {
+        document.getElementById('meesage_box_id').innerHTML = "Loading...";
+        //console.log("Loading");
+        /*if(zoomstart && !zoomend)
+        {
+            //$('#loading_modal_id').modal('show');
+            zoomstart = false;
+            zoomend = false;
+        }*/
 
-        var rgbTool = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
-                            '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
-                            '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
-                            '</div>';
-                   
-        var AnnoSwith = '<div  style="border-style: solid;border-width: thin;background-color:white;">&nbsp'+
-                        '<label class="cil_title3">Annotation:&nbsp&nbsp</label>'+
-                        '<input id="annotation_check" name="annotation_check" type="checkbox" checked>&nbsp'+
-                        '</div>';             
-                    
-        var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
-                    
+    });
+    
+    layer1.on('load', function (event) {
+        document.getElementById('meesage_box_id').innerHTML = "";
+        //console.log("Load");
+        /*if(!zoomstart && zoomend)
+        {
+            //$('#loading_modal_id').modal('hide');
+            zoomstart = false;
+            zoomend = false;
+        }*/
+    });
+    
+    map.on("zoomstart", function (e) 
+    { 
+        zoomstart = true;
+        zoomend = false;
+       //console.log("ZOOMSTART", e); 
+   });
+   
+      
+    map.on("zoomend", function (e) 
+    { 
+        //console.log("ZOOMEND", e);
+        zoomstart = false;
+        zoomend = true;
+    });
+    /*************End Zoom detection*********************************/
+
         // create the control
         var command = L.control({position: 'topright'});
 
         command.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'command');
 
-            div.innerHTML = rgbTool+'<br/>'+AnnoSwith+'<br/>'+loadingTool; 
+            div.innerHTML = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
+                            '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
+                            '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
+                            '</div><br><div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#995c00"></div>'; 
             return div;
         };
         
         command.addTo(map);
-        
-        
-        
-  
-        
-        
 
         
     if(!rgb)
@@ -357,6 +366,8 @@
         "type": "FeatureCollection",
         "features": []
     };*/
+  
+    
     
     map.on(L.Draw.Event.CREATED, function (event) {
         var layer = event.layer;
@@ -364,22 +375,16 @@
         drawnItems.on('click', onClick);
         drawnItems.addLayer(layer);
         
+        
         /**********Feature ID *************************/
         feature = layer.feature = layer.feature || {}; // Initialize feature
         feature.type = feature.type || "Feature"; // Initialize feature.type
         var props = feature.properties = feature.properties || {}; // Initialize feature.properties
         props.id = new Date().getTime();
+        props.create_time = getCurrentTimeString();
         props.username = '<?php echo $username; ?>';
         props.full_name = '<?php if(!is_null($user_json) && isset($user_json->full_name)) echo $user_json->full_name;   ?>';
-        props.create_time = getCurrentTimeString();
         props.desc = '';
-        //Coordinates
-        var center0 = map.getCenter();
-        var zoom0 = map.getZoom();
-        props.zindex = zindex;
-        props.lat = center0.lat;
-        props.lng = center0.lng;
-        props.zoom = zoom0;
         /*********End feature ID***********************/
         
         
@@ -417,8 +422,9 @@
         drawnItems.addTo(map);
         drawnItems.on('mouseover', mouseOver);
         drawnItems.on('click', onClick);
-        drawnItems.addLayer(layer1);
+        drawnItems.addLayer(geoJson);
     });
+    
     
     function getCurrentTimeString()
     {
@@ -432,6 +438,7 @@
         
         return datetime;
     }
+    
     function mouseOver(e)
     {
         //console.log("Mouse over");
@@ -439,9 +446,13 @@
         var selectedFeature =  selectedLayer.feature;
         var selectedProps =  selectedFeature.properties;
         var tipDesc = "<b>Description:</b> NA";
-        if(selectedProps.hasOwnProperty("desc") &&  selectedProps.desc.length > 0)
+        if(selectedProps.desc.length > 0)
             tipDesc = "<b>Description:</b> "+selectedProps.desc;
         selectedLayer.bindTooltip(tipDesc+"<br/>"+'<?php if(!is_null($user_json) && isset($user_json->full_name)) echo "<b>Annotated by:</b> ".$user_json->full_name; ?>'+"<br/><b>Timestamp:</b> "+selectedProps.create_time).openTooltip();
+        
+        
+        
+        
         /*var coor = null;
         if(isObjectDefined(selectedLayer._bounds))
         {
@@ -472,29 +483,11 @@
         
         //alert("Click");
         selectedLayer = e.layer;
-        selectedLayer = e.layer;
         var selectedFeature =  selectedLayer.feature;
         var selectedProps =  selectedFeature.properties;
-        if(selectedProps.hasOwnProperty("desc") &&  selectedProps.desc.length > 0)
-            document.getElementById('annotation_desc_id').value = selectedProps.desc;
-        
-        if(selectedProps.hasOwnProperty("full_name") &&  selectedProps.full_name.length > 0)
-        {
-            console.log("Author:"+selectedProps.full_name);
-            document.getElementById('annotation_author').innerHTML = selectedProps.full_name;
-            
-        }
-        
-        if(selectedProps.hasOwnProperty("create_time") &&  selectedProps.create_time.length > 0)
-        {
-            console.log("created_time:"+selectedProps.create_time);
-            document.getElementById('created_time_id').innerHTML = selectedProps.create_time;
-        }
-        
-        
+        document.getElementById('annotation_desc_id').value = selectedProps.desc;
         /*
         var coor = null;
-        
         if(isObjectDefined(selectedLayer._bounds))
         {
             //console.log(selectedLayer);
@@ -523,11 +516,8 @@
             console.log(current);
             console.log("X:"+(current.x)+"  Y:"+(current.y-17822));
             
-
         }
-        
-        
-        
+
         document.getElementById('annotation_desc_id').value = "";
         if(coor != null)
         {
@@ -536,19 +526,13 @@
             $.get( aurl, function( data ) {
                 document.getElementById('annotation_desc_id').value = data.Description;
             });
-        }
-        */
+        }*/
         
         $('#annotation_modal_id').modal('show');
-        //document.getElementById("annotation_modal_id").showModal(); 
         setTimeout(function () {window.scrollTo(0, 0);},100);
         return;
         
-        /*drawnItems.removeLayer(e.layer);
-        var collection = drawnItems.toGeoJSON();
-        var geo_json_str = JSON.stringify(collection);
-        saveGeoJson(geo_json_str);
-        console.log(collection);*/
+        
     }
     
     function saveGeoJson(geo_json_str)
@@ -573,8 +557,7 @@
      // add the event handler
         function handleCommand() 
         {
-           //console.log('In handleCommand');
-           map.removeLayer(drawnItems);
+           
            var red = 255;
            var green = 255;
            var blue = 255;
@@ -605,33 +588,22 @@
           
             var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
             
-            
-            document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
-            console.log("Moving to slice:"+zindex);
-            /*map.removeLayer(layer1);
-            layer1 = L.tileLayer(url, {tms: true,
-		noWrap: true, maxZoom: <?php //echo $max_zoom; ?>, attribution: osmAttrib });
-            layer1.addTo(map);*/
             layer1.setUrl(url);
             
-            var isAon = document.getElementById("annotation_check").checked;
+            
+           
+            
             $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
-            //alert(JSON.stringify(data) );
-            
-            //map.removeLayer(drawnItems);
-            drawnItems = L.geoJSON(data);
-            if(isAon)
+                //alert(JSON.stringify(data) );
+                map.removeLayer(drawnItems);
+                //drawnItems = L.geoJSON(data);
+                drawnItems = L.geoJSON(data);
                 drawnItems.addTo(map);
-            drawnItems.on('mouseover', mouseOver);
-            drawnItems.on('click', onClick);
-            drawnItems.addLayer(layer1);
-            //document.getElementById('meesage_box_id').innerHTML = "";
-            
-            console.log("Moving to slice:"+zindex+"-----Done");
-            
+                drawnItems.on('mouseover', mouseOver);
+                drawnItems.on('click', onClick);
+                drawnItems.addLayer(layer1);
             });
-            
-            
+
 
         }
         var rgb = <?php if($rgb) echo "true"; else echo "false"; ?>;
@@ -644,33 +616,6 @@
         document.getElementById ("contrast").addEventListener ("change", handleCommand, false);
         document.getElementById ("brightness").addEventListener ("change", handleCommand, false);
         document.getElementById ("z_index").addEventListener ("change", handleCommand, false);
-        
-        document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
-        function annotation_check_func()
-        {
-            var id = new Date().getTime();
-            
-            var isAon = document.getElementById("annotation_check").checked;
-            
-            //console.log("annotation_check:"+id+":"+isAon);
-            if(!isAon)
-            {
-                //drawnItems.bringToBack();
-               map.removeLayer(layer1);
-               map.removeLayer(drawnItems);
-               layer1.addTo(map);
-            }
-            else
-            {
-                map.removeLayer(layer1);
-                map.removeLayer(drawnItems);
-                layer1.addTo(map);
-                drawnItems.addTo(map);
-               
-            }
-        }
-        
-       
         
 
 </script>
@@ -695,11 +640,10 @@
         $("#forward_id").click(function() 
         {
             //alert("backward_id");
-            console.log('Current slice at:'+zindex+"----max:"+z_max);
-            if(zindex+1 <= z_max)
+            if(zindex+1 < z_max)
             {
                 zindex=zindex+1;
-                
+                //alert(zindex);
                 document.getElementById("z_index").value = zindex;
                 handleCommand(); 
             }
@@ -772,6 +716,7 @@
         
         $("#submit_annotation_id").click(function() 
         {
+            
             /*****Putting feature properties to JSON file**********************/
                 var selectedFeature =  selectedLayer.feature;
                 var selectedProps =  selectedFeature.properties;
@@ -781,7 +726,7 @@
                 saveGeoJson(geo_json_str);
             /****End Putting feature properties to JSON file***************/
             
-             /*var coor = null;
+            /*var coor = null;
         
             if(isObjectDefined(selectedLayer._bounds))
             {
@@ -794,19 +739,15 @@
             else if(isObjectDefined(selectedLayer._latlng))
             {
                 coor = selectedLayer._latlng.lat+"-"+selectedLayer._latlng.lng;
-                //console.log(e.layer);
             }
-            //alert(cil_id+"/"+zindex+"/"+coor);
+            
             if(coor != null)
             {
                 var desc = document.getElementById("annotation_desc_id").value;
                 var aurl = '<?php //echo $serverName; ?>/image_annotation_service/geometadata/'+cil_id+"/"+zindex+"/"+coor;
-                //alert(aurl);
-
+                
                 $.post(aurl, desc, function(returnedData) {
-                //alert(returnedData);
-                // do something here with the returnedData
-                //console.log(returnedData);
+                
                 });
             }*/
         });
@@ -823,7 +764,9 @@
            var zoom = map.getZoom();
            //console.log(zoom);
            
-           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           var cdeep3m_website_url = '<?php echo $cdeep3m_website_url; ?>';
+           //document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           document.getElementById('sharable_url_id').value = cdeep3m_website_url+"/internal_data_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
         });
         
     });
