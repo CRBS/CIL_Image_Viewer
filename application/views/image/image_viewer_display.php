@@ -194,8 +194,8 @@
     </div>    
 
   
-    <div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div>
-
+    <!-- <div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div> -->
+    <div id="map" style="width: 100%; height: 90%; border: 1px solid #ccc"></div>
 <script>
     
     var nplaces = 5;
