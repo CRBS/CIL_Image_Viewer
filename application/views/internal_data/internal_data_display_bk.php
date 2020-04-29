@@ -205,6 +205,8 @@
                                 <textarea id="sharable_url_id" rows="6" cols="40"></textarea>
                             </div>
                             <div class="col-md-12"><hr></div>
+                            
+                            
                             <div class="col-md-3">User name:</div>
                             <div class="col-md-9"><?php
                                 if(!is_null($user_json->username) && isset($user_json->username))
