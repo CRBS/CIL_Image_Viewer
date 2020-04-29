@@ -477,6 +477,8 @@
         var selectedProps =  selectedFeature.properties;
         if(selectedProps.hasOwnProperty("desc") &&  selectedProps.desc.length > 0)
             document.getElementById('annotation_desc_id').value = selectedProps.desc;
+        else 
+            document.getElementById('annotation_desc_id').value = "";
         
         if(selectedProps.hasOwnProperty("full_name") &&  selectedProps.full_name.length > 0)
         {

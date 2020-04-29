@@ -451,7 +451,11 @@
         selectedLayer = e.layer;
         var selectedFeature =  selectedLayer.feature;
         var selectedProps =  selectedFeature.properties;
-        document.getElementById('annotation_desc_id').value = selectedProps.desc;
+        
+        if(selectedProps.hasOwnProperty("desc") &&  selectedProps.desc.length > 0)
+            document.getElementById('annotation_desc_id').value = selectedProps.desc;
+        else
+            document.getElementById('annotation_desc_id').value = "";
         
         /*
         var coor = null;
