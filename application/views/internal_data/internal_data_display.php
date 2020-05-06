@@ -181,7 +181,7 @@
                         <div class="row">
                             <div class="col-md-3">Sharable URL:</div>
                             <div class="col-md-9">
-                                <textarea id="sharable_url_id" rows="4" cols="40"></textarea>
+                                <textarea id="sharable_url_id" rows="5" cols="40"></textarea>
                             </div>
                             <div class="col-md-12"><hr></div>
                             <div class="col-md-3">User name:</div>
@@ -442,7 +442,12 @@
         var tipDesc = "<b>Description:</b> NA";
         if(selectedProps.hasOwnProperty("desc") &&  selectedProps.desc.length > 0)
             tipDesc = "<b>Description:</b> "+selectedProps.desc;
-        selectedLayer.bindTooltip(tipDesc+"<br/>"+'<?php if(!is_null($user_json) && isset($user_json->full_name)) echo "<b>Annotated by:</b> ".$user_json->full_name; ?>'+"<br/><b>Timestamp:</b> "+selectedProps.create_time).openTooltip();
+        
+        var annotator = "NA";
+        if(selectedProps.hasOwnProperty("full_name") &&  selectedProps.full_name.length > 0)
+            annotator = selectedProps.full_name;
+        
+        selectedLayer.bindTooltip(tipDesc+"<br/>"+'<b>Annotated by:</b> '+annotator+"<br/><b>Timestamp:</b> "+selectedProps.create_time).openTooltip();
         /*var coor = null;
         if(isObjectDefined(selectedLayer._bounds))
         {
@@ -607,10 +612,10 @@
             document.getElementById("zindex_value").innerHTML = "Z slice:"+zindex;
           
             var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
-            
+            console.log(url);
             
             document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
-            console.log("Moving to slice:"+zindex);
+            //console.log("Moving to slice:"+zindex);
             /*map.removeLayer(layer1);
             layer1 = L.tileLayer(url, {tms: true,
 		noWrap: true, maxZoom: <?php //echo $max_zoom; ?>, attribution: osmAttrib });
@@ -630,7 +635,7 @@
             drawnItems.addLayer(layer1);
             //document.getElementById('meesage_box_id').innerHTML = "";
             
-            console.log("Moving to slice:"+zindex+"-----Done");
+            //console.log("Moving to slice:"+zindex+"-----Done");
             
             });
             
@@ -826,8 +831,15 @@
            var zoom = map.getZoom();
            //console.log(zoom);
            
+           var c = document.getElementById("contrast").value;
+           var c = c-100;
+           
+           var b = document.getElementById("brightness").value;
+           var b = b-100;
+           
+           
            //document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
-           document.getElementById('sharable_url_id').value = cdeep3m_website_url+"/internal_image_viewer/share/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           document.getElementById('sharable_url_id').value = cdeep3m_website_url+"/internal_image_viewer/share/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom+"&contrast="+c+"&brightness="+b;
         });
         
     });
