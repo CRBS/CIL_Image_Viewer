@@ -228,6 +228,7 @@
     var z_max = <?php echo $max_z; ?>;
     var rgb = <?php echo $rgb; ?>;
     var base_url = "<?php echo $base_url; ?>";
+    var cdeep3m_website_url = "<?php echo $cdeep3m_website_url; ?>";
     if(z_max == 0)
         document.getElementById('z_slicer_id').style.display = 'none';
     
@@ -825,7 +826,8 @@
            var zoom = map.getZoom();
            //console.log(zoom);
            
-           document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           //document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           document.getElementById('sharable_url_id').value = cdeep3m_website_url+"/internal_image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
         });
         
     });

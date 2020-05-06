@@ -16,6 +16,7 @@ else
 $config['docker_image_type'] = "latest";
 //$config['docker_image_type'] = "stable";
 
+//$config['cdeep3m_website'] = "http://localhost";
 $config['cdeep3m_website'] = "https://cdeep3m-stage.crbs.ucsd.edu";
 //$config['cdeep3m_website'] = "https://cdeep3m.crbs.ucsd.edu";
 
@@ -51,8 +52,9 @@ $config['base_url'] = 'http://localhost'; //Development
 //$config['base_url'] = 'https://cdeep3m-viewer.crbs.ucsd.edu'; //Production
 
 
-$config['cdeep3m_website_url'] = 'http://cdeep3m-stage.crbs.ucsd.edu';
-//$config['cdeep3m_website_url'] = 'http://cdeep3m.crbs.ucsd.edu';
+$config['cdeep3m_website_url'] = 'http://localhost';
+//$config['cdeep3m_website_url'] = 'https://cdeep3m-stage.crbs.ucsd.edu';
+//$config['cdeep3m_website_url'] = 'https://cdeep3m.crbs.ucsd.edu';
 
 /*
 |--------------------------------------------------------------------------
