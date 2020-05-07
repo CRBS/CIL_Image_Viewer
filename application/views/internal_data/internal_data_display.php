@@ -69,7 +69,7 @@
             <div class="col-md-3">
                 <div class="row">
                     <div class="col-md-6">
-                        <span id="contrast_value">Contrast:0</span>
+                        <span id="contrast_value">Contrast:<?php if(isset($contrast)) echo $contrast; else echo "0"; ?></span>
                     </div>
                     <div class="col-md-6">
                         
@@ -79,14 +79,30 @@
                         <a id="contrast_forward_id" href="#">&#8614;</a>
                     </div>
                     <div class="col-md-12">
-                        <input autocomplete="off" id="contrast" type="range"  min="1" max="200" value="100">
+                        <?php
+                        
+                            if(isset($contrast))
+                            {
+                               $c_value = $contrast+100;
+                        ?>
+                            <input autocomplete="off" id="contrast" type="range"  min="1" max="200" value="<?php echo $c_value; ?>">
+                         <?php
+                            }
+                            else
+                            {
+                        ?>   
+                         
+                            <input autocomplete="off" id="contrast" type="range"  min="1" max="200" value="100">
+                        <?php
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="row">
                     <div class="col-md-6">
-                        <span id="brightness_value">Brightness:0</span>
+                        <span id="brightness_value">Brightness:<?php if(isset($brightness)) echo $brightness; else echo "0"; ?></span>
                     </div>
                     <div class="col-md-6">
                         <!-- <a id="brightness_backward_id" href="#"><span class="glyphicon glyphicon-step-backward"></span></a>
@@ -95,7 +111,22 @@
                         <a id="brightness_forward_id" href="#">&#8614;</a>
                     </div>
                     <div class="col-md-12">
-                        <input autocomplete="off" id="brightness" type="range"  min="1" max="200" value="100">
+                        <?php
+                        
+                            if(isset($brightness))
+                            {
+                               $b_value = $brightness+100;
+                        ?>
+                               <input autocomplete="off" id="brightness" type="range"  min="1" max="200" value="<?php echo $b_value; ?>">
+                        <?php
+                            }
+                            else
+                            {
+                        ?>
+                                <input autocomplete="off" id="brightness" type="range"  min="1" max="200" value="100">
+                        <?php
+                            }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -232,9 +263,11 @@
     if(z_max == 0)
         document.getElementById('z_slicer_id').style.display = 'none';
     
-    
+    var l_url = getLeafletUrl();
+    console.log("Init l_url:"+l_url);
     var selectedLayer = null;
-    var osmUrl = '<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/<?php echo $zindex; ?>.tar/<?php echo $zindex; ?>/{z}/{x}/{y}.png',
+    var osmUrl = //'<?php// echo $serverName; ?>/Leaflet_data/tar_filter/<?php //echo $folder_postfix; ?>/<?php //echo $zindex; ?>.tar/<?php //echo $zindex; ?>/{z}/{x}/{y}.png?red=255&green=255&blue=255&contrast=-43&brightness=-1',
+            l_url,
             osmAttrib = '<a href="http://cellimagelibrary.org/images/<?php echo $image_id; ?>">Cell Image Library - <?php echo $image_id; ?></a>',
             layer1 = L.tileLayer(osmUrl, {tms: true,
 		noWrap: true, maxZoom: <?php echo $max_zoom; ?>, attribution: osmAttrib }),
@@ -577,6 +610,27 @@
     }
   
 
+    function getLeafletUrl()
+    {
+        var red = 255;
+        var green = 255;
+        var blue = 255;
+        
+        var c = document.getElementById("contrast").value;
+        var c = c-100;
+        c = c*-1;
+        
+        var b = document.getElementById("brightness").value;
+        var b = b-100;
+        b = b*-1;
+
+        
+        var temp = document.getElementById("z_index").value;
+        zindex = parseInt(temp);
+        var l_url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
+        
+        return l_url;
+    }
     
      // add the event handler
         function handleCommand() 

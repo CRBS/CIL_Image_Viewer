@@ -85,6 +85,20 @@
             $zindex = $this->input->get('zindex', TRUE);
             $tindex = $this->input->get('tindex', TRUE);
             
+            
+            
+            /***********Control contrast and brightness ***************/
+            $contrast = $this->input->get('contrast', TRUE);
+            $brightness = $this->input->get('brightness', TRUE);
+            if(!is_null($contrast))
+                $data['contrast'] = $contrast;
+            
+            if(!is_null($brightness))
+                $data['brightness'] = $brightness;
+            
+            /***********End Control contrast and brightness ***************/
+            
+            
             if(is_null($zindex) || !is_numeric($zindex))
               $zindex = 0;
             if(is_null($tindex) || !is_numeric($tindex))
