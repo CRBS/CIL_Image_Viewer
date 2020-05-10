@@ -195,6 +195,8 @@
             <!----------End Annotation Model----------------->  
             </div>
         </div>
+        
+    
         <div class="row">
             <div class="col-md-12">
             <!----------Settings Model--------------------->    
@@ -232,9 +234,7 @@
                                 if(!is_null($user_json->email) && isset($user_json->email))
                                     echo $user_json->email;
                             ?></div>
-                        </div>
-                        
-                        
+                        </div> 
                     </div>
                     <div class="modal-footer">
                       
@@ -246,6 +246,81 @@
             <!----------End Annotation Model----------------->  
             </div>
         </div>
+    
+    
+    
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Share Model--------------------->    
+            <div class="modal fade" id="share_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="share_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #4582EC; color: white">
+                      <h5 class="modal-title">Share</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="share-modal-body-id">
+
+                        <div class="row">
+                            <div class="col-md-3">Sharable URL:</div>
+                            <div class="col-md-9">
+                                <textarea id="share_url_id" rows="5" cols="40" readonly></textarea>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Share Model----------------->  
+            </div>
+        </div>
+    
+    
+    
+    
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Search Model--------------------->    
+            <div class="modal fade" id="search_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="search_dialog_modal_id" style="max-width: 70%;">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #4582EC; color: white">
+                      <h5 class="modal-title">Search Annotations</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="search-modal-body-id">
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" placeholder="Search">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-outline-primary">Search</button>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Search Model----------------->  
+            </div>
+        </div>
+    
+    
     </div>    
 
   
@@ -349,15 +424,18 @@
     }));
 
 
-        var rgbTool = '<div id="rgb_div_id"><input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
+        var rgbTool = '<div id="rgb_div_id" style="border-style: solid;border-width: thin;background-color:white;">&nbsp;<input id="red" type="checkbox" checked/><span class="red"><b>Red</b></span>&nbsp;'+
                             '<input id="green" type="checkbox" checked/><span class="green"><b>Green</b></span>&nbsp;'+
-                            '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>'+
+                            '<input id="blue" type="checkbox" checked/><span class="blue"><b>Blue</b></span>&nbsp;'+
                             '</div>';
-                   
+
         var AnnoSwith = '<div  style="border-style: solid;border-width: thin;background-color:white;">&nbsp'+
                         '<label class="cil_title3">Annotation:&nbsp&nbsp</label>'+
                         '<input id="annotation_check" name="annotation_check" type="checkbox" checked>&nbsp'+
                         '</div>';             
+                    
+        var findAnnot = '<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>&nbsp;&nbsp;<button  id="search_btn_id" name="search_btn_id" type="button" class="btn btn-primary">Search</button>';            
+                    
                     
         var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
                     
@@ -367,7 +445,7 @@
         command.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'command');
 
-            div.innerHTML = rgbTool+'<br/>'+AnnoSwith+'<br/>'+loadingTool; 
+            div.innerHTML = rgbTool+'<br style="line-height: 10px"/>'+AnnoSwith+'<br style="line-height: 10px"/>'+findAnnot+'<br/><br/>'+loadingTool; 
             return div;
         };
         
@@ -707,6 +785,11 @@
         document.getElementById ("brightness").addEventListener ("change", handleCommand, false);
         document.getElementById ("z_index").addEventListener ("change", handleCommand, false);
         
+        
+        document.getElementById("share_btn_id").addEventListener ("click", share_click_func, false);
+        document.getElementById("search_btn_id").addEventListener ("click", search_click_func, false);
+        
+        
         document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
         function annotation_check_func()
         {
@@ -732,6 +815,33 @@
             }
         }
         
+        
+        function search_click_func()
+        {
+            $("#search_modal_id").modal('show');
+        }
+        
+        function share_click_func()
+        {
+           $("#share_modal_id").modal('show');
+           var center = map.getCenter();
+           console.log(center);
+           //var bounds = map.getBounds();
+           //console.log(bounds);
+           
+           var zoom = map.getZoom();
+           //console.log(zoom);
+           
+           var c = document.getElementById("contrast").value;
+           var c = c-100;
+           
+           var b = document.getElementById("brightness").value;
+           var b = b-100;
+           
+           
+           //document.getElementById('sharable_url_id').value = base_url+"/image_viewer/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom;
+           document.getElementById('share_url_id').value = cdeep3m_website_url+"/internal_image_viewer/share/"+cil_id+"?zindex="+zindex+"&lat="+center.lat+"&lng="+center.lng+"&zoom="+zoom+"&contrast="+c+"&brightness="+b;
+        }
        
         
 
