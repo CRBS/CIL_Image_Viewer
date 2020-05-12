@@ -149,7 +149,7 @@
                 
             </div>
             <div class="col-md-1">
-                <a id="settings_id" href="#">&#x2699;</a>
+                <a id="settings_id" href="#">&#x2699;</a>&nbsp;<a href="/faq/internal_data" target="_blank"> FAQ</a>
             </div>
         </div>
         <div class="row">
@@ -434,7 +434,8 @@
                         '<input id="annotation_check" name="annotation_check" type="checkbox" checked>&nbsp'+
                         '</div>';             
                     
-        var findAnnot = '<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>&nbsp;&nbsp;<button  id="search_btn_id" name="search_btn_id" type="button" class="btn btn-primary">Search</button>';            
+        var findAnnot = '<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>';
+                //'<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>&nbsp;&nbsp;<button  id="search_btn_id" name="search_btn_id" type="button" class="btn btn-primary">Search</button>';            
                     
                     
         var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          

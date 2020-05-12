@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/controllers/Image_process_rest.php</file>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/views/internal_data/faq_display.php</file>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/controllers/Faq.php</file>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/views/internal_data/internal_data_display.php</file>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/controllers/Internal_data.php</file>
+        </group>
     </open-files>
 </project-private>
