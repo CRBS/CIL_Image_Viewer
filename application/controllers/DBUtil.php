@@ -22,6 +22,66 @@ class DBUtil
     }
     
     
+    public function getAllAnnotations($db_params, $image_id)
+    {
+        $debugFolder = "C:/Test3/debug_json";
+        $maiinArray = array();
+        $sql = "select z_index, geo_json from image_annotation where cil_id = $1 order by z_index asc";
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            $json_str = json_encode($maiinArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+            $json = json_decode($json_str);
+            return;
+        }
+        
+        $input = array();
+        array_push($input, $image_id);
+        $result = pg_query_params($conn,$sql,$input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            $json_str = json_encode($maiinArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+            $json = json_decode($json_str);
+            return;
+        }
+        
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['z_index'] = $row[0];
+            $array['geo_json'] = $row[1];
+            if(!is_null($array['geo_json']))
+            {
+                $debugFile = $debugFolder."/".$image_id."_".$array['z_index'].".json";
+                if(file_exists($debugFile))
+                    unlink($debugFile);
+                $sjson_str = $array['geo_json'];
+                $sjson = json_decode($sjson_str);
+                $sjson_str = json_encode($sjson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                file_put_contents($debugFile, $sjson_str);
+                if(!is_null($sjson) && isset($sjson->features))
+                {
+                    foreach($sjson->features as $feature)
+                    {
+                        array_push($maiinArray, $feature);
+                    }
+                }
+            }
+        }
+        
+        pg_close($conn);
+        $json_str = json_encode($maiinArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $debugMainFile = $debugFolder."/".$image_id."_main.json";
+        file_put_contents($debugMainFile, $json_str);
+        
+        $json = json_decode($json_str);
+        return $json;
+        
+    }
+    
+    
     public function getTrainedModelByDOI($db_params,$doi)
     {
         $conn = pg_pconnect($db_params);

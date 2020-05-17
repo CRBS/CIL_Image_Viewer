@@ -84,6 +84,18 @@ class Image_annotation_service extends REST_Controller
         $this->response($array);
     }
     
+    
+    public function keywordsearch_post($image_id="0")
+    {
+        $db_params = $this->config->item('db_params');
+        $dbutil = new DBUtil();
+        $keywords = file_get_contents('php://input', 'r');
+        
+        $mainArray = $dbutil->getAllAnnotations($db_params, $image_id);
+        $this->response($mainArray);
+    }
+    
+    
 
     public function geodata_post($cil_id="0",$sindex="0")
     {

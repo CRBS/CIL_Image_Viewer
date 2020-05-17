@@ -300,10 +300,10 @@
 
                         <div class="row">
                             <div class="col-md-10">
-                                <input class="form-control" type="text" placeholder="Search">
+                                <input class="form-control" type="text" placeholder="Search" id="keywords_search_input" name="keywords_search_input">
                             </div>
                             <div class="col-md-2">
-                                <button type="button" class="btn btn-outline-primary">Search</button>
+                                <button type="button" class="btn btn-outline-primary" id="keywords_search_btn_id" name="keywords_search_btn_id">Search</button>
                             </div>
                         </div>
                         
@@ -434,8 +434,8 @@
                         '<input id="annotation_check" name="annotation_check" type="checkbox" checked>&nbsp'+
                         '</div>';             
                     
-        var findAnnot = '<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>';
-                //'<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>&nbsp;&nbsp;<button  id="search_btn_id" name="search_btn_id" type="button" class="btn btn-primary">Search</button>';            
+        var findAnnot = //'<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>';
+                '<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>&nbsp;&nbsp;<button  id="search_btn_id" name="search_btn_id" type="button" class="btn btn-primary">Search</button>';            
                     
                     
         var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
@@ -679,8 +679,23 @@
         });
         //.error(function() { //alert("error"); }
         //);
-    
+ 
     }
+    
+    
+    function searchAnnotationByKeywords(keywrods)
+    {
+        $.post('<?php echo $serverName; ?>/image_annotation_service/keywordsearch/'+cil_id, keywrods, function(returnedData) {
+            // do something here with the returnedData
+            console.log("searchAnnotationByKeywords returned:"+returnedData);
+            
+            console.log("JSON:"+JSON.stringify(returnedData));
+        });
+        //.error(function() { //alert("error"); }
+        //);
+        
+    }
+    
     
     function isObjectDefined(x) 
     {
@@ -792,6 +807,20 @@
         
         
         document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
+        document.getElementById("keywords_search_btn_id").addEventListener ("click", keyword_search_func, false);
+        
+        
+        function keyword_search_func()
+        {
+            var keywords_search_input = document.getElementById('keywords_search_input').value;
+            keywords_search_input = keywords_search_input.trim();
+            
+            console.log("keywords:"+keywords_search_input+"-----length:"+keywords_search_input.length);
+            searchAnnotationByKeywords(keywords_search_input);
+            
+        }
+        
+        
         function annotation_check_func()
         {
             var id = new Date().getTime();
