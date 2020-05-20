@@ -9,8 +9,7 @@ class DBUtil
     */
     
     private $success = "success";
-    
-    
+   
     
     public function handleImageUpdate($db_params,$image_id,$array)
     {
@@ -305,6 +304,8 @@ class DBUtil
         return $array;
     }
     
+
+    
     public function isProcessFinished($db_params, $crop_id)
     {
         if(!is_numeric($crop_id))
@@ -505,6 +506,30 @@ class DBUtil
         return $json;
     }
     
+    public function getRetrainUserEmail($cil_pgsql_db, $id=0)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return null;
+        $sql = "select email from retrain_models where id = $1";
+        $input = array();
+        array_push($input, $id);
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        $email = NULL;
+        if($row = pg_fetch_row($result))
+        {
+            $email = $row[0];
+        }
+    
+        pg_close($conn);
+        return $email;
+        
+    }
     
     public function getCropProcessInfo($db_params,$id=0)
     {
@@ -1517,6 +1542,29 @@ class DBUtil
         return true;  
         
     }
+    
+    
+    public function updateRetrainError($cil_pgsql_db,$crop_id)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+        {
+            return fa;se;
+        }
+        $input = array();
+        array_push($input, $crop_id);
+        $sql = "update retrain_models set error = true where id = $1";
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        
+        return true;     
+    }
+    
     
     public function updateCropError($db_params,$crop_id)
     {

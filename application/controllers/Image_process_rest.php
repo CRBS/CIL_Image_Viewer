@@ -299,6 +299,102 @@ class Image_process_rest extends REST_Controller
         return;
     }
     
+    
+    public function update_retrain_error_post($stage_or_prod="stage", $crop_id="0")
+    {
+        $dbutil = new DBUtil();
+        $cutil = new CurlUtil();
+        $mutil = new MailUtil();
+        date_default_timezone_set( 'America/Los_Angeles' );
+        //$db_params = $this->config->item('db_params');
+        $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+        $service_log_dir = $this->config->item('service_log_dir');
+        error_log("update_cdeep3m_error_postt----Crop_id:".$crop_id."\n", 3, $service_log_dir."/image_service_log.txt");
+        
+        $array = array();
+        if(!is_numeric($crop_id))
+        {
+            $array['success'] = false;
+            $array['error_message'] = "Crop ID is not a number";
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            $this->response($json);
+            return;
+        }
+        
+        $crop_id = intval($crop_id);
+        
+        if(strcmp($stage_or_prod,"stage") == 0)
+        {
+            $image_metadata_auth = $this->config->item('image_metadata_auth');
+
+            $header = $this->input->get_request_header('Authorization');
+            if(!is_null($header))
+            {
+                $header = str_replace("Basic ", "", $header);
+            }
+            else
+                $header = "Nothing";
+            $decoded_header = trim(base64_decode($header));
+            $array = array();
+            if(strcmp($decoded_header, $image_metadata_auth)==0)
+            {
+                
+                //$array['success'] = $dbutil->updateCropError($db_params, $crop_id);
+                $array['success'] = $dbutil->updateRetrainError($cil_pgsql_db, $crop_id);
+                
+                $email = $dbutil->getRetrainUserEmail($cil_pgsql_db, $crop_id);
+                
+                if(!is_null($email))
+                {
+                    /***************Send Gmail*******************/
+                    $email_log_file = $service_log_dir."/email_error.log";
+                    error_log("\n".date("Y-m-d h:i:sa")."-----------------------------------------------------------------------------", 3, $email_log_file);
+                    error_log("\n".date("Y-m-d h:i:sa")."----------------------Start sending email", 3, $email_log_file);
+                    $email_log_file = $service_log_dir."/email_error.log";
+                    $gmail_sender = $this->config->item('gmail_sender');
+                    $gmail_sender_name = $this->config->item('gmail_sender_name');
+                    $gmail_sender_pwd = $this->config->item('gmail_sender_pwd');
+                    $gmail_reply_to = $this->config->item('gmail_reply_to');
+                    $gmail_reply_to_name = $this->config->item('gmail_reply_to_name');
+
+                    error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_sender:".$gmail_sender, 3, $email_log_file);
+                    error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_sender_name:".$gmail_sender_name, 3, $email_log_file);
+                    error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_sender_pwd:".$gmail_sender_pwd, 3, $email_log_file);
+                    error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_reply_to:".$gmail_reply_to, 3, $email_log_file);
+                    error_log("\n".date("Y-m-d h:i:sa")."----------------------gmail_reply_to_name:".$gmail_reply_to_name, 3, $email_log_file);
+
+
+                    $subject = "Error in your CDeep3M Retrain process: ".$crop_id;
+                    $message = "See the error log files:<br/>"."http://cildata.crbs.ucsd.edu/cdeep3m_results/".$crop_id."/log/logs.tar";
+                    
+                    $mutil->sendGmail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd,$email, $gmail_reply_to, $gmail_reply_to_name, $subject, $message, $email_log_file);
+                    error_log("\n".date("Y-m-d h:i:sa")."----------------------Finished sending email to ".$email, 3, $email_log_file);
+                    error_log("\n".date("Y-m-d h:i:sa")."-----------------------------------------------------------------------------", 3, $email_log_file);
+                    /***************End send Gmail***************/
+                }
+                
+                
+            }
+            else
+            {
+                $array['success'] = false;
+                $array['error_message'] = "Invalid authorization";
+            }
+        }
+        else
+        {
+            $array['success'] = false;
+        }
+        
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        $this->response($json);
+        return;
+    }
+    
+    
+    
     public function update_cdeep3m_error_post($stage_or_prod="stage", $crop_id="0")
     {
         $dbutil = new DBUtil();
