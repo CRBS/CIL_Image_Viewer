@@ -17,6 +17,15 @@ class GeneralUtil
 
         return (substr($haystack, -$length) === $needle);
     }
+    
+    public function contains($haystack, $needle)
+    {
+        if(strpos($haystack, $needle) !== false)
+            return true;
+        else
+            return false;
+    }
+    
 }
 
 

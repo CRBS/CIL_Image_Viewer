@@ -762,9 +762,9 @@
     {
         $.post('<?php echo $serverName; ?>/image_annotation_service/keywordsearch/'+cil_id, keywrods, function(returnedData) {
             // do something here with the returnedData
-            console.log("searchAnnotationByKeywords returned:"+returnedData);
+            //console.log("searchAnnotationByKeywords returned:"+returnedData);
             
-            console.log("JSON:"+JSON.stringify(returnedData));
+            //console.log("JSON:"+JSON.stringify(returnedData));
             var i = 0
             var search_tbody = document.getElementById('search_tbody_id');
             search_tbody.innerHTML ="";
@@ -1018,6 +1018,7 @@
         
         function search_click_func()
         {
+            keyword_search_func();
             $("#search_modal_id").modal('show');
         }
         

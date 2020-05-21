@@ -87,11 +87,35 @@ class Image_annotation_service extends REST_Controller
     
     public function keywordsearch_post($image_id="0")
     {
+        $debug = false;
+        $debugFolder = "C:/Test3/debug_json";
+        $debugFile = $debugFolder."/keyword_search.log";
+        
+        if($debug)
+        {
+            if(file_exists($debugFile))
+                unlink($debugFile);
+        }
+        
         $db_params = $this->config->item('db_params');
         $dbutil = new DBUtil();
         $keywords = file_get_contents('php://input', 'r');
+        if(!is_null($keywords))
+            $keywords = trim ($keywords);
+        $mainArray = array();
+        if(is_null($keywords) || strlen($keywords) == 0 || strcmp($keywords, "*") ==0)
+        {
+            if($debug)
+                file_put_contents($debugFile, "Get all");
+            $mainArray = $dbutil->getAllAnnotations($db_params, $image_id);
+        }
+        else
+        {
+            if($debug)
+                file_put_contents($debugFile, "Do search:".$keywords."-----");
+            $mainArray = $dbutil->searchAnnotations ($db_params, $image_id, $keywords);
+        }
         
-        $mainArray = $dbutil->getAllAnnotations($db_params, $image_id);
         $this->response($mainArray);
     }
     

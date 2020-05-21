@@ -1,0 +1,26 @@
+
+2020-05-19 06:35:06pm-----------------------------------------------------------------------------
+2020-05-19 06:35:06pm----------------------Start sending email
+2020-05-19 06:35:06pm----------------------gmail_sender:cdeep3mcrbs@gmail.com
+2020-05-19 06:35:06pm----------------------gmail_sender_name:CDeep3M
+2020-05-19 06:35:06pm----------------------gmail_sender_pwd:qqpPRS3d5W
+2020-05-19 06:35:06pm----------------------gmail_reply_to:cdeep3m@ucsd.edu
+2020-05-19 06:35:06pm----------------------gmail_reply_to_name:CDeep3M team
+2020-05-19 06:35:06pm----------------------cropInfoJson_str:[]
+2020-05-19 06:35:06pm-------C:\Users\wawong\Documents\apache\CIL_Image_Viewer\Apache24\html\CIL_Image_Viewer/application/controllers/PHPMailer/Exception.php
+2020-05-19 06:35:06pm-------PHPMailer instance
+2020-05-19 06:35:06pm----Error:Invalid address:  (to): 
+2020-05-19 06:35:06pm----------------------Finished sending email to 
+2020-05-19 06:35:06pm-----------------------------------------------------------------------------
+2020-05-19 06:36:52pm-----------------------------------------------------------------------------
+2020-05-19 06:36:52pm----------------------Start sending email
+2020-05-19 06:36:52pm----------------------gmail_sender:cdeep3mcrbs@gmail.com
+2020-05-19 06:36:52pm----------------------gmail_sender_name:CDeep3M
+2020-05-19 06:36:52pm----------------------gmail_sender_pwd:qqpPRS3d5W
+2020-05-19 06:36:52pm----------------------gmail_reply_to:cdeep3m@ucsd.edu
+2020-05-19 06:36:52pm----------------------gmail_reply_to_name:CDeep3M team
+2020-05-19 06:36:52pm-------C:\Users\wawong\Documents\apache\CIL_Image_Viewer\Apache24\html\CIL_Image_Viewer/application/controllers/PHPMailer/Exception.php
+2020-05-19 06:36:52pm-------PHPMailer instance
+2020-05-19 06:36:55pm----Send debug outputhtml
+2020-05-19 06:36:55pm----------------------Finished sending email to wawong@gmail.com
+2020-05-19 06:36:55pm-----------------------------------------------------------------------------
