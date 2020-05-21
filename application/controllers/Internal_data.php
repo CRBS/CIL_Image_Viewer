@@ -85,7 +85,11 @@
             $zindex = $this->input->get('zindex', TRUE);
             $tindex = $this->input->get('tindex', TRUE);
             
-            
+            $token = $this->input->get('token', TRUE);
+            if(!is_null($token))
+            {
+                $data['token'] = $token;
+            }
             
             /***********Control contrast and brightness ***************/
             $contrast = $this->input->get('contrast', TRUE);

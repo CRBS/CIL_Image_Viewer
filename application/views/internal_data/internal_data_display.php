@@ -134,7 +134,7 @@
                 
                 <div id="z_slicer_id" class="row">
                     <div class="col-md-8">
-                        <span id="zindex_value">Z slice:0</span>
+                        <span id="zindex_value">Z slice:<?php if(isset($zindex)) echo $zindex; ?></span>
                     </div>
                     <div class="col-md-4">
                         <!-- <a id="backward_id" href="#"><span class="glyphicon glyphicon-step-backward"></span></a>
@@ -143,7 +143,7 @@
                         <a id="forward_id" href="#">&#8614;</a>
                     </div>
                     <div class="col-md-12">
-                        <input autocomplete="off" id="z_index" type="range"  min="0" max="<?php echo $max_z; ?>" value="0">
+                        <input autocomplete="off" id="z_index" type="range"  min="0" max="<?php echo $max_z; ?>" value="<?php if(isset($zindex)) echo $zindex; ?>">
                     </div>
                 </div>
                 
@@ -286,7 +286,7 @@
     
         <div class="row">
             <div class="col-md-12">
-            <!----------Search Model--------------------->    
+            <!---------- Search Model --------------------->    
             <div class="modal fade" id="search_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" id="search_dialog_modal_id" style="max-width: 70%;">
                   <div class="modal-content" >
@@ -304,6 +304,81 @@
                             </div>
                             <div class="col-md-2">
                                 <button type="button" class="btn btn-outline-primary" id="keywords_search_btn_id" name="keywords_search_btn_id">Search</button>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <br/>
+                                <!----------------Table--------------------->
+                                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+
+                                        <table class="table table-bordered table-striped mb-0">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">ID</th>
+                                              <th scope="col">Annotator</th>
+                                              <th scope="col">Z index</th>
+                                              <th scope="col">Description</th>
+                                              <th scope="col">Timestamp</th>
+                                              <th scope="col">Option</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody id="search_tbody_id" name="search_tbody_id">
+                                            <!---<tr>
+                                              <th scope="row">1</th>
+                                              <td>Mark</td>
+                                              <td>Otto</td>
+                                              <td>@mdo</td>
+                                              <td>@mdo</td>
+                                              <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                              <th scope="row">2</th>
+                                              <td>Jacob</td>
+                                              <td>Thornton</td>
+                                              <td>@fat</td>
+                                              <td>@mdo</td>
+                                              <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                              <th scope="row">3</th>
+                                              <td>Larry</td>
+                                              <td>the Bird</td>
+                                              <td>@twitter</td>
+                                              <td>@mdo</td>
+                                              <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                              <th scope="row">4</th>
+                                              <td>Mark</td>
+                                              <td>Otto</td>
+                                              <td>@mdo</td>
+                                              <td>@mdo</td>
+                                              <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                              <th scope="row">5</th>
+                                              <td>Jacob</td>
+                                              <td>Thornton</td>
+                                              <td>@fat</td>
+                                              <td>@mdo</td>
+                                              <td>@mdo</td>
+                                            </tr>
+                                            <tr>
+                                              <th scope="row">6</th>
+                                              <td>Larry</td>
+                                              <td>the Bird</td>
+                                              <td>@twitter</td>
+                                              <td>@mdo</td>
+                                              <td>@mdo</td>
+                                            </tr> -->
+                                          </tbody>
+                                        </table>
+
+                                </div>
+                                
+                                <!---------------End Table------------------>
                             </div>
                         </div>
                         
@@ -690,6 +765,101 @@
             console.log("searchAnnotationByKeywords returned:"+returnedData);
             
             console.log("JSON:"+JSON.stringify(returnedData));
+            var i = 0
+            var search_tbody = document.getElementById('search_tbody_id');
+            search_tbody.innerHTML ="";
+            
+            var username = '<?php echo $username; ?>';
+            
+            for(i=0;i<returnedData.length;i++)
+            {
+                var feature = returnedData[i];
+                if(feature.hasOwnProperty('properties'))
+                {
+                    var properties = feature.properties;
+                    var row = document.createElement("tr");
+                    
+                    var idCell = document.createElement("td");
+                    if(properties.hasOwnProperty('id'))
+                    {
+                       var idText = document.createTextNode(properties.id);
+                       idCell.appendChild(idText);
+                    }
+                    row.appendChild(idCell);
+                    
+                    var nameCell = document.createElement("td");
+                    if(properties.hasOwnProperty('username'))
+                    {
+                        var nameText = document.createTextNode(properties.full_name);
+                        nameCell.appendChild(nameText);
+                    }
+                    row.appendChild(nameCell);
+                    
+                    
+                    var zindexCell = document.createElement("td");
+                    if(properties.hasOwnProperty('zindex'))
+                    {
+                        var zindexText = document.createTextNode(properties.zindex);
+                        zindexCell.appendChild(zindexText);
+                    }
+                    row.appendChild(zindexCell);
+                    
+                    
+                    var descCell = document.createElement("td");
+                    if(properties.hasOwnProperty('desc'))
+                    {
+                        var descText = document.createTextNode(properties.desc);
+                        descCell.appendChild(descText);
+                    }
+                    row.appendChild(descCell);
+                    
+                    
+                    
+                    var timeCell = document.createElement("td");
+                    if(properties.hasOwnProperty('create_time'))
+                    {
+                        var timeText = document.createTextNode(properties.create_time);
+                        timeCell.appendChild(timeText);
+                    }
+                    row.appendChild(timeCell);
+                    
+                    var zindex = 0;
+                    var lat = 0;
+                    var lng = 0;
+                    var zoom = 0;
+                    var token = 0;
+                    
+                    if(properties.hasOwnProperty('zindex'))
+                        zindex =  properties.zindex;
+                    
+                    if(properties.hasOwnProperty('lat'))
+                        lat =  properties.lat;
+                    
+                    if(properties.hasOwnProperty('lng'))
+                        lng =  properties.lng;
+                    
+                    if(properties.hasOwnProperty('zoom'))
+                        zoom =  properties.zoom;
+                    
+                    <?php
+                        if(isset($token))
+                        {
+                    ?> 
+                           token = '<?php echo $token; ?>';
+                    <?php
+                        }                    
+                    ?>
+                    
+                    var optionCell = document.createElement("td");
+                    var viewUrl = "<?php echo $base_url."/internal_data/".$image_id; ?>?";
+                    viewUrl = viewUrl+"zindex="+zindex+"&lat="+lat+"&lng="+lng+"&zoom="+zoom+"&username="+username+"&token="+token;
+                    var url = '<a href="'+viewUrl+'" target="_self">View</a>';
+                    optionCell.innerHTML = url;
+                     row.appendChild(optionCell);
+                    
+                    search_tbody.appendChild(row);
+                }
+            }
         });
         //.error(function() { //alert("error"); }
         //);
@@ -722,7 +892,7 @@
         var temp = document.getElementById("z_index").value;
         zindex = parseInt(temp);
         var l_url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
-        
+        console.log(l_url);
         return l_url;
     }
     
