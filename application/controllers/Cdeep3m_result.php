@@ -32,6 +32,7 @@ class Cdeep3m_result extends CI_Controller
             $data['cropInfo'] = $cropInfo;
    
         }
+        //echo "\n".$url;
         $response = $cutil->curl_get($url, $image_service_auth);
         //$data['response'] = $response;
         $json = json_decode($response);

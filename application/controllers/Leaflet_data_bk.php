@@ -1,11 +1,8 @@
 <?php
 
-
-
     class Leaflet_data extends CI_Controller
     {
 	private $prefix = "";
-        
         
         public function show_memory()
         {
@@ -24,8 +21,7 @@
         
         public function tar_time_filter($image_id,$tar_name,$root_folder,$z="0",$x="0",$y="0.png")
         {
-           //error_reporting(0);
-           
+            error_reporting(0);
            $image_tar_dir = $this->config->item("image_tar_dir");
            $wib_error_log = $this->config->item("wib_error_log");
            $place_holder_image = $this->config->item("place_holder_image");
@@ -127,18 +123,10 @@
         
 	public function tar_filter($tar_folder,$tar_name,$root_folder,$z="0",$x="0",$y="0.png")
         { 
-           error_reporting(0); 
-           
-           $start_time = microtime(true);
-           
-  
-         	   
+	   error_reporting(0);
            $image_tar_dir = $this->config->item("image_tar_dir");
            $wib_error_log = $this->config->item("wib_error_log");
            $place_holder_image = $this->config->item("place_holder_image");
-           
-           
-           
            
            $red = 255;
 	   $green = 255;
@@ -196,47 +184,17 @@
 	        $brightness = -100;
 	   }
 
-           
-           $file = "---";
-           $readTime = 0;
-           $data = null;
-           $readStart = microtime(true);
-           
-           $localFile =  $image_tar_dir."/".$tar_folder."/".$root_folder."/".$z."/".$x."/".$y;
-           error_log("\nTry local file:".$localFile,3,$wib_error_log);
-           if(intval($x) < 0)
-           {
-                $data = file_get_contents($place_holder_image);
-           }
-           else if(file_exists($localFile))
-           {
-               $file = $localFile;
-               $data = file_get_contents($file);
-               error_log("\nUsing local file:".$file,3,$wib_error_log);
-           }
-           else 
-           {
-                $file = $image_tar_dir."/".$tar_folder."/".$tar_name."/".$root_folder."/".$z."/".$x."/".$y;
-                error_log("\nUsing tar file:".$file,3,$wib_error_log);
-                    //error_log("\nmcahce for ".$file." is NULL",3,$wib_error_log);
-                    $skipFilter = false;
-                    if(file_exists("phar://".$file))
-                         $data = file_get_contents("phar://".$file);
-                    else
-                         $skipFilter = true;
-
-                    if($skipFilter)
-                    {
-                         //$data = file_get_contents($place_holder_image);
-                        $data =  $place_holder_image;
-                    }
-                    
-                
-           }
-           
-          
-           $readEnd = microtime(true);
-           $readTime = $readEnd - $readStart;
+	   $file = $image_tar_dir."/".$tar_folder."/".$tar_name."/".$root_folder."/".$z."/".$x."/".$y;
+           //error_log("\n".$file."--exist:".file_exists("phar://".$file), 3, $wib_error_log);
+ 	   $data = null;
+           $skipFilter = false;
+	   if(file_exists("phar://".$file))
+	   	$data = file_get_contents("phar://".$file);
+	   else
+		$skipFilter = true;
+	
+           if($skipFilter)
+		$data = file_get_contents($place_holder_image);
     
 	   $im = imagecreatefromstring($data);
 	   header('Content-Type: image/png');
@@ -262,9 +220,5 @@
 
 	   imagepng($im);
            imagedestroy($im);
-           
-           $end_time = microtime(true);
-           $diff_time = $end_time-$start_time;
-           error_log("\n".$file."-----".$diff_time."seconds-----Read time:".$readTime,3,$wib_error_log);
 	}
     }
