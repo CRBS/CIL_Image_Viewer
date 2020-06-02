@@ -133,14 +133,16 @@
             <div class="col-md-3">
                 
                 <div id="z_slicer_id" class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <span id="zindex_value">Z slice:<?php if(isset($zindex)) echo $zindex; ?></span>
                     </div>
                     <div class="col-md-4">
-                        <!-- <a id="backward_id" href="#"><span class="glyphicon glyphicon-step-backward"></span></a>
-                        <a id="forward_id" href="#"><span class="glyphicon glyphicon-step-forward"></span></a> -->
                         <a id="backward_id" href="#">&#8612;</a> 
                         <a id="forward_id" href="#">&#8614;</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a id="double_backward_id" href="#" title="-5 slices"><b>&#8606;</b></a> 
+                        <a id="double_forward_id" href="#" title="+5 slices"><b>&#8608;</b></a>
                     </div>
                     <div class="col-md-12">
                         <input autocomplete="off" id="z_index" type="range"  min="0" max="<?php echo $max_z; ?>" value="<?php if(isset($zindex)) echo $zindex; ?>">
@@ -1053,6 +1055,52 @@
 
 <script>
     $( function() {
+
+        $("#double_backward_id").click(function() 
+        {
+            //alert("backward_id");
+            if(zindex == 0)
+            {
+                //Do nothing
+            }
+            else if(zindex-5 >= 0)
+            {
+                zindex=zindex-5;
+                document.getElementById("z_index").value = zindex;
+                handleCommand(); 
+            }
+            else
+            {
+                zindex = 0;
+                document.getElementById("z_index").value = zindex;
+                handleCommand(); 
+            }
+        });
+
+        $("#double_forward_id").click(function() 
+        {
+            //alert("backward_id");
+            console.log('Current slice at:'+zindex+"----max:"+z_max);
+            
+            if(zindex == z_max)
+            {
+                //Do nothing
+            }
+            else if(zindex+5 <= z_max)
+            {
+                zindex=zindex+5;
+                
+                document.getElementById("z_index").value = zindex;
+                handleCommand(); 
+            }
+            else
+            {
+                zindex = z_max
+                document.getElementById("z_index").value = zindex;
+                handleCommand(); 
+            }
+        });
+
 
         $("#backward_id").click(function() 
         {
