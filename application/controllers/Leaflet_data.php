@@ -217,19 +217,26 @@
            else 
            {
                 $file = $image_tar_dir."/".$tar_folder."/".$tar_name."/".$root_folder."/".$z."/".$x."/".$y;
-                error_log("\nUsing tar file:".$file,3,$wib_error_log);
+                
                     //error_log("\nmcahce for ".$file." is NULL",3,$wib_error_log);
-                    $skipFilter = false;
-                    if(file_exists("phar://".$file))
-                         $data = file_get_contents("phar://".$file);
-                    else
-                         $skipFilter = true;
+                $skipFilter = false;
+                
+                if(file_exists("phar://".$file))
+                {
+                    error_log("\nUsing tar file:".$file,3,$wib_error_log);
+                    $data = file_get_contents("phar://".$file);
+                }
+                else
+                {
+                    error_log("\nUsing placeholder file:".$file,3,$wib_error_log);
+                    $skipFilter = true;
+                }
 
-                    if($skipFilter)
-                    {
+                if($skipFilter)
+                {
                          //$data = file_get_contents($place_holder_image);
-                        $data =  $place_holder_image;
-                    }
+                    $data =  $place_holder_image;
+                }
                     
                 
            }
@@ -238,33 +245,68 @@
            $readEnd = microtime(true);
            $readTime = $readEnd - $readStart;
     
+           
+           
 	   $im = imagecreatefromstring($data);
+           
 	   header('Content-Type: image/png');
 
+           
 	   if(!$skipFilter)
 	   {	
-	   //////////Filter//////////////////
-	   $rgb = array($red,$green,$blue);
-	   $rgb = array(255-$rgb[0],255-$rgb[1],255-$rgb[2]);
+                //////////Filter//////////////////
+                $rgb = array($red,$green,$blue);
+                $rgb = array(255-$rgb[0],255-$rgb[1],255-$rgb[2]);
 
-	   imagefilter($im, IMG_FILTER_NEGATE); 
-	   imagefilter($im, IMG_FILTER_COLORIZE, $rgb[0], $rgb[1], $rgb[2]); 
-	   imagefilter($im, IMG_FILTER_CONTRAST,$contrast);
-           imagefilter($im, IMG_FILTER_BRIGHTNESS,$brightness);
-           
-           imagefilter($im, IMG_FILTER_NEGATE); 
+                //imagefilter($im, IMG_FILTER_NEGATE);
 
-	   imagealphablending( $im, false );
-	   imagesavealpha( $im, true );
+                if($red==255 && $green==255 && $blue==255)
+                {
+                    //Do nothing
+                    //error_log("\nColor filter do nothing".$processTime,3,$wib_error_log);
+                }
+                else
+                {
+                    //error_log("\nColor filter DO Something".$processTime,3,$wib_error_log);
+                     imagefilter($im, IMG_FILTER_COLORIZE, $rgb[0], $rgb[1], $rgb[2]); 
+                }
+                
+                if($contrast != 0)
+                {
+                    //error_log("\nContrast DO something".$processTime,3,$wib_error_log);
+                    imagefilter($im, IMG_FILTER_CONTRAST,$contrast);
+                }
+                else
+                {
+                    //error_log("\nContrast do nothing".$processTime,3,$wib_error_log);
+                }
+                
+                if($brightness != 0)
+                {
+                    //error_log("\nBrightness DO something".$processTime,3,$wib_error_log);
+                    $brightness = $brightness*-1;
+                    imagefilter($im, IMG_FILTER_BRIGHTNESS,$brightness);
+                }
+                else 
+                {
+                    //error_log("\nBrightness do nothing".$processTime,3,$wib_error_log);
+                }
+                //imagefilter($im, IMG_FILTER_NEGATE); 
 
-	   /////////End filter///////////////
+                imagealphablending( $im, false );
+                imagesavealpha( $im, true );
+
+                /////////End filter///////////////
 	   }
-
-	   imagepng($im);
+           $processStart = microtime(true);
+	   imagepng($im,NULL,0);
            imagedestroy($im);
+           $processEnd = microtime(true);
+           $processTime = $processEnd - $processStart;
            
            $end_time = microtime(true);
            $diff_time = $end_time-$start_time;
-           error_log("\n".$file."-----".$diff_time."seconds-----Read time:".$readTime,3,$wib_error_log);
+           error_log("\n".$file."-----".$diff_time."seconds-----Read time:".$readTime."--------Process time:".$processTime,3,$wib_error_log);
+           error_log("\n-----------------------------------------------------------------------------------------------------------------------\n",3,$wib_error_log);
 	}
     }
