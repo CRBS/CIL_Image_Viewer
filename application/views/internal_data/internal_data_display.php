@@ -138,7 +138,7 @@
                 
                 <div id="z_slicer_id" class="row">
                     <div class="col-md-4">
-                        <span id="zindex_value">Z slice:<?php if(isset($zindex)) echo $zindex; ?></span>
+                        <span id="zindex_value">Z:<?php if(isset($zindex)) echo $zindex; ?></span>
                     </div>
                     <div class="col-md-4">
                         <a id="backward_id" href="#">&#8612;</a> 
@@ -544,7 +544,7 @@
         document.getElementById('rgb_div_id').style.display = 'none';    
     
     //Z slice z_index zindex_value
-    document.getElementById('zindex_value').innerHTML = "Z slice:"+zindex;
+    document.getElementById('zindex_value').innerHTML = "Z:"+zindex;
     document.getElementById('z_index').value = zindex;
     // Create an empty GeoJSON collection
     /*var collection = {
@@ -933,7 +933,7 @@
           
             var temp = document.getElementById("z_index").value;
             zindex = parseInt(temp);
-            document.getElementById("zindex_value").innerHTML = "Z slice:"+zindex;
+            document.getElementById("zindex_value").innerHTML = "Z:"+zindex;
           
             var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
             console.log(url);
