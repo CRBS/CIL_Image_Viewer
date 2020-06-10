@@ -71,12 +71,13 @@
                     <div class="col-md-6">
                         <span id="contrast_value">Contrast:<?php if(isset($contrast)) echo $contrast; else echo "0"; ?></span>
                     </div>
-                    <div class="col-md-6">
-                        
-                        <!-- <a id="contrast_backward_id" href="#"><span class="glyphicon glyphicon-step-backward"></span></a> --> 
-                        <!-- <a id="contrast_forward_id" href="#"><span class="glyphicon glyphicon-step-forward"></span></a> -->
+                    <div class="col-md-3">
                         <a id="contrast_backward_id" href="#">&#8612;</a> 
                         <a id="contrast_forward_id" href="#">&#8614;</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a id="double_contrast_backward_id" href="#" title="-5">&#8606;</a> 
+                        <a id="double_contrast_forward_id" href="#" title="+5">&#8608;</a>
                     </div>
                     <div class="col-md-12">
                         <?php
@@ -85,14 +86,14 @@
                             {
                                $c_value = $contrast+100;
                         ?>
-                            <input autocomplete="off" id="contrast" type="range"  min="1" max="200" value="<?php echo $c_value; ?>">
+                            <input autocomplete="off" id="contrast" type="range"  min="0" max="200" value="<?php echo $c_value; ?>">
                          <?php
                             }
                             else
                             {
                         ?>   
                          
-                            <input autocomplete="off" id="contrast" type="range"  min="1" max="200" value="100">
+                            <input autocomplete="off" id="contrast" type="range"  min="0" max="200" value="100">
                         <?php
                             }
                         ?>
@@ -104,12 +105,15 @@
                     <div class="col-md-6">
                         <span id="brightness_value">Brightness:<?php if(isset($brightness)) echo $brightness; else echo "0"; ?></span>
                     </div>
-                    <div class="col-md-6">
-                        <!-- <a id="brightness_backward_id" href="#"><span class="glyphicon glyphicon-step-backward"></span></a>
-                        <a id="brightness_forward_id" href="#"><span class="glyphicon glyphicon-step-forward"></span></a> -->
+                    <div class="col-md-3">
                         <a id="brightness_backward_id" href="#">&#8612;</a> 
                         <a id="brightness_forward_id" href="#">&#8614;</a>
                     </div>
+                    <div class="col-md-3">
+                        <a id="double_brightness_backward_id" href="#" title="-5"><b>&#8606;</b></a> 
+                        <a id="double_brightness_forward_id" href="#" title="+5"><b>&#8608;</b></a>
+                    </div>
+                    
                     <div class="col-md-12">
                         <?php
                         
@@ -117,13 +121,13 @@
                             {
                                $b_value = $brightness+100;
                         ?>
-                               <input autocomplete="off" id="brightness" type="range"  min="1" max="200" value="<?php echo $b_value; ?>">
+                               <input autocomplete="off" id="brightness" type="range"  min="0" max="200" value="<?php echo $b_value; ?>">
                         <?php
                             }
                             else
                             {
                         ?>
-                                <input autocomplete="off" id="brightness" type="range"  min="1" max="200" value="100">
+                                <input autocomplete="off" id="brightness" type="range"  min="0" max="200" value="100">
                         <?php
                             }
                         ?>
@@ -1126,6 +1130,31 @@
             }
         });
         
+        
+        
+        $("#double_brightness_backward_id").click(function() 
+        {
+            //alert("backward_id");
+            var temp = document.getElementById("brightness").value;
+            var b = parseInt(temp);
+            
+            if(b==0)
+            {
+                //Do nothing
+            }
+            else if(b-5 >= 0)
+            {
+                document.getElementById("brightness").value = (b-5);
+                handleCommand(); 
+            }
+            else
+            {
+                document.getElementById("brightness").value = 0;
+                handleCommand(); 
+            }
+        });
+        
+        
         $("#brightness_backward_id").click(function() 
         {
             //alert("backward_id");
@@ -1153,6 +1182,53 @@
         });
         
         
+        $("#double_brightness_forward_id").click(function() 
+        {
+            //alert("backward_id");
+            var temp = document.getElementById("brightness").value;
+            var b = parseInt(temp);
+            
+            if(b == 200)
+            {
+                //Do nothing
+            }
+            else if(b+5 <= 200)
+            {
+                document.getElementById("brightness").value = (b+5);
+                handleCommand(); 
+            }
+            else
+            {
+                document.getElementById("brightness").value = 200;
+                handleCommand(); 
+            }
+            
+        });
+        
+        
+        $("#double_contrast_backward_id").click(function() 
+        {
+            //alert("backward_id");
+            var temp = document.getElementById("contrast").value;
+            var c = parseInt(temp);
+            
+            if(c == 0)
+            {
+                //Do nothing
+            }
+            else if(c-5 >= 0)
+            {
+                document.getElementById("contrast").value = (c-5);
+                handleCommand(); 
+            }
+            else
+            {
+                document.getElementById("contrast").value = 0;
+                handleCommand(); 
+            }
+            
+        });
+        
         $("#contrast_backward_id").click(function() 
         {
             //alert("backward_id");
@@ -1178,6 +1254,32 @@
             }
             
         });
+        
+        
+        $("#double_contrast_forward_id").click(function() 
+        {
+            //alert("backward_id");
+            var temp = document.getElementById("contrast").value;
+            var c = parseInt(temp);
+            
+            if(c == 0)
+            {
+                //Do nothing
+            }
+            else if(c+5 <= 200)
+            {
+                document.getElementById("contrast").value = (c+5);
+                handleCommand(); 
+            }
+            else
+            {
+                document.getElementById("contrast").value = 200;
+                handleCommand(); 
+            }
+            
+        });
+        
+        
         
         $("#remove_annotation_id").click(function() 
         {
