@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $is_prod = false;
 
+$config['enable_log'] = false;
+
 $cil_annotation_config_file="";
 if(!$is_prod)
     $cil_annotation_config_file = "C:/data/cil_annotation_service_config.json"; //Staging database
@@ -551,6 +553,11 @@ $config['proxy_ips'] = '';
 
 
 //$config['broad_dir'] = '/export2/broad_data';
+
+if($is_prod)
+    $config['ssd_image_dir'] = '/fast/image_viewer_data';
+else 
+    $config['ssd_image_dir'] = 'C:/leaflet_data';
 
 if($is_prod)
     $config['image_tar_dir'] = '/export2/image_viewer_data';

@@ -87,7 +87,7 @@
 	   }
 
 	   $file = $image_tar_dir."/".$image_id."/".$tar_name."/".$root_folder."/".$z."/".$x."/".$y;
-           //error_log("\n".$file."--exist:".file_exists("phar://".$file), 3, $wib_error_log);
+           //$this->my_error_log("\n".$file."--exist:".file_exists("phar://".$file), 3, $wib_error_log);
  	   $data = null;
            $skipFilter = false;
 	   if(file_exists("phar://".$file))
@@ -131,7 +131,7 @@
            
            $start_time = microtime(true);
            
-  
+           $ssd_image_dir = $this->config->item("ssd_image_dir");
          	   
            $image_tar_dir = $this->config->item("image_tar_dir");
            $wib_error_log = $this->config->item("wib_error_log");
@@ -203,32 +203,65 @@
            $readStart = microtime(true);
            
            $localFile =  $image_tar_dir."/".$tar_folder."/".$root_folder."/".$z."/".$x."/".$y;
-           error_log("\nTry local file:".$localFile,3,$wib_error_log);
+           $ssdFile = $ssd_image_dir."/".$tar_folder."/".$root_folder."/".$z."/".$x."/".$y;
+           $ssdTarFile = $ssd_image_dir."/".$tar_folder."/".$tar_name;
+           
+           $this->my_error_log("\nTry local file:".$localFile,3,$wib_error_log);
            if(intval($x) < 0)
            {
                 $data = file_get_contents($place_holder_image);
+           }
+           else if(file_exists($ssdFile))
+           {
+               $file = $ssdFile;
+               $data = file_get_contents($file);
+               $this->my_error_log("\nUsing ssd local file:".$file,3,$wib_error_log);
            }
            else if(file_exists($localFile))
            {
                $file = $localFile;
                $data = file_get_contents($file);
-               error_log("\nUsing local file:".$file,3,$wib_error_log);
+               $this->my_error_log("\nUsing local file:".$file,3,$wib_error_log);
+           }
+           else if(file_exists($ssdTarFile))
+           {
+               $file = $ssdTarFile."/".$root_folder."/".$z."/".$x."/".$y;
+                
+                    //$this->my_error_log("\nmcahce for ".$file." is NULL",3,$wib_error_log);
+                $skipFilter = false;
+                
+                if(file_exists("phar://".$file))
+                {
+                    $this->my_error_log("\nUsing ssd tar file:".$file,3,$wib_error_log);
+                    $data = file_get_contents("phar://".$file);
+                }
+                else
+                {
+                    $this->my_error_log("\nUsing placeholder file:".$file,3,$wib_error_log);
+                    $skipFilter = true;
+                }
+
+                if($skipFilter)
+                {
+                         //$data = file_get_contents($place_holder_image);
+                    $data =  $place_holder_image;
+                }
            }
            else 
            {
                 $file = $image_tar_dir."/".$tar_folder."/".$tar_name."/".$root_folder."/".$z."/".$x."/".$y;
                 
-                    //error_log("\nmcahce for ".$file." is NULL",3,$wib_error_log);
+                    //$this->my_error_log("\nmcahce for ".$file." is NULL",3,$wib_error_log);
                 $skipFilter = false;
                 
                 if(file_exists("phar://".$file))
                 {
-                    error_log("\nUsing tar file:".$file,3,$wib_error_log);
+                    $this->my_error_log("\nUsing tar file:".$file,3,$wib_error_log);
                     $data = file_get_contents("phar://".$file);
                 }
                 else
                 {
-                    error_log("\nUsing placeholder file:".$file,3,$wib_error_log);
+                    $this->my_error_log("\nUsing placeholder file:".$file,3,$wib_error_log);
                     $skipFilter = true;
                 }
 
@@ -263,33 +296,33 @@
                 if($red==255 && $green==255 && $blue==255)
                 {
                     //Do nothing
-                    //error_log("\nColor filter do nothing".$processTime,3,$wib_error_log);
+                    //$this->my_error_log("\nColor filter do nothing".$processTime,3,$wib_error_log);
                 }
                 else
                 {
-                    //error_log("\nColor filter DO Something".$processTime,3,$wib_error_log);
+                    //$this->my_error_log("\nColor filter DO Something".$processTime,3,$wib_error_log);
                      imagefilter($im, IMG_FILTER_COLORIZE, $rgb[0], $rgb[1], $rgb[2]); 
                 }
                 
                 if($contrast != 0)
                 {
-                    //error_log("\nContrast DO something".$processTime,3,$wib_error_log);
+                    //$this->my_error_log("\nContrast DO something".$processTime,3,$wib_error_log);
                     imagefilter($im, IMG_FILTER_CONTRAST,$contrast);
                 }
                 else
                 {
-                    //error_log("\nContrast do nothing".$processTime,3,$wib_error_log);
+                    //$this->my_error_log("\nContrast do nothing".$processTime,3,$wib_error_log);
                 }
                 
                 if($brightness != 0)
                 {
-                    //error_log("\nBrightness DO something".$processTime,3,$wib_error_log);
+                    //$this->my_error_log("\nBrightness DO something".$processTime,3,$wib_error_log);
                     $brightness = $brightness*-1;
                     imagefilter($im, IMG_FILTER_BRIGHTNESS,$brightness);
                 }
                 else 
                 {
-                    //error_log("\nBrightness do nothing".$processTime,3,$wib_error_log);
+                    //$this->my_error_log("\nBrightness do nothing".$processTime,3,$wib_error_log);
                 }
                 //imagefilter($im, IMG_FILTER_NEGATE); 
 
@@ -306,7 +339,20 @@
            
            $end_time = microtime(true);
            $diff_time = $end_time-$start_time;
-           error_log("\n".$file."-----".$diff_time."seconds-----Read time:".$readTime."--------Process time:".$processTime,3,$wib_error_log);
-           error_log("\n-----------------------------------------------------------------------------------------------------------------------\n",3,$wib_error_log);
+           $this->my_error_log("\n".$file."-----".$diff_time."seconds-----Read time:".$readTime."--------Process time:".$processTime,3,$wib_error_log);
+           $this->my_error_log("\n-----------------------------------------------------------------------------------------------------------------------\n",3,$wib_error_log);
 	}
+        
+        
+        private function my_error_log($message,$option, $wib_error_log)
+        {
+            $enable_log = $this->config->item("enable_log");
+            if(!$enable_log)
+                return;
+            
+            date_default_timezone_set('America/Los_Angeles');
+            $this->my_error_log(date("Y-m-d h:i:sa").":".$message,$option,$wib_error_log);
+            
+        }
+        
     }
