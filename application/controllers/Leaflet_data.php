@@ -206,10 +206,27 @@
            $ssdFile = $ssd_image_dir."/".$tar_folder."/".$root_folder."/".$z."/".$x."/".$y;
            $ssdTarFile = $ssd_image_dir."/".$tar_folder."/".$tar_name;
            
+           $sqllite3File = $image_tar_dir."/".$tar_folder."/".$root_folder.".sqllite3";
+           
+           
+           
            $this->my_error_log("\nTry local file:".$localFile,3,$wib_error_log);
            if(intval($x) < 0)
            {
                 $data = file_get_contents($place_holder_image);
+           }
+           else if(file_exists($sqllite3File))
+           {
+               $this->my_error_log("\n sqlite3 file exists:".$sqllite3File,3,$wib_error_log);
+               $ipath = $z."/".$x."/".$y;
+               $db = new SQLite3($sqllite3File);
+               $data = $db->querySingle("select data_bin from images where path = '".$ipath."'");
+               $db->close();
+               if(is_null($data))
+               {
+                   $data = file_get_contents($place_holder_image);
+               }
+               
            }
            else if(file_exists($ssdFile))
            {
@@ -351,7 +368,8 @@
                 return;
             
             date_default_timezone_set('America/Los_Angeles');
-            $this->my_error_log(date("Y-m-d h:i:sa").":".$message,$option,$wib_error_log);
+            error_log(date("Y-m-d h:i:sa").":".$message, 3, $wib_error_log);
+            
             
         }
         
