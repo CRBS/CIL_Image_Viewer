@@ -366,7 +366,7 @@
                 </div>
                 <div class="col-md-12">
 
-                    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-py3-docker&templateURL=https://cf-templates-1i8oypshb6jhq-us-west-2.s3-us-west-2.amazonaws.com/cloud_formation_cdeep3m_py3-docker.json" rel="nofollow" target="_blank"><img src="https://camo.githubusercontent.com/210bb3bfeebe0dd2b4db57ef83837273e1a51891/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f636c6f7564666f726d6174696f6e2d6578616d706c65732f636c6f7564666f726d6174696f6e2d6c61756e63682d737461636b2e706e67" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png" style="max-width:100%;"></a> 
+                    <a href="https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/new?stackName=cdeep3m-stack-py3-docker&templateURL=https://cf-templates-1i8oypshb6jhq-us-west-2.s3-us-west-2.amazonaws.com/cloud_formation_cdeep3m_py3-docker.json" rel="nofollow" target="_blank"><img src="/images/launch_btn.png" alt="Launch Deep3m AWS CloudFormation link" data-canonical-src="/images/cloudformation-launch-stack.png" style="max-width:100%;"></a> 
                 </div>
                 <div class="col-md-12">
                     <br/><b>Step 1) Launch the docker container on AWS</b><br/>docker run -it --network=host  --gpus all --entrypoint /bin/bash ncmir/cdeep3m
