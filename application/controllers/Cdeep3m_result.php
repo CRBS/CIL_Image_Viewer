@@ -12,6 +12,15 @@ class Cdeep3m_result extends CI_Controller
         $cutil = new CurlUtil();
         $dbutil = new DBUtil();
         $db_params = $this->config->item('db_params');
+        
+        $isFinished = $dbutil->isProcessFinished($db_params, $crop_id);
+        if(!$isFinished)
+        {
+            echo "Your CDeep3M process is not done yet.";
+            return;
+        }
+        
+        
         $data['title'] = "View Cdeep3m result";
         $data['cdeep3m_website']= $this->config->item('cdeep3m_website');
         $cdeep3m_result_service = $this->config->item('cdeep3m_result_service');
