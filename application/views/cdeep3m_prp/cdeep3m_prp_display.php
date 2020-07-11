@@ -51,6 +51,7 @@
     <script src="/js/popper.min.js"></script>
     
     <link rel="stylesheet" href="/css/custom.css"> 
+    <link rel="stylesheet" href="/css/switch_toggle.css"> 
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />    
     
     <script src="/js/custom.js"></script>
@@ -325,6 +326,17 @@
                             <input type="hidden" id="current_lng" name="current_lng" value="0">
                             <input type="hidden" id="current_zoom" name="current_zoom" value="0">
                             <!------Current location place holder --> 
+                                                
+                            
+                        <div class="row">
+                            <div class="col-md-12">
+                                Edit fields:
+                                <label class="switch">
+                                    <input id="switch_check_id" name="switch_check_id" type="checkbox" onchange="edit_fields_check()">
+                                 <span class="slider round"></span>
+                               </label>
+                            </div>
+                        </div>
                             
                         <div class="row">
                            <div class="col-md-12">
@@ -1388,6 +1400,30 @@ Augspeed 1: slowest, 16x augmented (8x for 1fm), higher accuracy" >Info</a>
         
         
     });
+    
+    
+    function edit_fields_check()
+    {
+       var isOn = document.getElementById('switch_check_id').checked;
+       //alert(isOn);
+       if(isOn)
+       {
+           document.getElementById('ct_width_in_pixel').readOnly = false;
+           document.getElementById('ct_height_in_pixel').readOnly = false;
+           document.getElementById('ct_starting_z_index').readOnly = false;
+           document.getElementById('ct_ending_z_index').readOnly = false;
+       }
+       else
+       {
+           document.getElementById('ct_width_in_pixel').readOnly = true;
+           document.getElementById('ct_height_in_pixel').readOnly = true;
+           document.getElementById('ct_starting_z_index').readOnly = true;
+           document.getElementById('ct_ending_z_index').readOnly = true;
+       }
+       
+    }
+    
+    
     
     function show_crop_modal()
     {

@@ -206,6 +206,15 @@
             }
             /***********End user_json*******************/
             
+            
+            /***********Is_Admin***********************/
+            $data['is_admin'] = $dbutil->isAdmin($cil_pgsql_db, $username);
+            //if($data['is_admin'])
+            //    echo "<br/>Is_admin: true";
+            //else
+            //    echo "<br/>Is_admin: false";
+            /**********End Is_Admin********************/
+            
             /************Checking the sessions***************/
             $waiting_for_result = $this->session->userdata(Constants::$waiting_for_result_key);
             if(!is_null($waiting_for_result))

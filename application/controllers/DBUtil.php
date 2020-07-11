@@ -1330,6 +1330,36 @@ class DBUtil
         
     }
     
+    
+    public function isAdmin($cil_pgsql_db, $username)
+    {
+        
+        $sql = "select role from cil_users u, cil_roles r where u.user_role = r.id and username = $1 and role = 'admin'";
+        $conn = pg_pconnect($cil_pgsql_db);
+        if(!$conn)
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input,$username);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        $isAdmin = false;
+        
+        if($row = pg_fetch_row($result))
+        {
+            $isAdmin = true;
+        }
+        pg_close($conn);
+        return $isAdmin;
+        
+    }
+    
     public function isTokenCorrect($cil_pgsql_db,$username,$token)
     {
         $conn = pg_pconnect($cil_pgsql_db);
