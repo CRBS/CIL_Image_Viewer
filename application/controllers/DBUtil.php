@@ -279,7 +279,7 @@ class DBUtil
         $conn = pg_pconnect($db_params);
         $sql = "select avg(EXTRACT(EPOCH FROM (finish_time - submit_time))) as avg_time, count(*) as num_trials  from cropping_processes where image_id = $1 and width = 1000 and ".
                " height = 1000 and augspeed = $2 and frame = $3 and training_model_url = $4 and use_prp = true ".
-               " and finish_time is not null and submit_time is not null and (ending_z-starting_z) = $5";
+               " and finish_time is not null and submit_time is not null and (ending_z-starting_z) <= $5";
         
         $input = array();
         array_push($input, $image_id); //1

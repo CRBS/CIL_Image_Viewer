@@ -106,7 +106,7 @@ class Image_process_rest extends REST_Controller
        
        $frame = str_replace("_", ",", $frame);
        
-       $result = $dbutil->getAverageRunTime($db_params, $image_id, $training_model_url, $augspeed, $frame, 3);
+       $result = $dbutil->getAverageRunTime($db_params, $image_id, $training_model_url, $augspeed, $frame, 5);
        
        if(is_null($result))
        {

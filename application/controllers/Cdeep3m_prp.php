@@ -165,12 +165,14 @@
             
             $base_url = $this->config->item('base_url');
             $data['enable_augmentation'] = $this->config->item('enable_augmentation');
+            $data['cdeep3m_website_url'] = $this->config->item('cdeep3m_website_url');
             $cil_pgsql_db = $this->config->item('cil_pgsql_db');
             
             $data['base_url'] = $base_url;
             
             $token = $this->input->get('token', TRUE);
             $username = $this->input->get('username', TRUE);
+            $data['username'] = $username;
             if(!is_null($username) && !is_null($token))
             {
                 $ip_address = $this->input->ip_address();
