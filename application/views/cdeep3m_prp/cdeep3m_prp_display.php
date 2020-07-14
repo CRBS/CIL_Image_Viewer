@@ -1266,7 +1266,7 @@ Augspeed 1: slowest, 16x augmented (8x for 1fm), higher accuracy" >Info</a>
                     ?>
                     
                     var optionCell = document.createElement("td");
-                    var viewUrl = "<?php echo $base_url."/internal_data/".$image_id; ?>?";
+                    var viewUrl = "<?php echo $base_url."/cdeep3m_prp/".$image_id; ?>?";
                     viewUrl = viewUrl+"zindex="+zindex+"&lat="+lat+"&lng="+lng+"&zoom="+zoom+"&username="+username+"&token="+token;
                     var url = '<a href="'+viewUrl+'" target="_self">View</a>';
                     optionCell.innerHTML = url;

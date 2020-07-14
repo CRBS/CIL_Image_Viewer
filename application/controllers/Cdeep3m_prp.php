@@ -171,6 +171,7 @@
             $data['base_url'] = $base_url;
             
             $token = $this->input->get('token', TRUE);
+            $data['token'] = $token;
             $username = $this->input->get('username', TRUE);
             $data['username'] = $username;
             if(!is_null($username) && !is_null($token))
