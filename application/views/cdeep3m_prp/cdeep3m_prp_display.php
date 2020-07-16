@@ -432,7 +432,10 @@
                             <input type="hidden" id="current_zoom" name="current_zoom" value="0">
                             <!------Current location place holder --> 
                                                 
-                            
+                        <?php
+                            if(isset($is_admin) && $is_admin)
+                            {         
+                        ?>
                         <div class="row">
                             <div class="col-md-12">
                                 Edit fields:
@@ -442,6 +445,9 @@
                                </label>
                             </div>
                         </div>
+                        <?php
+                            }
+                        ?>
                             
                         <div class="row">
                            <div class="col-md-12">
