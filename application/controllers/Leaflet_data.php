@@ -208,7 +208,10 @@
            
            $sqllite3File = $image_tar_dir."/".$tar_folder."/".$root_folder.".sqllite3";
            
-           
+           /*if(file_exists($sqllite3File))
+                $this->my_error_log("\n Test sqlite3 file exists:".$sqllite3File,3,$wib_error_log);
+           else
+                $this->my_error_log("\n Test sqlite3 file does not exist:".$sqllite3File,3,$wib_error_log);*/
            
            $this->my_error_log("\nTry local file:".$localFile,3,$wib_error_log);
            if(intval($x) < 0)
@@ -220,7 +223,9 @@
                $this->my_error_log("\n sqlite3 file exists:".$sqllite3File,3,$wib_error_log);
                $ipath = $z."/".$x."/".$y;
                $db = new SQLite3($sqllite3File);
-               $data = $db->querySingle("select data_bin from images where path = '".$ipath."'");
+               $sql ="select data_bin from images where path = '".$ipath."'";
+               $this->my_error_log("\n".$sql,3,$wib_error_log);
+               $data = $db->querySingle($sql);
                $db->close();
                if(is_null($data))
                {
