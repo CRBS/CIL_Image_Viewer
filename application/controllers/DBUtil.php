@@ -1863,4 +1863,208 @@ class DBUtil
     }
     
     
+    /************** Timer *************************************/
+    public function timerUpdatePodStartTime($db_params,$cropId)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set pod_start = now() where id = $1";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+        
+    }
+    
+    
+    public function timerUpdatePodEndTime($db_params, $cropId)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set pod_end = now() where id = $1";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+        
+    }
+    
+    public function timerUpdateDownloadStartTime($db_params, $cropId)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set download_start = now() where id = $1";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+        
+    }
+    
+    public function timerUpdateDownloadEndTime($db_params, $cropId)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set download_end = now() where id = $1";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+        
+    }
+    
+    
+    public function timerUpdatePredictStartTime($db_params,$cropId)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set predict_start = now() where id = $1";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+        
+    }
+    
+    
+    public function timerUpdatePredictEndTime($db_params,$cropId)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set predict_end = now() where id = $1";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+        
+    }
+    
+    /************** End Timer *************************************/
+    
 }
