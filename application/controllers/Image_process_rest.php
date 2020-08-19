@@ -227,7 +227,8 @@ class Image_process_rest extends REST_Controller
         {
             $crop_id = intval($crop_id);
             $image_metadata_auth = $this->config->item('image_metadata_auth');
-
+            $cdeep3m_result_path_prefix = $this->config->item('cdeep3m_result_path_prefix');
+            
             $header = $this->input->get_request_header('Authorization');
             if(!is_null($header))
             {
@@ -242,6 +243,16 @@ class Image_process_rest extends REST_Controller
                 $array['success'] = true;
                 $dbutil->updateIprocessFinishTime($db_params,$crop_id);
                 
+                /***********************Update image size***************************/
+                $enhancedPath = $cdeep3m_result_path_prefix."/".$crop_id."/enhanced/enhanced.tar";
+                //error_log("\n".$enhancedPath, 3, "/var/www/html/".$crop_id.".txt");
+                if(file_exists($enhancedPath))
+                {
+                    $image_size = filesize($enhancedPath);
+                    //error_log("\nSize:".$image_size, 3, "/var/www/html/".$crop_id.".txt");
+                    $dbutil->upateCdeep3mImageSize($db_params, $crop_id, $image_size);
+                }
+                /***********************End Update image size***************************/
                 
                 
                 /***************Sending email ********************/

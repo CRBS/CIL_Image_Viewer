@@ -608,3 +608,6 @@ $config['gmail_sender_pwd'] = $configJson->gmail_sender_pwd;
 $config['gmail_reply_to'] = $configJson->gmail_reply_to;
 $config['gmail_reply_to_name'] = $configJson->gmail_reply_to_name;
 /***********End Gmail config***************************/
+
+
+$config['cdeep3m_result_path_prefix'] = "/export2/temp/cdeep3m_results";

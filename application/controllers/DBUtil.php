@@ -783,6 +783,29 @@ class DBUtil
         return $location;
     }
     
+    public function upateCdeep3mImageSize($db_params, $id, $size)
+    {
+        //error_log("\n upateCdeep3mImageSize", 3, "/var/www/html/".$crop_id.".txt");
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+            return false;
+        //error_log("\n Connection established", 3, "/var/www/html/".$crop_id.".txt");
+        $sql = "update cropping_processes set image_size = $1 where id = $2";
+        $input = array();
+        array_push($input,$size);  //1
+        array_push($input,$id);  //2
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+        
+    }
     
     public function insertCroppingInfoWithTraining($db_params,$image_id, $upper_left_x, $upper_left_y,
             $width, $height,$contact_email, $original_file_location,$starting_z,$ending_z,$contrast_enhancement, 
