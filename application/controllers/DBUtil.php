@@ -1987,6 +1987,69 @@ class DBUtil
         
     }
     
+    public function timerUpdateRetrainStartTime($db_params, $cropId)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set retrain_start = now() where id = $1";
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+    }
+    
+    public function timerUpdateRetrainEndTime($db_params, $cropId)
+    {
+        $array = array();
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set retrain_end = now() where id = $1";
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+    }
+    
+    
     public function timerUpdateDownloadEndTime($db_params, $cropId)
     {
         $array = array();

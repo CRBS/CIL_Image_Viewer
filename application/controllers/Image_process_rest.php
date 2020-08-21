@@ -279,7 +279,7 @@ class Image_process_rest extends REST_Controller
                 
                 
                 /*************Deleting the PRP POD*************/     
-                $cutil = new CurlUtil();
+                /*$cutil = new CurlUtil();
                 $image_service_auth = $this->config->item('image_service_auth');
                 $image_service_prefix = $this->config->item('image_service_prefix');
                 $sjson = $dbutil->getProcessStatus($db_params, $crop_id);
@@ -288,7 +288,7 @@ class Image_process_rest extends REST_Controller
                     $pod = $sjson->pod_running;
                     
                 $image_service_url = $image_service_prefix."/Cdeep3m_prp_service/delete_prp_pod/".$pod."/".$crop_id;
-                $cutil->curl_post($image_service_url, "", $image_service_auth);
+                $cutil->curl_post($image_service_url, "", $image_service_auth);*/
                 /*************END Deleting the PRP POD*************/      
             }
             else 
