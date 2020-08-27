@@ -153,6 +153,91 @@ class Timer_rest extends REST_Controller
         return;
     }
     
+    
+    public function update_deaug_json_post($crop_id)
+    {
+        $array = array();
+        if(!is_numeric($crop_id))
+        {
+            $array['success'] = false;
+            $array['error_message'] = "Crop ID is not a number";
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            $this->response($json);
+            return;
+        }
+        
+        /*************Auth********************************/
+        $image_metadata_auth = $this->config->item('image_metadata_auth');
+        $header = $this->input->get_request_header('Authorization');
+        if(!is_null($header))
+        {
+            $header = str_replace("Basic ", "", $header);
+        }
+        else
+            $header = "Nothing";
+        $decoded_header = trim(base64_decode($header));
+        if(strcmp($decoded_header, $image_metadata_auth)!=0)
+        {
+            $array = array();
+            $array['success'] = false;
+            $array['error_message'] = "Invalid authorization";
+            $json_str = json_encode($array);
+            $json = json_decode($json_str);
+            $this->response($json);
+            return;
+        }
+        /*************End Auth********************************/
+        $dbutil = new DBUtil();
+        $db_params = $this->config->item('db_params');
+        /*************Reading de-augmentation json**************/
+        $cdeep3m_result_path_prefix = $this->config->item('cdeep3m_result_path_prefix');
+        $deaugJsonPath = $cdeep3m_result_path_prefix."/".$crop_id."/log/de_augmentation_info.json";
+        
+        $deaugLogPath = $cdeep3m_result_path_prefix."/".$crop_id."/deaug.log";
+        ///sleep(10);
+        error_log("\n".$deaugJsonPath, 3, $deaugLogPath);
+        
+        if(file_exists($deaugJsonPath))
+        {
+            error_log("\nFile exist", 3, $deaugLogPath);
+            $deaugJsonStr = file_get_contents($deaugJsonPath);
+            if(!is_null($deaugJsonStr))
+            {
+                error_log("\nJson string is not empty", 3, $deaugLogPath);
+                $deaugJson = json_decode($deaugJsonStr);
+                if(!is_null($deaugJson))
+                {
+                    error_log("\nJson object is not null", 3, $deaugLogPath);
+                    if(isset($deaugJson->num_of_pkg))
+                    {
+                        error_log("\nnum_of_pkg is set", 3, $deaugLogPath);
+                        $dbutil->timerUpdateNumOfPkg($db_params, $crop_id, $deaugJson->num_of_pkg);
+                    }
+                    
+                    if(isset($deaugJson->imagesize))
+                    {
+                        if(count($deaugJson->imagesize) ==3)
+                        {
+                            $x = $deaugJson->imagesize[0];
+                            $y = $deaugJson->imagesize[1];
+                            $z = $deaugJson->imagesize[2];
+                            $dbutil->timerUpdateCdeep3mXyz($db_params, $crop_id, $x, $y, $z);
+                        }
+                    }
+                }
+            }
+        }
+         
+        /*************End Reading de-augmentation json**************/
+        $array = array();
+        $array[$this->success] = true;
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        $this->response($json);
+        return;
+    }
+    
     public function pod_end_post($crop_id)
     {
         $array = array();
@@ -206,6 +291,7 @@ class Timer_rest extends REST_Controller
         $cutil->curl_post($image_service_url, "", $image_service_auth);
         /*************END Deleting the PRP POD*************/    
         
+       
         
         $array = array();
         $array[$this->success] = $success;

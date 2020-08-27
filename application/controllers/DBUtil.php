@@ -1920,6 +1920,72 @@ class DBUtil
         
     }
     
+    public function timerUpdateCdeep3mXyz($db_params, $cropId, $x, $y, $z)
+    {
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        $x = intval($x);
+        $y = intval($y);
+        $z = intval($z);
+        
+        $input = array();
+        array_push($input, $x);
+        array_push($input, $y);
+        array_push($input, $z);
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set cdeep3m_x = $1, cdeep3m_y=$2, cdeep3m_z=$3 where id = $4";
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+    }
+    
+    public function timerUpdateNumOfPkg($db_params, $cropId, $numPkg)
+    {
+        $conn = pg_pconnect($db_params);
+        
+        if(!is_numeric($cropId))
+        {
+            return false;
+        }
+        
+        if (!$conn) 
+        {   
+            return false;
+        }
+        
+        $cropId = intval($cropId);
+        
+        $input = array();
+        array_push($input, $numPkg);
+        array_push($input, $cropId);
+        $sql = "update cropping_processes set num_of_pkg = $1 where id = $2";
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+    }
     
     public function timerUpdatePodEndTime($db_params, $cropId)
     {
