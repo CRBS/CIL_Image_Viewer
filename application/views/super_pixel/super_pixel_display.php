@@ -87,7 +87,12 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
 */
 
 </script>
+
 <script>
+    
+    var cil_id = "<?php echo $image_id; ?>";
+    var zindex = <?php echo $zindex; ?>;
+    
     // Using leaflet.js to pan and zoom a big image.
     // See also: http://kempe.net/blog/2014/06/14/leaflet-pan-zoom-image.html
 
@@ -141,6 +146,45 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         drawnItems.on('click', onClick);
         drawnItems.addLayer(layer);
         
+        /***************Pixel point************************/
+
+        var clientClick = map.project(event.layer.getLatLng());
+        var overlayImage = $imageLayer._image;
+
+        //Calculate the current image ratio from the original (deals with zoom)
+        var yR = overlayImage.clientHeight / overlayImage.naturalHeight;
+        var xR = overlayImage.clientWidth / overlayImage.naturalWidth;
+
+        //scale the click coordinates to the original dimensions
+        //basically compensating for the scaling calculated by the map projection
+        var x = clientClick.x / xR;
+        var y = clientClick.y / yR;
+        console.log(x,y);
+        /***************End Pixel point************************/
+        
+        /**********Feature ID *************************/
+        
+        feature = layer.feature = layer.feature || {}; // Initialize feature
+        feature.type = feature.type || "Feature"; // Initialize feature.type
+        var props = feature.properties = feature.properties || {}; // Initialize feature.properties
+        props.pixel_x = x;
+        props.pixel_y = y;
+        /**********End Feature ID *************************/
+        
+        var collection = drawnItems.toGeoJSON();
+        var geo_json_str = JSON.stringify(collection);
+        saveGeoJson(geo_json_str);
+        
+    });
+    
+    $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
+        //alert(JSON.stringify(data) );
+        map.removeLayer(drawnItems);
+        drawnItems = L.geoJSON(data);
+        drawnItems.addTo(map);
+        
+        drawnItems.on('click', onClick);
+        drawnItems.addLayer($imageLayer);
     });
     
     
@@ -149,7 +193,7 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         //console.log(southWest);
         //console.log(northEast);
         //console.log(e.layerPoint);
-        
+        var selectedLayer = e.layer;
         var clientClick = map.project(e.latlng);
 
     //Grab the original overlay
@@ -163,8 +207,31 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
     //basically compensating for the scaling calculated by the map projection
     var x = clientClick.x / xR;
     var y = clientClick.y / yR;
-    console.log(x,y);
+    //console.log(x,y);
+    
+        if(selectedLayer != null)
+        {
+                
+                drawnItems.removeLayer(selectedLayer);
+                var collection = drawnItems.toGeoJSON();
+                var geo_json_str = JSON.stringify(collection);
+                saveGeoJson(geo_json_str);
+        }
+    
     }
+    
+    function saveGeoJson(geo_json_str)
+    {
+        $.post('<?php echo $serverName; ?>/image_annotation_service/geodata/'+cil_id+'/'+zindex, geo_json_str, function(returnedData) {
+            // do something here with the returnedData
+            //console.log(returnedData);
+        });
+        //.error(function() { //alert("error"); }
+        //);
+ 
+    }
+    
+    
     
     </script>   
 </body>
