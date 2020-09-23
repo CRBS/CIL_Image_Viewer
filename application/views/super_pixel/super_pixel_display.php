@@ -108,7 +108,7 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
     // dimensions of the image
     var w = 1024,
         h = 1024,
-        url = 'http://localhost/images/super_pixel_demo.png';
+        url = '<?php echo $serverName; ?>/images/super_pixel_demo.png';
 
     // calculate the edges of the image, in coordinate space
     var southWest = map.unproject([0, h], map.getMaxZoom()-1);
