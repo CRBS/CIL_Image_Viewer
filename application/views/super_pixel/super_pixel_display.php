@@ -175,6 +175,11 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         var geo_json_str = JSON.stringify(collection);
         saveGeoJson(geo_json_str);
         
+        //document.querySelector(".leaflet-draw-draw-marker").click();
+        document.getElementsByClassName(".leaflet-draw-draw-marker")[0].click();
+
+
+        
     });
     
     $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
