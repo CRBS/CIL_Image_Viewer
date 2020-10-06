@@ -24,6 +24,39 @@
          * 
          */
         
+        public function overlay($sp_id="0", $zindex="0")
+        {
+            $zindex = intval($zindex);
+            $data['title'] = "Super pixel marker";
+            $data['base_url'] = $this->config->item('base_url');
+            $data['image_id'] = $sp_id;
+            $data['zindex'] = intval($zindex); 
+            $data['serverName'] = $this->config->item('base_url');
+            
+            $jsonUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/mapping.json";
+            //echo $jsonUrl;
+            $json_str = file_get_contents($jsonUrl);
+            if(is_null($json_str))
+            {
+                echo "Cannot locate the image mapping json file";
+                return;
+            }
+            
+            $imageUrl = null;
+            $items = json_decode($json_str);
+            foreach ($items as $item)
+            {
+                if($item->index == $zindex)
+                {
+                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/original/".$item->image_name;
+                    break;
+                }
+            }
+            
+            echo $imageUrl;
+            
+        }
+        
         
         public function spdemo()
         {
