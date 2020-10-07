@@ -61,34 +61,6 @@
 </head>
 
 <body>
- <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <img src="/images/CIL_logo_final_75H.jpg" height="50px"/>
-            </div>
-            <div class="col-md-3">
-                
-                <div id="z_slicer_id" class="row">
-                    <div class="col-md-4">
-                        <span id="zindex_value">Z:<?php if(isset($zindex)) echo $zindex; ?></span>
-                    </div>
-                    <div class="col-md-4">
-                        <a id="backward_id" href="#">&#8612;</a> 
-                        <a id="forward_id" href="#">&#8614;</a>
-                    </div>
-                    <div class="col-md-4">
-                        <a id="double_backward_id" href="#" title="-5 slices"><b>&#8606;</b></a> 
-                        <a id="double_forward_id" href="#" title="+5 slices"><b>&#8608;</b></a>
-                    </div>
-                    <div class="col-md-12">
-                        <input autocomplete="off" id="z_index" type="range"  min="0" max="<?php echo $z_max; ?>" value="<?php if(isset($zindex)) echo $zindex; ?>">
-                    </div>
-                </div>
-                
-            </div>
-        </div>
- </div>
-    
     
 <div id="map" style="width: 100%; height: 90%; border: 1px solid #ccc"></div>
 <script>
@@ -120,8 +92,7 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
     
     var cil_id = "<?php echo $image_id; ?>";
     var zindex = <?php echo $zindex; ?>;
-    var z_max = <?php echo $z_max; ?>;
-    var base_url = '<?php echo $base_url; ?>';
+    
     // Using leaflet.js to pan and zoom a big image.
     // See also: http://kempe.net/blog/2014/06/14/leaflet-pan-zoom-image.html
 
@@ -135,9 +106,9 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
     });
 
     // dimensions of the image
-    var w = <?php echo $width; ?>,
-        h = <?php echo $height; ?>,
-        url = '<?php echo $imageUrl; ?>';
+    var w = 1024,
+        h = 1024,
+        url = '<?php echo $serverName; ?>/images/super_pixel_demo.png';
 
     // calculate the edges of the image, in coordinate space
     var southWest = map.unproject([0, h], map.getMaxZoom()-1);
@@ -146,8 +117,8 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
 
     // add the image overlay, 
     // so that it covers the entire map
-    imageLayer = L.imageOverlay(url, bounds).addTo(map);
-    imageLayer.addTo(map);
+    $imageLayer = L.imageOverlay(url, bounds).addTo(map);
+    $imageLayer.addTo(map);
     // tell leaflet that the map is exactly as big as the image
     map.setMaxBounds(bounds);
     
@@ -178,7 +149,7 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         /***************Pixel point************************/
 
         var clientClick = map.project(event.layer.getLatLng());
-        var overlayImage = imageLayer._image;
+        var overlayImage = $imageLayer._image;
 
         //Calculate the current image ratio from the original (deals with zoom)
         var yR = overlayImage.clientHeight / overlayImage.naturalHeight;
@@ -218,7 +189,7 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         drawnItems.addTo(map);
         
         drawnItems.on('click', onClick);
-        drawnItems.addLayer(imageLayer);
+        drawnItems.addLayer($imageLayer);
     });
     
     
@@ -231,7 +202,7 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         var clientClick = map.project(e.latlng);
 
     //Grab the original overlay
-    var overlayImage = imageLayer._image;
+    var overlayImage = $imageLayer._image;
 
     //Calculate the current image ratio from the original (deals with zoom)
     var yR = overlayImage.clientHeight / overlayImage.naturalHeight;
@@ -267,138 +238,6 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
     
     
     
-    </script>
-    
-    
-    <script> 
-       
-    $( function() {
-
-        $("#double_backward_id").click(function() 
-        {
-            //alert("backward_id");
-            if(zindex == 0)
-            {
-                //Do nothing
-            }
-            else if(zindex-5 >= 0)
-            {
-                zindex=zindex-5;
-                document.getElementById("z_index").value = zindex;
-                handleCommand(); 
-            }
-            else
-            {
-                zindex = 0;
-                document.getElementById("z_index").value = zindex;
-                handleCommand(); 
-            }
-        });
-
-        $("#double_forward_id").click(function() 
-        {
-            //alert("backward_id");
-            console.log('Current slice at:'+zindex+"----max:"+z_max);
-            
-            if(zindex == z_max)
-            {
-                //Do nothing
-            }
-            else if(zindex+5 <= z_max)
-            {
-                zindex=zindex+5;
-                
-                document.getElementById("z_index").value = zindex;
-                handleCommand(); 
-            }
-            else
-            {
-                zindex = z_max
-                document.getElementById("z_index").value = zindex;
-                handleCommand(); 
-            }
-        });
-
-
-        $("#backward_id").click(function() 
-        {
-            //alert("backward_id");
-            if(zindex-1 >= 0)
-            {
-                zindex=zindex-1;
-                document.getElementById("z_index").value = zindex;
-                handleCommand(); 
-            }
-        });
-        
-        $("#forward_id").click(function() 
-        {
-            //alert("backward_id");
-            console.log('Current slice at:'+zindex+"----max:"+z_max);
-            if(zindex+1 <= z_max)
-            {
-                zindex=zindex+1;
-                
-                document.getElementById("z_index").value = zindex;
-                handleCommand(); 
-            }
-        });
-    });    
-    </script>
-    
-    <script> 
-        function handleCommand() 
-        {
-           //console.log('In handleCommand');
-           map.removeLayer(drawnItems);
-           var red = 255;
-           var green = 255;
-           var blue = 255;
-           
-           var c = 0;
-           
-           var b = 0;
-           
-           
-          
-            var temp = document.getElementById("z_index").value;
-            zindex = parseInt(temp);
-            document.getElementById("zindex_value").innerHTML = "Z:"+zindex;
-          
-            url = base_url+"/super_pixel/image/"+cil_id+"/"+zindex;
-            console.log(url);
-            
-            map.removeLayer(imageLayer);
-            
-            imageLayer = L.imageOverlay(url, bounds).addTo(map);
-            imageLayer.addTo(map);
-            
-           
-
-            
-
-            $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
-            //alert(JSON.stringify(data) );
-            
-            map.removeLayer(drawnItems);
-            drawnItems = L.geoJSON(data);
-            
-            drawnItems.addTo(map);
-            
-            drawnItems.on('click', onClick);
-            drawnItems.addLayer(layer1);
-            //document.getElementById('meesage_box_id').innerHTML = "";
-            
-            //console.log("Moving to slice:"+zindex+"-----Done");
-            
-            });
-            
-            
-
-        }
-        
-        
-    </script>
-    
+    </script>   
 </body>
 </html>
