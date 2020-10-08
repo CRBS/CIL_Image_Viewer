@@ -386,7 +386,7 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
             drawnItems.addTo(map);
             
             drawnItems.on('click', onClick);
-            drawnItems.addLayer(layer1);
+            //drawnItems.addLayer(layer1);
             //document.getElementById('meesage_box_id').innerHTML = "";
             
             //console.log("Moving to slice:"+zindex+"-----Done");

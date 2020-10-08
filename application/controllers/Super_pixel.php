@@ -41,7 +41,7 @@
             {
                 if($item->index == $zindex)
                 {
-                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/original/".$item->image_name;
+                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/overlay/".$item->image_name;
                     break;
                 }
             }
@@ -95,7 +95,7 @@
             {
                 if($item->index == $zindex)
                 {
-                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/original/".$item->image_name;
+                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/overlay/".$item->image_name;
                     $width = $item->width;
                     $height = $item->height;
                     break;
