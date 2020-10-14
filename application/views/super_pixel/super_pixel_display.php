@@ -141,16 +141,35 @@
 
 
 <script>
+    var seconds = 0;
+    var sp_id = '<?php echo $image_id; ?>';
     var run_mask = false;
+    var seconds_counter = document.getElementById('seconds-counter'); 
     <?php
-        if(!isset($run_mask))
-           echo "//run_mask is not set";
+        //if(!isset($run_mask))
+        //   echo "\n//run_mask is not set";
     
         if(isset($run_mask) && $run_mask) 
-            echo "run_mask = true";
+            echo "\nrun_mask = true;\n";
     ?>
     if(run_mask)   
         $("#spin_modal_id").modal('show');
+    
+    var cancel = setInterval(incrementSeconds, 1000);
+    function incrementSeconds() {
+        seconds += 1;
+        seconds_counter.innerText = "You have been here for " + seconds + " seconds.";
+        
+        $.get( "<?php echo $base_url; ?>/super_pixel/isRunMaskDone/"+sp_id, function( data ) {
+        //alert(JSON.stringify(data) );
+            console.log(data.done);
+            if(data.done)
+            {
+                clearInterval(cancel);
+                $('#spin_modal_id').modal('hide');
+            }
+        });
+    }
     
 </script>    
 <script>

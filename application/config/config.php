@@ -618,4 +618,9 @@ $config['cdeep3m_result_path_prefix'] = "/export2/temp/cdeep3m_results";
 $config['sp_service_prefix'] = $configJson->sp_service_prefix;
 $config['sp_service_auth'] = $configJson->sp_user.":".$configJson->sp_pasword;
 
+if(!$is_prod)
+    $config['super_pixel_prefix'] = "C:/Test3/super_pixel";
+else
+    $config['super_pixel_prefix'] = "/export2/temp/super_pixel";
+
 /**********End Super pixel**************************/

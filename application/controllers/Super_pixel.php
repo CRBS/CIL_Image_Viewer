@@ -25,6 +25,23 @@
          * 
          */
         
+        public function isRunMaskDone($sp_id)
+        {
+            $super_pixel_prefix = $this->config->item('super_pixel_prefix');
+            $subFolder1 = $super_pixel_prefix."/".$sp_id;
+            $overlayFolder = $subFolder1."/mask";
+            $doneFile = $overlayFolder."/DONE.txt";
+            $done = false;
+            if(file_exists($doneFile))
+                $done = true;
+            $array = array();
+            $array['done'] = $done;
+
+            $json_str = json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+            header('Content-Type: application/json');
+            echo $json_str;
+        
+        }
         
         public function gen_masks($sp_id="0")
         {
@@ -54,7 +71,7 @@
             $data['run_mask'] = true;
             $this->load->helper('url');
             
-            redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex);
+            redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex."?run_mask=true");
             
         }
         
@@ -69,6 +86,8 @@
                 return;
             }
             
+            
+                
             $imageUrl = null;
             $items = json_decode($json_str);
             foreach ($items as $item)
@@ -118,6 +137,18 @@
                 echo "Cannot locate the image mapping json file";
                 return;
             }
+            
+            $data['run_mask'] = false;
+            $run_mask = $this->input->get('run_mask', TRUE);
+            if(!is_null($run_mask))
+            {
+                //echo "<br/>run_mask is not null";
+                $data['run_mask'] = true;
+            }
+            else  
+            {
+                //echo "<br/>run_mask is null";
+            }    
             
             $imageUrl = null;
             $width = 0;
