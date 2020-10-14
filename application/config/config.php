@@ -27,6 +27,7 @@ $json_str = file_get_contents($cil_annotation_config_file);
 $configJson = json_decode($json_str);
 
 $config['cil_pgsql_db'] = $configJson->cil_pgsql_db;
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -611,3 +612,10 @@ $config['gmail_reply_to_name'] = $configJson->gmail_reply_to_name;
 
 
 $config['cdeep3m_result_path_prefix'] = "/export2/temp/cdeep3m_results";
+
+
+/**********Super pixel**************************/
+$config['sp_service_prefix'] = $configJson->sp_service_prefix;
+$config['sp_service_auth'] = $configJson->sp_user.":".$configJson->sp_pasword;
+
+/**********End Super pixel**************************/

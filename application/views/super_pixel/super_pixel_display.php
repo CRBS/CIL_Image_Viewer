@@ -86,7 +86,11 @@
                 </div>
                 
             </div>
+            <div class="col-md-2">
+                <a href="<?php echo $base_url; ?>/Super_pixel/gen_masks/<?php echo $image_id; ?>" target="_self" class="btn btn-info">Run</a>
+            </div>
         </div>
+    
  </div>
     
     

@@ -4,6 +4,7 @@
     require_once 'DBUtil.php';
     require_once 'DataLocalUtil.php';
     require_once 'Constants.php';
+    require_once 'CurlUtil.php';
     
     class Super_pixel extends CI_Controller
     {
@@ -23,6 +24,39 @@
          * 
          * 
          */
+        
+        
+        public function gen_masks($sp_id="0")
+        {
+            $num_id = str_replace("SP_", "", $sp_id);
+            
+            if(!is_numeric($num_id))
+                show_404 ();
+            
+            $zindex = 0;
+            $data['title'] = "Super pixel marker";
+            $base_url = $this->config->item('base_url');
+            $data['base_url'] = $base_url;
+            $data['image_id'] = $sp_id;
+            $data['zindex'] = intval($zindex); 
+            $data['serverName'] = $this->config->item('base_url');
+            
+            $sp_service_prefix = $this->config->item('sp_service_prefix');
+            $sp_service_auth = $this->config->item('sp_service_auth');
+            $cutil = new CurlUtil();
+            $url = $sp_service_prefix."/gen_masks/".$num_id;
+            $response = $cutil->curl_post($url, "", $sp_service_auth);
+            
+            echo "<br/>".$url;
+            echo "<br/>".$sp_service_auth;
+            echo "<br/>".$response;
+            
+            $data['run_mask'] = true;
+            $this->load->helper('url');
+            
+             //redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex);
+            
+        }
         
         public function image($sp_id="0", $zindex="0")
         {
