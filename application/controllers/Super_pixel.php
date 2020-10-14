@@ -27,15 +27,24 @@
         
         public function isRunMaskDone($sp_id)
         {
+            $is_prod = $this->config->item('is_prod');
+            
             $super_pixel_prefix = $this->config->item('super_pixel_prefix');
             $subFolder1 = $super_pixel_prefix."/".$sp_id;
-            $overlayFolder = $subFolder1."/mask";
-            $doneFile = $overlayFolder."/DONE.txt";
+            $maskFolder = $subFolder1."/mask";
+            $doneFile = $maskFolder."/DONE.txt";
             $done = false;
             if(file_exists($doneFile))
                 $done = true;
             $array = array();
             $array['done'] = $done;
+            
+            if($is_prod)
+            {
+                $command = "cd ".$maskFolder." && zip training.zip *.png";
+                shell_exec($command);
+            }
+            
 
             $json_str = json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
             header('Content-Type: application/json');

@@ -89,6 +89,11 @@
             <div class="col-md-2">
                 <a href="<?php echo $base_url; ?>/Super_pixel/gen_masks/<?php echo $image_id; ?>" target="_self" class="btn btn-info">Run</a>
             </div>
+            
+            <div class="col-md-3" id="download_training_id">
+                <a href="" target="_blank" class="btn btn-info">Download training data</a>
+            </div>
+            
         </div>
      
         <!-----------New row------------------>
@@ -141,6 +146,10 @@
 
 
 <script>
+    
+    document.getElementById('download_training_id').style.display = 'none'; //hide
+    
+    
     var seconds = 0;
     var sp_id = '<?php echo $image_id; ?>';
     var run_mask = false;
@@ -167,6 +176,9 @@
             {
                 clearInterval(cancel);
                 $('#spin_modal_id').modal('hide');
+                
+                document.getElementById('download_training_id').style.display = 'block'; //show
+                
             }
         });
     }

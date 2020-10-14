@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $is_prod = false;
 
+$config['is_prod'] = $is_prod;
+
 $config['enable_log'] = false;
 
 $cil_annotation_config_file="";
@@ -17,6 +19,7 @@ else
 
 $config['docker_image_type'] = "latest";
 //$config['docker_image_type'] = "stable";
+
 
 //$config['cdeep3m_website'] = "http://localhost";
 $config['cdeep3m_website'] = "https://cdeep3m-stage.crbs.ucsd.edu";
