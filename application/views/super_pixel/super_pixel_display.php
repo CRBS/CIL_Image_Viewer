@@ -90,11 +90,69 @@
                 <a href="<?php echo $base_url; ?>/Super_pixel/gen_masks/<?php echo $image_id; ?>" target="_self" class="btn btn-info">Run</a>
             </div>
         </div>
+     
+        <!-----------New row------------------>
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Spinning Modal--------------------->    
+            <div class="modal fade" id="spin_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Waiting...</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="settings-modal-body-id">
+
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <center><!--<i class="fa fa-spinner fa-spin" style="font-size:48px;color:#ccccff"></i>--> <div class="loader"></div> </center>
+                            </div>
+                            <div class="col-md-12">
+                                <center>In progress...</center>
+                            </div>
+                            <div class="col-md-12">
+                                <center><div id='seconds-counter'> </div></center>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Spinning Modal----------------->  
+            </div>
+        </div>
+        
+        <!-----------End new row--------------->
     
  </div>
     
     
 <div id="map" style="width: 100%; height: 90%; border: 1px solid #ccc"></div>
+
+
+<script>
+    var run_mask = false;
+    <?php
+        if(!isset($run_mask))
+           echo "//run_mask is not set";
+    
+        if(isset($run_mask) && $run_mask) 
+            echo "run_mask = true";
+    ?>
+    if(run_mask)   
+        $("#spin_modal_id").modal('show');
+    
+</script>    
 <script>
 /*    
 // center of the map

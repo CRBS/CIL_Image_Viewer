@@ -54,7 +54,7 @@
             $data['run_mask'] = true;
             $this->load->helper('url');
             
-             //redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex);
+            redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex);
             
         }
         
