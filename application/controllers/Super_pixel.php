@@ -32,6 +32,10 @@
             $super_pixel_prefix = $this->config->item('super_pixel_prefix');
             $subFolder1 = $super_pixel_prefix."/".$sp_id;
             $maskFolder = $subFolder1."/mask";
+            
+            //$maskLog = $subFolder1."/mask.log";
+            $maskLog = "/var/www/html/log/mask.log";
+            
             $doneFile = $maskFolder."/DONE.txt";
             $done = false;
             if(file_exists($doneFile))
@@ -39,10 +43,16 @@
             $array = array();
             $array['done'] = $done;
             
-            if($is_prod)
+            if($is_prod && $done)
             {
-                $command = "cd ".$maskFolder." && zip training.zip *.png";
-                shell_exec($command);
+                $command = "cd ".$maskFolder." && zip ".$subFolder1."/training.zip *.png";
+                //error_log("\n".$command, 3, $maskLog);
+                $response = shell_exec($command);
+                //error_log("\nRespone:".$response, 3, $maskLog);
+            }
+            else
+            {
+                //error_log("\nIn the else", 3, $maskLog);
             }
             
 

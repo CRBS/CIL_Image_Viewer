@@ -91,7 +91,7 @@
             </div>
             
             <div class="col-md-3" id="download_training_id">
-                <a href="" target="_blank" class="btn btn-info">Download training data</a>
+                <a href="http://cildata.crbs.ucsd.edu/super_pixel/<?php echo $image_id; ?>/training.zip" target="_blank" class="btn btn-info">Download training data</a>
             </div>
             
         </div>
