@@ -6,8 +6,9 @@
     require_once 'Constants.php';
     require_once 'CurlUtil.php';
     
-    class Super_pixel extends CI_Controller
-    {
+    
+class Super_pixel extends CI_Controller
+{
         /*
         public function view($cil_id)
         {
@@ -24,8 +25,82 @@
          * 
          * 
          */
+    
+    public function gen_mask($sp_id)
+    {
+        $num_id = str_replace("SP_", "", $sp_id);
+            
+        if(!is_numeric($num_id))
+           show_404 ();
         
-    public function isRunMaskDone($sp_id)
+        $sp_service_prefix = $this->config->item('sp_service_prefix');
+        $sp_service_auth = $this->config->item('sp_service_auth');
+        $cutil = new CurlUtil();
+        $url = $sp_service_prefix."/gen_masks/".$num_id;
+        $response = $cutil->curl_post($url, "", $sp_service_auth);
+        $start = time();    
+        $done = $this->isGenMasksDone($sp_id);
+        while(!$done)
+        {
+            $done = $this->isGenMasksDone($sp_id);
+        }
+        
+        
+        
+        $super_pixel_prefix = $this->config->item('super_pixel_prefix');
+        $subFolder1 = $super_pixel_prefix."/".$sp_id;
+        $genMaskLog = $subFolder1."/genMask.log";
+        $command = "ls ".$subFolder1;
+        error_log("\n".$command,3,$genMaskLog);  
+        $response =  exec($command);
+        error_log("\n".$response,3,$genMaskLog);  
+        $maskFolder = $subFolder1."/masks";
+        $trainingZipFile = $subFolder1."/training.zip";
+        $command = "cd ".$maskFolder." && zip ".$trainingZipFile." *.png";
+        error_log("\n".$command,3,$genMaskLog);  
+        $response =  exec($command);
+        error_log("\n".$response,3,$genMaskLog);  
+        
+        //$end = time();
+        //$run_time = $end - $start;
+        //echo "<br/>Run time".$run_time;
+        $filename = basename($trainingZipFile);
+        $mime = mime_content_type($trainingZipFile); //<-- detect file type
+        header('Content-Length: '.filesize($trainingZipFile)); //<-- sends filesize header
+        header("Content-Type: $mime"); //<-- send mime-type header
+        header('Content-Disposition: inline; filename="'.$filename.'";'); //<-- sends filename header
+        readfile($trainingZipFile); //<--reads and outputs the file onto the output buffer
+        die(); //<--cleanup
+        exit; //and exit
+        
+        
+    }
+    
+    private function isGenMasksDone($sp_id)
+    {
+        $is_prod = $this->config->item('is_prod');
+            
+        $super_pixel_prefix = $this->config->item('super_pixel_prefix');
+        $subFolder1 = $super_pixel_prefix."/".$sp_id;
+        $overlayFolder = $subFolder1."/masks";
+            
+        $done = false;
+        $response =  exec("ls ".$subFolder1);
+        
+        $files = scandir($overlayFolder);
+        foreach($files as $file)
+        {
+
+            //echo "\nFile:".$file;
+            if(strcmp($file, "DONE.txt") == 0)
+                $done = true;
+        }
+        return $done;
+        
+    }
+    
+        
+    public function isRunOverlayDone($sp_id)
     {
         $is_prod = $this->config->item('is_prod');
             
@@ -119,8 +194,8 @@
             $url = $sp_service_prefix."/get_overlays/".$num_id;
             $response = $cutil->curl_post($url, "", $sp_service_auth);
             
-            echo "<br/>".$url;
-            echo "<br/>".$sp_service_auth;
+            //echo "<br/>".$url;
+            //echo "<br/>".$sp_service_auth;
             echo "<br/>".$response;
             
             $data['run_mask'] = true;

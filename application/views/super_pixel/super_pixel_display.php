@@ -91,7 +91,7 @@
             </div>
             
             <div class="col-md-3" id="download_training_id">
-                <a href="http://cildata.crbs.ucsd.edu/super_pixel/<?php echo $image_id; ?>/training.zip" target="_blank" class="btn btn-info">Download training data</a>
+                <a href="<?php echo $base_url; ?>/Super_pixel/gen_mask/<?php echo $image_id; ?>" target="_blank" class="btn btn-info">Download training data</a>
             </div>
             
         </div>
@@ -169,7 +169,7 @@
         seconds += 1;
         seconds_counter.innerText = "You have been here for " + seconds + " seconds.";
         
-        $.get( "<?php echo $base_url; ?>/super_pixel/isRunMaskDone/"+sp_id, function( data ) {
+        $.get( "<?php echo $base_url; ?>/super_pixel/isRunOverlayDone/"+sp_id, function( data ) {
         //alert(JSON.stringify(data) );
             console.log(data.done);
             if(data.done)
@@ -181,7 +181,7 @@
                 clearInterval(cancel);
                 $('#spin_modal_id').modal('hide');
                 
-                //document.getElementById('download_training_id').style.display = 'block'; //show
+                document.getElementById('download_training_id').style.display = 'block'; //show
                 
                 //////////Refresh the overlay image////////////////////////
                 var temp = document.getElementById("z_index").value;
