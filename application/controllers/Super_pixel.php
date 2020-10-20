@@ -25,13 +25,44 @@
          * 
          */
         
+    public function isRunMaskDone($sp_id)
+    {
+        $is_prod = $this->config->item('is_prod');
+            
+        $super_pixel_prefix = $this->config->item('super_pixel_prefix');
+        $subFolder1 = $super_pixel_prefix."/".$sp_id;
+        $overlayFolder = $subFolder1."/overlays";
+            
+        $done = false;
+        $response =  exec("ls ".$subFolder1);
+        
+        $files = scandir($overlayFolder);
+        foreach($files as $file)
+        {
+
+            //echo "\nFile:".$file;
+            if(strcmp($file, "DONE.txt") == 0)
+                $done = true;
+        }
+        
+        $array = array();
+        $array['done'] = $done;
+        
+        $json_str = json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        header('Content-Type: application/json');
+        echo $json_str;
+            
+            
+    }
+        
+        /*
         public function isRunMaskDone($sp_id)
         {
             $is_prod = $this->config->item('is_prod');
             
             $super_pixel_prefix = $this->config->item('super_pixel_prefix');
             $subFolder1 = $super_pixel_prefix."/".$sp_id;
-            $maskFolder = $subFolder1."/mask";
+            $maskFolder = $subFolder1."/overlays";
             
             //$maskLog = $subFolder1."/mask.log";
             $maskLog = "/var/www/html/log/mask.log";
@@ -45,9 +76,9 @@
             
             if($is_prod && $done)
             {
-                $command = "cd ".$maskFolder." && zip ".$subFolder1."/training.zip *.png";
+                //$command = "cd ".$maskFolder." && zip ".$subFolder1."/training.zip *.png";
                 //error_log("\n".$command, 3, $maskLog);
-                $response = shell_exec($command);
+                //$response = shell_exec($command);
                 //error_log("\nRespone:".$response, 3, $maskLog);
             }
             else
@@ -60,9 +91,14 @@
             header('Content-Type: application/json');
             echo $json_str;
         
-        }
+        }*/
         
-        public function gen_masks($sp_id="0")
+        
+        
+        
+        
+        
+        public function get_overlays($sp_id="0")
         {
             $num_id = str_replace("SP_", "", $sp_id);
             
@@ -80,7 +116,7 @@
             $sp_service_prefix = $this->config->item('sp_service_prefix');
             $sp_service_auth = $this->config->item('sp_service_auth');
             $cutil = new CurlUtil();
-            $url = $sp_service_prefix."/gen_masks/".$num_id;
+            $url = $sp_service_prefix."/get_overlays/".$num_id;
             $response = $cutil->curl_post($url, "", $sp_service_auth);
             
             echo "<br/>".$url;
@@ -113,7 +149,7 @@
             {
                 if($item->index == $zindex)
                 {
-                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/overlay/".$item->image_name;
+                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/overlays/".$item->image_name;
                     break;
                 }
             }
@@ -179,7 +215,7 @@
             {
                 if($item->index == $zindex)
                 {
-                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/overlay/".$item->image_name;
+                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/overlays/".$item->image_name;
                     $width = $item->width;
                     $height = $item->height;
                     break;

@@ -87,7 +87,7 @@
                 
             </div>
             <div class="col-md-2">
-                <a href="<?php echo $base_url; ?>/Super_pixel/gen_masks/<?php echo $image_id; ?>" target="_self" class="btn btn-info">Run</a>
+                <a href="<?php echo $base_url; ?>/Super_pixel/get_overlays/<?php echo $image_id; ?>" target="_self" class="btn btn-info">Run</a>
             </div>
             
             <div class="col-md-3" id="download_training_id">
@@ -174,10 +174,30 @@
             console.log(data.done);
             if(data.done)
             {
+                
+                //setTimeout(function(){ }, 1000);  
+
+                
                 clearInterval(cancel);
                 $('#spin_modal_id').modal('hide');
                 
-                document.getElementById('download_training_id').style.display = 'block'; //show
+                //document.getElementById('download_training_id').style.display = 'block'; //show
+                
+                //////////Refresh the overlay image////////////////////////
+                var temp = document.getElementById("z_index").value;
+                zindex = parseInt(temp);
+                document.getElementById("zindex_value").innerHTML = "Z:"+zindex;
+
+               
+                console.log("Removing the old image layer");
+                map.removeLayer(imageLayer);
+                
+
+                url = base_url+"/super_pixel/image/"+cil_id+"/"+zindex+"?"+<?php echo time(); ?>;
+                console.log(url);
+                imageLayer = L.imageOverlay(url, bounds).addTo(map);
+                imageLayer.addTo(map);
+                //////////End Refresh the overlay image////////////////////////
                 
             }
         });
