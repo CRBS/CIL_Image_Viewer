@@ -142,7 +142,8 @@
  </div>
     
     
-<div id="map" style="width: 100%; height: 90%; border: 1px solid #ccc"></div>
+    <div id="map" style="width: 100%; height: 90%; border: 1px solid #ccc">
+    </div>
 
 
 <script>
@@ -272,17 +273,33 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
             rectangle: false,
             circle: false,
             circlemarker: false,
-            
+           marker: { repeatMode: true }
         }
     }));
     var drawnItems = L.featureGroup().addTo(map);
     
+
+    /*var command = L.control({position: 'topleft'});
+
+        command.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'command');
+
+            div.innerHTML = "<a id='stop_drawing_id' class='btn btn-danger' style='color:white' onclick='stopDrawing()'>Stop drawing</a>"; 
+            return div;
+        };
+        
+        command.addTo(map);*/
+
     
     //L.marker(southWest).addTo(map);
     //L.marker(northEast).addTo(map);
     
-    
+    //document.getElementById('stop_drawing_id').style.display = 'none'; //hide
+
     map.on(L.Draw.Event.CREATED, function (event) {
+        
+      
+        
         var layer = event.layer;
         
         drawnItems.on('click', onClick);
@@ -317,10 +334,21 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         var geo_json_str = JSON.stringify(collection);
         saveGeoJson(geo_json_str);
         
+       // throw new Error("Continue drawing!");
+     
         //document.querySelector(".leaflet-draw-draw-marker").click();
-        document.getElementsByClassName(".leaflet-draw-draw-marker")[0].click();
-
-
+       
+        
+       // document.getElementsByClassName(".leaflet-draw-draw-marker")[0].click();
+        
+        
+//console.log(document.getElementsByClassName("leaflet-draw-draw-marker")[0]);
+       //new L.Draw.Marker(map, drawnItems.options.marker).enable();
+        //document.getElementsByClassName(".leaflet-draw-draw-marker").click();
+        //document.getElementById('stop_drawing_id').style.display = 'block'; //show
+       
+        //document.getElementsByClassName("leaflet-draw-draw-marker")[0].click();
+        
         
     });
     
@@ -334,6 +362,10 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         drawnItems.addLayer(imageLayer);
     });
     
+    //function stopDrawing()
+    //{
+        //new L.Draw.Marker(map, drawnItems.options.marker).disable();
+    //}
     
     function onClick(e) 
     {
