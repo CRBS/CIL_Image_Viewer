@@ -192,7 +192,7 @@ class Super_pixel extends CI_Controller
             $sp_service_auth = $this->config->item('sp_service_auth');
             $cutil = new CurlUtil();
             $url = $sp_service_prefix."/get_overlays/".$num_id;
-            $response = $cutil->curl_post($url, "", $sp_service_auth);
+            $response = $cutil->curl_post_no_response($url, "", $sp_service_auth);
             
             //echo "<br/>".$url;
             //echo "<br/>".$sp_service_auth;

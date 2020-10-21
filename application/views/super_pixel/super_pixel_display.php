@@ -189,7 +189,8 @@
                 zindex = parseInt(temp);
                 document.getElementById("zindex_value").innerHTML = "Z:"+zindex;
 
-               
+                setTimeout(function (){
+
                 console.log("Removing the old image layer");
                 map.removeLayer(imageLayer);
                 
@@ -198,6 +199,10 @@
                 console.log(url);
                 imageLayer = L.imageOverlay(url, bounds).addTo(map);
                 imageLayer.addTo(map);
+
+                }, 1000); // How long do you want the delay to be (in milliseconds)? 
+
+               
                 //////////End Refresh the overlay image////////////////////////
                 
             }
