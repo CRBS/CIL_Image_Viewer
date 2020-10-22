@@ -170,7 +170,7 @@
         seconds += 1;
         seconds_counter.innerText = "You have been here for " + seconds + " seconds.";
         
-        $.get( "<?php echo $base_url; ?>/super_pixel/isRunOverlayDone/"+sp_id, function( data ) {
+        $.get( "<?php echo $is_done_prefix; ?>/super_pixel/isRunOverlayDone/"+sp_id, function( data ) {
         //alert(JSON.stringify(data) );
             console.log(data.done);
             if(data.done)
@@ -188,19 +188,15 @@
                 var temp = document.getElementById("z_index").value;
                 zindex = parseInt(temp);
                 document.getElementById("zindex_value").innerHTML = "Z:"+zindex;
-
-                setTimeout(function (){
-
                 console.log("Removing the old image layer");
                 map.removeLayer(imageLayer);
-                
-
+                setTimeout(function (){
                 url = base_url+"/super_pixel/image/"+cil_id+"/"+zindex+"?"+<?php echo time(); ?>;
                 console.log(url);
                 imageLayer = L.imageOverlay(url, bounds).addTo(map);
                 imageLayer.addTo(map);
 
-                }, 1000); // How long do you want the delay to be (in milliseconds)? 
+                }, 1); // How long do you want the delay to be (in milliseconds)? 
 
                
                 //////////End Refresh the overlay image////////////////////////

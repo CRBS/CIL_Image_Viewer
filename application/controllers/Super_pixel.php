@@ -201,8 +201,8 @@ class Super_pixel extends CI_Controller
             $data['run_mask'] = true;
             $this->load->helper('url');
             
-            redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex."?run_mask=true");
-            
+            //redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex."?run_mask=true");
+            redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex."?run_mask=true",'location',301);
         }
         
         public function image($sp_id="0", $zindex="0")
@@ -229,14 +229,20 @@ class Super_pixel extends CI_Controller
                 }
             }
             
-        $image_content = file_get_contents($imageUrl);
+            $image_content = file_get_contents($imageUrl);
+       
 
-        // Image was not found
-        if($image_content === FALSE)
-        {
-            show_error('Image "'.$imageUrl.'" could not be found.');
-            return FALSE;
-        }
+            // Image was not found
+            $index = 0;
+            while($image_content == FALSE)
+            {
+                $image_content = file_get_contents($imageUrl);
+                sleep(1);
+                $index++;
+                
+                if($index==5)
+                    break;
+            }
 
 
 
@@ -255,6 +261,9 @@ class Super_pixel extends CI_Controller
             $zindex = intval($zindex);
             $data['title'] = "Super pixel marker";
             $data['base_url'] = $this->config->item('base_url');
+            
+            $is_prod = $this->config->item('is_prod');
+            
             $data['image_id'] = $sp_id;
             $data['zindex'] = intval($zindex); 
             $data['serverName'] = $this->config->item('base_url');
@@ -267,6 +276,11 @@ class Super_pixel extends CI_Controller
                 echo "Cannot locate the image mapping json file";
                 return;
             }
+            
+            
+            $data['is_done_prefix'] = $this->config->item('base_url');
+            
+            
             
             $data['run_mask'] = false;
             $run_mask = $this->input->get('run_mask', TRUE);
@@ -286,16 +300,23 @@ class Super_pixel extends CI_Controller
             $items = json_decode($json_str);
             
             $data['z_max'] = count($items) -1;
+            $imageName = "";
             foreach ($items as $item)
             {
                 if($item->index == $zindex)
                 {
-                    $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/overlays/".$item->image_name;
+                    $imageName = $item->image_name;
+                    if(!$data['run_mask'])
+                        $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/overlays/".$item->image_name;
+                    else
+                        $imageUrl = "http://cildata.crbs.ucsd.edu/super_pixel/".$sp_id."/original/".$item->image_name;
                     $width = $item->width;
                     $height = $item->height;
                     break;
                 }
             }
+            
+            
             
             $data['imageUrl'] = $imageUrl;
             $data['width'] = $width;
