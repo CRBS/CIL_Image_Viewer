@@ -78,6 +78,7 @@ class Super_pixel extends CI_Controller
     
     private function isGenMasksDone($sp_id)
     {
+        /*
         $is_prod = $this->config->item('is_prod');
             
         $super_pixel_prefix = $this->config->item('super_pixel_prefix');
@@ -96,13 +97,36 @@ class Super_pixel extends CI_Controller
                 $done = true;
         }
         return $done;
+         * 
+         */
         
+        $done = false;
+        $is_prod = $this->config->item('is_prod');
+        $base_url = "";
+        if($is_prod)
+            $base_url = $this->config->item('base_url');
+        else
+            $base_url = "https://cdeep3m-viewer-stage.crbs.ucsd.edu";
+        
+        $url = $base_url."/super_pixel_rest/isGenMasksDone/".$sp_id;
+        $cutil = new CurlUtil();
+        $response = $cutil->curl_get($url, "");
+        if(is_null($response))
+        {
+            return false;
+        }
+        
+        $json = json_decode($response);
+        if(is_null($json))
+            return false;
+        
+        return $json->done;
     }
     
         
     public function isRunOverlayDone($sp_id)
     {
-        $is_prod = $this->config->item('is_prod');
+        /*$is_prod = $this->config->item('is_prod');
             
         $super_pixel_prefix = $this->config->item('super_pixel_prefix');
         $subFolder1 = $super_pixel_prefix."/".$sp_id;
@@ -118,7 +142,34 @@ class Super_pixel extends CI_Controller
             //echo "\nFile:".$file;
             if(strcmp($file, "DONE.txt") == 0)
                 $done = true;
+        }*/
+        
+        $done = false;
+        $is_prod = $this->config->item('is_prod');
+        $base_url = "";
+        if($is_prod)
+            $base_url = $this->config->item('base_url');
+        else
+            $base_url = "https://cdeep3m-viewer-stage.crbs.ucsd.edu";
+        
+        $url = $base_url."/super_pixel_rest/isGenMasksDone/".$sp_id;
+        $cutil = new CurlUtil();
+        $response = $cutil->curl_get($url, "");
+        if(is_null($response))
+        {
+            $done = false;
         }
+        else 
+        {
+            $json = json_decode($response);
+            if(is_null($json))
+                $done = false;
+            else
+                $done = $json->done;
+        }
+        
+        
+        
         
         $array = array();
         $array['done'] = $done;
@@ -175,7 +226,13 @@ class Super_pixel extends CI_Controller
         
         public function get_overlays($sp_id="0")
         {
+            $logEnable = true;
             $num_id = str_replace("SP_", "", $sp_id);
+            $super_pixel_prefix = $this->config->item('super_pixel_prefix');
+            $logFile = $super_pixel_prefix."/".$sp_id.".log";
+            
+            if($logEnable)
+                error_log (date("Y-m-d h:i:sa")."Entering get_overlays-------------\n",3,$logFile);
             
             if(!is_numeric($num_id))
                 show_404 ();
@@ -192,8 +249,11 @@ class Super_pixel extends CI_Controller
             $sp_service_auth = $this->config->item('sp_service_auth');
             $cutil = new CurlUtil();
             $url = $sp_service_prefix."/get_overlays/".$num_id;
-            $response = $cutil->curl_post_no_response($url, "", $sp_service_auth);
             
+            if($logEnable)
+                error_log (date("Y-m-d h:i:sa")."Before curl execution-------------\n",3,$logFile);
+            $response = $cutil->curl_post_no_response($url, "", $sp_service_auth);
+                error_log (date("Y-m-d h:i:sa")."After curl execution-------------\n",3,$logFile);
             //echo "<br/>".$url;
             //echo "<br/>".$sp_service_auth;
             echo "<br/>".$response;
@@ -201,6 +261,7 @@ class Super_pixel extends CI_Controller
             $data['run_mask'] = true;
             $this->load->helper('url');
             
+            error_log (date("Y-m-d h:i:sa")."Before redirect-------------\n",3,$logFile);
             //redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex."?run_mask=true");
             redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex."?run_mask=true",'location',301);
         }
@@ -258,6 +319,13 @@ class Super_pixel extends CI_Controller
         
         public function overlay($sp_id="0", $zindex="0")
         {
+            $logEnable = true;
+            $super_pixel_prefix = $this->config->item('super_pixel_prefix');
+            $logFile = $super_pixel_prefix."/".$sp_id.".log";
+            //echo "<br/>".$logFile;
+            if($logEnable)
+                error_log (date("Y-m-d h:i:sa")."Entering overlay-------------\n",3,$logFile);
+            
             $zindex = intval($zindex);
             $data['title'] = "Super pixel marker";
             $data['base_url'] = $this->config->item('base_url');

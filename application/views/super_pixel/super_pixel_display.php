@@ -368,6 +368,8 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
         //new L.Draw.Marker(map, drawnItems.options.marker).disable();
     //}
     
+    
+    
     function onClick(e) 
     {
         //console.log(southWest);
@@ -505,7 +507,9 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
            
            var b = 0;
            
-           
+            var temp = document.getElementById("z_index").value;
+            zindex = parseInt(temp);
+            document.getElementById("zindex_value").innerHTML = "Z:"+zindex;
           
             var temp = document.getElementById("z_index").value;
             zindex = parseInt(temp);
@@ -519,7 +523,7 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
             imageLayer = L.imageOverlay(url, bounds).addTo(map);
             imageLayer.addTo(map);
             
-           
+
 
             
 
@@ -542,6 +546,8 @@ L.imageOverlay(imageUrl, imageBounds).bringToFront();
             
 
         }
+        
+        document.getElementById ("z_index").addEventListener ("change", handleCommand, false);
         
         
     </script>
