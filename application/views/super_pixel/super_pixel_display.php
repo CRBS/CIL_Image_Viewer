@@ -61,6 +61,10 @@
 </head>
 
 <body>
+    
+    
+    
+<!----------Container begin-------------------->
  <div class="container">
         <div class="row">
             <div class="col-md-2">
@@ -86,12 +90,16 @@
                 </div>
                 
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <a href="<?php echo $base_url; ?>/Super_pixel/get_overlays/<?php echo $image_id; ?>" target="_self" class="btn btn-info">Run</a>
             </div>
             
-            <div class="col-md-3" id="download_training_id">
+            <div class="col-md-2" id="download_training_id">
                 <a href="<?php echo $base_url; ?>/Super_pixel/gen_mask/<?php echo $image_id; ?>" target="_blank" class="btn btn-info">Download training data</a>
+            </div>
+            
+            <div class="col-md-3">
+                <a href ="#"  class="btn btn-primary" style="color:white" onclick="recalculate_sp()">Re-calculate super pixels</a>
             </div>
             
         </div>
@@ -138,12 +146,86 @@
         </div>
         
         <!-----------End new row--------------->
+        
+        
+        
+        <!-----------New row------------------>
+        <div class="row">
+            <form action="/Supser_pixel/recalculate_sp/<?php echo $image_id; ?>" method="POST">
+            <div class="col-md-12">
+            <!----------Recalculate Modal--------------------->    
+            <div class="modal fade" id="recalculate_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Re-calculate super pixels</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="settings-modal-body-id">
+
+                        <div class="row">
+                            
+                            <div class="col-md-4">
+                               Super pixel count:
+                            </div>
+                           
+                            <div class="col-md-4">
+                                <select name="sp_count_id" id="sp_count_id" class="form-control">
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="1000">1000</option>
+                              </select>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <br/>
+                            </div>
+                            <div class="col-md-12">
+                                <center><button type="submit"  value="Submit" class="btn btn-info">Submit</button></center>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Recalculate Modal----------------->  
+            </div>
+            </form>
+        </div>
+        
+        <!-----------End new row--------------->
     
  </div>
-    
+<!----------Container end-------------------->    
     
     <div id="map" style="width: 100%; height: 90%; border: 1px solid #ccc">
     </div>
+
+
+<script>
+    function recalculate_sp()
+    {
+        //alert('hello');
+        $("#recalculate_modal_id").modal('show');
+    }
+    
+</script>
 
 
 <script>
