@@ -26,6 +26,8 @@ class Super_pixel extends CI_Controller
          * 
          */
     
+    
+    
     public function gen_mask($sp_id)
     {
         $num_id = str_replace("SP_", "", $sp_id);
@@ -218,7 +220,64 @@ class Super_pixel extends CI_Controller
             echo $json_str;
         
         }*/
-        
+        public function recalculate_sp($sp_id)
+        {
+            $logEnable = true;
+            $num_id = str_replace("SP_", "", $sp_id);
+            $super_pixel_prefix = $this->config->item('super_pixel_prefix');
+            $logFile = $super_pixel_prefix."/".$sp_id.".log";
+            
+            if($logEnable)
+                error_log (date("Y-m-d h:i:sa")."Entering recalculate_sp-------------\n",3,$logFile);
+            
+            if(!is_numeric($num_id))
+            {
+                echo $num_id;
+                return;
+                //show_404 ();
+            }
+            
+            $num_sp = "500";
+            
+            $temp = $this->input->post('sp_count_id', TRUE);
+            if(!is_null($temp) && is_numeric($temp))
+                $num_sp = $temp;
+            
+            $zindex = 0;
+            $data['title'] = "Super pixel marker";
+            $base_url = $this->config->item('base_url');
+            $data['base_url'] = $base_url;
+            $data['image_id'] = $sp_id;
+            $data['zindex'] = intval($zindex); 
+            $data['serverName'] = $this->config->item('base_url');
+            
+            $sp_service_prefix = $this->config->item('sp_service_prefix');
+            $sp_service_auth = $this->config->item('sp_service_auth');
+            $cutil = new CurlUtil();
+            $url = $sp_service_prefix."/gen_superpixels/".$num_id."?N=".$num_sp."&overwrite=true";;
+            
+            if($logEnable)
+                error_log (date("Y-m-d h:i:sa")."curl url------".$url."-------\n",3,$logFile);
+            
+            
+            if($logEnable)
+                error_log (date("Y-m-d h:i:sa")."Before curl execution for recalculate_sp-------------\n",3,$logFile);
+            $response = $cutil->curl_post_no_response($url, "", $sp_service_auth);
+                error_log (date("Y-m-d h:i:sa")."After curl execution for recalculate_sp-------------\n",3,$logFile);
+            //echo "<br/>".$url;
+            //echo "<br/>".$sp_service_auth;
+            echo "<br/>".$response;
+            
+            $data['run_mask'] = true;
+            $this->load->helper('url');
+            
+            error_log (date("Y-m-d h:i:sa")."Before redirect-------------\n",3,$logFile);
+            //redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex."?run_mask=true");
+            redirect ($base_url."/super_pixel/overlay/".$sp_id."/".$zindex."?run_mask=true",'location',301);
+            
+            
+            
+        }
         
         
         

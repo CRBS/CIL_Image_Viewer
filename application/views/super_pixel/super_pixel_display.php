@@ -151,7 +151,7 @@
         
         <!-----------New row------------------>
         <div class="row">
-            <form action="/Supser_pixel/recalculate_sp/<?php echo $image_id; ?>" method="POST">
+            <form action="/Super_pixel/recalculate_sp/<?php echo $image_id; ?>" method="POST" onsubmit="validate_recalculate()">
             <div class="col-md-12">
             <!----------Recalculate Modal--------------------->    
             <div class="modal fade" id="recalculate_modal_id" role="dialog">
@@ -223,6 +223,12 @@
     {
         //alert('hello');
         $("#recalculate_modal_id").modal('show');
+    }
+    
+    function validate_recalculate()
+    {
+        consoloe.log('validate_recalculate');
+        
     }
     
 </script>
