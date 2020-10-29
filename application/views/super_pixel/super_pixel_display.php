@@ -188,11 +188,14 @@
                             <div class="col-md-4"></div>
                         </div>
                         <div class="row">
+                            
                             <div class="col-md-12">
                                 <br/>
                             </div>
                             <div class="col-md-12">
-                                <center><button type="submit"  value="Submit" class="btn btn-info">Submit</button></center>
+                                <center><button id="recalculate_submit_id" name="recalculate_submit_id" type="submit"  value="Submit" class="btn btn-info">Submit</button></center>
+                            </div>
+                            <div class="col-md-12" id="recalculate_wait_id" name="recalculate_wait_id">  
                             </div>
                         </div>
                         
@@ -227,8 +230,9 @@
     
     function validate_recalculate()
     {
-        consoloe.log('validate_recalculate');
-        
+        //consoloe.log('validate_recalculate');
+        document.getElementById('recalculate_submit_id').disabled = true;
+        document.getElementById('recalculate_wait_id').innerHTML = '<br/><center>Waiting...</center>';
     }
     
 </script>

@@ -154,7 +154,7 @@ class Super_pixel extends CI_Controller
         else
             $base_url = "https://cdeep3m-viewer-stage.crbs.ucsd.edu";
         
-        $url = $base_url."/super_pixel_rest/isGenMasksDone/".$sp_id;
+        $url = $base_url."/super_pixel_rest/isRunOverlayDone/".$sp_id;
         $cutil = new CurlUtil();
         $response = $cutil->curl_get($url, "");
         if(is_null($response))
