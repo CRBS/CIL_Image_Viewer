@@ -167,7 +167,7 @@
 
                         <div class="row">
                             
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                Super pixel count:
                             </div>
                            
@@ -185,8 +185,62 @@
                                 <option value="1000">1000</option>
                               </select>
                             </div>
-                            <div class="col-md-4"></div>
+                            <div class="col-md-2"></div>
                         </div>
+                        
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                               Sigma:
+                            </div>
+                            <div class="col-md-4">
+                                <select name="sigma_id" id="sigma_id" class="form-control">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                               Compactness:
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" id="compactness_id" name="compactness_id" class="form-control">
+                                <!--<select name="compactness_id" id="compactness_id" class="form-control">
+                                    <option value="1">1</option>
+                                    <option value="0.9">0.9</option>
+                                    <option value="0.8">0.8</option>
+                                    <option value="0.7">0.7</option>
+                                    <option value="0.6">0.6</option>
+                                    <option value="0.5">0.5</option>
+                                    <option value="0.4">0.4</option>
+                                    <option value="0.3">0.3</option>
+                                    <option value="0.2">0.2</option>
+                                    <option value="0.1">0.1</option>
+                                    <option value="0">0</option>
+                                </select> -->
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                               Segments connected:
+                            </div>
+                            <div class="col-md-4">
+                                <input type="checkbox" id="sc_id" name="sc_id" value="sc_id" class="form-control" style="margin: 10px 0 0 0;">
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        
                         <div class="row">
                             
                             <div class="col-md-12">
