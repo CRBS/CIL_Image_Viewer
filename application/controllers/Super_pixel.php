@@ -238,10 +238,36 @@ class Super_pixel extends CI_Controller
             }
             
             $num_sp = "500";
-            
+            $compactness = 0.5;
+            $sigma = 2;
+            $enf_conn = "false";
             $temp = $this->input->post('sp_count_id', TRUE);
             if(!is_null($temp) && is_numeric($temp))
                 $num_sp = $temp;
+            
+            $temp = $this->input->post('sigma_id', TRUE);
+            if(!is_null($temp) && is_numeric($temp))
+                $sigma = intval ($temp);
+        
+            
+            $temp = $this->input->post('compactness_id', TRUE);
+            if(!is_null($temp) && is_numeric($temp))
+            {
+                $compactness = floatval($temp);
+                if($compactness > 1.0)
+                    $compactness = 1.0;
+            }
+            
+            $temp = $this->input->post('sc_id', TRUE);
+            if(!is_null($temp))
+            {
+                $enf_conn = "true";
+            }
+                    
+            $this->session->set_userdata('num_sp', $num_sp."");
+            $this->session->set_userdata('sigma', $sigma."");
+            $this->session->set_userdata('compactness', $compactness."");
+            $this->session->set_userdata('enf_conn', $enf_conn);
             
             $zindex = 0;
             $data['title'] = "Super pixel marker";
@@ -254,7 +280,11 @@ class Super_pixel extends CI_Controller
             $sp_service_prefix = $this->config->item('sp_service_prefix');
             $sp_service_auth = $this->config->item('sp_service_auth');
             $cutil = new CurlUtil();
-            $url = $sp_service_prefix."/gen_superpixels/".$num_id."?N=".$num_sp."&overwrite=true";;
+            //$url = $sp_service_prefix."/gen_superpixels/".$num_id."?N=".$num_sp."&overwrite=true";;
+            $url = $sp_service_prefix."/gen_superpixels/".$num_id."?N=".$num_sp."&sigma=".$sigma."&c=".$compactness."&enf_conn=".$enf_conn."&overwrite=true";
+            
+            echo "<br/>".$url;
+            
             
             if($logEnable)
                 error_log (date("Y-m-d h:i:sa")."curl url------".$url."-------\n",3,$logFile);
@@ -449,6 +479,18 @@ class Super_pixel extends CI_Controller
             $data['width'] = $width;
             $data['height'] = $height;
             //echo $imageUrl;
+            
+            
+            /***********Recalculate parameters******************/
+            //$this->session->set_userdata('num_sp', $num_sp);
+            //$this->session->set_userdata('sigma', $sigma);
+            //$this->session->set_userdata('compactness', $compactness);
+            //$this->session->set_userdata('enf_conn', $enf_conn);
+            $data['num_sp'] = $this->session->userdata('num_sp');
+            $data['sigma'] = $this->session->userdata('sigma');
+            $data['compactness'] = $this->session->userdata('compactness');
+            $data['enf_conn'] = $this->session->userdata('enf_conn');
+            /***********End Recalculate parameters****************/
             
             
             $this->load->view('super_pixel/super_pixel_display', $data);

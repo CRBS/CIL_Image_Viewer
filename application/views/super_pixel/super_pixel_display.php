@@ -151,7 +151,7 @@
         
         <!-----------New row------------------>
         <div class="row">
-            <form action="/Super_pixel/recalculate_sp/<?php echo $image_id; ?>" method="POST" onsubmit="validate_recalculate()">
+            <form action="/Super_pixel/recalculate_sp/<?php echo $image_id; ?>" method="POST" onsubmit="return validate_recalculate()">
             <div class="col-md-12">
             <!----------Recalculate Modal--------------------->    
             <div class="modal fade" id="recalculate_modal_id" role="dialog">
@@ -212,7 +212,7 @@
                                Compactness:
                             </div>
                             <div class="col-md-4">
-                                <input type="text" id="compactness_id" name="compactness_id" class="form-control">
+                                <input type="text" id="compactness_id" name="compactness_id" class="form-control" value="0.5">
                                 <!--<select name="compactness_id" id="compactness_id" class="form-control">
                                     <option value="1">1</option>
                                     <option value="0.9">0.9</option>
@@ -227,7 +227,7 @@
                                     <option value="0">0</option>
                                 </select> -->
                             </div>
-                            <div class="col-md-2"></div>
+                            <div class="col-md-2">Ex:0.45</div>
                         </div>
                         
                         
@@ -276,6 +276,86 @@
 
 
 <script>
+    /*******************Recalculate parameters************************************/
+    <?php
+    
+        if(isset($num_sp) && is_numeric($num_sp))
+        {
+    ?>
+          var num_sp = <?php echo $num_sp; ?>;
+          var options = document.getElementById('sp_count_id');
+          for(i = 0; i < options.length; i++) 
+          {
+              var option = options[i];
+              console.log(option.value);
+              if(option.value == num_sp)
+              {
+                  option.selected = true;
+                  break;
+              }
+          }
+    <?php
+        }
+    ?>
+    
+    <?php
+    
+        if(isset($sigma) && is_numeric($sigma))
+        {
+    ?>
+        var sigma = <?php echo $sigma; ?>;
+        //document.getElementById('sigma_id').value = sigma;
+        var options = document.getElementById('sigma_id');
+          for(i = 0; i < options.length; i++) 
+          {
+              var option = options[i];
+              console.log(option.value);
+              if(option.value == sigma)
+              {
+                  option.selected = true;
+                  break;
+              }
+          }
+        
+    <?php
+        }
+    ?>
+        
+        
+    <?php
+    
+        if(isset($compactness) && is_numeric($compactness))
+        {
+    ?>
+            var compactness = <?php echo $compactness; ?>;
+            document.getElementById('compactness_id').value = compactness;
+    <?php
+        }
+    ?>
+        
+        
+    <?php
+    
+        if(isset($enf_conn))
+        {
+    ?>
+            var enf_conn = <?php echo $enf_conn; ?>;
+            console.log("enf_conn:"+enf_conn);
+            if(enf_conn)
+                document.getElementById('sc_id').checked = true;
+            else
+                document.getElementById('sc_id').checked = false;
+    <?php
+        }
+        else
+        {
+    ?> 
+            console.log("enf_conn is NULL");
+    <?php
+        }
+    ?>
+    /*******************End Recalculate parameters************************************/
+    
     function recalculate_sp()
     {
         //alert('hello');
@@ -284,9 +364,24 @@
     
     function validate_recalculate()
     {
+        var compactness = document.getElementById('compactness_id').value;
+        if(isNaN(compactness))
+        {
+            alert("Compactness needs to be number");
+            return false;
+        }
+        
+        var compactness_v  =  parseFloat(compactness).toFixed(2);
+        if(compactness_v > 1.0)
+            compactness_v = 1.0;
+        
+        document.getElementById('compactness_id').value = compactness_v;
+        
         //consoloe.log('validate_recalculate');
         document.getElementById('recalculate_submit_id').disabled = true;
         document.getElementById('recalculate_wait_id').innerHTML = '<br/><center>Waiting...</center>';
+        
+        return true;
     }
     
 </script>
