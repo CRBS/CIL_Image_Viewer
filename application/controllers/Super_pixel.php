@@ -486,7 +486,11 @@ class Super_pixel extends CI_Controller
             //$this->session->set_userdata('sigma', $sigma);
             //$this->session->set_userdata('compactness', $compactness);
             //$this->session->set_userdata('enf_conn', $enf_conn);
-            $data['num_sp'] = $this->session->userdata('num_sp');
+            $num_sp = $this->session->userdata('num_sp');
+            if(!is_null($num_sp))
+                $data['num_sp'] = $this->session->userdata('num_sp');
+            else
+                $data['num_sp'] = "500";
             $data['sigma'] = $this->session->userdata('sigma');
             $data['compactness'] = $this->session->userdata('compactness');
             $data['enf_conn'] = $this->session->userdata('enf_conn');

@@ -195,12 +195,16 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="sigma_id" id="sigma_id" class="form-control">
-                                    <option value="0">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
                                 </select>
                             </div>
                             <div class="col-md-2"></div>
@@ -212,7 +216,7 @@
                                Compactness:
                             </div>
                             <div class="col-md-4">
-                                <input type="text" id="compactness_id" name="compactness_id" class="form-control" value="0.5">
+                                <input type="text" id="compactness_id" name="compactness_id" class="form-control" value="0.1">
                                 <!--<select name="compactness_id" id="compactness_id" class="form-control">
                                     <option value="1">1</option>
                                     <option value="0.9">0.9</option>
@@ -227,7 +231,7 @@
                                     <option value="0">0</option>
                                 </select> -->
                             </div>
-                            <div class="col-md-2">Ex:0.45</div>
+                            <div class="col-md-2">0.01-10</div>
                         </div>
                         
                         
@@ -236,7 +240,7 @@
                                Segments connected:
                             </div>
                             <div class="col-md-4">
-                                <input type="checkbox" id="sc_id" name="sc_id" value="sc_id" class="form-control" style="margin: 10px 0 0 0;">
+                                <input type="checkbox" id="sc_id" name="sc_id" value="sc_id" class="form-control" style="margin: 10px 0 0 0;" checked>
                             </div>
                             <div class="col-md-2"></div>
                         </div>
@@ -282,6 +286,7 @@
         if(isset($num_sp) && is_numeric($num_sp))
         {
     ?>
+               
           var num_sp = <?php echo $num_sp; ?>;
           var options = document.getElementById('sp_count_id');
           for(i = 0; i < options.length; i++) 
@@ -291,12 +296,18 @@
               if(option.value == num_sp)
               {
                   option.selected = true;
-                  break;
+                  //break;
+              }
+              else
+              {
+                  option.selected = false;
               }
           }
     <?php
         }
-    ?>
+        
+    ?>    
+    
     
     <?php
     
