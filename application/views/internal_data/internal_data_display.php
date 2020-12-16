@@ -56,7 +56,9 @@
     
 
    
-    
+    <script>
+        var notes_text = "";
+    </script>
     
 </head>
 
@@ -402,12 +404,25 @@
         </div>
     
     
+    
+    
+    
+    
+    
+    <?php   include_once 'notes_display.php'; ?>
+    
+    
+    
+    
+    
+    
     </div>    
 
   
 <!-- <div id="map" style="width: 100%; height: 700px; border: 1px solid #ccc"></div> -->
 <div id="map" style="width: 100%; height: 90%; border: 1px solid #ccc"></div>
 <script>
+    
     
     var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
@@ -1026,7 +1041,8 @@
         
         function notes_click_func()
         {
-            console.log('notes_click_func');
+            //console.log('notes_click_func');
+            $("#notes_modal_id").modal('show');
         }
         
         function search_click_func()
