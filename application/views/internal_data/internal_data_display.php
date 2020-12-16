@@ -517,7 +517,8 @@
                     
         var findAnnot = //'<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>';
                 '<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>&nbsp;&nbsp;<button  id="search_btn_id" name="search_btn_id" type="button" class="btn btn-primary">Search</button>';            
-                    
+        
+        var notes = '<button id="notes_btn_id" name="notes_btn_id" type="button" class="btn btn-primary">Notes</button>'
                     
         var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
                     
@@ -527,7 +528,8 @@
         command.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'command');
 
-            div.innerHTML = rgbTool+'<br style="line-height: 10px"/>'+AnnoSwith+'<br style="line-height: 10px"/>'+findAnnot+'<br/><br/>'+loadingTool; 
+            //div.innerHTML = rgbTool+'<br style="line-height: 10px"/>'+AnnoSwith+'<br style="line-height: 10px"/>'+findAnnot+'<br/><br/>'+loadingTool; 
+            div.innerHTML = rgbTool+'<br style="line-height: 10px"/>'+AnnoSwith+'<br style="line-height: 10px"/>'+findAnnot+'<br/><br/>'+notes+'<br/><br/>'+loadingTool; 
             return div;
         };
         
@@ -981,6 +983,7 @@
         document.getElementById("share_btn_id").addEventListener ("click", share_click_func, false);
         document.getElementById("search_btn_id").addEventListener ("click", search_click_func, false);
         
+        document.getElementById("notes_btn_id").addEventListener ("click", notes_click_func, false);
         
         document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
         document.getElementById("keywords_search_btn_id").addEventListener ("click", keyword_search_func, false);
@@ -1021,6 +1024,10 @@
             }
         }
         
+        function notes_click_func()
+        {
+            console.log('notes_click_func');
+        }
         
         function search_click_func()
         {
