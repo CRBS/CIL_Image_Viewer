@@ -55,7 +55,12 @@
             return;
         
         
-        var notes_item = { "message":  notes_value };
+        var notes_item = { "message":  notes_value, "username" : "", "full_name": "", "create_time": "" };
+        
+        notes_item.username = '<?php echo $username; ?>';
+        notes_item.full_name = '<?php if(!is_null($user_json) && isset($user_json->full_name)) echo $user_json->full_name;   ?>';
+        notes_item.create_time = getCurrentTimeString();
+        
         notes_json.push(notes_item);
         console.log(notes_json);
         
@@ -67,7 +72,7 @@
             item_str = item_str+'<div class="bs-component">'+
                        '<div class="alert alert-dismissible alert-secondary">'+
                        '<button type="button" class="close" data-dismiss="alert" onclick="deleteMessage('+i+')">×</button>'+
-                       notes_json[i].message+
+                       notes_json[i].message+'<br/>(By '+notes_json[i].full_name+" - "+notes_json[i].create_time+")"+
                        '</div>';
                        
             item_str = item_str+'</div></div>';
