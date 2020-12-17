@@ -13,7 +13,9 @@
                 <div class="modal-body" id="notes-modal-body-id">
                     <div class="row"> 
                         <div class="col-md-12">
-                           <div id="notes_area_id" style="width: 100%;height: 400px;overflow: scroll;"></div> 
+                            <div id="notes_area_id" style="width: 100%;height: 400px;overflow: scroll;">
+                                <div id="notes_area_row_id" class="row"></div>
+                            </div> 
                         </div>
                         <div class="col-md-12">
                             <hr>
@@ -27,7 +29,7 @@
                 </div>
                 </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Add to Notes</button>
+                <button id="add2notes_btn_id" type="button" class="btn btn-primary">Add to Notes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
              </div>
@@ -36,3 +38,64 @@
         <!----------End Search Model----------------->  
     </div>
 </div>
+
+
+
+<script>
+    document.getElementById("add2notes_btn_id").addEventListener ("click",  add2notes_click_func, false);
+    
+    function add2notes_click_func()
+    {
+        console.log('add2notes_click_func');
+        var notes_value = document.getElementById('notes_textarea_id').value;
+        document.getElementById('notes_textarea_id').value = "";
+        console.log(notes_value);
+        
+        if(notes_value.length == 0)
+            return;
+        
+        
+        var notes_item = { "message":  notes_value };
+        notes_json.push(notes_item);
+        console.log(notes_json);
+        
+        //document.getElementById('notes_area_id').innerHTML = JSON.stringify(notes_json);
+       var item_str ='';
+        for(i=0;i<notes_json.length;i++)
+        {
+            item_str = item_str+'<div class="col-md-12">';
+            item_str = item_str+'<div class="bs-component">'+
+                       '<div class="alert alert-dismissible alert-secondary">'+
+                       '<button type="button" class="close" data-dismiss="alert" onclick="deleteMessage('+i+')">×</button>'+
+                       notes_json[i].message+
+                       '</div>';
+                       
+            item_str = item_str+'</div></div>';
+            
+        }
+        document.getElementById('notes_area_row_id').innerHTML = item_str;
+    }
+    
+    
+    function deleteMessage(index)
+    {
+        //console.log('deleting:'+index);
+        notes_json.splice(index, 1);
+        
+        var item_str ='';
+        for(i=0;i<notes_json.length;i++)
+        {
+            item_str = item_str+'<div class="col-md-12">';
+            item_str = item_str+'<div class="bs-component">'+
+                       '<div class="alert alert-dismissible alert-secondary">'+
+                       '<button type="button" class="close" data-dismiss="alert" onclick="deleteMessage('+i+')">×</button>'+
+                       notes_json[i].message+
+                       '</div>';
+                       
+            item_str = item_str+'</div></div>';
+            
+        }
+        document.getElementById('notes_area_row_id').innerHTML = item_str;
+        
+    }
+</script>

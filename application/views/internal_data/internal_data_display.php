@@ -58,6 +58,7 @@
    
     <script>
         var notes_text = "";
+        var notes_json = [];
     </script>
     
 </head>
