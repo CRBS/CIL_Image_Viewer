@@ -119,7 +119,22 @@ class Image_annotation_service extends REST_Controller
         $this->response($mainArray);
     }
     
-    
+    public function image_notes_get($cil_id="0",$sindex="0")
+    {
+        $db_params = $this->config->item('db_params');
+        $dbutil = new DBUtil();
+        $json = $dbutil->getNotesData($db_params, $cil_id);
+        if(!is_null($json))
+        {
+           $this->response($json);
+        }
+        else
+        {
+            $json_str = "[]";
+            $json = json_decode($json_str);
+            $this->response($json);
+        }
+    }
     
     public function image_notes_post($cil_id="0")
     {

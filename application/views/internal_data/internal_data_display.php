@@ -449,6 +449,11 @@
     
     
     
+
+    
+    
+    
+    
     /*************************JS Loading**********************************/
     var zooming = false;
     
@@ -1043,6 +1048,39 @@
         function notes_click_func()
         {
             //console.log('notes_click_func');
+            /*************Loading notes json****************************/
+            $.get( "<?php echo $serverName; ?>/image_annotation_service/image_notes/"+cil_id, function( data ) {
+                console.log("-----Geting image notes");
+                console.log(data);
+
+                notes_json = data;
+                
+                //display_notes_func();
+                
+                //console.log('-------------before looping notes_click_func-------------');
+                var item_str ='';
+                 for(i=0;i<notes_json.length;i++)
+                 {
+                     //console.log('-------------loop index:'+i);
+                     item_str = item_str+'<div class="col-md-12">';
+                     item_str = item_str+'<div class="bs-component">'+
+                                '<div class="alert alert-dismissible alert-secondary">'+
+                                '<button type="button" class="close" data-dismiss="alert" onclick="deleteMessage('+i+')">×</button>'+
+                                notes_json[i].message+'<br/>(By '+notes_json[i].full_name+" - "+notes_json[i].create_time+")"+
+                                '</div>';
+
+                     item_str = item_str+'</div></div>';
+
+                 }
+                 //console.log('-------------After looping notes_click_func-------------');
+                 document.getElementById('notes_area_row_id').innerHTML = item_str;
+                 });
+                 
+            
+           
+            /*************End loading notes json*********************/
+            
+            
             $("#notes_modal_id").modal('show');
         }
         

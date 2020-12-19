@@ -1755,6 +1755,36 @@ class DBUtil
     }
     
     //////////////////////Image Notes/////////////////////////////////////////////
+    public function getNotesData($db_params,$cil_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return null;
+        }
+        $input = array();
+        array_push($input,$cil_id);
+        $sql = "select notes_json from image_notes where cil_id = $1";
+
+        $result = pg_query_params($conn,$sql,$input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        $json = null;
+        if($row = pg_fetch_row($result))
+        {
+            $json_str = $row[0];
+            $json = json_decode($json_str);
+        }
+        pg_close($conn);
+        return $json;
+    }
+    
+    
+    
     public function imageNotesExist($db_params,$cil_id)
     {
         $conn = pg_pconnect($db_params);
