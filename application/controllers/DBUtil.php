@@ -1754,6 +1754,93 @@ class DBUtil
         return true;        
     }
     
+    //////////////////////Image Notes/////////////////////////////////////////////
+    public function imageNotesExist($db_params,$cil_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return null;
+        }
+        
+        $input = array();
+        array_push($input,$cil_id);
+        
+        $sql = "select id from image_notes where cil_id = $1";
+        $result = pg_query_params($conn,$sql,$input);
+        
+        if (!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        $exists = false;
+        if($row = pg_fetch_row($result))
+        {
+            $exists = true;
+        }
+        pg_close($conn);
+       
+        return $exists;
+    }
+    
+    
+    
+    public function insertImageNotes($db_params,$cil_id, $notes_json)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input, $cil_id);
+        array_push($input, $notes_json);
+        
+        $sql = "insert into image_notes(id, cil_id, notes_json, update_time) ".
+               " values(nextval('general_sequence'), $1, $2, now())";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        
+        return true;
+    }
+    
+    
+    public function updateImageNotes($db_params,$cil_id, $notes_str)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return false;
+        }
+        $input = array();
+        array_push($input, $notes_str);
+        array_push($input, $cil_id);
+        $sql = "update image_notes set notes_json = $1 where cil_id = $2";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        
+        return true;
+    }
+    
+    
+    //////////////////////End Image Notes////////////////////////////////////
+    
     public function updateGeoData($db_params,$cil_id, $index, $json_str)
     {
         $conn = pg_pconnect($db_params);
@@ -1778,6 +1865,8 @@ class DBUtil
         return true;
         
     }
+    
+    
     
     public function insertGeoMetadata($db_params,$cil_id, $sindex, $object_id,
             $desc)

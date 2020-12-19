@@ -120,6 +120,24 @@ class Image_annotation_service extends REST_Controller
     }
     
     
+    
+    public function image_notes_post($cil_id="0")
+    {
+        $db_params = $this->config->item('db_params');
+        $dbutil = new DBUtil();
+        $json_str = file_get_contents('php://input', 'r');
+        
+        $exists = $dbutil->imageNotesExist($db_params, $cil_id);
+        if(!$exists)
+            $dbutil->insertImageNotes ($db_params, $cil_id, $json_str);
+        else
+            $dbutil->updateImageNotes ($db_params, $cil_id, $json_str);
+        
+        $array = array();
+        $array[$this->success] = true;
+        $this->response($array);
+    }
+    
 
     public function geodata_post($cil_id="0",$sindex="0")
     {

@@ -64,6 +64,8 @@
         notes_json.push(notes_item);
         console.log(notes_json);
         
+        var notes_json_str = JSON.stringify(notes_json);
+        saveImageNotesJson(notes_json_str);
         //document.getElementById('notes_area_id').innerHTML = JSON.stringify(notes_json);
        var item_str ='';
         for(i=0;i<notes_json.length;i++)
@@ -87,6 +89,9 @@
         //console.log('deleting:'+index);
         notes_json.splice(index, 1);
         
+        var notes_json_str = JSON.stringify(notes_json);
+        saveImageNotesJson(notes_json_str);
+        
         var item_str ='';
         for(i=0;i<notes_json.length;i++)
         {
@@ -103,4 +108,19 @@
         document.getElementById('notes_area_row_id').innerHTML = item_str;
         
     }
+    
+    
+    function saveImageNotesJson(notes_json_str)
+    {
+        var notesUrl = '<?php echo $serverName; ?>/image_annotation_service/image_notes/'+cil_id;
+        console.log(notesUrl);
+        $.post(notesUrl, notes_json_str, function(returnedData) {
+            // do something here with the returnedData
+            console.log(returnedData);
+        });
+        //.error(function() { //alert("error"); }
+        //);
+ 
+    }
+    
 </script>
