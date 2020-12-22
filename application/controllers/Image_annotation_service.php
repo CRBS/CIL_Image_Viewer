@@ -142,6 +142,8 @@ class Image_annotation_service extends REST_Controller
         $dbutil = new DBUtil();
         $json_str = file_get_contents('php://input', 'r');
         
+        $dbutil->insertImageNotesHistory($db_params, $cil_id, $json_str);
+        
         $exists = $dbutil->imageNotesExist($db_params, $cil_id);
         if(!$exists)
             $dbutil->insertImageNotes ($db_params, $cil_id, $json_str);

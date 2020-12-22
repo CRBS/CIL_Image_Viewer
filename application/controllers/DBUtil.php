@@ -1815,6 +1815,34 @@ class DBUtil
     }
     
     
+    public function insertImageNotesHistory($db_params,$cil_id, $notes_json)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input, $cil_id);
+        array_push($input, $notes_json);
+        
+        $sql = "insert into image_notes_history(id, cil_id, notes_json, update_time) ".
+               " values(nextval('general_sequence'), $1, $2, now())";
+        
+        $result = pg_query_params($conn,$sql,$input);
+        
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        
+        return true;
+    }
+    
     
     public function insertImageNotes($db_params,$cil_id, $notes_json)
     {
