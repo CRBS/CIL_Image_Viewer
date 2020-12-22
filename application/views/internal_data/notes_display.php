@@ -40,6 +40,38 @@
 </div>
 
 
+<div class="row">
+    <div class="col-md-12">
+        <!----------Edit Notes Model --------------------->    
+        <div class="modal fade" id="notes_edit_modal_id" role="dialog">
+            <div class="modal-dialog" role="document" id="notes_edit_dialog_modal_id" style="max-width: 70%;">
+                <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #4582EC; color: white">
+                      <h5 class="modal-title">Edit Notes</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                <div class="modal-body" id="notes-edit-modal-body-id">
+                    <div class="row">                       
+                        <div class="col-md-12"> 
+                            <input type="hidden" id="notes_edit_index_id" name="notes_edit_index_id" value="0">
+                            <textarea id="notes_edit_textarea_id" name="notes_edit_textarea_id" rows="3" class="form-control" ></textarea>
+                        </div>                   
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <button id="submit_notes_btn_id" type="button" class="btn btn-primary" onclick="submitMessage()">Submit</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+             </div>
+            </div>
+        </div>
+        <!----------End Edit Notes Model----------------->  
+    </div>
+</div>
+
+
 
 <script>
     document.getElementById("add2notes_btn_id").addEventListener ("click",  add2notes_click_func, false);
@@ -61,6 +93,32 @@
         }
         document.getElementById('notes_area_row_id').innerHTML = item_str;
     }
+    
+    function submitMessage()
+    {
+        var index = document.getElementById('notes_edit_index_id').value;
+        console.log('Edit submit index:'+index);
+        var newMessage = document.getElementById('notes_edit_textarea_id').value;
+        console.log(newMessage);
+        notes_json[index].message = newMessage;
+        
+        var notes_json_str = JSON.stringify(notes_json);
+        saveImageNotesJson(notes_json_str);
+        
+        $("#notes_edit_modal_id").modal('hide');
+        display_notes_func();
+        $('#notes_modal_id').modal('show');
+    }
+    
+    function editMessage(i)
+    {
+        document.getElementById('notes_edit_textarea_id').value = "";
+        $('#notes_modal_id').modal('hide');
+        document.getElementById('notes_edit_textarea_id').value = notes_json[i].message;
+        document.getElementById('notes_edit_index_id').value = i;
+        $("#notes_edit_modal_id").modal('show');
+    }
+    
     
     function add2notes_click_func()
     {
