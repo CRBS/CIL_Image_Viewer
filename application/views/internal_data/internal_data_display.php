@@ -1059,14 +1059,25 @@
                 
                 //console.log('-------------before looping notes_click_func-------------');
                 var item_str ='';
+                
+                var nusername = '<?php echo $username; ?>';
+                
                  for(i=0;i<notes_json.length;i++)
                  {
                      //console.log('-------------loop index:'+i);
+                     var deleteBtn = '';
+                     var editBtn = '';
+                     if(notes_json[i].username == nusername)
+                     {
+                         deleteBtn = '<button type="button" class="close" data-dismiss="alert" onclick="deleteMessage('+i+')">×</button>';
+                         editBtn = '<button type="button" class="btn btn-info btn-sm" onclick="editMessage('+i+')">Edit</button>';
+                     }
+                     
                      item_str = item_str+'<div class="col-md-12">';
                      item_str = item_str+'<div class="bs-component">'+
                                 '<div class="alert alert-dismissible alert-secondary">'+
-                                '<button type="button" class="close" data-dismiss="alert" onclick="deleteMessage('+i+')">×</button>'+
-                                notes_json[i].message+'<br/>(By '+notes_json[i].full_name+" - "+notes_json[i].create_time+') <button type="button" class="btn btn-info btn-sm" onclick="editMessage('+i+')">Edit</button>'+
+                                deleteBtn+
+                                notes_json[i].message+'<br/>(By '+notes_json[i].full_name+" - "+notes_json[i].create_time+') '+editBtn+   //<button type="button" class="btn btn-info btn-sm" onclick="editMessage('+i+')">Edit</button>'+
                                 '</div>';
                      //<button type="button" class="btn btn-info btn-sm" onclick="editMessage('+i+')">Edit</button>
                      item_str = item_str+'</div></div>';
