@@ -29,8 +29,8 @@
                 </div>
                 </div>
             <div class="modal-footer">
-                <button id="add2notes_btn_id" type="button" class="btn btn-primary">Add to Notes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="add2notes_btn_id" type="button" class="btn btn-primary">Add Notes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
             </div>
              </div>
             </div>
@@ -62,7 +62,8 @@
                 </div>
             <div class="modal-footer">
                 <button id="submit_notes_btn_id" type="button" class="btn btn-primary" onclick="submitMessage()">Submit</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="close_edit_btn_id" type="button" class="btn btn-secondary" onclick="closeEditBtn()">Close</button> 
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
             </div>
              </div>
             </div>
@@ -130,6 +131,11 @@
         $("#notes_edit_modal_id").modal('show');
     }
     
+    function closeEditBtn()
+    {
+        $("#notes_edit_modal_id").modal('hide');
+        $('#notes_modal_id').modal('show');
+    }
     
     function add2notes_click_func()
     {
