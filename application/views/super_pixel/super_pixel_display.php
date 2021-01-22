@@ -102,6 +102,12 @@
                 <a href ="#"  class="btn btn-primary" style="color:white" onclick="recalculate_sp()">Re-calculate super pixels</a>
             </div>
             
+            <div class="col-md-1">
+                <form action="/Super_pixel/clear/<?php echo $image_id; ?>" method="POST" onsubmit="return validate_clear()">
+                <button id="clear_submit_id" name="clear_submit_id" type="submit"  value="Submit" class="btn btn-info" >Clear</button>
+                </form>
+            </div>
+            
         </div>
      
         <!-----------New row------------------>
@@ -375,6 +381,14 @@
     {
         //alert('hello');
         $("#recalculate_modal_id").modal('show');
+    }
+    
+    function validate_clear()
+    {
+       
+        console.log('validate_clear');
+        document.getElementById('clear_submit_id').disabled = true;
+        return true;
     }
     
     function validate_recalculate()

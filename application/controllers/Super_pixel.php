@@ -310,7 +310,16 @@ class Super_pixel extends CI_Controller
         }
         
         
-        
+        public function clear($sp_id="0")
+        {
+           //echo "Test";
+            $this->load->helper('url');
+            $base_url = $this->config->item('base_url');
+            $db_params = $this->config->item('db_params');
+            $dbutil = new DBUtil();
+            $dbutil->deleteSuperPixelGeoData($db_params, $sp_id);
+            redirect ($base_url."/Super_pixel/get_overlays/".$sp_id,'location',301);
+        }
         
         
         public function get_overlays($sp_id="0")

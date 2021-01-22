@@ -1291,6 +1291,8 @@ class DBUtil
         return $count;
     }
 
+    
+    
     public function getGeoData($db_params,$cil_id, $sindex)
     {
         $conn = pg_pconnect($db_params);
@@ -1898,6 +1900,29 @@ class DBUtil
     
     
     //////////////////////End Image Notes////////////////////////////////////
+    
+    
+    public function deleteSuperPixelGeoData($db_params,$cil_id)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return false;
+        }
+        $input = array();
+        array_push($input, $cil_id);
+        $sql = "delete from image_annotation where cil_id like 'SP%' and  cil_id = $1";
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        pg_close($conn);
+        
+        return true;
+        
+    }
     
     public function updateGeoData($db_params,$cil_id, $index, $json_str)
     {
