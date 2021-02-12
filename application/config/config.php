@@ -626,4 +626,9 @@ if(!$is_prod)
 else
     $config['super_pixel_prefix'] = "/export2/temp/super_pixel";
 
+if(!$is_prod)
+    $config['histogram_folder'] = "C:/Test3/histogram";
+else
+    $config['histogram_folder'] = "/export2/temp/histogram";
+
 /**********End Super pixel**************************/
