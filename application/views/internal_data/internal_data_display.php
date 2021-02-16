@@ -905,6 +905,8 @@
 
     function getLeafletUrl()
     {
+        var nusername = '<?php echo $username; ?>';
+        
         var red = 255;
         var green = 255;
         var blue = 255;
@@ -920,7 +922,7 @@
         
         var temp = document.getElementById("z_index").value;
         zindex = parseInt(temp);
-        var l_url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
+        var l_url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b+"&username="+nusername;
         console.log(l_url);
         return l_url;
     }

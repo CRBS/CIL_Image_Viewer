@@ -637,6 +637,21 @@ class Image_process_rest extends REST_Controller
     }
     
     
+    public function generate_histogram_post($username, $image_id)
+    {
+        $histogram_folder = $this->config->item("histogram_folder");
+        $histogram_folder = $histogram_folder."/".$username;
+        $h_filePath = $histogram_folder."/".$image_id.".log";
+        
+        $content = file_get_contents($h_filePath);
+        $array = array();
+        $array['success'] = true;
+        $array['content'] = $content;
+        $this->response($array);
+        return;
+    }
+    
+    
     public function report_crop_finished_post($stage_or_prod="stage", $crop_id="0")
     {
         $dbutil = new DBUtil();

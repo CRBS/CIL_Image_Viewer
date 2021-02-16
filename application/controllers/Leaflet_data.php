@@ -377,9 +377,21 @@
            
           
           /////////////////Histogram///////////////////////////////
+           $username = "Public";
+           $temp = $this->input->get('username', TRUE);
+           if(!is_null($temp))
+           {
+               $username = trim($temp);
+           }
+           
            $histogram_folder = $this->config->item("histogram_folder");
            if(!file_exists($histogram_folder))
                mkdir($histogram_folder);
+           
+           $histogram_folder = $histogram_folder."/".$username;
+           if(!file_exists($histogram_folder))
+               mkdir($histogram_folder);
+           
            
            $query_path = $tar_folder."/".$tar_name."/".$root_folder."/".$z."/".$x."/".$y;
            $queryArray = explode("/", $query_path);
