@@ -631,4 +631,10 @@ if(!$is_prod)
 else
     $config['histogram_folder'] = "/export2/temp/histogram";
 
+
+if(!$is_prod)
+    $config['imagemagick_convert'] = "magick.exe convert ";
+else
+    $config['imagemagick_convert'] = "convert ";
+
 /**********End Super pixel**************************/

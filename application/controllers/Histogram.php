@@ -1,9 +1,122 @@
 <?php
 
+include_once 'GeneralUtil.php';
+
 class Histogram
 {
+    private function cleanFolder($folder)
+    {
+        $gutil = new GeneralUtil();
+        
+        $files = scandir($folder);
+        foreach($files as $file)
+        {
+            if(strcmp($file, ".")==0 || strcmp($file, "..")==0)
+                continue;
+            
+            if($gutil->endsWith($file, ".png"))
+            {
+                $filePath = $folder."/".$file;
+                if(file_exists($filePath))
+                    unlink ($filePath);
+            }
+        }
+        
+    }
+    
+    private function generate_cmd($col, $max_x, $min_x, $inputFolder, $outputFolder, $imagemagick_convert)
+    {
+        $logFile = $outputFolder."/cmd.log";
+        $cmd = $imagemagick_convert." -append ";
+        for($i=$max_x;$i>=$min_x;$i--)
+        {
+            $cmd = $cmd." ".$inputFolder."/".$col."_".$i.".png ";
+             //error_log("\n".$cmd, 3, $logFile);
+        }
+        $logFile = $outputFolder."/cmd.log";
+        $cmd = $cmd." ".$outputFolder."/".$col.".png";
+       
+        return $cmd;
+    }
+    
+    
+    public function stitchImages($inputFolder, $outputFolder, $imagemagick_convert)
+    {
+        $this->cleanFolder($outputFolder);
+         $logFile = $outputFolder."/cmd.log";
+         if(file_exists($logFile))
+            unlink($logFile);
+         
+        //error_log("\n"."inputFolder:".$inputFolder, 3, $logFile);
+            
+        $images = scandir($inputFolder);
+        //error_log("\n"."Image count:".count($images), 3, $logFile);
+        $x_max = 0;
+        $y_max = 0;
+        
+        $x_min = 999999;
+        $y_min = 999999;
+        
+        foreach($images as $image)
+        {
+            //error_log("\n"."image:".$image, 3, $logFile);
+            if(strcmp($image, ".") ==0  || strcmp($image, "..") ==0)
+                    continue;
+
+            $name = str_replace(".png", "", $image);
+            
+            
+            $names = explode("_", $name);
+
+            if(count($names) != 2)
+                continue;
+            
+            $x = intval($names[1]);
+            $y = intval($names[0]);
+
+            //error_log("\n"."x:".$x, 3, $logFile);
+            //error_log("\n"."y:".$y, 3, $logFile);
+            
+            if($x > $x_max)
+                $x_max = $x;
+
+            if($y > $y_max)
+                $y_max = $y;
+
+            if($x < $x_min)
+                $x_min = $x;
+            
+            if($y < $y_min)
+                $y_min = $y;
+        }
+        
+        
+        //error_log("\n"."x_min:".$x_min, 3, $logFile);
+        //error_log("\n"."x_max:".$x_max, 3, $logFile);
+        //error_log("\n"."y_min:".$y_min, 3, $logFile);
+        //error_log("\n"."y_max:".$y_max, 3, $logFile);
+        //Vertical merge
+        for($j=$y_max;$j>=$y_min;$j--)
+        {
+             //error_log("\n"."j:".$j, 3, $logFile);
+            $cmd = $this->generate_cmd($j, $x_max, $x_min, $inputFolder, $outputFolder, $imagemagick_convert);
+            shell_exec($cmd);
+        }
+        
+        
+        $cmd = $imagemagick_convert." +append ";
+        for($j=0;$j<=$y_max;$j++)
+        {
+            $cmd = $cmd." ".$outputFolder."/".$j.".png ";
+        }
+        $cmd = $cmd." ".$outputFolder."/final.png";
+        shell_exec($cmd); 
+    }
+    
     public function generateImages($h_filePath, $outputFolder, $ssd_image_dir, $image_tar_dir)
     {
+        $this->cleanFolder($outputFolder);
+        
         $content = file_get_contents($h_filePath);
         $content = trim($content);
         

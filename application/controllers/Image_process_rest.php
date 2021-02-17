@@ -649,11 +649,22 @@ class Image_process_rest extends REST_Controller
         $histogram_folder = $histogram_folder."/".$username;
         $h_filePath = $histogram_folder."/".$image_id.".log";
         
-        $outputFolder = $histogram_folder."/output";
+        $outputFolder = $histogram_folder."/".$image_id;
+        if(!file_exists($outputFolder))
+            mkdir($outputFolder);
+        
+        
+        $stitchedFolder = $outputFolder."/stitched";
+        if(!file_exists($stitchedFolder))
+            mkdir($stitchedFolder);
+        
+        $outputFolder = $outputFolder."/output";
         if(!file_exists($outputFolder))
             mkdir($outputFolder);
         
         $hist->generateImages($h_filePath, $outputFolder, $ssd_image_dir, $image_tar_dir);
+        $imagemagick_convert = $this->config->item("imagemagick_convert");
+        $hist->stitchImages($outputFolder,$stitchedFolder, $imagemagick_convert);
         
         //$content = file_get_contents($h_filePath);
         $array = array();
