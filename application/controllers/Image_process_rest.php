@@ -6,6 +6,7 @@ require_once 'DBUtil.php';
 require_once 'DataLocalUtil.php';
 require_once 'CurlUtil.php';
 require_once 'MailUtil.php';
+require_once 'Histogram.php';
 
 class Image_process_rest extends REST_Controller
 {
@@ -639,14 +640,25 @@ class Image_process_rest extends REST_Controller
     
     public function generate_histogram_post($username, $image_id)
     {
+        $hist = new Histogram();
+        
+        $ssd_image_dir = $this->config->item("ssd_image_dir");
+        $image_tar_dir = $this->config->item("image_tar_dir");
+        
         $histogram_folder = $this->config->item("histogram_folder");
         $histogram_folder = $histogram_folder."/".$username;
         $h_filePath = $histogram_folder."/".$image_id.".log";
         
-        $content = file_get_contents($h_filePath);
+        $outputFolder = $histogram_folder."/output";
+        if(!file_exists($outputFolder))
+            mkdir($outputFolder);
+        
+        $hist->generateImages($h_filePath, $outputFolder, $ssd_image_dir, $image_tar_dir);
+        
+        //$content = file_get_contents($h_filePath);
         $array = array();
         $array['success'] = true;
-        $array['content'] = $content;
+        //$array['content'] = $content;
         $this->response($array);
         return;
     }

@@ -376,52 +376,7 @@
            $place_holder_image = $this->config->item("place_holder_image");
            
           
-          /////////////////Histogram///////////////////////////////
-           $username = "Public";
-           $temp = $this->input->get('username', TRUE);
-           if(!is_null($temp))
-           {
-               $username = trim($temp);
-           }
-           
-           $histogram_folder = $this->config->item("histogram_folder");
-           if(!file_exists($histogram_folder))
-               mkdir($histogram_folder);
-           
-           $histogram_folder = $histogram_folder."/".$username;
-           if(!file_exists($histogram_folder))
-               mkdir($histogram_folder);
-           
-           
-           $query_path = $tar_folder."/".$tar_name."/".$root_folder."/".$z."/".$x."/".$y;
-           $queryArray = explode("/", $query_path);
           
-           $h_filePath = $histogram_folder."/".$tar_folder.".log";
-           if(file_exists($h_filePath))
-           {
-                $content = file_get_contents($h_filePath);
-                $content = trim($content);
-                $deleteH = false;
-                if(strlen($content) > 0)
-                {
-                   $lineArray = explode("\n", $content);
-                   if(count($lineArray) > 0)
-                   {
-                       $line = $lineArray[0];
-                       $line = trim($line);
-                       $lineArray = explode("/", $line);
-
-                       if(strcmp($queryArray[1], $lineArray[1]) !=0 ||  
-                               strcmp($queryArray[2], $lineArray[2]) !=0 ||
-                               strcmp($queryArray[3], $lineArray[3]) !=0)
-                       {
-                           unlink($h_filePath);
-                       }
-                   }
-                }
-           }
-           error_log($query_path."\n", 3, $h_filePath);
-           /////////////////End Histogram///////////////////////////////
            
            
            $red = 255;
@@ -480,7 +435,54 @@
 	        $brightness = -100;
 	   }
 
+           /////////////////Histogram///////////////////////////////
+           $username = "Public";
+           $temp = $this->input->get('username', TRUE);
+           if(!is_null($temp))
+           {
+               $username = trim($temp);
+           }
            
+           $histogram_folder = $this->config->item("histogram_folder");
+           if(!file_exists($histogram_folder))
+               mkdir($histogram_folder);
+           
+           $histogram_folder = $histogram_folder."/".$username;
+           if(!file_exists($histogram_folder))
+               mkdir($histogram_folder);
+           
+           
+           $query_path = $tar_folder."/".$tar_name."/".$root_folder."/".$z."/".$x."/".$y."/".$brightness."/".$contrast;
+           $queryArray = explode("/", $query_path);
+          
+           $h_filePath = $histogram_folder."/".$tar_folder.".log";
+           if(file_exists($h_filePath))
+           {
+                $content = file_get_contents($h_filePath);
+                $content = trim($content);
+                $deleteH = false;
+                if(strlen($content) > 0)
+                {
+                   $lineArray = explode("\n", $content);
+                   if(count($lineArray) > 0)
+                   {
+                       $line = $lineArray[0];
+                       $line = trim($line);
+                       $lineArray = explode("/", $line);
+
+                       if(strcmp($queryArray[1], $lineArray[1]) !=0 ||  
+                               strcmp($queryArray[2], $lineArray[2]) !=0 ||
+                               strcmp($queryArray[3], $lineArray[3]) !=0 ||
+                               strcmp($queryArray[6], $lineArray[6]) !=0 ||
+                               strcmp($queryArray[7], $lineArray[7]) !=0 )
+                       {
+                           unlink($h_filePath);
+                       }
+                   }
+                }
+           }
+           error_log($query_path."\n", 3, $h_filePath);
+           /////////////////End Histogram///////////////////////////////
            
            
            $file = "---";

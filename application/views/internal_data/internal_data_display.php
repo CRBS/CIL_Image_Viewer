@@ -960,7 +960,8 @@
             zindex = parseInt(temp);
             document.getElementById("zindex_value").innerHTML = "Z:"+zindex;
           
-            var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b;
+            var nusername = '<?php echo $username; ?>';
+            var url = "<?php echo $serverName; ?>/Leaflet_data/tar_filter/<?php echo $folder_postfix; ?>/"+zindex+".tar/"+zindex+"/{z}/{x}/{y}.png?red="+red+"&green="+green+"&blue="+blue+"&contrast="+c+"&brightness="+b+"&username="+nusername;
             console.log(url);
             
             document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
