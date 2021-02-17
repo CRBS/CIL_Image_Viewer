@@ -24,6 +24,14 @@ class Histogram
         
     }
     
+    private function scale($value,$max,$height,$scale=FALSE){
+        $result=$value/$max; //normalization: value between 0 and 1
+        $result=$scale?$result**0.5:$result; //sqrt scale       
+        $result=$height-round($result*$height); //scaling to image height
+        return $result;
+    }
+    
+    
     private function generate_cmd($col, $max_x, $min_x, $inputFolder, $outputFolder, $imagemagick_convert)
     {
         $logFile = $outputFolder."/cmd.log";
@@ -229,6 +237,63 @@ class Histogram
             }
            
         }
+    }
+    
+    public function generateHistogram($outputFolder)
+    {
+        $filename=$outputFolder."/final.png";
+        $img=imagecreatefrompng($filename);
+
+        $width = imagesx($img);
+        $height = imagesy($img);
+        $type = IMAGETYPE_PNG;
+
+
+        echo $width."-----".$height;
+
+        //Histogram initialization
+        $hist = array(
+          'red'=>array_fill(0,256,0),
+          'green'=>array_fill(0,256,0),
+          'blue'=>array_fill(0,256,0)
+        );
+
+        //Counting colors
+        for($x=0;$x<$width;++$x){
+            for($y=0;$y<$height;++$y){          
+                $bytes=imagecolorat($img,$x,$y);
+                $colors=imagecolorsforindex($img,$bytes);
+                ++$hist['red'][$colors['red']];
+                ++$hist['green'][$colors['green']];
+                ++$hist['blue'][$colors['blue']];
+            }
+        }
+
+        //Drawing histogram as a 256x128px image            
+        $width=256;
+        $height=128;
+
+        $newimg=imagecreatetruecolor($width,$height);    
+        //Max frequency for normalization
+        $maxr=max($hist['red']);
+        $maxg=max($hist['green']);                
+        $maxb=max($hist['blue']);             
+        $max=max($maxr,$maxg,$maxb);
+        
+        $top=220; //255 seems too bright to me
+        for($x=0;$x<$width;++$x){
+            for($y=0;$y<$height;++$y){          
+                $r=($y>$this->scale($hist['red'][$x],$maxr,$height,TRUE))?$top:0;
+                $g=($y>$this->scale($hist['green'][$x],$maxg,$height,TRUE))?$top:0;
+                $b=($y>$this->scale($hist['blue'][$x],$maxb,$height,TRUE))?$top:0;
+
+                $colors=imagecolorallocate($newimg,$r,$g,$b);
+                imagesetpixel($newimg,$x,$y,$colors);
+            }
+        }
+
+        //Saving the histogram as you need
+        imagepng($newimg,$outputFolder.'/histogram.png');
     }
 }
 

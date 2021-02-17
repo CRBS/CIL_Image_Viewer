@@ -665,6 +665,7 @@ class Image_process_rest extends REST_Controller
         $hist->generateImages($h_filePath, $outputFolder, $ssd_image_dir, $image_tar_dir);
         $imagemagick_convert = $this->config->item("imagemagick_convert");
         $hist->stitchImages($outputFolder,$stitchedFolder, $imagemagick_convert);
+        $hist->generateHistogram($stitchedFolder);
         
         //$content = file_get_contents($h_filePath);
         $array = array();
