@@ -249,7 +249,7 @@ class Histogram
         $type = IMAGETYPE_PNG;
 
 
-        echo $width."-----".$height;
+        //echo $width."-----".$height;
 
         //Histogram initialization
         $hist = array(

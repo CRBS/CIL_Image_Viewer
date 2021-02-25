@@ -640,6 +640,7 @@ class Image_process_rest extends REST_Controller
     
     public function generate_histogram_post($username, $image_id)
     {
+        error_reporting(0);
         $hist = new Histogram();
         
         $ssd_image_dir = $this->config->item("ssd_image_dir");
@@ -667,7 +668,7 @@ class Image_process_rest extends REST_Controller
         $hist->stitchImages($outputFolder,$stitchedFolder, $imagemagick_convert);
         $hist->generateHistogram($stitchedFolder);
         
-        //$content = file_get_contents($h_filePath);
+        
         $array = array();
         $array['success'] = true;
         //$array['content'] = $content;
