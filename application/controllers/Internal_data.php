@@ -29,6 +29,36 @@
             return true;
         }
         
+        
+        public function get_histogram_image($username, $image_id)
+        {
+            $histogram_folder = $this->config->item('histogram_folder');
+            $filename = $histogram_folder."/".$username."/".$image_id."/stitched/histogram.png";
+
+            if(file_exists($filename))
+            { 
+                $mime = "image/png"; //<-- detect file type
+                header('Content-Length: '.filesize($filename)); //<-- sends filesize header
+                header("Content-Type: $mime"); //<-- send mime-type header
+                header('Content-Disposition: inline; filename="'.$filename.'";'); //<-- sends filename header
+                readfile($filename); //<--reads and outputs the file onto the output buffer
+                die(); //<--cleanup
+                exit; //and exit
+            }
+            else 
+            {
+                $filename = $histogram_folder."/default.png";
+                $mime = "image/png"; //<-- detect file type
+                header('Content-Length: '.filesize($filename)); //<-- sends filesize header
+                header("Content-Type: $mime"); //<-- send mime-type header
+                header('Content-Disposition: inline; filename="'.$filename.'";'); //<-- sends filename header
+                readfile($filename); //<--reads and outputs the file onto the output buffer
+                die(); //<--cleanup
+                exit; //and exit
+            }
+        }
+        
+        
         public function view($image_id="0")
         {
             $this->load->helper('url');

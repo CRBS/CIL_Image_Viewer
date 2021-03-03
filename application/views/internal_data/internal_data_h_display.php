@@ -206,6 +206,96 @@
         </div>
         
     
+    
+        <!-----------New row------------------>
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Spinning Modal--------------------->    
+            <div class="modal fade" id="spin_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="cig_error_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Waiting...</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="settings-modal-body-id">
+
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <center><!--<i class="fa fa-spinner fa-spin" style="font-size:48px;color:#ccccff"></i>--> <div class="loader"></div> </center>
+                            </div>
+                            <div class="col-md-12">
+                                <center>Generating a histogram...</center>
+                            </div>
+                            <div class="col-md-12">
+                                <center><div id='seconds-counter'> </div></center>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Spinning Modal----------------->  
+            </div>
+        </div>
+        
+        <!-----------End new row--------------->
+    
+        
+        
+        <!-----------New row------------------>
+        <div class="row">
+            <div class="col-md-12">
+            <!----------histogram result Modal--------------------->    
+            <div class="modal fade" id="hist_result_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="hist_d_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #8bc4ea">
+                      <h5 class="modal-title" style="color:white">Histogram</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="settings-modal-body-id">
+
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <center><img id="histogram_image_id" src="/internal_data/get_histogram_image/<?php echo $username; ?>/<?php echo $image_id; ?>?<?php echo microtime(); ?>"  /> </center>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            
+            
+          
+            <!----------End histogram result Modal----------------->  
+            </div>
+        </div>
+        
+        <!-----------End new row--------------->
+        
+    
+    
+    
         <div class="row">
             <div class="col-md-12">
             <!----------Settings Model--------------------->    
@@ -1062,8 +1152,20 @@
                 
                 console.log('Done with hist_click_func');
                 console.log(returnedData);
+                $('#spin_modal_id').modal('hide');
+                document.getElementById('histogram_image_id').src = '/internal_data/get_histogram_image/<?php echo $username; ?>/<?php echo $image_id; ?>?<?php echo microtime(); ?>';
+                $("#hist_result_modal_id").modal('show');
+                
             });
             console.log('Out of the function');
+            
+            
+            $('#spin_modal_id').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            
+            $("#spin_modal_id").modal('show');
         }
         
         function notes_click_func()

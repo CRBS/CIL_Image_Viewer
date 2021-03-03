@@ -239,6 +239,9 @@ class Histogram
         }
     }
     
+    
+
+    
     public function generateHistogram($outputFolder)
     {
         $filename=$outputFolder."/final.png";
