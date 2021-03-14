@@ -58,7 +58,7 @@ class Cdeep3m_result extends CI_Controller
         $cutil = new CurlUtil();
         $dbutil = new DBUtil();
         $db_params = $this->config->item('db_params');
-        
+        $cdeep3m_result_path_prefix = $this->config->item('cdeep3m_result_path_prefix');
         
         $doi2nameMap  = $dbutil->getAllDoi2ModelName($db_params);
         if(!is_null($doi2nameMap))
@@ -74,7 +74,7 @@ class Cdeep3m_result extends CI_Controller
         $location_results = $dbutil->getLocationResults($db_params, $x, $y, $image_id);
         
         $data['location_results'] = $location_results;
-        
+        $data['cdeep3m_result_path_prefix'] = $cdeep3m_result_path_prefix;
         
         $this->load->view('cdeep3m/view_cdeep3m_location_results', $data);
     }

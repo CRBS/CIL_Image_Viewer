@@ -36,7 +36,22 @@ foreach($location_results as $lr)
 <div class="row">
     <div class="col-md-6">
         
-        <img src ="https://iruka.crbs.ucsd.edu/cdeep3m_results/<?php echo $lr->id; ?>/overlay/overlay_002.png" width="512px"/>
+       <!--  <img src ="https://iruka.crbs.ucsd.edu/cdeep3m_results/<?php //echo $lr->id; ?>/overlay/overlay_002.png" width="512px"/> -->
+        
+        <?php
+        
+            $process_id = $lr->id;
+            $image_path0 = $cdeep3m_result_path_prefix."/".$process_id."/overlay/overlay_002.png";
+            $image_path1 = $cdeep3m_result_path_prefix."/".$process_id."/overlay/overlay_0002.png";
+        
+            $image_name = "none";
+            if(file_exists($image_path0))
+                $image_name = "overlay_002.png";
+            else if(file_exists($image_path1))
+                $image_name = "overlay_0002.png";
+        ?>
+        <img src ="https://iruka.crbs.ucsd.edu/cdeep3m_results/<?php echo $lr->id; ?>/overlay/<?php echo $image_name; ?>" width="512px"/>
+        
     </div>
     <div class="col-md-6">
         <div class="row">
