@@ -51,6 +51,9 @@ class Super_pixel extends CI_Controller
         
         $super_pixel_prefix = $this->config->item('super_pixel_prefix');
         $subFolder1 = $super_pixel_prefix."/".$sp_id;
+        if(file_exists($subFolder1))
+            mkdir ($subFolder1);
+        
         $genMaskLog = $subFolder1."/genMask.log";
         $command = "ls ".$subFolder1;
         error_log("\n".$command,3,$genMaskLog);  
@@ -506,7 +509,7 @@ class Super_pixel extends CI_Controller
             /***********End Recalculate parameters****************/
             
             
-            $this->load->view('super_pixel/super_pixel_display', $data);
+            $this->load->view('super_pixel/super_pixel_display3', $data);
         }
         
         
