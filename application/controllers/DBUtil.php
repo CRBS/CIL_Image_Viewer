@@ -500,6 +500,8 @@ class DBUtil
     
     public function getTrainingModelsProd($cil_pgsql_db)
     {
+        //echo "<br/>getTrainingModelsProd";
+        
         $conn = pg_pconnect($cil_pgsql_db);
         if (!$conn) 
             return null;
@@ -526,15 +528,44 @@ class DBUtil
                 {
                     $array['name'] = $metadata_json->Cdeepdm_model->Name;
                 }
+                
+                if(!is_null($metadata_json) && isset($metadata_json->Cdeepdm_model->Version_number))
+                {
+                    $array['Version_number'] = $metadata_json->Cdeepdm_model->Version_number;
+                }
+                else 
+                {
+                    $array['Version_number'] = "Unknown";
+                }
             }
             $array['doi_url'] = "https://doi.org/10.7295/W9CDEEP3M".$id;
             array_push($main, $array);
         }
         pg_close($conn);
+        $main = $this->sortTrainedModelByVersion($main);
         $json_str = json_encode($main);
         $json = json_decode($json_str);
         return $json;
     }
+    
+    private function sortTrainedModelByVersion($modelArray)
+    {
+        $newModel = array();
+        $gutil = new GeneralUtil();
+        foreach($modelArray as $model)
+        {
+            if($gutil->startsWith($model['Version_number'], "2"))
+                array_push ($newModel, $model);
+        }
+        foreach($modelArray as $model)
+        {
+            if(!$gutil->startsWith($model['Version_number'], "2"))
+                array_push ($newModel, $model);
+        }
+        return $newModel;
+    }
+    
+    
     public function getTrainingModels($db_params)
     {
         $conn = pg_pconnect($db_params);

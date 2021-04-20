@@ -443,6 +443,7 @@
                $username = trim($temp);
            }
            
+           
            $histogram_folder = $this->config->item("histogram_folder");
            if(!file_exists($histogram_folder))
                mkdir($histogram_folder);
@@ -481,7 +482,7 @@
                    }
                 }
            }
-           error_log($query_path."\n", 3, $h_filePath);
+           error_log($query_path."\n", 3, $h_filePath); 
            /////////////////End Histogram///////////////////////////////
            
            

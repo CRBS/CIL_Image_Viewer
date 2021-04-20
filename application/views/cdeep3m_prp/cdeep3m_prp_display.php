@@ -1,3 +1,12 @@
+<?php
+    function startsWith($haystack, $needle)
+    {
+         $length = strlen($needle);
+         return (substr($haystack, 0, $length) === $needle);
+    }
+
+?>
+
 <html>
 <head>
     <title><?php if(isset($title)) echo $title; ?></title>
@@ -519,7 +528,7 @@
                                 <select name="ct_training_models" id="ct_training_models" class="form-control" onchange="showRuntime()">
                                    
                                     <?php
-                                     
+                                        
                                         //if(true)
                                         if(!isset($cdeep3m_settings))
                                         {
@@ -529,7 +538,11 @@
                                                 {
                                                     //echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
                                                     $postfix = str_replace("https://doi.org/10.7295/W9CDEEP3M", "", $tm->doi_url);
-                                                    echo "<option value=\"".$tm->doi_url."\">".$tm->name." (".$postfix.")</option>";
+                                                    
+                                                    if(startsWith($tm->Version_number, "2"))
+                                                        echo "<option value=\"".$tm->doi_url."\" style='color:#29a329'>".$tm->name." (".$postfix.") [v".$tm->Version_number."]</option>";    
+                                                    else
+                                                        echo "<option value=\"".$tm->doi_url."\">".$tm->name." (".$postfix.") [v".$tm->Version_number."]</option>";
                                                 }
                                             }
                                             
@@ -547,9 +560,13 @@
                                                     {
                                                         //echo "<option value=\"".$tm->doi_url."\">".$tm->name."</option>";
                                                         $postfix = str_replace("https://doi.org/10.7295/W9CDEEP3M", "", $tm->doi_url);
-                                                        echo "<option value=\"".$tm->doi_url."\">".$tm->name." (".$cid.")</option>";
+                                                        if(startsWith($tm->Version_number, "2"))
+                                                            echo "<option value=\"".$tm->doi_url."\" style='color:#29a329'>".$tm->name." (".$cid.") [v".$tm->Version_number."]</option>";    
+                                                        else
+                                                            echo "<option value=\"".$tm->doi_url."\" >".$tm->name." (".$cid.") [v".$tm->Version_number."]</option>";
                                                         
                                                     }
+                                                    
 
                                                 }
                                             }
