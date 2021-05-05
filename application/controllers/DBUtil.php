@@ -11,6 +11,40 @@ class DBUtil
     private $success = "success";
    
     
+    public function getAllNcmirUsers($db_params)
+    {
+        $mainArray = array();
+        $sql = "select u.username, u.email, u.full_name from cil_users u, cil_user_groups g ".
+               " where u.username = g.username and g.group_name =  'ncmir' order by u.full_name asc";
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return $mainArray;
+        }
+        
+        $result = pg_query($conn,$sql);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return $mainArray;
+        }
+        
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['username'] = $row[0];
+            $array['email'] = $row[1];
+            $array['full_name'] = $row[2];
+            
+            array_push($mainArray, $array);
+        }
+        
+        pg_close($conn);
+        return $mainArray;
+        
+    }
+    
     public function handleImageUpdate($db_params,$image_id,$array)
     {
         if($this->imageExist($db_params, $image_id))

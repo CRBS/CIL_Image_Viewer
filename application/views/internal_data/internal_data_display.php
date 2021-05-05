@@ -161,13 +161,19 @@
                 <a id="settings_id" href="#">&#x2699;</a>&nbsp;<a href="/faq/internal_data" target="_blank"> FAQ</a>
             </div>
         </div>
+    
+    
+    
+    
+        <!---------------------------Model ROW---------------------------------------------------->
         <div class="row">
             <div class="col-md-12">
             <!----------Annotation Model--------------------->    
             <div class="modal fade" id="annotation_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" id="cig_error_modal_id">
                   <div class="modal-content" >
-                    <div class="modal-header" style="background-color: #ccccff">
+                    <!-- <div class="modal-header" style="background-color: #ccccff"> -->
+                    <div class="modal-header" style="background-color: #4582EC; color: white">
                       <h5 class="modal-title">Annotation</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
@@ -190,7 +196,13 @@
                         
                         <div class="row">
                             <div class="col-md-12">
-                                <center><button id="submit_annotation_id" type="button" class="btn btn-info" data-dismiss="modal">Submit</button></center>
+                                <center><button id="submit_annotation_id" type="button" class="btn btn-info" data-dismiss="modal">Save description</button></center>
+                            </div>
+                        </div>
+                        <hr>
+                         <div class="row">
+                            <div class="col-md-12">
+                                <center><button id="manage_priority_id" type="button" class="btn btn-outline-primary" onclick="manage_priority()">Manage priorities</button></center>
                             </div>
                         </div>
                     </div>
@@ -204,6 +216,52 @@
             <!----------End Annotation Model----------------->  
             </div>
         </div>
+        <!---------------------End model row-------------------------------------------------------->
+        
+        
+        
+        
+        <!---------------------------Model ROW---------------------------------------------------->
+        <div class="row">
+            <div class="col-md-12">
+            <!----------Annotation Model--------------------->    
+            <div class="modal fade" id="priority_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" >
+                  <div class="modal-content" >
+                    
+                    <div class="modal-header" style="background-color: #4582EC; color: white">
+                      <h5 class="modal-title">Manage priorities</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="priority-modal-body-id">
+                        <div class="row">
+                            <div class="col-md-4">Annotation ID:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_object_id" name="annotation_object_id" value="0" disabled>
+                            </div>
+                            <hr style="height:10px; visibility:hidden;">
+                            <div class="col-md-4">Reporter:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_reporter_id" name="annotation_reporter_id" value="0" disabled>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-primary" onclick="back_to_annotation()">Back to Annotation</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End Annotation Model----------------->  
+            </div>
+        </div>
+        <!---------------------End model row-------------------------------------------------------->
+        
+        
         
     
         <div class="row">
@@ -540,7 +598,7 @@
                 '<button id="share_btn_id" name="share_btn_id" type="button" class="btn btn-primary">Share</button>&nbsp;&nbsp;<button  id="search_btn_id" name="search_btn_id" type="button" class="btn btn-primary">Search</button>';            
         
         var notes = '<button id="notes_btn_id" name="notes_btn_id" type="button" class="btn btn-primary">Notes</button>';
-        notes = notes+'&nbsp;&nbsp;<button id="hist_btn_id" name="hist_btn_id" type="button" class="btn btn-primary">Histogram</button>';
+        //notes = notes+'&nbsp;&nbsp;<button id="hist_btn_id" name="hist_btn_id" type="button" class="btn btn-primary">Histogram</button>';
                     
         var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
                     
@@ -1009,7 +1067,7 @@
         document.getElementById("search_btn_id").addEventListener ("click", search_click_func, false);
         
         document.getElementById("notes_btn_id").addEventListener ("click", notes_click_func, false);
-        document.getElementById("hist_btn_id").addEventListener ("click", hist_click_func, false);
+        //document.getElementById("hist_btn_id").addEventListener ("click", hist_click_func, false);
         
         document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
         document.getElementById("keywords_search_btn_id").addEventListener ("click", keyword_search_func, false);
@@ -1505,4 +1563,38 @@ onElementHeightChange(document.body, function(){
 });   
     
     
+</script>
+
+
+<script>  
+    
+    function manage_priority()
+    {
+        console.log('manage_priority');
+        
+        
+        if(selectedLayer === undefined || selectedLayer === null)
+        {
+            //Do nothing
+        }
+        else 
+        {
+            var selectedFeature =  selectedLayer.feature;
+            var selectedProps =  selectedFeature.properties;
+            document.getElementById('annotation_object_id').value = selectedProps.id;
+            document.getElementById('annotation_reporter_id').value = selectedProps.full_name;
+            
+            $("#annotation_modal_id").modal('hide');
+            $("#priority_modal_id").modal('show');
+            
+            
+        }
+    }
+    
+    function back_to_annotation()
+    {
+        $("#priority_modal_id").modal('hide');
+        $("#annotation_modal_id").modal('show');
+        
+    }
 </script>

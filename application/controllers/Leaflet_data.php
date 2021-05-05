@@ -436,7 +436,7 @@
 	   }
 
            /////////////////Histogram///////////////////////////////
-           $username = "Public";
+           /*$username = "Public";
            $temp = $this->input->get('username', TRUE);
            if(!is_null($temp))
            {
@@ -482,7 +482,7 @@
                    }
                 }
            }
-           error_log($query_path."\n", 3, $h_filePath); 
+           error_log($query_path."\n", 3, $h_filePath); */
            /////////////////End Histogram///////////////////////////////
            
            

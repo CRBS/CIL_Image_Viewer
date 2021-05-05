@@ -236,8 +236,8 @@
                 
                 if(!$json->is_timeseries)
                 {
-                    //$this->load->view('internal_data/internal_data_display', $data);
-                    $this->load->view('internal_data/internal_data_h_display', $data);
+                    $this->load->view('internal_data/internal_data_display', $data);
+                    //$this->load->view('internal_data/internal_data_h_display', $data);
                 }
                 
             }
