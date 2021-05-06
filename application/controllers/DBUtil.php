@@ -11,7 +11,7 @@ class DBUtil
     private $success = "success";
    
     
-    public function getAllNcmirUsers($db_params)
+    public function getAllAnnotators($db_params)
     {
         $mainArray = array();
         $sql = "select u.username, u.email, u.full_name from cil_users u, cil_user_groups g ".

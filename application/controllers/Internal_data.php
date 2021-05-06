@@ -234,6 +234,8 @@
                     $data['max_y'] = $json->max_y;
                 
                 
+                $data['annotators'] = $dbutil->getAllAnnotators($cil_pgsql_db);
+                
                 if(!$json->is_timeseries)
                 {
                     $this->load->view('internal_data/internal_data_display', $data);

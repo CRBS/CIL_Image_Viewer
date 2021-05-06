@@ -64,6 +64,26 @@
 </head>
 
 <body>
+    
+<script> 
+    var annotator_json = [];
+    
+    var username2fullname = [];
+    var username2email = [];
+    <?php
+    
+        foreach($annotators as $annotator)
+        {
+    ?>
+            username2fullname['<?php echo $annotator['username'];  ?>'] = '<?php echo $annotator['full_name'];  ?>';
+            username2email['<?php echo $annotator['username'];  ?>'] = '<?php echo $annotator['email'];  ?>';
+    <?php
+        }
+    ?>
+    
+     
+    
+</script>
 <div class="container">
         <div class="row">
             <div class="col-md-2">
@@ -239,15 +259,74 @@
                         <div class="row">
                             <div class="col-md-4">Annotation ID:</div>
                             <div class="col-md-8">
-                                <input type="text" id="annotation_object_id" name="annotation_object_id" value="0" disabled>
-                            </div>
-                            <hr style="height:10px; visibility:hidden;">
-                            <div class="col-md-4">Reporter:</div>
+                                <input type="text" id="annotation_object_id" name="annotation_object_id" class="form-control" value="0" disabled>
+                            </div>  
+                        </div>
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Priority:</div>
                             <div class="col-md-8">
-                                <input type="text" id="annotation_reporter_id" name="annotation_reporter_id" value="0" disabled>
+                                <select id="priority_id" name="priority_id" class="form-control" >
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
                             </div>
                         </div>
                         
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Reporter:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_reporter_id" name="annotation_reporter_id" class="form-control" value="0" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Assignee:</div>
+                            <div class="col-md-8">
+                                <select id="annotator_list_id" name="annotator_list_id" class="form-control" onchange="select_assignee()">
+                                    <option value="0">Select a user</option>
+                                    <?php
+                                        foreach($annotators as $annotator)
+                                        {
+                                    ?>
+                                    <option value="<?php echo $annotator['username'] ?>"><?php echo $annotator['full_name']." (".$annotator['email'].")"; ?></option>
+                                    <?php
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style=" margin-top:10px;" id="assigned_row_id" name="assigned_row_id"></div>
+                        
+                        
+                        
+                        <div class="row" id="assignee_json_div">
+                            <div class="col-md-12">
+                                <textarea id="assignee_json_str_id" name="assignee_json_str_id" rows="4" cols="50" class="form-control" value=""></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-12">
+                                <center><input class="btn btn-primary" type="submit" value="Submit"></center>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-outline-primary" onclick="back_to_annotation()">Back to Annotation</button>
@@ -259,6 +338,9 @@
             <!----------End Annotation Model----------------->  
             </div>
         </div>
+       
+           
+        
         <!---------------------End model row-------------------------------------------------------->
         
         
@@ -1597,4 +1679,53 @@ onElementHeightChange(document.body, function(){
         $("#annotation_modal_id").modal('show');
         
     }
+    
+    
+    function select_assignee()
+    {
+        var annotator_option = document.getElementById( "annotator_list_id" );
+        var username =  annotator_option.options[ annotator_option.selectedIndex ].value
+        //console.log(username);
+        if(username != "0")
+        {
+            if(!annotator_json.includes(username))
+            {
+                annotator_json.push(username);
+                console.log(annotator_json);
+                
+                printAssignList();
+                /*
+                var assigned_row = document.getElementById('assigned_row_id');
+                var newRow = "\n<div class='col-md-12'>"+username+"</div>";
+                assigned_row.innerHTML = assigned_row.innerHTML+newRow;
+                */
+            }
+        }
+        document.getElementById('assignee_json_str_id').value = JSON.stringify(annotator_json);
+        annotator_option.selectedIndex = 0;
+    }
+    
+    function removeAnnotator(username)
+    {
+        annotator_json.splice(annotator_json.indexOf(username), 1);
+        console.log(annotator_json);
+        document.getElementById('assignee_json_str_id').value = JSON.stringify(annotator_json);
+        printAssignList();
+    }
+    
+    function printAssignList()
+    {
+        var assigned_row = document.getElementById('assigned_row_id');
+        assigned_row.innerHTML = '';
+        var i;
+        for (i = 0; i < annotator_json.length; i++) 
+        {
+            var full_name = username2fullname[annotator_json[i]];
+            var email = username2email[annotator_json[i]];
+            var newRow = "\n<div class='col-md-12'>"+full_name+" ("+email+")"+"<a href='#' onclick='removeAnnotator(\""+annotator_json[i]+"\")'> &#10008;</a></div>";
+            assigned_row.innerHTML = assigned_row.innerHTML+newRow;
+        } 
+    }
+    
+     document.getElementById('assignee_json_str_id').value = "";
 </script>
