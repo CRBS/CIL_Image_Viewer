@@ -244,6 +244,7 @@
         <!---------------------------Model ROW---------------------------------------------------->
         <div class="row">
             <div class="col-md-12">
+            <form action="/internal_data/submit_priority/<?php echo $image_id; ?>" method="POST">
             <!----------Annotation Model--------------------->    
             <div class="modal fade" id="priority_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" >
@@ -259,9 +260,47 @@
                         <div class="row">
                             <div class="col-md-4">Annotation ID:</div>
                             <div class="col-md-8">
-                                <input type="text" id="annotation_object_id" name="annotation_object_id" class="form-control" value="0" disabled>
+                                <input type="text" id="annotation_object_id" name="annotation_object_id" class="form-control" value="0" readonly>
                             </div>  
                         </div>
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Z index:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_zindex_id" name="annotation_zindex_id" class="form-control" value="0" readonly>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Lat:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_lat_id" name="annotation_lat_id" class="form-control" value="0" readonly>
+                            </div>
+                        </div>
+                        
+                         <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Lng:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_lng_id" name="annotation_lng_id" class="form-control" value="0" readonly>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Zoom:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_zoom_id" name="annotation_zoom_id" class="form-control" value="0" readonly>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-12">
+                                <textarea id="priority_desc_id" name="priority_desc_id" rows="4" cols="50" class="form-control" value=""></textarea>
+                            </div>
+                        </div>
+                        
                         
                         <div class="row" style=" margin-top:10px;">
                             <div class="col-md-4">Priority:</div>
@@ -274,12 +313,23 @@
                             </div>
                         </div>
                         
+                        
+                        
+                        
                         <div class="row" style=" margin-top:10px;">
                             <div class="col-md-4">Reporter:</div>
                             <div class="col-md-8">
-                                <input type="text" id="annotation_reporter_id" name="annotation_reporter_id" class="form-control" value="0" disabled>
+                                <input type="text" id="annotation_reporter_id" name="annotation_reporter_id" class="form-control" value="0" readonly>
                             </div>
                         </div>
+                        
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Reporter username:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_reporter_username_id" name="annotation_reporter_username_id" class="form-control" value="0" readonly>
+                            </div>
+                        </div>
+                        
                         
                         <div class="row" style=" margin-top:10px;">
                             <div class="col-md-4">Assignee:</div>
@@ -335,6 +385,7 @@
                   </div>
                 </div>
             </div>
+            </form>
             <!----------End Annotation Model----------------->  
             </div>
         </div>
@@ -1665,7 +1716,12 @@ onElementHeightChange(document.body, function(){
             var selectedProps =  selectedFeature.properties;
             document.getElementById('annotation_object_id').value = selectedProps.id;
             document.getElementById('annotation_reporter_id').value = selectedProps.full_name;
-            
+            document.getElementById('annotation_reporter_username_id').value = selectedProps.username;
+            document.getElementById('annotation_zindex_id').value = selectedProps.zindex;
+            document.getElementById('annotation_lat_id').value = selectedProps.lat;
+            document.getElementById('annotation_lng_id').value = selectedProps.lng;
+            document.getElementById('annotation_zoom_id').value = selectedProps.zoom;
+            document.getElementById('priority_desc_id').value = selectedProps.desc;
             $("#annotation_modal_id").modal('hide');
             $("#priority_modal_id").modal('show');
             
@@ -1727,5 +1783,8 @@ onElementHeightChange(document.body, function(){
         } 
     }
     
-     document.getElementById('assignee_json_str_id').value = "";
+    
+    var assignee_json_div =  document.getElementById('assignee_json_str_id');
+    assignee_json_div.value = "";
+    assignee_json_div.style.display = "none";
 </script>

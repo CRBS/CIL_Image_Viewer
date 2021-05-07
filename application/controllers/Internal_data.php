@@ -6,6 +6,32 @@
     require_once 'Constants.php';
     class Internal_data extends CI_Controller
     {
+        
+        
+        public function submit_priority($image_id)
+        {
+            echo "<br/>submit_priority:".$image_id;
+            $annotation_object_id = $this->input->post('annotation_object_id', TRUE);
+            echo "<br/>annotation ID:".$annotation_object_id;
+            $zindex = $this->input->post('annotation_zindex_id', TRUE);
+            echo "<br/>Zindex:".$zindex;
+            $lat = $this->input->post('annotation_lat_id', TRUE);
+            echo "<br/>Lat:".$lat;
+            $lng = $this->input->post('annotation_lng_id', TRUE);
+            echo "<br/>Lat:".$lng;
+            $zoom = $this->input->post('annotation_zoom_id', TRUE);
+            echo "<br/>Zoom:".$zoom;
+            $desc = $this->input->post('priority_desc_id', TRUE);
+            echo "<br/>Desc:".$desc;
+            $priority = $this->input->post('priority_id', TRUE);
+            echo "<br/>Priority:".$priority;
+            $reporter_username = $this->input->post('annotation_reporter_username_id', TRUE);
+            echo "<br/>Reporter username:".$reporter_username;
+            $assignee_json_str = $this->input->post('assignee_json_str_id', TRUE);
+            echo "<br/>".$assignee_json_str;
+        }
+        
+        
         private function authenticateByToken($username, $token,$ip_address)
         {
             $cil_pgsql_db = $this->config->item('cil_pgsql_db');
