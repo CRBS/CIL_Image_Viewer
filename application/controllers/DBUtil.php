@@ -10,7 +10,43 @@ class DBUtil
     
     private $success = "success";
    
-    
+    public function insertAnnotationPriority($cil_pgsql_db, $inputJson)
+    {
+        $sql = "insert into internal_proj_priority(id, annotation_id, image_id, ".
+               " zindex, reporter, priority_name, proprity_index, ".
+               " description, lat, lng, zoom, assign_time) ".
+               " values(nextval('general_seq'),$1, $2, ".
+               " $3, $4, $5, $6, ".
+               " $7, $8, $9, $10, now())";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $inputJson->annotation_id); //1
+        array_push($input, $inputJson->image_id); //2
+        array_push($input, $inputJson->zindex); //3
+        array_push($input, $inputJson->reporter); //4
+        array_push($input, $inputJson->priority_name); //5
+        array_push($input, $inputJson->proprity_index);  //6
+        array_push($input, $inputJson->description); //7
+        array_push($input, $inputJson->lat); //8
+        array_push($input, $inputJson->lng); //9
+        array_push($input, $inputJson->zoom); //10
+        
+        $result = pg_query_params($conn, $sql, $input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+        
+        
+    }
     public function getAllAnnotators($db_params)
     {
         $mainArray = array();

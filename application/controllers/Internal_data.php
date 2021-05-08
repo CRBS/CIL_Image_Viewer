@@ -10,6 +10,7 @@
         
         public function submit_priority($image_id)
         {
+            $dbutil = new DBUtil();
             echo "<br/>submit_priority:".$image_id;
             $annotation_object_id = $this->input->post('annotation_object_id', TRUE);
             echo "<br/>annotation ID:".$annotation_object_id;
@@ -18,7 +19,7 @@
             $lat = $this->input->post('annotation_lat_id', TRUE);
             echo "<br/>Lat:".$lat;
             $lng = $this->input->post('annotation_lng_id', TRUE);
-            echo "<br/>Lat:".$lng;
+            echo "<br/>Lng:".$lng;
             $zoom = $this->input->post('annotation_zoom_id', TRUE);
             echo "<br/>Zoom:".$zoom;
             $desc = $this->input->post('priority_desc_id', TRUE);
@@ -29,6 +30,31 @@
             echo "<br/>Reporter username:".$reporter_username;
             $assignee_json_str = $this->input->post('assignee_json_str_id', TRUE);
             echo "<br/>".$assignee_json_str;
+            
+            $proprity_index = 0;
+            if(strcmp($priority, "high") == 0)
+               $proprity_index = 2;
+            else if(strcmp($priority, "medium") == 0)
+               $proprity_index = 1;
+            
+                
+            
+            $inputArray = array();
+            $inputArray['annotation_id'] = $annotation_object_id;
+            $inputArray['image_id'] = $image_id;
+            $inputArray['zindex'] = intval($zindex);
+            $inputArray['reporter'] = $reporter_username;
+            $inputArray['priority_name'] = $priority;
+            $inputArray['proprity_index'] = $proprity_index;
+            $inputArray['description'] = $desc;
+            $inputArray['lat'] = $lat;
+            $inputArray['lng'] = $lng;
+            $inputArray['zoom'] = intval($zoom);
+            
+            $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+            $inputJsonStr = json_encode($inputArray);
+            $inputJson = json_decode($inputJsonStr);
+            $dbutil->insertAnnotationPriority($cil_pgsql_db, $inputJson);
         }
         
         
