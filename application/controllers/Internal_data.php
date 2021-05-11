@@ -30,6 +30,7 @@
             echo "<br/>Reporter username:".$reporter_username;
             $assignee_json_str = $this->input->post('assignee_json_str_id', TRUE);
             echo "<br/>".$assignee_json_str;
+            $assignees = json_decode($assignee_json_str);
             
             $proprity_index = 0;
             if(strcmp($priority, "high") == 0)
@@ -54,7 +55,15 @@
             $cil_pgsql_db = $this->config->item('cil_pgsql_db');
             $inputJsonStr = json_encode($inputArray);
             $inputJson = json_decode($inputJsonStr);
-            $dbutil->insertAnnotationPriority($cil_pgsql_db, $inputJson);
+            if(!$dbutil->priorityExists($cil_pgsql_db, $annotation_object_id))
+                $dbutil->insertAnnotationPriority($cil_pgsql_db, $inputJson);
+            $dbutil->deletePriorityAssigneeByAnnotID($cil_pgsql_db, $annotation_object_id);
+            $userInfoArray = $dbutil->getUserInfoByUsernames($cil_pgsql_db, $assignees);
+            
+            foreach($userInfoArray as $userInfo)
+            {
+                $dbutil->insertPriorityAssignee($cil_pgsql_db, $userInfo['username'], $userInfo['full_name'], $userInfo['email'], $annotation_object_id);
+            }
         }
         
         

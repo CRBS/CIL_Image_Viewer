@@ -9,7 +9,131 @@ class DBUtil
     */
     
     private $success = "success";
+    
+    
+    public function priorityExists($cil_pgsql_db, $annotation_id)
+    {
+        $sql = "select id from internal_proj_priority where annotation_id = $1";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $annotation_id);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            pg_close($conn);
+            return true;
+        }
+        
+        pg_close($conn);
+        return false;
+    }
+    
+    public function getUserInfoByUsernames($cil_pgsql_db, $usernames)
+    {
+        $userInfoArray = array();
+    
+        $userSql = "(";
+        $index = 0;
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return $userInfoArray;
+        
+        foreach($usernames as $username)
+        {
+            if($index > 0)
+                $userSql = $userSql.", ";
+            
+            $userSql = $userSql."'".$username."'";
+            $index++;
+        }
+         $userSql = $userSql.")";
+         
+         $sql = "select id, username, full_name, email from cil_users where username in ".$userSql;
+         
+         //echo "<br/>".$sql;
+         $result = pg_query($conn, $sql);
+         if(!$result) 
+         {
+            pg_close($conn);
+            return $userInfoArray; 
+         }
+         
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['id'] = $row[0];
+            $array['username'] = $row[1];
+            $array['full_name'] = $row[2];
+            $array['email'] = $row[3];
+            
+            array_push($userInfoArray, $array);
+        }
+         
+        pg_close($conn);
+        return $userInfoArray; 
+    }
+    
+    
+    public function deletePriorityAssigneeByAnnotID($cil_pgsql_db, $annotation_id)
+    {
+        $sql = "delete from i_proj_priority_assignees where annotation_id = $1";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $annotation_id); //1
+        
+        $result = pg_query_params($conn, $sql, $input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+    }
    
+    public function insertPriorityAssignee($cil_pgsql_db, $username, $full_name, $email, $annotation_id)
+    {
+        $sql = "insert into i_proj_priority_assignees(id, username, full_name, email, annotation_id) ".
+               " values(nextval('general_seq'),  $1, $2, $3, $4);";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+                
+        $input = array();
+        array_push($input, $username); //1
+        array_push($input, $full_name); //2
+        array_push($input, $email); //3
+        array_push($input, $annotation_id); //4
+        
+        $result = pg_query_params($conn, $sql, $input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+    }
+    
+    
     public function insertAnnotationPriority($cil_pgsql_db, $inputJson)
     {
         $sql = "insert into internal_proj_priority(id, annotation_id, image_id, ".
