@@ -10,6 +10,8 @@
         
         public function submit_priority($image_id)
         {
+            $this->load->helper('url');
+            $base_url = $this->config->item('base_url');
             $dbutil = new DBUtil();
             echo "<br/>submit_priority:".$image_id;
             $annotation_object_id = $this->input->post('annotation_object_id', TRUE);
@@ -26,6 +28,10 @@
             echo "<br/>Desc:".$desc;
             $priority = $this->input->post('priority_id', TRUE);
             echo "<br/>Priority:".$priority;
+            
+            $token = $this->input->post('annotation_token_id', TRUE);
+            echo "<br/>Token:".$token;
+            
             $reporter_username = $this->input->post('annotation_reporter_username_id', TRUE);
             echo "<br/>Reporter username:".$reporter_username;
             $assignee_json_str = $this->input->post('assignee_json_str_id', TRUE);
@@ -57,6 +63,8 @@
             $inputJson = json_decode($inputJsonStr);
             if(!$dbutil->priorityExists($cil_pgsql_db, $annotation_object_id))
                 $dbutil->insertAnnotationPriority($cil_pgsql_db, $inputJson);
+            
+            $dbutil->updatePriorityDesc($cil_pgsql_db, $annotation_object_id);
             $dbutil->deletePriorityAssigneeByAnnotID($cil_pgsql_db, $annotation_object_id);
             $userInfoArray = $dbutil->getUserInfoByUsernames($cil_pgsql_db, $assignees);
             
@@ -64,6 +72,10 @@
             {
                 $dbutil->insertPriorityAssignee($cil_pgsql_db, $userInfo['username'], $userInfo['full_name'], $userInfo['email'], $annotation_object_id);
             }
+            
+            
+            
+            redirect ($base_url."/internal_data/".$image_id."?username=".$reporter_username."&token=".$token);
         }
         
         
@@ -167,6 +179,9 @@
             /***********End user_json*******************/
             
 
+            $priorityInfo = $dbutil->getPriorityAssigneeInfo($cil_pgsql_db, $image_id);
+            $priority_json_str = json_encode($priorityInfo, JSON_UNESCAPED_SLASHES);
+            $data['priority_json_str'] = $priority_json_str;
             
             
             $image_tar_dir = $this->config->item('image_tar_dir');

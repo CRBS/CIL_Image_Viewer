@@ -59,6 +59,11 @@
     <script>
         var notes_text = "";
         var notes_json = [];
+        
+        var existing_priority_json_str = '<?php echo $priority_json_str; ?>';
+        var existing_priority_json  = JSON.parse(existing_priority_json_str);
+        console.log(existing_priority_json);
+        
     </script>
     
 </head>
@@ -314,6 +319,12 @@
                         </div>
                         
                         
+                        <div class="row" style=" margin-top:10px;">
+                            <div class="col-md-4">Token:</div>
+                            <div class="col-md-8">
+                                <input type="text" id="annotation_token_id" name="annotation_token_id" class="form-control" value="<?php if(isset($token)) echo $token;  ?>" readonly>
+                            </div>
+                        </div>
                         
                         
                         <div class="row" style=" margin-top:10px;">

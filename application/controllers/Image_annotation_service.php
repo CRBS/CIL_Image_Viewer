@@ -9,6 +9,15 @@ class Image_annotation_service extends REST_Controller
 {
     private $success = "success";
     
+    public function priority_assignees_get($image_id="0")
+    {
+        //error_reporting(0);
+        $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+        $dbutil = new DBUtil();
+        $array = $dbutil->getPriorityAssigneeInfo($cil_pgsql_db, $image_id);
+        $this->response($array);
+    }
+    
     public function cropinfo_get($crop_id="0")
     {
         error_reporting(0);

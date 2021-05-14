@@ -38,6 +38,43 @@ class DBUtil
         return false;
     }
     
+    
+    public function getPriorityAssigneeInfo($cil_pgsql_db, $image_id)
+    {
+        $pAarray = array();
+        $sql = "select p.reporter, p.priority_name, p.prority_index, pa.username, pa.full_name, pa.email from internal_proj_priority p, i_proj_priority_assignees pa ".
+               " where p.annotation_id = pa.annotation_id and  p.image_id =  $1 order by p.annotation_id asc";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return $pAarray;
+        
+        $input = array();
+        array_push($input, $image_id);
+        
+        $result = pg_query_params($conn, $sql,$input);
+        if(!$result) 
+        {
+           pg_close($conn);
+           return $pAarray; 
+        }
+        
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['reporter'] = $row[0];
+            $array['priority_name'] = $row[1];
+            $array['prority_index'] = intval($row[2]);
+            $array['username'] = $row[3];
+            $array['full_name'] = $row[4];
+            $array['email'] = $row[5];
+            array_push($pAarray, $array);
+        }
+        
+        pg_close($conn);
+        return $pAarray; 
+    }
+    
     public function getUserInfoByUsernames($cil_pgsql_db, $usernames)
     {
         $userInfoArray = array();
@@ -84,6 +121,28 @@ class DBUtil
         return $userInfoArray; 
     }
     
+    
+    public function updatePriorityDesc($cil_pgsql_db, $annotation_id)
+    {
+        $sql = "update internal_proj_priority set description = 'Test' where annotation_id = $1";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $annotation_id); //1
+        
+        $result = pg_query_params($conn, $sql, $input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+    }
     
     public function deletePriorityAssigneeByAnnotID($cil_pgsql_db, $annotation_id)
     {
@@ -137,7 +196,7 @@ class DBUtil
     public function insertAnnotationPriority($cil_pgsql_db, $inputJson)
     {
         $sql = "insert into internal_proj_priority(id, annotation_id, image_id, ".
-               " zindex, reporter, priority_name, proprity_index, ".
+               " zindex, reporter, priority_name, prority_index, ".
                " description, lat, lng, zoom, assign_time) ".
                " values(nextval('general_seq'),$1, $2, ".
                " $3, $4, $5, $6, ".
