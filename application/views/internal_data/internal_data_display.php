@@ -62,7 +62,8 @@
         
         var existing_priority_json_str = '<?php echo $priority_json_str; ?>';
         var existing_priority_json  = JSON.parse(existing_priority_json_str);
-        console.log(existing_priority_json);
+        //console.log(existing_priority_json);
+        var is_priority_loaded = false;
         
     </script>
     
@@ -1737,7 +1738,52 @@ onElementHeightChange(document.body, function(){
             $("#priority_modal_id").modal('show');
             
             
+            if(!is_priority_loaded)
+            {
+               var i=0;
+               var priority_value = "high";
+               var reporter_fullname = null;
+               var reporter_username = null;
+               for(i=0;i<existing_priority_json.length;i++)
+               {
+                   if(existing_priority_json[i].annotation_id ==  selectedProps.id)
+                   {
+                        annotator_json.push(existing_priority_json[i].username);
+                        priority_value = existing_priority_json[i].priority_name;
+                        reporter_fullname = existing_priority_json[i].reporter_fullname;
+                        reporter_username = existing_priority_json[i].reporter;
+                   }
+                   
+               }
+               document.getElementById('assignee_json_str_id').value = JSON.stringify(annotator_json);
+               console.log(priority_value);
+               
+               var priority = document.getElementById('priority_id');
+               var selectedIndex = "0";
+               var index = 0;
+               for(i=0;i<priority.length;i++)
+               {
+                   //console.log(priority[i].value);
+                   if(priority[i].value ==  priority_value)
+                       break;
+                  
+                  index++;
+               }
+               priority.selectedIndex = index+"";
+               
+               if(reporter_fullname != null)
+                document.getElementById('annotation_reporter_id').value = reporter_fullname;
+            
+                if(reporter_username != null)
+                    document.getElementById('annotation_reporter_username_id').value = reporter_username;
+               
+               printAssignList();
+            }
+            
+            
         }
+        
+        
     }
     
     function back_to_annotation()

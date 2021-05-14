@@ -42,7 +42,7 @@ class DBUtil
     public function getPriorityAssigneeInfo($cil_pgsql_db, $image_id)
     {
         $pAarray = array();
-        $sql = "select p.reporter, p.priority_name, p.prority_index, pa.username, pa.full_name, pa.email from internal_proj_priority p, i_proj_priority_assignees pa ".
+        $sql = "select p.annotation_id, p.reporter, p.reporter_fullname, p.priority_name, p.priority_index, pa.username, pa.full_name, pa.email from internal_proj_priority p, i_proj_priority_assignees pa ".
                " where p.annotation_id = pa.annotation_id and  p.image_id =  $1 order by p.annotation_id asc";
         
         $conn = pg_pconnect($cil_pgsql_db);
@@ -62,12 +62,14 @@ class DBUtil
         while($row = pg_fetch_row($result))
         {
             $array = array();
-            $array['reporter'] = $row[0];
-            $array['priority_name'] = $row[1];
-            $array['prority_index'] = intval($row[2]);
-            $array['username'] = $row[3];
-            $array['full_name'] = $row[4];
-            $array['email'] = $row[5];
+            $array['annotation_id'] = $row[0];
+            $array['reporter'] = $row[1];
+            $array['reporter_fullname'] = $row[2];
+            $array['priority_name'] = $row[3];
+            $array['priority_index'] = intval($row[4]);
+            $array['username'] = $row[5];
+            $array['full_name'] = $row[6];
+            $array['email'] = $row[7];
             array_push($pAarray, $array);
         }
         
@@ -193,14 +195,39 @@ class DBUtil
     }
     
     
+    public function updatePriorityLevel($cil_pgsql_db, $priority_name, $priority_index, $annotation_id)
+    {
+        $sql = "update internal_proj_priority set priority_name = $1, priority_index = $2 where  annotation_id = $3";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $priority_name); //1
+        array_push($input, $priority_index);
+        array_push($input, $annotation_id);
+        
+        $result = pg_query_params($conn, $sql, $input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+    }
+    
+    
     public function insertAnnotationPriority($cil_pgsql_db, $inputJson)
     {
         $sql = "insert into internal_proj_priority(id, annotation_id, image_id, ".
-               " zindex, reporter, priority_name, prority_index, ".
-               " description, lat, lng, zoom, assign_time) ".
+               " zindex, reporter, priority_name, priority_index, ".
+               " description, lat, lng, zoom, assign_time, reporter_fullname) ".
                " values(nextval('general_seq'),$1, $2, ".
                " $3, $4, $5, $6, ".
-               " $7, $8, $9, $10, now())";
+               " $7, $8, $9, $10, now(), $11)";
         
         $conn = pg_pconnect($cil_pgsql_db);
         if (!$conn) 
@@ -212,12 +239,12 @@ class DBUtil
         array_push($input, $inputJson->zindex); //3
         array_push($input, $inputJson->reporter); //4
         array_push($input, $inputJson->priority_name); //5
-        array_push($input, $inputJson->proprity_index);  //6
+        array_push($input, $inputJson->priority_index);  //6
         array_push($input, $inputJson->description); //7
         array_push($input, $inputJson->lat); //8
         array_push($input, $inputJson->lng); //9
         array_push($input, $inputJson->zoom); //10
-        
+        array_push($input, $inputJson->reporter_fullname); //11
         $result = pg_query_params($conn, $sql, $input);
         
         if(!$result) 

@@ -34,15 +34,20 @@
             
             $reporter_username = $this->input->post('annotation_reporter_username_id', TRUE);
             echo "<br/>Reporter username:".$reporter_username;
+            
+            
+            $reporter_fullname = $this->input->post('annotation_reporter_id', TRUE);
+            echo "<br/>Reporter_fullname:".$reporter_fullname;
+            
             $assignee_json_str = $this->input->post('assignee_json_str_id', TRUE);
             echo "<br/>".$assignee_json_str;
             $assignees = json_decode($assignee_json_str);
             
-            $proprity_index = 0;
+            $priority_index = 0;
             if(strcmp($priority, "high") == 0)
-               $proprity_index = 2;
+               $priority_index = 2;
             else if(strcmp($priority, "medium") == 0)
-               $proprity_index = 1;
+               $priority_index = 1;
             
                 
             
@@ -51,8 +56,9 @@
             $inputArray['image_id'] = $image_id;
             $inputArray['zindex'] = intval($zindex);
             $inputArray['reporter'] = $reporter_username;
+            $inputArray['reporter_fullname'] = $reporter_fullname;
             $inputArray['priority_name'] = $priority;
-            $inputArray['proprity_index'] = $proprity_index;
+            $inputArray['priority_index'] = $priority_index;
             $inputArray['description'] = $desc;
             $inputArray['lat'] = $lat;
             $inputArray['lng'] = $lng;
@@ -63,14 +69,23 @@
             $inputJson = json_decode($inputJsonStr);
             if(!$dbutil->priorityExists($cil_pgsql_db, $annotation_object_id))
                 $dbutil->insertAnnotationPriority($cil_pgsql_db, $inputJson);
-            
-            $dbutil->updatePriorityDesc($cil_pgsql_db, $annotation_object_id);
-            $dbutil->deletePriorityAssigneeByAnnotID($cil_pgsql_db, $annotation_object_id);
-            $userInfoArray = $dbutil->getUserInfoByUsernames($cil_pgsql_db, $assignees);
-            
-            foreach($userInfoArray as $userInfo)
+            else 
             {
-                $dbutil->insertPriorityAssignee($cil_pgsql_db, $userInfo['username'], $userInfo['full_name'], $userInfo['email'], $annotation_object_id);
+                $dbutil->updatePriorityDesc($cil_pgsql_db, $annotation_object_id);
+                $dbutil->updatePriorityLevel($cil_pgsql_db, $priority, $priority_index, $annotation_object_id);
+            }
+            
+            
+            $dbutil->deletePriorityAssigneeByAnnotID($cil_pgsql_db, $annotation_object_id);
+            
+            if(count($assignees) > 0)
+            {
+                $userInfoArray = $dbutil->getUserInfoByUsernames($cil_pgsql_db, $assignees);
+
+                foreach($userInfoArray as $userInfo)
+                {
+                    $dbutil->insertPriorityAssignee($cil_pgsql_db, $userInfo['username'], $userInfo['full_name'], $userInfo['email'], $annotation_object_id);
+                }
             }
             
             
