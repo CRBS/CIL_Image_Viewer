@@ -4,6 +4,8 @@
     require_once 'DBUtil.php';
     require_once 'DataLocalUtil.php';
     require_once 'Constants.php';
+    require_once 'MailUtil.php';
+    
     class Internal_data extends CI_Controller
     {
         
@@ -12,7 +14,13 @@
         {
             $this->load->helper('url');
             $base_url = $this->config->item('base_url');
+            
+            
+            
+            
+            
             $dbutil = new DBUtil();
+            $mutil = new MailUtil();
             echo "<br/>submit_priority:".$image_id;
             $annotation_object_id = $this->input->post('annotation_object_id', TRUE);
             echo "<br/>annotation ID:".$annotation_object_id;
@@ -85,6 +93,17 @@
                 foreach($userInfoArray as $userInfo)
                 {
                     $dbutil->insertPriorityAssignee($cil_pgsql_db, $userInfo['username'], $userInfo['full_name'], $userInfo['email'], $annotation_object_id);
+                }
+                
+                //Sending emails
+                $gmail_sender = $this->config->item('gmail_sender');
+                $gmail_sender_name = $this->config->item('gmail_sender_name');
+                $gmail_sender_pwd = $this->config->item('gmail_sender_pwd');
+                $subject = "Image annotation alert - ".$image_id;
+                $message = "Annotation ID:".$annotation_object_id;
+                foreach($userInfoArray as $userInfo)
+                {
+                   $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $userInfo['email'], $subject, $message);
                 }
             }
             

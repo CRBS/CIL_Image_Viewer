@@ -10,6 +10,49 @@ require_once getcwd().'/application/controllers/PHPMailer/SMTP.php';
 class MailUtil
 {
     
+    public function sendMail($sender_email, $sender_name, $sender_pwd, $to_email, $subject, $message)
+    {
+        
+        try 
+        {
+            $mail = new PHPMailer(true);
+            
+            $mail->SMTPDebug = 0;                      // Enable verbose debug output
+            $mail->isSMTP();
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "ssl";
+            $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through                                // Enable SMTP authentication
+            $mail->Username   = $sender_email;                     // SMTP username
+            $mail->Password   = $sender_pwd;                               // SMTP password
+            $mail->Port       = 465;
+
+            $reply_email = $sender_email;
+            $reply_email_name = $sender_name;
+            //Recipients
+            $mail->setFrom($sender_email, $sender_name);
+            $mail->addAddress($to_email);     // Add a recipient
+            $mail->addReplyTo($reply_email, $reply_email_name);
+            
+
+            // Content
+            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = $message;
+            
+            $mail->send();
+            
+        } 
+        catch (Exception $e) 
+        {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            return false;
+        }
+        
+        return true;
+         
+    }
+    
+    
     public function sendGmail($sender_email, $sender_name, $sender_pwd, $to_email, $reply_email, $reply_email_name, $subject, $message,$email_error_log_file)
     {
         error_log("\n".date("Y-m-d h:i:sa")."-------".getcwd()."/application/controllers/PHPMailer/Exception.php",3,$email_error_log_file);
