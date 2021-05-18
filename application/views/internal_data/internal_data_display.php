@@ -250,7 +250,7 @@
         <!---------------------------Model ROW---------------------------------------------------->
         <div class="row">
             <div class="col-md-12">
-            <form action="/internal_data/submit_priority/<?php echo $image_id; ?>" method="POST">
+             <form action="/internal_data/submit_priority/<?php echo $image_id; ?>" method="POST" onsubmit="return validate_submit_priority();">
             <!----------Annotation Model--------------------->    
             <div class="modal fade" id="priority_modal_id" role="dialog">
                 <div class="modal-dialog" role="document" >
@@ -386,7 +386,7 @@
                         
                         <div class="row" style=" margin-top:10px;">
                             <div class="col-md-12">
-                                <center><input class="btn btn-primary" type="submit" value="Submit"></center>
+                                <center><input class="btn btn-primary" type="submit" value="Submit" id="priority_submit_id"></center>
                             </div>
                         </div>
                     </div>
@@ -1841,6 +1841,21 @@ onElementHeightChange(document.body, function(){
             assigned_row.innerHTML = assigned_row.innerHTML+newRow;
         } 
     }
+    
+    function validate_submit_priority()
+    {
+        if(annotator_json.length == 0)
+        {
+            alert("You have to pick at least one assignee");
+            return false;
+        }
+        else
+        {
+            document.getElementById('priority_submit_id').disabled = true;
+            return true;
+        }
+    }
+    
     
     
     var assignee_json_div =  document.getElementById('assignee_json_str_id');
