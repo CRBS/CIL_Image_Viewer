@@ -270,7 +270,7 @@
                             </div>  
                         </div>
                         
-                        <div class="row" style=" margin-top:10px;">
+                        <div class="row" style=" margin-top:10px;" id="annotation_zindex_div_id">
                             <div class="col-md-4">Z index:</div>
                             <div class="col-md-8">
                                 <input type="text" id="annotation_zindex_id" name="annotation_zindex_id" class="form-control" value="0" readonly>
@@ -278,14 +278,14 @@
                         </div>
                         
                         
-                        <div class="row" style=" margin-top:10px;">
+                        <div class="row" style=" margin-top:10px;" id="annotation_lat_div_id">
                             <div class="col-md-4">Lat:</div>
                             <div class="col-md-8">
                                 <input type="text" id="annotation_lat_id" name="annotation_lat_id" class="form-control" value="0" readonly>
                             </div>
                         </div>
                         
-                         <div class="row" style=" margin-top:10px;">
+                         <div class="row" style=" margin-top:10px;" id="annotation_lng_div_id">
                             <div class="col-md-4">Lng:</div>
                             <div class="col-md-8">
                                 <input type="text" id="annotation_lng_id" name="annotation_lng_id" class="form-control" value="0" readonly>
@@ -293,7 +293,7 @@
                         </div>
                         
                         
-                        <div class="row" style=" margin-top:10px;">
+                        <div class="row" style=" margin-top:10px;" id="annotation_zoom_div_id">
                             <div class="col-md-4">Zoom:</div>
                             <div class="col-md-8">
                                 <input type="text" id="annotation_zoom_id" name="annotation_zoom_id" class="form-control" value="0" readonly>
@@ -320,7 +320,7 @@
                         </div>
                         
                         
-                        <div class="row" style=" margin-top:10px;">
+                        <div class="row" style=" margin-top:10px;" id="annotation_token_div_id">
                             <div class="col-md-4">Token:</div>
                             <div class="col-md-8">
                                 <input type="text" id="annotation_token_id" name="annotation_token_id" class="form-control" value="<?php if(isset($token)) echo $token;  ?>" readonly>
@@ -1778,6 +1778,8 @@ onElementHeightChange(document.body, function(){
                     document.getElementById('annotation_reporter_username_id').value = reporter_username;
                
                printAssignList();
+               
+               is_priority_loaded = true;
             }
             
             
@@ -1844,4 +1846,11 @@ onElementHeightChange(document.body, function(){
     var assignee_json_div =  document.getElementById('assignee_json_str_id');
     assignee_json_div.value = "";
     assignee_json_div.style.display = "none";
+    
+    document.getElementById('priority_desc_id').style.display = "none";
+    document.getElementById('annotation_zoom_div_id').style.display = "none";
+    document.getElementById('annotation_token_div_id').style.display = "none";
+    document.getElementById('annotation_zindex_div_id').style.display = "none";
+    document.getElementById('annotation_lat_div_id').style.display = "none";
+    document.getElementById('annotation_lng_div_id').style.display = "none";
 </script>

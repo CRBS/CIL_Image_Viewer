@@ -77,6 +77,67 @@ class DBUtil
         return $pAarray; 
     }
     
+    private function generateRandomString($length = 10) 
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+    
+    public function insertAuthToken($cil_pgsql_db, $username)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        $sql = "insert into cil_auth_tokens(id,username,token,token_create_time) ".
+               " values(nextval('general_seq'),$1,$2, now())";
+        
+        $random_str = $this->generateRandomString(15);
+        $input = array();
+        array_push($input, $username);
+        array_push($input,$random_str);
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+        
+    }
+    
+    
+    public function getAuthToken($cil_pgsql_db, $username)
+    {
+        $sql = "select token from cil_auth_tokens where username = $1 order by id desc limit 1";
+        $conn = pg_pconnect($cil_pgsql_db);
+        $input = array();
+        array_push($input,$username);
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return NULL;
+        }
+        $token = NULL;
+        if($row = pg_fetch_row($result))
+        {
+            $token = $row[0];
+        }
+        pg_close($conn);
+        return $token;
+        
+    }
+    
+    
     public function getUserInfoByUsernames($cil_pgsql_db, $usernames)
     {
         $userInfoArray = array();
