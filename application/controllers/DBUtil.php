@@ -137,6 +137,35 @@ class DBUtil
         
     }
     
+    public function getUserInfoByUsername($cil_pgsql_db, $username)
+    {
+        $userInfo = array();
+        $sql = "select id, username, full_name, email from cil_users where username = $1";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return $userInfo;
+        $input = array();
+        array_push($input,$username);
+        
+        $result = pg_query_params($conn, $sql,$input);
+        if(!$result) 
+        {
+           pg_close($conn);
+           return $userInfo; 
+        }
+        
+        if(($row = pg_fetch_row($result)))
+        {
+            $userInfo['id'] = $row[0];
+            $userInfo['username'] = $row[1];
+            $userInfo['full_name'] = $row[2];
+            $userInfo['email'] = $row[3];
+        }
+        
+        pg_close($conn);
+        return $userInfo;
+    }
     
     public function getUserInfoByUsernames($cil_pgsql_db, $usernames)
     {

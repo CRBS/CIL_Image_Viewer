@@ -102,8 +102,19 @@
                 date_default_timezone_set('America/Los_Angeles');
                 $subject = "Image annotation alert - ".$image_id." - ".date("Y-m-d h:i:sa");
                 
+                $indx = 0;
+                $assignee_text = "";
+                foreach($userInfoArray as $userInfo)
+                {
+                    if($indx > 0)
+                        $assignee_text = $assignee_text.", ";
+                    
+                    $assignee_text = $assignee_text.$userInfo['full_name'];
+                }
+                
                 $message = "Annotation ID:".$annotation_object_id;
                 $message = $message."<br/>Reporter:".$reporter_fullname;
+                $message = $message."<br/>Assignees:".$assignee_text;
                 $message = $message."<br/>Priority:".$priority;
                 $message = $message."<br/>Description:".$desc;
                 foreach($userInfoArray as $userInfo)
@@ -111,14 +122,25 @@
                    $dbutil->insertAuthToken($cil_pgsql_db, $userInfo['username']);
                    $token = $dbutil->getAuthToken($cil_pgsql_db, $userInfo['username']);
                    $imageUrl = $base_url."/internal_data/".$image_id."?zindex=".$zindex."&lat=".$lat."&lng=".$lng."&zoom=".$zoom."&username=".$userInfo['username']."&token=".$token;
-                   $message = $message."<br/>Image URL:".$imageUrl;
-                   $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $userInfo['email'], $subject, $message);
+                   $message1 = $message."<br/>Image URL:".$imageUrl;
+                   $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $userInfo['email'], $subject, $message1);
                 }
+                
+                //Sending an email to the reporter
+                $dbutil->insertAuthToken($cil_pgsql_db, $reporter_username);
+                $token = $dbutil->getAuthToken($cil_pgsql_db, $reporter_username);
+                $imageUrl = $base_url."/internal_data/".$image_id."?zindex=".$zindex."&lat=".$lat."&lng=".$lng."&zoom=".$zoom."&username=".$reporter_username."&token=".$token;
+                $message1 = $message."<br/>Image URL:".$imageUrl;
+                $reporterInfo = $dbutil->getUserInfoByUsername($cil_pgsql_db, $reporter_username);
+                $reporterEmail = $reporterInfo['email'];
+                //$subject = $subject." - Reporter";
+                //echo "<br/>Reporter email:".$reporterEmail;
+                $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $reporterEmail, $subject, $message1);
             }
             
             
             
-            redirect ($base_url."/internal_data/".$image_id."?username=".$reporter_username."&token=".$token);
+            //redirect ($base_url."/internal_data/".$image_id."?username=".$reporter_username."&token=".$token);
         }
         
        
