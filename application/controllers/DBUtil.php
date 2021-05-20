@@ -11,6 +11,49 @@ class DBUtil
     private $success = "success";
     
     
+    public function getAllPriorityAssignedBy($cil_pgsql_db, $username)
+    {
+        $pArray = array();
+        $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
+               " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname ".
+               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pa.username = $1 order by pp.assign_time desc";
+
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return $pArray;
+        
+        $input = array();
+        array_push($input, $username);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return $pArray;
+        }
+        
+        while($row = pg_fetch_row($result))
+        {
+            $item = array();
+            $item['annotation_id'] = $row[0];
+            $item['image_id'] = $row[1];
+            $item['zindex'] = $row[2];
+            $item['reporter'] = $row[3];
+            $item['priority_name'] = $row[4];
+            $item['description'] = $row[5];
+            $item['zoom'] = $row[6];
+            $item['lat'] = $row[7];
+            $item['lng'] = $row[8];
+            $item['reporter_fullname'] = $row[9];
+            
+            array_push($pArray, $item);
+            
+        }
+        
+        pg_close($conn);
+        return $pArray;
+    }
+
+
     public function priorityExists($cil_pgsql_db, $annotation_id)
     {
         $sql = "select id from internal_proj_priority where annotation_id = $1";
