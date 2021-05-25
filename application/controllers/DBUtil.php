@@ -11,6 +11,27 @@ class DBUtil
     private $success = "success";
     
     
+    public function deletePriorityAssignee($cil_pgsql_db, $annotation_id)
+    {
+        $sql = "delete from i_proj_priority_assignees where annotation_id = $1";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $annotation_id);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+    }
+    
     public function getAllPriorityAssignedBy($cil_pgsql_db, $username)
     {
         $pArray = array();
@@ -39,11 +60,12 @@ class DBUtil
             $item['zindex'] = $row[2];
             $item['reporter'] = $row[3];
             $item['priority_name'] = $row[4];
-            $item['description'] = $row[5];
-            $item['zoom'] = $row[6];
-            $item['lat'] = $row[7];
-            $item['lng'] = $row[8];
-            $item['reporter_fullname'] = $row[9];
+            $item['assign_time'] = $row[5];
+            $item['description'] = $row[6];
+            $item['zoom'] = $row[7];
+            $item['lat'] = $row[8];
+            $item['lng'] = $row[9];
+            $item['reporter_fullname'] = $row[10];
             
             array_push($pArray, $item);
             

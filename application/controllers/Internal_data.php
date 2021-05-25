@@ -140,7 +140,7 @@
             
             
             
-            //redirect ($base_url."/internal_data/".$image_id."?username=".$reporter_username."&token=".$token);
+            redirect ($base_url."/internal_data/".$image_id."?username=".$reporter_username."&token=".$token);
         }
         
        

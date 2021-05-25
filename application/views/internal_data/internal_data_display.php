@@ -1717,6 +1717,8 @@ onElementHeightChange(document.body, function(){
     {
         console.log('manage_priority');
         
+        is_priority_loaded = false;
+        annotator_json = [];
         
         if(selectedLayer === undefined || selectedLayer === null)
         {
