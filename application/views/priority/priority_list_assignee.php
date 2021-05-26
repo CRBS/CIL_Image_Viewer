@@ -41,7 +41,12 @@
                             <td><?php echo $item->description; ?></td>
                             <td><?php echo $item->priority_name; ?></td>
                             <td><?php echo $item->assign_time; ?></td>
-                            <td>View</td>
+                            <td>
+                                <?php
+                                    $viewUrl = $base_url."/internal_data/".$item->image_id."?username=".$username."&token=".$token."zindex=0&lat=-15&lng=-7&zoom=1";
+                                ?>
+                                <a href="<?php echo $viewUrl; ?>" target="_blank">View</a>
+                            </td>
                         </tr>
                         
                         <?php

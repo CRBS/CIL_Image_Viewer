@@ -11,6 +11,58 @@ class DBUtil
     private $success = "success";
     
     
+    public function isPriorityReporter($cil_pgsql_db, $annotation_id, $image_id, $reporter)
+    {
+        $isReporter = false;
+        $sql = "select id from internal_proj_priority where annotation_id = $1 and image_id = $2 and reporter = $3";
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $annotation_id);
+        array_push($input, $image_id);
+        array_push($input, $reporter);
+        
+        $result = pg_query_params($conn, $sql, $input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            $isReporter = true;
+        }
+        pg_close($conn);
+        return $isReporter;
+    }
+    
+    public function deletePriority($cil_pgsql_db, $annotation_id, $image_id, $reporter)
+    {
+        $sql = "delete from internal_proj_priority where annotation_id = $1 and image_id = $2 and reporter = $3";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $annotation_id);
+        array_push($input, $image_id);
+        array_push($input, $reporter);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+    }
+    
     public function deletePriorityAssignee($cil_pgsql_db, $annotation_id)
     {
         $sql = "delete from i_proj_priority_assignees where annotation_id = $1";

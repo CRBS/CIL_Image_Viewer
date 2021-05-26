@@ -17,6 +17,11 @@ class Annotation_priority extends CI_Controller
         $username = $this->input->get('username', TRUE);
         $token = $this->input->get('token', TRUE);
         
+        
+        $data['base_url'] = $base_url;
+        $data['username'] = $username;
+        $data['token'] = $token;
+        
         if(is_null($username) || is_null($token))
         {
             show_404();
