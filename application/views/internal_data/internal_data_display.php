@@ -920,6 +920,21 @@
         }
         
         
+        console.log(selectedProps);
+        
+        
+        //Is the annotation owner?
+        if(selectedProps.hasOwnProperty("username") && selectedProps.username == '<?php echo $username; ?>')
+        {
+            document.getElementById('remove_annotation_id').style.display = "block";
+            document.getElementById('manage_priority_id').style.display = "block";
+        }
+        else
+        {
+            document.getElementById('remove_annotation_id').style.display = "none";
+            document.getElementById('manage_priority_id').style.display = "none";
+        }
+        
         /*
         var coor = null;
         
@@ -1582,11 +1597,21 @@
         {
             if(selectedLayer != null)
             {
+                //console.log(selectedLayer.feature.properties.id);
                 
                 drawnItems.removeLayer(selectedLayer);
                 var collection = drawnItems.toGeoJSON();
                 var geo_json_str = JSON.stringify(collection);
                 saveGeoJson(geo_json_str);
+                
+                
+                var annotation_id = selectedLayer.feature.properties.id;
+                var ausername = '<?php echo $username; ?>';
+                var atoken = '<?php echo $token; ?>';
+                $.post('<?php echo $serverName; ?>/Annotation_priority_service/delete_priority/'+cil_id+'/'+annotation_id+'/'+ausername+'/'+atoken, '', function(returnedData) {
+                    //console.log(returnedData);
+                });
+                
             }
         });
         

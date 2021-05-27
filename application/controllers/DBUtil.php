@@ -89,7 +89,7 @@ class DBUtil
         $pArray = array();
         $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
                " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname ".
-               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pa.username = $1 order by pp.assign_time desc";
+               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pa.username = $1 order by pp.priority_index desc, pp.assign_time desc";
 
         $conn = pg_pconnect($cil_pgsql_db);
         if (!$conn) 

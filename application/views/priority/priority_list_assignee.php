@@ -43,7 +43,7 @@
                             <td><?php echo $item->assign_time; ?></td>
                             <td>
                                 <?php
-                                    $viewUrl = $base_url."/internal_data/".$item->image_id."?username=".$username."&token=".$token."zindex=0&lat=-15&lng=-7&zoom=1";
+                                    $viewUrl = $base_url."/internal_data/".$item->image_id."?username=".$username."&token=".$token."&zindex=".$item->zindex."&lat=".$item->lat."&lng=".$item->lng."&zoom=".$item->zoom;
                                 ?>
                                 <a href="<?php echo $viewUrl; ?>" target="_blank">View</a>
                             </td>
