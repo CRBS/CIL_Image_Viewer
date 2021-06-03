@@ -84,6 +84,58 @@ class DBUtil
         return true;
     }
     
+    
+    public function getAllPriorityCreatedBy($cil_pgsql_db, $username)
+    {
+        $pArray = array();
+        $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
+               " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname, ".
+               " pa.full_name as assignee_name, pa.username as assignee_username, pa.email as assignee_email ".
+               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pp.reporter = $1 ".
+               " order by pp.priority_index desc, pp.assign_time desc, assignee_name asc";
+        
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return $pArray;
+        
+        $input = array();
+        array_push($input, $username);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return $pArray;
+        }
+        
+        while($row = pg_fetch_row($result))
+        {
+            $item = array();
+            $item['annotation_id'] = $row[0];
+            $item['image_id'] = $row[1];
+            $item['zindex'] = $row[2];
+            $item['reporter'] = $row[3];
+            $item['priority_name'] = $row[4];
+            $item['assign_time'] = $row[5];
+            $item['description'] = $row[6];
+            $item['zoom'] = $row[7];
+            $item['lat'] = $row[8];
+            $item['lng'] = $row[9];
+            $item['reporter_fullname'] = $row[10];
+            
+            $item['assignee_fullname'] = $row[11];
+            $item['assignee_username'] = $row[12];
+            $item['assignee_email'] = $row[13];
+            
+            array_push($pArray, $item);
+            
+        }
+        
+        pg_close($conn);
+        return $pArray;
+        
+    }
+    
     public function getAllPriorityAssignedBy($cil_pgsql_db, $username)
     {
         $pArray = array();
