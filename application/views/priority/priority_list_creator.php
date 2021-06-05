@@ -45,7 +45,7 @@
                                     <td><?php echo $item->annotation_id; ?></td>
                                     <td><?php echo $item->image_id; ?></td>
                                     <td><?php echo $item->zindex; ?></td>
-                                    <td><?php echo ""; ?></td>
+                                    <td><?php echo $assignee_map[$item->annotation_id]; ?></td>
                                     <td><?php echo $item->description; ?></td>
                                     <td><?php echo $item->priority_name; ?></td>
                                     <td><?php echo $item->assign_time; ?></td>

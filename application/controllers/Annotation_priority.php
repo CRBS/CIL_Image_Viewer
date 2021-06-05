@@ -6,6 +6,34 @@ require_once 'DBUtil.php';
 class Annotation_priority extends CI_Controller
 {
     
+    
+    private function getAssigneeMap($pArray)
+    {
+        $amap = array();
+        
+        foreach ($pArray as $item)
+        {
+            if(!array_key_exists($item->annotation_id, $amap))
+            {
+                if(!is_null($item->assignee_fullname))
+                    $amap[$item->annotation_id] = $item->assignee_fullname;
+                else
+                    $amap[$item->annotation_id] = "";
+            }
+            else
+            {
+                if(!is_null($item->assignee_fullname))
+                    $amap[$item->annotation_id] = $amap[$item->annotation_id].", ".$item->assignee_fullname;
+                else
+                    $amap[$item->annotation_id] = "";
+            }
+        }
+        
+        return $amap;
+        
+    }
+    
+    
     public function created_by()
     {
         $this->load->helper('url');
@@ -40,8 +68,12 @@ class Annotation_priority extends CI_Controller
         $data['title'] = "Priority list - created by me";
         $pArray = $dbutil->getAllPriorityCreatedBy($cil_pgsql_db, $username);
         
+        
+        
         $pjson_str = json_encode($pArray);
         $pJson = json_decode($pjson_str);
+        
+        $data['assignee_map'] = $this->getAssigneeMap($pJson);
         $data['pJson'] = $pJson;
         
         $this->load->view('priority/header', $data);

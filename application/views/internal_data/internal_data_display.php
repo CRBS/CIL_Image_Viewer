@@ -1682,6 +1682,21 @@
     });
 </script>
 
+<script> 
+    function saveDescription()
+    {
+        /*****Putting feature properties to JSON file**********************/
+            var selectedFeature =  selectedLayer.feature;
+            var selectedProps =  selectedFeature.properties;
+            selectedProps.desc =  document.getElementById('annotation_desc_id').value;
+            var collection = drawnItems.toGeoJSON();
+            var geo_json_str = JSON.stringify(collection);
+            saveGeoJson(geo_json_str);
+        /****End Putting feature properties to JSON file***************/
+    }
+    
+</script>
+
 
 <script>
 
@@ -1740,7 +1755,10 @@ onElementHeightChange(document.body, function(){
     
     function manage_priority()
     {
-        console.log('manage_priority');
+        //console.log('manage_priority');
+        
+        saveDescription();
+        
         
         is_priority_loaded = false;
         annotator_json = [];
@@ -1850,7 +1868,7 @@ onElementHeightChange(document.body, function(){
     function removeAnnotator(username)
     {
         annotator_json.splice(annotator_json.indexOf(username), 1);
-        console.log(annotator_json);
+        //console.log(annotator_json);
         document.getElementById('assignee_json_str_id').value = JSON.stringify(annotator_json);
         printAssignList();
     }
@@ -1860,6 +1878,10 @@ onElementHeightChange(document.body, function(){
         var assigned_row = document.getElementById('assigned_row_id');
         assigned_row.innerHTML = '';
         var i;
+        
+        //console.log(annotator_json);
+        //console.log(username2fullname);
+        
         for (i = 0; i < annotator_json.length; i++) 
         {
             var full_name = username2fullname[annotator_json[i]];
@@ -1888,6 +1910,7 @@ onElementHeightChange(document.body, function(){
     var assignee_json_div =  document.getElementById('assignee_json_str_id');
     assignee_json_div.value = "";
     assignee_json_div.style.display = "none";
+    //assignee_json_div.style.display = "block";
     
     document.getElementById('priority_desc_id').style.display = "none";
     document.getElementById('annotation_zoom_div_id').style.display = "none";

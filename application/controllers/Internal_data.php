@@ -127,7 +127,11 @@
                    $assignedByUrl = $base_url."/Annotation_priority/assigned_by?username=".$userInfo['username']."&token=".$token;
                    $message2 = $message1."<br/>Annotations assigned to me:".$assignedByUrl;
                    
-                   $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $userInfo['email'], $subject, $message2);
+                   
+                   $createdByUrl = $base_url."/Annotation_priority/created_by?username=".$userInfo['username']."&token=".$token;
+                   $message3 = $message2."<br/>Annotations created by me:".$createdByUrl;
+                   
+                   $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $userInfo['email'], $subject, $message3);
                 }
                 
                 //Sending an email to the reporter
