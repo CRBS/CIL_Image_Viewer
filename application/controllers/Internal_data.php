@@ -141,6 +141,9 @@
                 $message1 = $message."<br/>Image URL:".$imageUrl;
                 $assignedByUrl = $base_url."/Annotation_priority/assigned_by?username=".$reporter_username."&token=".$token;
                 $message2 = $message1."<br/>Annotations assigned to me:".$assignedByUrl;
+                
+                $createdByUrl = $base_url."/Annotation_priority/created_by?username=".$reporter_username."&token=".$token;
+                $message3 = $message2."<br/>Annotations created by me:".$createdByUrl;
                         
                 $reporterInfo = $dbutil->getUserInfoByUsername($cil_pgsql_db, $reporter_username);
                 $reporterEmail = $reporterInfo['email'];
@@ -150,7 +153,7 @@
                 //echo "<br/>".$gmail_sender;
                 //echo "<br/>".$gmail_sender_pwd;
                 
-                $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $reporterEmail, $subject, $message2);
+                $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $reporterEmail, $subject, $message3);
             }
             
             
