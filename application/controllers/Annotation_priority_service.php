@@ -20,8 +20,15 @@ class Annotation_priority_service extends REST_Controller
             $isReporter = $dbutil->isPriorityReporter($cil_pgsql_db, $annotation_id, $image_id, $username);
             if($isReporter)
             {
-                $dbutil->deletePriorityAssignee($cil_pgsql_db, $annotation_id);
-                $dbutil->deletePriority($cil_pgsql_db, $annotation_id, $image_id, $username);
+                if($dbutil->priorityExists($cil_pgsql_db, $annotation_id))
+                {
+                    
+                    $creatorInfo = $dbutil->getUserInfoByUsername($cil_pgsql_db, $username);
+                    
+                    $dbutil->deletePriorityAssignee($cil_pgsql_db, $annotation_id);
+                    $dbutil->deletePriority($cil_pgsql_db, $annotation_id, $image_id, $username);
+                    
+                }
             }
         }
         else

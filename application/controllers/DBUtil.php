@@ -10,7 +10,7 @@ class DBUtil
     
     private $success = "success";
     
-    
+    /*****************************Priority queries ****************************************************************/
     public function isPriorityReporter($cil_pgsql_db, $annotation_id, $image_id, $reporter)
     {
         $isReporter = false;
@@ -245,6 +245,8 @@ class DBUtil
         pg_close($conn);
         return $pAarray; 
     }
+    /*****************************End Priority queries ****************************************************************/
+    
     
     private function generateRandomString($length = 10) 
     {
