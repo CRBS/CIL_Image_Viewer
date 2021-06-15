@@ -207,6 +207,46 @@ class DBUtil
         return false;
     }
     
+    public function getAssigneeInfoByAnnotId($cil_pgsql_db, $image_id, $annotation_id)
+    {
+        $pAarray = array();
+        $sql = "select p.annotation_id, p.reporter, p.reporter_fullname, p.priority_name, p.priority_index, pa.username, pa.full_name, pa.email ".
+               " from internal_proj_priority p, i_proj_priority_assignees pa ".
+               " where p.annotation_id = pa.annotation_id and  p.image_id =  $1 and p.annotation_id = $2";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return $pAarray;
+        
+        $input = array();
+        array_push($input, $image_id);
+        array_push($input, $annotation_id);
+        
+        $result = pg_query_params($conn, $sql,$input);
+        if(!$result) 
+        {
+           pg_close($conn);
+           return $pAarray; 
+        }
+        
+        while($row = pg_fetch_row($result))
+        {
+            $array = array();
+            $array['annotation_id'] = $row[0];
+            $array['reporter'] = $row[1];
+            $array['reporter_fullname'] = $row[2];
+            $array['priority_name'] = $row[3];
+            $array['priority_index'] = intval($row[4]);
+            $array['username'] = $row[5];
+            $array['full_name'] = $row[6];
+            $array['email'] = $row[7];
+            array_push($pAarray, $array);
+        }
+        
+        pg_close($conn);
+        return $pAarray; 
+        
+    }
     
     public function getPriorityAssigneeInfo($cil_pgsql_db, $image_id)
     {
