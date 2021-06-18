@@ -32,10 +32,6 @@ class Annotation_priority_service extends REST_Controller
             {
                 if($dbutil->priorityExists($cil_pgsql_db, $annotation_id))
                 {
-                    $dbutil->deletePriorityAssignee($cil_pgsql_db, $annotation_id);
-                    $dbutil->deletePriority($cil_pgsql_db, $annotation_id, $image_id, $username);
-                    
-                    
                     $creatorInfo = $dbutil->getUserInfoByUsername($cil_pgsql_db, $username);
                     $message = "Image annotation removed:".$image_id." - ".$annotation_id;
                     $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $creatorInfo['email'], $subject, $message);
@@ -45,6 +41,9 @@ class Annotation_priority_service extends REST_Controller
                     {
                         $mutil->sendMail($gmail_sender, $gmail_sender_name, $gmail_sender_pwd, $assigneeItem['email'], $subject, $message);
                     }
+                    
+                    $dbutil->deletePriorityAssignee($cil_pgsql_db, $annotation_id);
+                    $dbutil->deletePriority($cil_pgsql_db, $annotation_id, $image_id, $username);
                 }
             }
         }
