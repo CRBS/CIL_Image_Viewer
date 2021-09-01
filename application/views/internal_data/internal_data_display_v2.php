@@ -206,7 +206,19 @@
                       </button>
                     </div>
                     <div class="modal-body" id="annotation-modal-body-id">
-
+                        
+                        <!---------Showing URLs-------------------->
+                        <div class="row" id="reference_id">
+                             <div class="col-md-3">Link:</div>
+                            <div class="col-md-9">
+                                <div class="row"  id="reference_data_id">
+                          
+                                </div>
+                            </div>
+                        </div>
+                        <!---------Showing URLs-------------------->
+                        
+                        
                         <div class="row">
                             <div class="col-md-3">Description:</div>
                             <div class="col-md-9">
@@ -220,9 +232,12 @@
                             <div class="col-md-12"><br/></div>
                         </div>
                         
+                        
+                        
+                        
                         <div class="row">
                             <div class="col-md-12">
-                                <center><button id="submit_annotation_id" type="button" class="btn btn-info" data-dismiss="modal">Save description</button></center>
+                                <center><button id="submit_annotation_id" type="button" class="btn btn-info" data-dismiss="modal">Submit</button></center>
                             </div>
                         </div>
                         <hr>
@@ -392,7 +407,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-outline-primary" onclick="back_to_annotation()">Back to Annotation</button>
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>
                 </div>
@@ -871,16 +886,82 @@
         
     }
     
+    
+    function findUrls(input)
+    {
+        input = input.replace(/\n/g, " ");
+        var urlRegex = /(https?:\/\/[^ ]*)/;
+        var uArray = [];
+        var matches = input.match(urlRegex);
+        
+        while(matches)
+        {
+            var count = matches.length;
+            if(count == 0)
+                break;
+            var i=0;
+            for(i=0;i<count;i++)
+            {
+                var url = matches[i];
+                if(!uArray.includes(url) && url !== null && url.length > 0)
+                {
+                    
+                    uArray.push(url);
+                }
+            }
+            
+            input = input.replace(url, "");
+            matches = input.match(urlRegex);
+        }
+        
+        return uArray;
+    }
+    
     function onClick(e) 
     {
-        
+        document.getElementById('reference_id').style.display = "none";
+        document.getElementById('reference_data_id').innerHTML ="";
         //alert("Click");
         selectedLayer = e.layer;
         selectedLayer = e.layer;
         var selectedFeature =  selectedLayer.feature;
         var selectedProps =  selectedFeature.properties;
         if(selectedProps.hasOwnProperty("desc") &&  selectedProps.desc.length > 0)
+        {
+            var urlRegex = /(https?:\/\/[^ ]*)/;
+            
+            
+            var input = selectedProps.desc;
+            //var url = input.match(urlRegex)[1];
+            //var matches = input.match(urlRegex);
+            //console.log(matches);
+            var matches = findUrls(input);
+            if(matches && matches.length > 0)
+            {
+                document.getElementById('reference_id').style.display = "block";
+                console.log(matches);
+                var count = matches.length;
+                //alert(count);
+                var i=0;
+                var urls = "";
+                for(i=0;i<count;i++)
+                {
+                    var label = matches[i];
+                    if(label.length > 45)
+                        label = label.substring(0,45)+"...";
+                    var url = "<div class='col-md-12'><a href='"+matches[i]+"' target='_blank'>"+label+"</a></div>";
+                    urls = urls+"\n"+url;
+                }
+                //console.log(urls);
+                document.getElementById('reference_data_id').innerHTML = urls;
+            }
+            //else
+            //{
+            //    document.getElementById('reference_id').style.display = "none";
+            //}
+            
             document.getElementById('annotation_desc_id').value = selectedProps.desc;
+        }
         else 
             document.getElementById('annotation_desc_id').value = "";
         
