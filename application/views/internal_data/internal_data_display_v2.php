@@ -949,7 +949,7 @@
                     var label = matches[i];
                     if(label.length > 45)
                         label = label.substring(0,45)+"...";
-                    var url = "<div class='col-md-12'><a href='"+matches[i]+"' target='_blank'>"+label+"</a></div>";
+                    var url = "<div class='col-md-12'><a href='"+matches[i]+"' target='_blank' title='"+matches[i]+"'>"+label+"</a></div>";
                     urls = urls+"\n"+url;
                 }
                 //console.log(urls);
