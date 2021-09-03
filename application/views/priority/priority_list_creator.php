@@ -67,12 +67,27 @@
                                     <td><?php echo $assignee_map[$item->annotation_id]; ?></td>
                                     <td><?php echo $item->description; ?></td>
                                     <td><?php echo $item->priority_name; ?></td>
-                                    <td><?php echo $item->assign_time; ?></td>
+                                    <td><?php 
+                            
+                            $assign_time = $item->assign_time;
+                            
+                            $sep = strpos($assign_time, ".");
+                            if($sep === false)
+                                echo $item->assign_time;
+                            else
+                            {
+                                echo substr($assign_time, 0, $sep);
+                            }
+                            
+                            
+                            ?></td>
                                     <td>
                                         <?php
                                             $viewUrl = $base_url."/internal_data/".$item->image_id."?username=".$username."&token=".$token."&zindex=".$item->zindex."&lat=".$item->lat."&lng=".$item->lng."&zoom=".$item->zoom;
+                                            
+                                            $deleteUrl = $base_url."/Annotation_priority/delete_annotation/".$item->image_id."/".$item->annotation_id."?username=".$username."&token=".$token;
                                         ?>
-                                        <a href="<?php echo $viewUrl; ?>" target="_blank">View</a>
+                                        <a href="<?php echo $viewUrl; ?>" target="_blank" class="btn btn-primary">View</a>  <a href="<?php echo $deleteUrl; ?>" target="_self" class="btn btn-danger"  onclick="return confirm('Are you sure to delete this annotation (<?php echo $item->annotation_id;  ?>)?')">Delete</a>
                                     </td>
                                 </tr>
                         <?php
