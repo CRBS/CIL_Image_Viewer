@@ -88,7 +88,8 @@ class Annotation_priority extends CI_Controller
         $dbutil->deletePriority($cil_pgsql_db, $annotation_id, $image_id, $username);
         
         
-        echo "OK";
+        //echo "OK";
+        redirect($base_url."/Annotation_priority/created_by?username=".$username."&token=".$token);
     }
     
     public function created_by()
