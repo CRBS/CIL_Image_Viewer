@@ -40,6 +40,54 @@ class DBUtil
         return $isReporter;
     }
     
+    
+    public function reopenPriority($cil_pgsql_db, $annotation_id, $image_id, $reporter)
+    {
+        $sql = "update internal_proj_priority set close_time = NULL where annotation_id = $1 and image_id = $2 and reporter = $3";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $annotation_id);
+        array_push($input, $image_id);
+        array_push($input, $reporter);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+    }
+    
+    public function closePriority($cil_pgsql_db, $annotation_id, $image_id, $reporter)
+    {
+        $sql = "update internal_proj_priority set close_time = now() where annotation_id = $1 and image_id = $2 and reporter = $3";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $input = array();
+        array_push($input, $annotation_id);
+        array_push($input, $image_id);
+        array_push($input, $reporter);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        pg_close($conn);
+        return true;
+    }
+    
+    
     public function deletePriority($cil_pgsql_db, $annotation_id, $image_id, $reporter)
     {
         $sql = "delete from internal_proj_priority where annotation_id = $1 and image_id = $2 and reporter = $3";
@@ -85,15 +133,23 @@ class DBUtil
     }
     
     
-    public function getAllPriorityCreatedBy($cil_pgsql_db, $username)
+    public function getAllPriorityCreatedBy($cil_pgsql_db, $username, $closed)
     {
         $pArray = array();
-        $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
+        $sql = "";
+        
+        if($closed)
+            $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
                " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname, ".
                " pa.full_name as assignee_name, pa.username as assignee_username, pa.email as assignee_email ".
-               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pp.reporter = $1 ".
+               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pp.reporter = $1 and pp.close_time is NULL".
                " order by pp.priority_index desc, pp.assign_time desc, assignee_name asc";
-        
+        else 
+            $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
+               " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname, ".
+               " pa.full_name as assignee_name, pa.username as assignee_username, pa.email as assignee_email ".
+               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pp.reporter = $1 and pp.close_time is not NULL".
+               " order by pp.priority_index desc, pp.assign_time desc, assignee_name asc";
         
         $conn = pg_pconnect($cil_pgsql_db);
         if (!$conn) 

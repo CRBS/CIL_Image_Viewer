@@ -34,6 +34,79 @@ class Annotation_priority extends CI_Controller
         
     }
     
+    public function reopen_annotation($image_id,$annotation_id)
+    {
+        $this->load->helper('url');
+        $dbutil = new DBUtil();
+        $mutil = new MailUtil();    
+        $base_url = $this->config->item('base_url');
+        $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+        
+        $username = $this->input->get('username', TRUE);
+        $token = $this->input->get('token', TRUE);
+        
+        
+        $data['base_url'] = $base_url;
+        $data['username'] = $username;
+        $data['token'] = $token;
+        
+        if(is_null($username) || is_null($token))
+        {
+            show_404();
+            //echo "<br/>username is null";
+            return;
+        }
+        
+        $correctToken = $dbutil->isTokenCorrect($cil_pgsql_db, $username, $token);
+        if(!$correctToken)
+        {
+            show_404();
+            //echo "<br/>Incorrect token";;
+            return;
+        }
+        
+        $dbutil->reopenPriority($cil_pgsql_db, $annotation_id, $image_id, $username);
+    
+        redirect($base_url."/Annotation_priority/created_by?username=".$username."&token=".$token);
+    }
+    
+    
+    public function close_annotation($image_id,$annotation_id)
+    {
+        $this->load->helper('url');
+        $dbutil = new DBUtil();
+        $mutil = new MailUtil();    
+        $base_url = $this->config->item('base_url');
+        $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+        
+        $username = $this->input->get('username', TRUE);
+        $token = $this->input->get('token', TRUE);
+        
+        
+        $data['base_url'] = $base_url;
+        $data['username'] = $username;
+        $data['token'] = $token;
+        
+        if(is_null($username) || is_null($token))
+        {
+            show_404();
+            //echo "<br/>username is null";
+            return;
+        }
+        
+        $correctToken = $dbutil->isTokenCorrect($cil_pgsql_db, $username, $token);
+        if(!$correctToken)
+        {
+            show_404();
+            //echo "<br/>Incorrect token";;
+            return;
+        }
+        
+        $dbutil->closePriority($cil_pgsql_db, $annotation_id, $image_id, $username);
+    
+        redirect($base_url."/Annotation_priority/created_by?username=".$username."&token=".$token);
+    }
+    
     
     public function delete_annotation($image_id,$annotation_id)
     {
@@ -124,18 +197,24 @@ class Annotation_priority extends CI_Controller
         }
         
         $data['title'] = "Priority list - created by me";
-        $pArray = $dbutil->getAllPriorityCreatedBy($cil_pgsql_db, $username);
-        
-        
-        
+        $pArray = $dbutil->getAllPriorityCreatedBy($cil_pgsql_db, $username, true);
         $pjson_str = json_encode($pArray);
         $pJson = json_decode($pjson_str);
-        
-        $data['assignee_map'] = $this->getAssigneeMap($pJson);
         $data['pJson'] = $pJson;
+        $data['assignee_map'] = $this->getAssigneeMap($pJson);
+        
+        $cpArray = $dbutil->getAllPriorityCreatedBy($cil_pgsql_db, $username, false);
+        $cpjson_str = json_encode($cpArray);
+        $cpJson = json_decode($cpjson_str);
+        $data['cpJson'] = $cpJson;
+        $data['c_assignee_map'] = $this->getAssigneeMap($cpJson);
+        
+        
+        
+        
         
         $this->load->view('priority/header', $data);
-        $this->load->view('priority/priority_list_creator', $data);
+        $this->load->view('priority/priority_list_creator2', $data);
     }
     
     
