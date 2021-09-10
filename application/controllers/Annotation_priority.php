@@ -71,6 +71,43 @@ class Annotation_priority extends CI_Controller
     }
     
     
+    public function reopen_annotation_assignee($image_id,$annotation_id)
+    {
+        $this->load->helper('url');
+        $dbutil = new DBUtil();
+        $mutil = new MailUtil();    
+        $base_url = $this->config->item('base_url');
+        $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+        
+        $username = $this->input->get('username', TRUE);
+        $token = $this->input->get('token', TRUE);
+        
+        
+        $data['base_url'] = $base_url;
+        $data['username'] = $username;
+        $data['token'] = $token;
+        
+        if(is_null($username) || is_null($token))
+        {
+            show_404();
+            //echo "<br/>username is null";
+            return;
+        }
+        
+        $correctToken = $dbutil->isTokenCorrect($cil_pgsql_db, $username, $token);
+        if(!$correctToken)
+        {
+            show_404();
+            //echo "<br/>Incorrect token";;
+            return;
+        }
+        //echo "<br/>Annotation ID:".$annotation_id."-----";
+        //echo "<br/>Image ID:".$image_id."------";
+        $dbutil->reopenPriority($cil_pgsql_db, $annotation_id, $image_id, $username);
+        //echo "<br/>End closePriority";
+        redirect($base_url."/Annotation_priority/assigned_by?username=".$username."&token=".$token);
+    }
+    
     public function close_annotation($image_id,$annotation_id)
     {
         $this->load->helper('url');
@@ -251,14 +288,19 @@ class Annotation_priority extends CI_Controller
         }
         
         $data['title'] = "Priority list - assigned to me";
-        $pArray = $dbutil->getAllPriorityAssignedBy($cil_pgsql_db, $username);
-        //var_dump($pArray);
+        $pArray = $dbutil->getAllPriorityAssignedBy($cil_pgsql_db, $username, true);
         $pjson_str = json_encode($pArray);
         $pJson = json_decode($pjson_str);
         $data['pJson'] = $pJson;
         
+        
+        $cpArray = $dbutil->getAllPriorityAssignedBy($cil_pgsql_db, $username, false);
+        $cpjson_str = json_encode($cpArray);
+        $cpJson = json_decode($cpjson_str);
+        $data['cpJson'] = $cpJson;
+        
         $this->load->view('priority/header', $data);
-        $this->load->view('priority/priority_list_assignee', $data);
+        $this->load->view('priority/priority_list_assignee2', $data);
     }
     
 }

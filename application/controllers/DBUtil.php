@@ -43,8 +43,8 @@ class DBUtil
     
     public function reopenPriority($cil_pgsql_db, $annotation_id, $image_id, $reporter)
     {
-        $sql = "update internal_proj_priority set close_time = NULL where annotation_id = $1 and image_id = $2 and reporter = $3";
-        
+        //$sql = "update internal_proj_priority set close_time = NULL where annotation_id = $1 and image_id = $2 and reporter = $3";
+        $sql = "update internal_proj_priority set close_time = NULL where annotation_id = $1 and image_id = $2";
         $conn = pg_pconnect($cil_pgsql_db);
         if (!$conn) 
             return false;
@@ -52,7 +52,7 @@ class DBUtil
         $input = array();
         array_push($input, $annotation_id);
         array_push($input, $image_id);
-        array_push($input, $reporter);
+        //array_push($input, $reporter);
         $result = pg_query_params($conn, $sql, $input);
         if(!$result) 
         {
@@ -66,7 +66,10 @@ class DBUtil
     
     public function closePriority($cil_pgsql_db, $annotation_id, $image_id, $reporter)
     {
-        $sql = "update internal_proj_priority set close_time = now() where annotation_id = $1 and image_id = $2 and reporter = $3";
+        //$sql = "update internal_proj_priority set close_time = now() where annotation_id = $1 and image_id = $2 and reporter = $3";
+        $sql = "update internal_proj_priority set close_time = now() where annotation_id = $1 and image_id = $2";
+        
+        //echo "<br/>".$sql;
         
         $conn = pg_pconnect($cil_pgsql_db);
         if (!$conn) 
@@ -75,7 +78,7 @@ class DBUtil
         $input = array();
         array_push($input, $annotation_id);
         array_push($input, $image_id);
-        array_push($input, $reporter);
+        //array_push($input, $reporter);
         $result = pg_query_params($conn, $sql, $input);
         if(!$result) 
         {
@@ -192,12 +195,20 @@ class DBUtil
         
     }
     
-    public function getAllPriorityAssignedBy($cil_pgsql_db, $username)
+    public function getAllPriorityAssignedBy($cil_pgsql_db, $username, $is_closed)
     {
         $pArray = array();
-        $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
+        
+        $sql = "";
+        
+        if($is_closed)
+            $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
                " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname ".
-               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pa.username = $1 order by pp.priority_index desc, pp.assign_time desc";
+               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pa.username = $1 and pp.close_time is NULL order by pp.priority_index desc, pp.assign_time desc";
+        else
+            $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
+               " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname ".
+               " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pa.username = $1 and pp.close_time is not NULL order by pp.priority_index desc, pp.assign_time desc";
 
         $conn = pg_pconnect($cil_pgsql_db);
         if (!$conn) 
