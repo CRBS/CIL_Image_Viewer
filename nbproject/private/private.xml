@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/views/priority/priority_list_assignee.php</file>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/controllers/DBUtil.php</file>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/views/priority/priority_list_creator2.php</file>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/views/priority/priority_list_assignee2.php</file>
+            <file>file:/C:/Users/wawong/Documents/apache/CIL_Image_Viewer/Apache24/html/CIL_Image_Viewer/application/controllers/Annotation_priority.php</file>
+        </group>
     </open-files>
 </project-private>

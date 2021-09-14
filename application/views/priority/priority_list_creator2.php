@@ -60,7 +60,7 @@
                         <th scope="col">Assignees</th>
                         <th scope="col">Description</th>
                         <th scope="col">Priority level</th>
-                        <th scope="col">Timestamp</th>
+                        <th scope="col">Start time</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -146,7 +146,9 @@
                         <th scope="col">Assignees</th>
                         <th scope="col">Description</th>
                         <th scope="col">Priority level</th>
-                        <th scope="col">Timestamp</th>
+                        <th scope="col">Start time</th>
+                        <th scope="col">End time</th>
+                        <th scope="col">Closed by</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -179,6 +181,25 @@
                             
                             
                             ?></td>
+                                    <td><?php
+                                        $close_time = $item->close_time;
+                                        if(!is_null($close_time))
+                                        {
+                                            $sep = strpos($close_time, ".");
+                                            if($sep === false)
+                                                echo $item->close_time;
+                                            else
+                                            {
+                                                echo substr($close_time, 0, $sep);
+                                            }
+                                        }
+                                    ?></td>
+                                    <td><?php
+                                        if(!is_null($item->close_username))
+                                        {
+                                            echo $item->close_username;
+                                        }
+                                    ?></td>
                                     <td>
                                         <?php
                                             $viewUrl = $base_url."/internal_data/".$item->image_id."?username=".$username."&token=".$token."&zindex=".$item->zindex."&lat=".$item->lat."&lng=".$item->lng."&zoom=".$item->zoom;

@@ -60,7 +60,7 @@
                         <th scope="col">Reporter name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Priority level</th>
-                        <th scope="col">Timestamp</th>
+                        <th scope="col">Start time</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -107,8 +107,10 @@
                             <td>
                                 <?php
                                     $viewUrl = $base_url."/internal_data/".$item->image_id."?username=".$username."&token=".$token."&zindex=".$item->zindex."&lat=".$item->lat."&lng=".$item->lng."&zoom=".$item->zoom;
+                                    
+                                    $closeUrl = $base_url."/Annotation_priority/close_annotation_assignee/".$item->image_id."/".$item->annotation_id."?username=".$username."&token=".$token;
                                 ?>
-                                <a href="<?php echo $viewUrl; ?>" target="_blank" class="btn btn-primary">View</a>
+                                <a href="<?php echo $viewUrl; ?>" target="_blank" class="btn btn-primary">View</a> <a href="<?php echo $closeUrl; ?>" target="_self" class="btn btn-primary">Close</a>
                             </td>
                         </tr>
                         
@@ -151,7 +153,9 @@
                         <th scope="col">Reporter name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Priority level</th>
-                        <th scope="col">Timestamp</th>
+                        <th scope="col">Start time</th>
+                        <th scope="col">End time</th>
+                        <th scope="col">Closed by</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -193,6 +197,29 @@
                                 echo substr($assign_time, 0, $sep);
                             }
                             
+                            
+                            ?></td>
+                            <td><?php
+                              
+                                $close_time = $item->close_time;
+                                if(!is_null($close_time))
+                                {
+                                    $sep = strpos($close_time, ".");
+                                    if($sep === false)
+                                        echo $item->close_time;
+                                    else
+                                    {
+                                        echo substr($close_time, 0, $sep);
+                                    }
+                                }
+                            
+                            ?></td>
+                            <td><?php
+                            
+                                if(!is_null($item->close_username))
+                                {
+                                    echo $item->close_username;
+                                }
                             
                             ?></td>
                             <td>

@@ -67,7 +67,7 @@ class DBUtil
     public function closePriority($cil_pgsql_db, $annotation_id, $image_id, $reporter)
     {
         //$sql = "update internal_proj_priority set close_time = now() where annotation_id = $1 and image_id = $2 and reporter = $3";
-        $sql = "update internal_proj_priority set close_time = now() where annotation_id = $1 and image_id = $2";
+        $sql = "update internal_proj_priority set close_time = now(), close_username = $1 where annotation_id = $2 and image_id = $3";
         
         //echo "<br/>".$sql;
         
@@ -76,9 +76,10 @@ class DBUtil
             return false;
         
         $input = array();
+        array_push($input, $reporter);
         array_push($input, $annotation_id);
         array_push($input, $image_id);
-        //array_push($input, $reporter);
+
         $result = pg_query_params($conn, $sql, $input);
         if(!$result) 
         {
@@ -144,13 +145,13 @@ class DBUtil
         if($closed)
             $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
                " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname, ".
-               " pa.full_name as assignee_name, pa.username as assignee_username, pa.email as assignee_email ".
+               " pa.full_name as assignee_name, pa.username as assignee_username, pa.email as assignee_email , pp.close_time, pp.close_username ".
                " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pp.reporter = $1 and pp.close_time is NULL".
                " order by pp.priority_index desc, pp.assign_time desc, assignee_name asc";
         else 
             $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
                " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname, ".
-               " pa.full_name as assignee_name, pa.username as assignee_username, pa.email as assignee_email ".
+               " pa.full_name as assignee_name, pa.username as assignee_username, pa.email as assignee_email , pp.close_time, pp.close_username ".
                " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pp.reporter = $1 and pp.close_time is not NULL".
                " order by pp.priority_index desc, pp.assign_time desc, assignee_name asc";
         
@@ -185,6 +186,8 @@ class DBUtil
             $item['assignee_fullname'] = $row[11];
             $item['assignee_username'] = $row[12];
             $item['assignee_email'] = $row[13];
+            $item['close_time'] = $row[14];
+            $item['close_username'] = $row[15];
             
             array_push($pArray, $item);
             
@@ -203,11 +206,11 @@ class DBUtil
         
         if($is_closed)
             $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
-               " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname ".
+               " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname, pp.close_time, pp.close_username ".
                " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pa.username = $1 and pp.close_time is NULL order by pp.priority_index desc, pp.assign_time desc";
         else
             $sql = "select pp.annotation_id, pp.image_id, pp.zindex, pp.reporter, pp.priority_name, pp.assign_time, pp.description, ".
-               " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname ".
+               " pp.zoom, pp.lat, pp.lng, pp.reporter_fullname, pp.close_time, pp.close_username ".
                " from internal_proj_priority pp, i_proj_priority_assignees pa  where pp.annotation_id = pa.annotation_id and pa.username = $1 and pp.close_time is not NULL order by pp.priority_index desc, pp.assign_time desc";
 
         $conn = pg_pconnect($cil_pgsql_db);
@@ -237,6 +240,8 @@ class DBUtil
             $item['lat'] = $row[8];
             $item['lng'] = $row[9];
             $item['reporter_fullname'] = $row[10];
+            $item['close_time'] = $row[11];
+            $item['close_username'] = $row[12];
             
             array_push($pArray, $item);
             
