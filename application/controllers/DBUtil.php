@@ -633,8 +633,11 @@ class DBUtil
     public function getAllAnnotators($db_params)
     {
         $mainArray = array();
-        $sql = "select u.username, u.email, u.full_name from cil_users u, cil_user_groups g ".
-               " where u.username = g.username and g.group_name =  'ncmir' order by u.full_name asc";
+        //$sql = "select u.username, u.email, u.full_name from cil_users u, cil_user_groups g ".
+        //       " where u.username = g.username and g.group_name =  'ncmir' order by u.full_name asc";
+        $sql = "select distinct u.username, u.email, u.full_name from cil_users u, cil_user_groups g ".
+               " where u.username = g.username and (g.group_name =  'ncmir' or u.user_role = 1)  order by u.full_name asc";
+        
         $conn = pg_pconnect($db_params);
         if (!$conn) 
         {
