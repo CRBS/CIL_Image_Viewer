@@ -25,10 +25,21 @@
             $data['tindex'] = intval($tindex);
 
             $db_params = $this->config->item('db_params');
+            $cil_pgsql_db = $this->config->item('cil_pgsql_db');
             $data['base_url'] = $this->config->item('base_url');
             
             
             $dbutil = new DBUtil();
+            if($dbutil->isInternalImage($cil_pgsql_db, $image_id))
+            {
+                if(!$dbutil->isInternalImagePublic($cil_pgsql_db, $image_id))
+                {
+                    show_404();
+                    return;
+                }
+            }
+            
+            
             $localutil = new DataLocalUtil();
             $array = $dbutil->getImageInfo($db_params,$image_id);
             if(is_null($array))

@@ -2072,6 +2072,61 @@ class DBUtil
         
     }
     
+    
+    public function isInternalImage($cil_pgsql_db, $image_id)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        $sql = "select id from group_images where image_id = $1";
+        
+        $input = array();
+        array_push($input,$image_id);
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        $isPublic = false;
+        if($row = pg_fetch_row($result))
+        {
+            $isPublic = true;
+        }
+        pg_close($conn);
+        return $isPublic;
+        
+    }
+    
+    public function isInternalImagePublic($cil_pgsql_db, $image_id)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        $sql = "select id from group_images where image_id = $1 and publish_time is not NULL";
+        
+        $input = array();
+        array_push($input,$image_id);
+        
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        $isPublic = false;
+        if($row = pg_fetch_row($result))
+        {
+            $isPublic = true;
+        }
+        pg_close($conn);
+        return $isPublic;
+    }
+    
+    
     public function isTokenCorrect($cil_pgsql_db,$username,$token)
     {
         $conn = pg_pconnect($cil_pgsql_db);
