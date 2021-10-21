@@ -30,12 +30,15 @@
             
             
             $dbutil = new DBUtil();
-            if($dbutil->isInternalImage($cil_pgsql_db, $image_id))
+            if(!is_null($cil_pgsql_db))
             {
-                if(!$dbutil->isInternalImagePublic($cil_pgsql_db, $image_id))
+                if($dbutil->isInternalImage($cil_pgsql_db, $image_id))
                 {
-                    show_404();
-                    return;
+                    if(!$dbutil->isInternalImagePublic($cil_pgsql_db, $image_id))
+                    {
+                        show_404();
+                        return;
+                    }
                 }
             }
             
