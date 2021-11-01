@@ -2100,6 +2100,63 @@ class DBUtil
         
     }
     
+    public function hasPixelSize($cil_pgsql_db, $image_id)
+    {
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return false;
+        
+        $sql = "select id from group_images where pixel_size_value is not NULL and pixel_size_unit is not NULL and image_id = $1";
+        $input = array();
+        array_push($input,$image_id);
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        $hasPixelSize = false;
+        if($row = pg_fetch_row($result))
+        {
+            $hasPixelSize = true;
+        }
+        pg_close($conn);
+        return $hasPixelSize;
+     
+    }
+    
+    public function getPixelSize($cil_pgsql_db, $image_id)
+    {
+        $array = null;
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn) 
+            return null;
+        $sql = "select pixel_size_value,pixel_size_unit  from group_images where pixel_size_value is not NULL and pixel_size_unit is not NULL and image_id = $1";
+        $input = array();
+        array_push($input,$image_id);
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            $pixel_size_value = doubleval($row[0]);
+            $pixel_size_unit = $row[1];
+            
+            $array['pixel_size_value'] = $pixel_size_value;
+            $array['pixel_size_unit'] = $pixel_size_unit;
+        }
+        pg_close($conn);
+        
+        return $array;
+        
+    }
+    
+    
     public function isInternalImagePublic($cil_pgsql_db, $image_id)
     {
         $conn = pg_pconnect($cil_pgsql_db);

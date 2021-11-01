@@ -399,7 +399,20 @@
                 if(!$json->is_timeseries)
                 {
                     //$this->load->view('internal_data/internal_data_display', $data);
-                    $this->load->view('internal_data/internal_data_display_v2', $data);
+                    //$this->load->view('internal_data/internal_data_display_v2', $data);
+                    if($dbutil->hasPixelSize($cil_pgsql_db, $image_id))
+                    {
+                        $pixelSizeArray = $dbutil->getPixelSize($cil_pgsql_db, $image_id);
+                        $data['showScale'] = "true";
+                        $data['pixel_size_value'] = $pixelSizeArray['pixel_size_value'];
+                        $data['pixel_size_unit'] = $pixelSizeArray['pixel_size_unit'];
+                        
+                    }
+                    else 
+                    {
+                        $data['showScale'] = "false";
+                    }
+                    $this->load->view('internal_data/internal_data_display_v2_s', $data);
                 }
                 
             }
