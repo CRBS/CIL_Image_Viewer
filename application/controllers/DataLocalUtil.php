@@ -42,7 +42,7 @@ class DataLocalUtil
                return true;
         }
         
-        echo "<br/>Is Tar Directory";
+        //echo "<br/>Is Tar Directory";
         
         return false;
     }
@@ -190,7 +190,7 @@ class DataLocalUtil
     {
         if($this->isTarDirectory($image_id, $image_tar_dir))
             return $this->getLocalTarInfo ($image_id, $image_tar_dir);
-        else if($this->isTarDirectory($image_id, $image_tar_dir))
+        else if($this->isSqliteDirectory($image_id, $image_tar_dir))
             return $this->getLocalSqliteInfo ($image_id, $image_tar_dir);
         else
         {
