@@ -184,11 +184,51 @@ class Image_annotation_service extends REST_Controller
         $this->response($array);
     }
     
+    
+    public function public_geodata_post($cil_id="0",$sindex="0")
+    {
+        $db_params = $this->config->item('db_params');
+        $dbutil = new DBUtil();
+        $json_str = file_get_contents('php://input', 'r');
+        $index = intval($sindex);
+        
+        $exists = $dbutil->geoDataExist($db_params,$cil_id,$index);
+        if(!$exists)
+            $dbutil->insertPublicGeoData($db_params,$cil_id,$index,$json_str);
+        else
+            $dbutil->updatePublicGeoData($db_params,$cil_id,$index,$json_str);
+        $array = array();
+        $array[$this->success] = $exists;
+        $this->response($array);
+    }
+    
+    
     public function geodata_get($cil_id="0",$sindex="0")
     {
         $db_params = $this->config->item('db_params');
         $dbutil = new DBUtil();
         $json = $dbutil->getGeoData($db_params,$cil_id,$sindex);
+        if(!is_null($json))
+        {
+           $this->response($json);
+        }
+        else
+        {
+            //$array = array();
+            //$array[$this->success] = false;
+            //$this->response($array);
+            $json_str = "{\"type\":\"FeatureCollection\",\"features\":[]}";
+            $json = json_decode($json_str);
+            $this->response($json);
+        }
+    }
+    
+    
+    public function public_geodata_get($cil_id="0",$sindex="0")
+    {
+        $db_params = $this->config->item('db_params');
+        $dbutil = new DBUtil();
+        $json = $dbutil->getPublicGeoData($db_params,$cil_id,$sindex);
         if(!is_null($json))
         {
            $this->response($json);

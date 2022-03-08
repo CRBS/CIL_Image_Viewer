@@ -386,7 +386,7 @@
 
     
     
-    $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
+    $.get( "<?php echo $serverName; ?>/image_annotation_service/public_geodata/"+cil_id+"/"+zindex, function( data ) {
         //alert(JSON.stringify(data) );
         map.removeLayer(drawnItems);
         drawnItems = L.geoJSON(data);
@@ -518,7 +518,7 @@
     
     function saveGeoJson(geo_json_str)
     {
-        $.post('<?php echo $serverName; ?>/image_annotation_service/geodata/'+cil_id+'/'+zindex, geo_json_str, function(returnedData) {
+        $.post('<?php echo $serverName; ?>/image_annotation_service/public_geodata/'+cil_id+'/'+zindex, geo_json_str, function(returnedData) {
             // do something here with the returnedData
             //console.log(returnedData);
         });
@@ -579,7 +579,7 @@
             layer1.setUrl(url);
             
             var isAon = document.getElementById("annotation_check").checked;
-            $.get( "<?php echo $serverName; ?>/image_annotation_service/geodata/"+cil_id+"/"+zindex, function( data ) {
+            $.get( "<?php echo $serverName; ?>/image_annotation_service/public_geodata/"+cil_id+"/"+zindex, function( data ) {
             //alert(JSON.stringify(data) );
             
             //map.removeLayer(drawnItems);

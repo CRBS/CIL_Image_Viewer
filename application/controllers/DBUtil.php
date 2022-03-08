@@ -1978,7 +1978,34 @@ class DBUtil
         return $count;
     }
 
-    
+    public function getPublicGeoData($db_params,$cil_id, $sindex)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return null;
+        }
+        $input = array();
+        $sql = "select public_geo_json from image_annotation where cil_id = $1 and z_index = $2";
+        $index = intval($sindex);
+        array_push($input,$cil_id);
+        array_push($input,$index);        
+        $result = pg_query_params($conn,$sql,$input);
+        
+        if(!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        $json = null;
+        if($row = pg_fetch_row($result))
+        {
+            $json_str = $row[0];
+            $json = json_decode($json_str);
+        }
+        pg_close($conn);
+        return $json;
+    }
     
     public function getGeoData($db_params,$cil_id, $sindex)
     {
@@ -2749,6 +2776,32 @@ class DBUtil
     }
     
     
+    public function updatePublicGeoData($db_params,$cil_id, $index, $json_str)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return null;
+        }
+        $input = array();
+        array_push($input, $json_str);
+        array_push($input, $cil_id);
+        array_push($input, $index);
+        $sql = "update image_annotation set public_geo_json = $1, update_timestamp=now() where cil_id = $2 and z_index = $3";
+    
+        $result = pg_query_params($conn,$sql,$input);
+        if (!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        pg_close($conn);
+        
+        return true;
+        
+    }
+    
+    
     
     public function insertGeoMetadata($db_params,$cil_id, $sindex, $object_id,
             $desc)
@@ -2825,6 +2878,38 @@ class DBUtil
         return true;
         
     }
+    
+    
+    
+    public function insertPublicGeoData($db_params,$cil_id, $index, $json_str)
+    {
+        $conn = pg_pconnect($db_params);
+        if (!$conn) 
+        {
+            return null;
+        }
+        $input = array();
+        array_push($input, $cil_id);
+        array_push($input, $index);
+        array_push($input, $json_str);
+        
+        
+        $sql = "insert into image_annotation(id, cil_id, z_index, public_geo_json, update_timestamp) ".
+               " values(nextval('general_sequence'), $1, $2, $3,now())";
+        $result = pg_query_params($conn,$sql,$input);
+        
+        if (!$result) 
+        {
+            pg_close($conn);
+            return null;
+        }
+        
+        pg_close($conn);
+        
+        return true;
+        
+    }
+    
     
     
     public function insertGeoDataHisotry($db_params,$cil_id, $index, $json_str)
