@@ -55,6 +55,8 @@ class MailUtil
     
     public function sendGmail($sender_email, $sender_name, $sender_pwd, $to_email, $reply_email, $reply_email_name, $subject, $message,$email_error_log_file)
     {
+        $this->sendLocalMail($to_email, $subject, $message);
+        /*
         error_log("\n".date("Y-m-d h:i:sa")."-------".getcwd()."/application/controllers/PHPMailer/Exception.php",3,$email_error_log_file);
         
         date_default_timezone_set( 'America/Los_Angeles' );
@@ -101,6 +103,10 @@ class MailUtil
             //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             error_log("\n".date("Y-m-d h:i:sa")."----Error:".$mail->ErrorInfo,3,$email_error_log_file);
         }
+         * 
+         */
+        
+        
     }
     
     
@@ -147,4 +153,35 @@ class MailUtil
         return $result;
     }
     
+    
+    public function sendLocalMail($to_email, $subject, $message)
+    {
+        
+        /*$headers[] = 'MIME-Version: 1.0';
+        $headers[] = 'Content-type: text/html; charset=utf-8';
+        $headers[] = 'From: cdeep3m@ucsd.edu';
+        
+        mail($to_email, $subject, $message, implode("\r\n", $headers)); */
+        
+        
+        $this->sendEmailByCommandLine($to_email, $subject, $message);
+    }
+    
+    
+    private function formatForEmail($input)
+    {
+        $out = trim(preg_replace('/\s+/', ' ', $input));
+        $out = str_replace("'", " ", $out);
+        return $out;
+    }
+    
+    public function sendEmailByCommandLine($to, $subject, $message)
+    {
+        $subject = $this->formatForEmail($subject);
+        $message = $this->formatForEmail($message);
+        $message = "<html><body>".$message."</body></html>";
+        $cmd = "sendEmail -t ".$to." -f cdeep3m@reba.ncmir.ucsd.edu -s reba.ncmir.ucsd.edu:25 -u '".$subject."' -m '".$message."'";
+        $response = shell_exec($cmd);
+        //echo $response;
+    }
 }

@@ -6,6 +6,23 @@
     class Admin extends CI_Controller
     {
         private $success = "success";
+        
+        public function urls($image_id="0")
+        {
+            $this->load->helper('url');
+            /********Check session**************************/
+            $login = $this->session->userdata('login');
+            $base_url = $this->config->item('base_url');
+            if(is_null($login))
+            {
+               redirect ($base_url."/login/auth/".$image_id);
+               return;
+            }
+            /******End check session **********************/
+            
+            
+        }
+        
         public function image($image_id="0")
         {
             

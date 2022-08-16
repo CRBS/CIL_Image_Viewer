@@ -227,6 +227,10 @@ class Image_process_rest extends REST_Controller
         if(strcmp($stage_or_prod,"stage") == 0 && is_numeric($crop_id))
         {
             $crop_id = intval($crop_id);
+            
+            $logDir = $this->config->item('service_log_dir');
+            $logFile = $logDir."/prp_report.log";
+            
             $image_metadata_auth = $this->config->item('image_metadata_auth');
             $cdeep3m_result_path_prefix = $this->config->item('cdeep3m_result_path_prefix');
             
@@ -257,25 +261,21 @@ class Image_process_rest extends REST_Controller
                 
                 
                 /***************Sending email ********************/
-                /*$cropInfoJson = $dbutil->getCropProcessInfo($db_params, $crop_id);
-                if(!is_null($cropInfoJson) && isset($cropInfoJson->contact_email))
-                {
-                    
-                    error_log("\nIn the if statement", 3, $debugFile);
-                    $sendgrid_api_url = $this->config->item('sendgrid_api_url');
-                    $sendgrid_api_key = $this->config->item('sendgrid_api_key');
-                    $from  = "cdeep3m@ucsd.edu";
-                    $to = $cropInfoJson->contact_email;
-                    $subject = "Your CDeep3M processs is finished";
-                    $message = "https://cdeep3m-viewer-stage.crbs.ucsd.edu/cdeep3m_result/view/".$crop_id;
-                    $response = $mailer->sendGridMail($to, $from, $subject, $message, $sendgrid_api_url, $sendgrid_api_key);
-                    error_log("\n".$response, 3, $debugFile);
-                }
-                else 
-                {
-                    error_log("\nIn the else statement", 3, $debugFile);
-                }*/
-                 /***************End Sending email ********************/
+                
+                //error_log("\n".date("Y-m-d h:i:sa")."----sending email to:".$to_email,3,$logFile);
+                $mutil = new MailUtil();
+                $subject = "Your CDeep3M processs is finished:".$crop_id;
+                $result_url = "https://cdeep3m-viewer-stage.crbs.ucsd.edu/cdeep3m_result/view/".$crop_id;
+                
+                $cropInfoJson = $dbutil->getCropProcessInfo($db_params, $crop_id);
+                $to_email = $cropInfoJson->contact_email;
+                //$message = "<a href ='".$result_url."' target='_blank'>".$result_url."</a>";
+                $message = $result_url;
+                $mutil->sendLocalMail($to_email, $subject, $message);
+                error_log("\n".date("Y-m-d h:i:sa")."----Crop ID:".$crop_id,3,$logFile);
+                error_log("\n".date("Y-m-d h:i:sa")."----sending email to:".$to_email,3,$logFile);
+                error_log("\n".date("Y-m-d h:i:sa")."----Message:".$message,3,$logFile);
+                
                 
                 
                 
