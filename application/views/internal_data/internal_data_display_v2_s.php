@@ -249,6 +249,7 @@
                     </div>
                     <div class="modal-footer">
                       <button id="remove_annotation_id" type="button" class="btn btn-danger" data-dismiss="modal">Remove</button>
+                      <button id="release_annotation_id" class="btn btn-info" data-dismiss="modal">Release annotation</button>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     </div>
                   </div>
@@ -1725,6 +1726,25 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
             
         });
         
+        
+        $("#release_annotation_id").click(function() 
+        {
+            if(selectedLayer != null)
+            {
+                var selectedFeature =  selectedLayer.feature;
+                var selectedProps =  selectedFeature.properties;
+                
+                console.log("ID:"+selectedProps.id);
+                var surl =  '<?php echo $serverName; ?>/release_annotation_service/release_annotation/'+cil_id+'/'+zindex+'/'+selectedProps.id;
+                console.log(surl);
+                $.post(surl, '', function(returnedData) {
+                            // do something here with the returnedData
+                            //console.log(returnedData);
+                        });
+                
+            }
+            
+        });
         
         
         $("#remove_annotation_id").click(function() 
