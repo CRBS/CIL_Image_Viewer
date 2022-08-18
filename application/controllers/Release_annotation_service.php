@@ -29,6 +29,13 @@ class Release_annotation_service extends REST_Controller
             foreach($json->features as $feature)
             {
                 $properties = $feature->properties;
+                
+                $match = $this->handleFeatureLinks($feature);
+                if(!is_null($match) && count($match) > 0)
+                {
+                    $feature->properties->URL = $match[0];
+                }
+                
                 //error_log(date("Y-m-d h:i:sa")."----".$properties->id."----".$property_id."\n",3,$logFile);
                 if(strcmp($properties->id."",$property_id)==0)
                 {
@@ -73,11 +80,19 @@ class Release_annotation_service extends REST_Controller
                     
                     $pjson_str = json_encode($pjson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
                     file_put_contents($testJson, $pjson_str);
+                    
+                    
+                    $match_str = json_encode($match, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+                    error_log(date("Y-m-d h:i:sa")."----URL match:\n".$match_str."\n",3,$logFile);
+                    
+                    
+                    
+                    
                     $exists = $dbutil->geoDataExist($db_params, $image_id, $zindex);
                     if(!$exists)
                        $dbutil->insertPublicGeoData($db_params,$image_id,$zindex,$pjson_str);
                     else
-                        $dbutil->updatePublicGeoData($db_params,$image_id,$zindex,$pjson_str);
+                       $dbutil->updatePublicGeoData($db_params,$image_id,$zindex,$pjson_str);
                     
                 }
             }
@@ -87,6 +102,15 @@ class Release_annotation_service extends REST_Controller
         $array = array();
         $array["success"] = true;
         $this->response($array);
+    }
+    
+    private function handleFeatureLinks($feature)
+    {
+        $matches = array();
+        $props = $feature->properties;
+        preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $props->desc, $matches);
+
+        return $matches[0];
     }
     
     public function test_get()

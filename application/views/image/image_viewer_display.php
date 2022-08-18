@@ -451,6 +451,24 @@
         selectedLayer = e.layer;
         var selectedFeature =  selectedLayer.feature;
         var selectedProps =  selectedFeature.properties;
+        document.getElementById('remove_annotation_id').style.display = "block";
+        document.getElementById('submit_annotation_id').style.display = "block";
+        
+        if(selectedProps.hasOwnProperty("URL") && selectedProps.URL.length > 0)
+        {
+            console.log(selectedProps.URL);
+            window.open(selectedProps.URL, '_blank');
+            return;
+        }
+        
+        
+        
+        if(selectedProps.hasOwnProperty("username") && selectedProps.username != 'public')
+        {
+            //console.log(selectedProps.username);
+            document.getElementById('remove_annotation_id').style.display = "none";
+            document.getElementById('submit_annotation_id').style.display = "none";
+        }
         
         if(selectedProps.hasOwnProperty("desc") &&  selectedProps.desc.length > 0)
             document.getElementById('annotation_desc_id').value = selectedProps.desc;

@@ -36,6 +36,7 @@
                 {
                     if(!$dbutil->isInternalImagePublic($cil_pgsql_db, $image_id))
                     {
+                        //echo "Is internal";
                         show_404();
                         return;
                     }
