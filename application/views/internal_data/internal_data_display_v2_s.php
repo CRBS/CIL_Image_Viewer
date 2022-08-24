@@ -241,10 +241,10 @@
                             </div>
                         </div>
                         <hr>
-                         <div class="row">
+                          <div class="row">
                             <div class="col-md-12">
                                 <center><button id="manage_priority_id" type="button" class="btn btn-outline-primary" onclick="manage_priority()">Manage priorities</button></center>
-                            </div>
+                            </div> 
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -644,7 +644,7 @@
 <script>
 
     
-
+    document.getElementById('manage_priority_id').style.display = 'none';
     
     var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
@@ -1062,7 +1062,7 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
         if(selectedProps.hasOwnProperty("username") && selectedProps.username == '<?php echo $username; ?>')
         {
             document.getElementById('remove_annotation_id').style.display = "block";
-            document.getElementById('manage_priority_id').style.display = "block";
+            //document.getElementById('manage_priority_id').style.display = "block";
         }
         else
         {

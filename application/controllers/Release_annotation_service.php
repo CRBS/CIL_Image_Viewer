@@ -33,7 +33,11 @@ class Release_annotation_service extends REST_Controller
                 $match = $this->handleFeatureLinks($feature);
                 if(!is_null($match) && count($match) > 0)
                 {
-                    $feature->properties->URL = $match[0];
+                    $pref_url = $match[0];
+                    $map = $this->getUrlMap($image_id);
+                    if(array_key_exists($pref_url, $map))
+                       $pref_url = $map[$pref_url];
+                    $feature->properties->URL = $pref_url;
                 }
                 
                 //error_log(date("Y-m-d h:i:sa")."----".$properties->id."----".$property_id."\n",3,$logFile);
@@ -120,4 +124,34 @@ class Release_annotation_service extends REST_Controller
         $this->response($array);
     }
     
+    
+    private function getUrlMap($image_id)
+    {
+        $map = array();
+        $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn)
+            return null;
+        
+        $sql = "select internal_url, public_url  from  internal_url_redirect where image_id = $1";
+        $input = array();
+        array_push($input, $image_id);
+        
+        $result = pg_query_params($conn, $sql,$input);
+        if(!$result) 
+        {
+           pg_close($conn);
+           return null; 
+        }
+        
+        while($row = pg_fetch_row($result))
+        {
+            if(!is_null($row[0]) && !is_null($row[1]))
+                $map[trim($row[0])] = trim($row[1]);
+            
+        }
+        pg_close($conn);
+        return $map;
+        
+    }
 }
