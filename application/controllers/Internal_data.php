@@ -395,6 +395,7 @@
                 
                 
                 $data['annotators'] = $dbutil->getAllAnnotators($cil_pgsql_db);
+                $data['isCurator'] = $dbutil->isCurator($cil_pgsql_db, $username);
                 
                 if(!$json->is_timeseries)
                 {

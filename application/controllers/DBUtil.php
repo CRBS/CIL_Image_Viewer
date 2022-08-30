@@ -2069,6 +2069,33 @@ class DBUtil
         
     }
     
+    public function isCurator($cil_pgsql_db, $username)
+    {
+        $sql = "select id from annotation_roles where role = 'curator' and username = $1";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if(!$conn)
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input,$username);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        $isCurator = false;
+        
+        if($row = pg_fetch_row($result))
+        {
+            $isCurator = true;
+        }
+        pg_close($conn);
+        return $isCurator;
+    }
     
     public function isAdmin($cil_pgsql_db, $username)
     {

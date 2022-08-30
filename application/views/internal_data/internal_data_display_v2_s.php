@@ -646,6 +646,17 @@
     
     document.getElementById('manage_priority_id').style.display = 'none';
     
+    
+    <?php
+        if(!$isCurator)
+        {
+    ?>
+            document.getElementById('release_annotation_id').style.display = 'none';
+    <?php
+        } 
+    ?>
+        
+    
     var nplaces = 5;
     var cil_id = "<?php echo $image_id; ?>";
     var zindex = <?php echo $zindex; ?>;
