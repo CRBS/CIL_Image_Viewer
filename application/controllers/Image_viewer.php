@@ -118,6 +118,17 @@
                 
                 $data['max_t'] = $json->max_t;
                 
+                $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+                $downloadInfo = $this->getSliceDownloadInfo($cil_pgsql_db, $image_id);
+                
+                if(!is_null($downloadInfo))
+                {
+                    $data['is_downloadable'] = true;
+                    $data['min_index'] = $downloadInfo['min_index'];
+                }
+                else 
+                    $data['is_downloadable'] = false;
+                
                 if(!$json->is_timeseries)
                 {
                     $this->load->view('image/image_viewer_display', $data);
@@ -134,6 +145,37 @@
             
                 }
             }
+        }
+        
+        
+        private function getSliceDownloadInfo($cil_pgsql_db, $image_id)
+        {
+            $array = null;
+            $conn = pg_pconnect($cil_pgsql_db);
+            if (!$conn) 
+                return null;
+            
+            $sql = "select id, min_index from extract_zimage_method where image_id = $1";
+            $input = array();
+            array_push($input, $image_id);
+            
+            $result = pg_query_params($conn, $sql, $input);
+        
+            if(!$result) 
+            {
+                pg_close($conn);
+                return null;
+            }
+            
+            if($row = pg_fetch_row($result))
+            {
+                $array = array();
+                $array['id'] = intval($row[0]);
+                $array['min_index'] = intval($row[1]);
+            }
+            
+            pg_close($conn);
+            return $array;
         }
         
     }

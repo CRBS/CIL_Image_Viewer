@@ -191,90 +191,6 @@
             <!----------End Annotation Model----------------->  
             </div>
         </div>
-    
-    
-    
-        <!-----------New row------------------>
-        <div class="row">
-            <div class="col-md-12">
-            <!----------Spinning Modal--------------------->    
-            <div class="modal fade" id="spin_modal_id" role="dialog">
-                <div class="modal-dialog" role="document" id="cig_error_modal_id">
-                  <div class="modal-content" >
-                    <div class="modal-header" style="background-color: #8bc4ea">
-                      <h5 class="modal-title" style="color:white">Waiting...</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
-                    </div>
-                    <div class="modal-body" id="settings-modal-body-id">
-
-                        <div class="row">
-                            
-                            <div class="col-md-12">
-                                <center><!--<i class="fa fa-spinner fa-spin" style="font-size:48px;color:#ccccff"></i>--> <div class="loader"></div> </center>
-                            </div>
-                            <div class="col-md-12">
-                                <center>In progress...</center>
-                            </div>
-                            <div class="col-md-12">
-                                <center><div id='seconds-counter'> </div></center>
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="modal-footer">
-                      
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <!----------End Spinning Modal----------------->  
-            </div>
-        </div>
-        <!-----------End new row--------------->
-        
-        
-        <!-----------New row------------------>
-        <div class="row">
-            <div class="col-md-12">
-            <!----------Download Modal--------------------->    
-            <div class="modal fade" id="download_modal_id" role="dialog">
-                <div class="modal-dialog" role="document" id="cig_error_modal_id">
-                  <div class="modal-content" >
-                    <div class="modal-header" style="background-color: #8bc4ea">
-                      <h5 class="modal-title" style="color:white">Download</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
-                    </div>
-                    <div class="modal-body" id="download-modal-body-id">
-
-                        <div class="row">
-                            
-                            <div class="col-md-12" id="download_url_content">
-                                
-                            </div>
-                            
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="modal-footer">
-                      
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <!----------End Download Modal----------------->  
-            </div>
-        </div>
-        <!-----------End new row--------------->
-        
-        
     </div>    
 
   
@@ -309,7 +225,7 @@
     layer1.on('loading', function (event) 
     {
         var tid =  new Date().getTime();
-        //console.log("loading..."+tid);
+        console.log("loading..."+tid);
         //if(!zooming)
         //{
            document.getElementById('meesage_box_id').innerHTML = "<div class='loader'></div><br/>Loading...";
@@ -319,7 +235,7 @@
     layer1.on('load', function (event) 
     {
         var tid =  new Date().getTime();
-        //console.log("loaded..."+tid);
+        console.log("loaded..."+tid);
         document.getElementById('meesage_box_id').innerHTML = "";
       
     });
@@ -327,8 +243,8 @@
     
     layer1.on('tileloadstart', function (event) 
     {
-        //var tid =  new Date().getTime();
-        //console.log("tileloadstart..."+tid);
+        var tid =  new Date().getTime();
+        console.log("tileloadstart..."+tid);
         
     });
     
@@ -383,9 +299,7 @@
         var AnnoSwith = '<div  style="border-style: solid;border-width: thin;background-color:white;">&nbsp'+
                         '<label class="cil_title3">Annotation:&nbsp&nbsp</label>'+
                         '<input id="annotation_check" name="annotation_check" type="checkbox" checked>&nbsp'+
-                        '</div>';     
-                
-        var downloadButton = '<div id="donwload_div_id"><button id="download_btn_id" name="download_btn_id" type="button" class="btn btn-primary">Download</button></div>';
+                        '</div>';             
                     
         var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
                     
@@ -395,35 +309,16 @@
         command.onAdd = function (map) {
             var div = L.DomUtil.create('div', 'command');
 
-            //div.innerHTML = rgbTool+'<br/>'+AnnoSwith+'<br/>'+loadingTool;
-            <?php
-                if(!$is_downloadable)
-                {
-            ?>
-            div.innerHTML = rgbTool+'<br/>'+AnnoSwith+'<br/>'+loadingTool;
-            <?php
-                }
-                else 
-                {
-            ?>
-            div.innerHTML = rgbTool+'<br/>'+AnnoSwith+"<br/>"+downloadButton+'<br/>'+loadingTool;
-            <?php 
-                } 
-            ?>
+            div.innerHTML = rgbTool+'<br/>'+AnnoSwith+'<br/>'+loadingTool; 
             return div;
         };
         
         command.addTo(map);
         
         
-       <?php
-            if($is_downloadable)
-           {
-        ?> 
-        document.getElementById("download_btn_id").addEventListener ("click", download_click_func, false);
-        <?php
-           }
-        ?>    
+        
+  
+        
         
 
         
@@ -757,33 +652,7 @@
             }
         }
         
-       function download_click_func()
-       {
-           console.log("Download click");
-           var min_index = <?php if(isset($min_index)) echo $min_index; else echo 0; ?>;
-           var download_url = '';
-           if(min_index > zindex)
-               download_url = '<?php echo $serverName; ?>/Download_rest/generate_slice/'+cil_id+'/'+min_index;
-           else
-               download_url = '<?php echo $serverName; ?>/Download_rest/generate_slice/'+cil_id+'/'+zindex;
-           console.log(download_url);
-           $("#spin_modal_id").modal('show');
-           $.post(download_url, '', function(returnedData) {
-                    
-                console.log(returnedData);
-                $('#spin_modal_id').modal('hide');
-                
-                
-                if (typeof returnedData !== "undefined" || returnedData !== null)
-                {
-                    var download_url = 'https://cildata.crbs.ucsd.edu/sliced_images/'+cil_id+'/'+returnedData.unzip_path;
-                    document.getElementById('download_url_content').innerHTML = '<center><a href="'+download_url+'" taget="_blank" class="btn btn-primary">Download Image</a></center>';
-
-
-                    $("#download_modal_id").modal('show');
-                }
-            });
-       }
+       
         
 
 </script>
