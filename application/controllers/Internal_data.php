@@ -171,12 +171,17 @@
             $isTokenCorrect = $dbutil->isTokenCorrect($cil_pgsql_db, $username, $token);
             if(!$isTokenCorrect)
             {
+                //$this->session->set_userdata('data_login', NULL);
+                //$this->session->set_userdata('user_json', NULL);
+                
                 return false;
             }
             
             $user_json = $dbutil->getPortalUserInfo($cil_pgsql_db, $username);
             if(is_null($user_json))
             {
+                //$this->session->set_userdata('data_login', NULL);
+                //$this->session->set_userdata('user_json', NULL);
                 return false;
             }
             $this->session->set_userdata('data_login', "true");
@@ -240,8 +245,8 @@
             $data_login = $this->session->userdata('data_login');
             if(is_null($data_login))
             {
-                //show_404();
-                echo "404 1";
+                show_404();
+                //echo "404 1";
                 
                 return;
             }
@@ -256,8 +261,8 @@
                 $data['user_json'] = $user_json;
             else
             { 
-                //show_404();
-                echo "404 2";
+                show_404();
+                //echo "404 2";
                 return;
             }
             /***********End user_json*******************/

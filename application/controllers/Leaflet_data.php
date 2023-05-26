@@ -124,7 +124,7 @@
            imagedestroy($im);
         }
         
-        /*
+   
 	public function tar_filter($tar_folder,$tar_name,$root_folder,$z="0",$x="0",$y="0.png")
         { 
            error_reporting(0); 
@@ -360,9 +360,9 @@
            $this->my_error_log("\n".$file."-----".$diff_time."seconds-----Read time:".$readTime."--------Process time:".$processTime,3,$wib_error_log);
            $this->my_error_log("\n-----------------------------------------------------------------------------------------------------------------------\n",3,$wib_error_log);
 	}
-        */
         
         
+        /*
         public function tar_filter($tar_folder,$tar_name,$root_folder,$z="0",$x="0",$y="0.png")
         { 
            error_reporting(0); 
@@ -434,7 +434,7 @@
 	     else if($brightness < -100)
 	        $brightness = -100;
 	   }
-
+           */
            /////////////////Histogram///////////////////////////////
            /*$username = "Public";
            $temp = $this->input->get('username', TRUE);
@@ -485,7 +485,7 @@
            error_log($query_path."\n", 3, $h_filePath); */
            /////////////////End Histogram///////////////////////////////
            
-           
+           /*
            $file = "---";
            $readTime = 0;
            $data = null;
@@ -652,6 +652,8 @@
            $this->my_error_log("\n".$file."-----".$diff_time."seconds-----Read time:".$readTime."--------Process time:".$processTime,3,$wib_error_log);
            $this->my_error_log("\n-----------------------------------------------------------------------------------------------------------------------\n",3,$wib_error_log);
 	}
+            
+         */
         
         private function my_error_log($message,$option, $wib_error_log)
         {

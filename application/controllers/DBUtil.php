@@ -2132,6 +2132,8 @@ class DBUtil
         $conn = pg_pconnect($cil_pgsql_db);
         if (!$conn) 
             return false;
+        
+        //echo "<br/>".$image_id;
         $sql = "select id from group_images where image_id = $1";
         
         $input = array();
@@ -2141,6 +2143,7 @@ class DBUtil
         if (!$result) 
         {
             pg_close($conn);
+            //echo "<br/>No result";
             return false;
         }
         
@@ -2148,6 +2151,7 @@ class DBUtil
         if($row = pg_fetch_row($result))
         {
             $isPublic = true;
+            //echo "<br/>Is internal";
         }
         pg_close($conn);
         return $isPublic;

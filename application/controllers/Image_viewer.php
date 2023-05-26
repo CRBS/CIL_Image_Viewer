@@ -40,6 +40,15 @@
                         show_404();
                         return;
                     }
+                    else
+                    {
+                        //echo "<br/>Is internal public";
+                    }
+                    
+                }
+                else 
+                {
+                    //echo "<br/>Is Not internal public";
                 }
             }
             
