@@ -54,7 +54,11 @@
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
     
     
-
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>
    
     <script>
         var notes_text = "";
