@@ -61,7 +61,11 @@
 </head>
 
 <body>
-    
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>    
 <div id="map" style="width: 100%; height: 90%; border: 1px solid #ccc"></div>
 <script>
 /*    

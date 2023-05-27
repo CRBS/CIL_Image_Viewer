@@ -61,6 +61,11 @@
 </head>
 
 <body>
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>
     <script>
         var x_pixel_offset = <?php if(isset($x_pixel_offset)) echo $x_pixel_offset; else echo 0;?>;
         var y_pixel_offset = <?php if(isset($y_pixel_offset)) echo $y_pixel_offset; else echo 0;?>;

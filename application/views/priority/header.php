@@ -14,5 +14,11 @@
     
     <link rel="stylesheet" href="/css/custom.css"> 
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
+    
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>
     </head>
 

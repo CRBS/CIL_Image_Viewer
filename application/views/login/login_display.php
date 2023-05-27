@@ -10,6 +10,11 @@
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
     </head>
 <body>
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>
 <div class="container">
     <form action="/login/auth/<?php echo $image_id; ?>" method="POST">
     <div class="row">

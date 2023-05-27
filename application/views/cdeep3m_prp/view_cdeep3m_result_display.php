@@ -10,6 +10,11 @@
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
 </head>
 <body>
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>
 <div class="container">
     <div class="row">
         

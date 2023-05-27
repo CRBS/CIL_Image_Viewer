@@ -10,6 +10,11 @@
         <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />  
     </head>
 <body>
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>
 <div class="container">
     <form action="/admin/update" method="post">
     <input type="hidden" name="image_id" value="<?php echo $image_id; ?>">

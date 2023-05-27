@@ -62,7 +62,11 @@
 
 <body>
     
-    
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>    
     
 <!----------Container begin-------------------->
  <div class="container">

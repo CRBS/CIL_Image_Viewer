@@ -61,7 +61,11 @@
 </head>
 
 <body>
-    
+    <script> 
+            jQuery.htmlPrefilter = function( html ) {
+                return html;
+        };    
+    </script>    
     
     
 <!----------Container begin-------------------->
