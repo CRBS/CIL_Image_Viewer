@@ -10,6 +10,46 @@ class DBUtil
     
     private $success = "success";
     
+    
+    public function getPublishedMappedImage($cil_pgsql_db, $orig_image_name,$logFile)
+    {
+        //error_log("\n".date("Y-m-d h:i:sa")."----Entering getPublishedMappedUrl:\n"."\n",3,$logFile);
+        //error_log("\n".date("Y-m-d h:i:sa").$cil_pgsql_db."\n"."\n",3,$logFile);
+        $imageName;
+        $sql = "select mapped_image_name  from publish_annot_image_map where orig_image_name = $1";
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn)
+        {
+            //error_log("\n".date("Y-m-d h:i:sa")."----Connection error:\n"."\n",3,$logFile);
+            return NULL;
+        }
+            
+        
+        $input = array();
+        array_push($input, $orig_image_name);
+       
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            //error_log("\n".date("Y-m-d h:i:sa")."----Query error:\n".pg_last_error($conn)."\n",3,$logFile);
+            return NULL;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+
+            $imageName = $row[0];
+
+        }
+        else 
+        {
+            //error_log("\n".date("Y-m-d h:i:sa")."----Empty result error:\n"."\n",3,$logFile);
+        }
+        pg_close($conn);
+        return $imageName;
+    }
+    
     /*****************************Priority queries ****************************************************************/
     public function isPriorityReporter($cil_pgsql_db, $annotation_id, $image_id, $reporter)
     {
