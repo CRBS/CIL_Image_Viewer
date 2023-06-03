@@ -29,8 +29,7 @@ class Release_annotation_service extends REST_Controller
         
         file_put_contents($previousJson, json_encode($pjson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         
-        
-        
+ 
         $pjson_str = "{\"type\":\"FeatureCollection\",\"features\":[]}";
         $new_pjson = json_decode($pjson_str);
         $this_feature = NULL;
@@ -43,6 +42,7 @@ class Release_annotation_service extends REST_Controller
                 $properties = $feature->properties;
                 
                 $match = $this->handleFeatureLinks($feature);
+                error_log(date("Y-m-d h:i:sa")."----Match URL:".$match."\n",3,$logFile);
                 if(!is_null($match) && count($match) > 0)
                 {
                     if(strcmp($properties->id."",$property_id)==0)
@@ -76,6 +76,23 @@ class Release_annotation_service extends REST_Controller
                         
                         if(!is_null($this_feature))
                         array_push($pjson->features, $this_feature);
+                        
+                        foreach($pjson->features as $pfeature)
+                        {
+                            error_log("\n".date("Y-m-d h:i:sa")."----Compare:".$pfeature->properties->id."-----".$property_id."",3,$logFile);
+                            if(strcmp($pfeature->properties->id."", $property_id)!=0)
+                            {
+                                //$deleteIndex = $index;
+                                //break;
+                                error_log(":NO",3,$logFile);
+                                array_push($new_pjson->features, $pfeature);
+                            }
+                            else 
+                            {
+                                error_log(":YES",3,$logFile);
+                            }
+                            //$index++;
+                        }
                     }
                     else
                     {
