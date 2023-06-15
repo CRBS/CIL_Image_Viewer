@@ -1779,6 +1779,7 @@ class DBUtil
         }
         $input = array();
         $sql = "select max_z, is_rgb, max_zoom, init_lat, init_lng, init_zoom,is_public , is_timeseries, max_t,x_pixel_offset, y_pixel_offset,max_x, max_y ".
+               " ,pixel_size_value, pixel_size_unit ".
                " from images where image_id = $1";
         array_push($input,$image_id);
         
@@ -1828,6 +1829,9 @@ class DBUtil
             $array['y_pixel_offset'] = intval($row[10]);
             $array['max_x'] =  intval($row[11]);
             $array['max_y'] =  intval($row[12]);
+            
+            $array['pixel_size_value'] = $row[13];
+            $array['pixel_size_unit'] = $row[14];
         }
         
         pg_close($conn);
