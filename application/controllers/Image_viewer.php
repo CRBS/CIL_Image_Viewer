@@ -138,6 +138,16 @@
                 else 
                     $data['is_downloadable'] = false;
                 
+                if(isset($json->pixel_size_value) && !is_null($json->pixel_size_value) 
+                    &&   isset($json->pixel_size_unit)  && !is_null($json->pixel_size_unit))
+                {
+                    $json->pixel_size_value = doubleval($json->pixel_size_value);
+                    $data['pixel_size_value'] = $json->pixel_size_value;
+                    $data['pixel_size_unit'] = $json->pixel_size_value;
+                    $data['showScale'] = true;
+                }
+                
+                
                 if(!$json->is_timeseries)
                 {
                     $this->load->view('image/image_viewer_display', $data);

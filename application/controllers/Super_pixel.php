@@ -66,17 +66,40 @@ class Super_pixel extends CI_Controller
         $response =  exec($command);
         error_log("\n".$response,3,$genMaskLog);  
         
+        
         //$end = time();
         //$run_time = $end - $start;
         //echo "<br/>Run time".$run_time;
-        $filename = basename($trainingZipFile);
-        $mime = mime_content_type($trainingZipFile); //<-- detect file type
+        /*$filename = basename($trainingZipFile);
+         $mime = mime_content_type($trainingZipFile); //<-- detect file type
         header('Content-Length: '.filesize($trainingZipFile)); //<-- sends filesize header
         header("Content-Type: $mime"); //<-- send mime-type header
         header('Content-Disposition: inline; filename="'.$filename.'";'); //<-- sends filename header
         readfile($trainingZipFile); //<--reads and outputs the file onto the output buffer
         die(); //<--cleanup
-        exit; //and exit
+        exit; //and exit */
+        
+           
+        header('Pragma: public');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false); // required for certain browsers 
+        header('Content-Type: application/zip');
+
+        header('Content-Disposition: attachment; filename="'. basename($trainingZipFile) . '";');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . filesize($trainingZipFile));
+        //readfile($trainingZipFile);
+        while (ob_get_level()) 
+        {
+         ob_end_clean();
+        }
+        readfile($trainingZipFile);   
+        exit;
+        //ob_start ();
+        //exit;
+        
+        
         
         
     }

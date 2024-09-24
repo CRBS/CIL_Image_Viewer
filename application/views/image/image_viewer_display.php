@@ -307,6 +307,69 @@
     layer1.addTo(map);
     
     
+/*********************Scaling info************************************/
+var showScale = <?php if(isset($showScale)) echo $showScale; else echo "false";  ?>;
+
+
+if(showScale)
+{
+    
+    var pixel_size_value = <?php if(isset($pixel_size_value)) echo $pixel_size_value; else echo "0"; ?>;
+    var pixel_size_unit = "<?php if(isset($pixel_size_unit)) echo $pixel_size_unit; else echo "μm"  ?>";
+    var zoomPixelArray = [256, 512,1024, 2048,4096,8192,16384,32768, 65536,131072,262144];
+  
+    var scale = L.control.scale({position: 'bottomleft', metric: true, imperial:false, maxWidth: 200});
+
+    
+    scale._updateMetric = function (maxMeters) {
+        var meters =  this._getRoundNum(maxMeters);
+        var cZoom = map.getZoom();
+        var mZoom = map.getMaxZoom();
+        
+        var zoomDiff = mZoom - cZoom;
+        var multiplier = Math.pow(2, zoomDiff);
+        var nPixels = zoomPixelArray[mZoom];
+        
+        //var label = " zoomDiff:"+multiplier+" - Pixels:"+nPixels;
+        var scale_value = multiplier * 200 * pixel_size_value;
+        //var label = scale_value+" "+pixel_size_unit;
+        var label = formatScaleValue(scale_value, pixel_size_value);
+
+       
+        //this._updateScale(this._mScale, label, meters / maxMeters);
+        this._updateScale(this._mScale, label, 1);
+    };
+    
+    scale.addTo(map);  
+
+}
+
+
+function formatScaleValue(pixel_size_v, pixel_size_u)
+{
+    var pixelSizeUnitArray = ['nm', 'μm', 'mm', 'm','km'];
+    var i=0;
+    var unitIndex = 0;
+    for(i=0;i<pixelSizeUnitArray.length;i++)
+    {
+        if(pixel_size_u==pixelSizeUnitArray[i])
+        {
+            unitIndex = i;
+            break;
+        }
+    }
+    
+    while(pixel_size_v/1000 > 1)
+    {
+        unitIndex++;
+        pixel_size_v = pixel_size_v/1000.0;
+    }
+    
+    return pixel_size_v.toFixed(2)+" "+pixelSizeUnitArray[unitIndex];
+    
+}
+/*********************End Scaling info************************************/  
+    
     
     /*************************JS Loading**********************************/
     var zooming = false;
