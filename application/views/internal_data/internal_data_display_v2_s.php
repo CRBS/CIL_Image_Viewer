@@ -850,7 +850,15 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
         
         var notes = '<button id="notes_btn_id" name="notes_btn_id" type="button" class="btn btn-primary">Notes</button>';
         //notes = notes+'&nbsp;&nbsp;<button id="hist_btn_id" name="hist_btn_id" type="button" class="btn btn-primary">Histogram</button>';
-                    
+        var ncmir_metadata = '';
+        <?php 
+        if(!is_null($ncmir_mpid))
+        {   
+        ?>
+        ncmir_metadata = '<button id="ncmir_btn_id" name="ncmir_btn_id" type="button" class="btn btn-primary">Metadata</button>';
+        <?php 
+        } 
+        ?>
         var loadingTool =   '<div id="meesage_box_id" name="meesage_box_id" class="cil_title2" style="color:#3498DB"></div>';          
                     
         // create the control
@@ -860,7 +868,7 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
             var div = L.DomUtil.create('div', 'command');
 
             //div.innerHTML = rgbTool+'<br style="line-height: 10px"/>'+AnnoSwith+'<br style="line-height: 10px"/>'+findAnnot+'<br/><br/>'+loadingTool; 
-            div.innerHTML = rgbTool+'<br style="line-height: 10px"/>'+AnnoSwith+'<br style="line-height: 10px"/>'+findAnnot+'<br/><br/>'+notes+'<br/><br/>'+loadingTool; 
+            div.innerHTML = rgbTool+'<br style="line-height: 10px"/>'+AnnoSwith+'<br style="line-height: 10px"/>'+findAnnot+'<br/><br/>'+notes+'&nbsp;&nbsp;'+ncmir_metadata+'<br/><br/>'+loadingTool; 
             return div;
         };
         
@@ -1378,6 +1386,7 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
         
         document.getElementById("notes_btn_id").addEventListener ("click", notes_click_func, false);
         //document.getElementById("hist_btn_id").addEventListener ("click", hist_click_func, false);
+        document.getElementById("ncmir_btn_id").addEventListener ("click", ncmir_click_func, false);
         
         document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
         document.getElementById("keywords_search_btn_id").addEventListener ("click", keyword_search_func, false);
@@ -1432,6 +1441,12 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
                 console.log(returnedData);
             });
             console.log('Out of the function');
+        }
+        
+        
+        function ncmir_click_func()
+        {
+            alert('ncmir_click');
         }
         
         function notes_click_func()

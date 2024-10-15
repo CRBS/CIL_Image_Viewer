@@ -267,6 +267,17 @@
             }
             /***********End user_json*******************/
             
+            $mpid = $dbutil->getNcmirMpid($cil_pgsql_db, $image_id);
+            if(is_null($mpid))
+            {
+                //echo "<br/>MPID is NULL";
+                $data['ncmir_mpid'] = false;
+            }
+            else 
+            {
+                $data['ncmir_mpid'] = true;
+                //echo "<br/>MPID:".$mpid;
+            }
 
             $priorityInfo = $dbutil->getPriorityAssigneeInfo($cil_pgsql_db, $image_id);
             $priority_json_str = json_encode($priorityInfo, JSON_UNESCAPED_SLASHES);

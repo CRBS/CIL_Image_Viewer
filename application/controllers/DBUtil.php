@@ -10,6 +10,77 @@ class DBUtil
     
     private $success = "success";
     
+    public function getMpidInfo($ncmir_pgsql_db, $mpid)
+    {
+        $array = array();
+        $sql = "select p.project_id, p.project_name, p.project_desc, exp.experiment_id, exp.experiment_title, exp.experiment_purpose, ".
+               " m.mpid, m.image_basename, m.notes, m.portal_screenname ".
+               " from project p, experiment exp, microscopy_products m ".
+               " where p.project_id = exp.project_id and exp.experiment_id = m.experiment_experiment_id ".
+               " and m.mpid = $1";
+        $conn = pg_pconnect($ncmir_pgsql_db);
+        if (!$conn)
+        {
+            return NULL;
+        }
+        
+        $input = array();
+        array_push($input, $mpid);
+        
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return NULL;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            $array['project_id'] = $row[0];
+            $array['project_name'] = $row[1];
+            $array['project_desc'] = $row[2];
+            $array['experiment_id'] = $row[3];
+            $array['experiment_title'] = $row[4];
+            $array['experiment_purpose'] = $row[5];
+            $array['mpid'] = $row[6];
+            $array['image_basename'] = $row[7];
+            $array['notes'] = $row[8];
+            $array['portal_screenname'] = $row[9];
+        }
+        pg_close($conn);
+        return $array;
+        
+    }
+    
+    
+    public function getNcmirMpid($cil_pgsql_db, $image_id)
+    {
+        $ncmir_id = NULL;
+        $sql = "select ncmir_mpid from group_images where image_id = $1";
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn)
+        {
+            return NULL;
+        }
+        
+        $input = array();
+        array_push($input, $image_id);
+        
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return NULL;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            $ncmir_id = $row[0];
+        }
+
+        pg_close($conn);
+        return $ncmir_id;
+    }
     
     public function getPublishedMappedImage($cil_pgsql_db, $orig_image_name,$logFile)
     {
