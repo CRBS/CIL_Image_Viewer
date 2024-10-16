@@ -30,6 +30,7 @@ $json_str = file_get_contents($cil_annotation_config_file);
 $configJson = json_decode($json_str);
 
 $config['cil_pgsql_db'] = $configJson->cil_pgsql_db;
+$config['ncmir_pgsql_db'] = $configJson->ncmir_pgsql_db;
 
 /*
 |--------------------------------------------------------------------------

@@ -12,6 +12,14 @@ class Image_process_rest extends REST_Controller
 {
     private $success = "success";
     
+    public function test_get()
+    {
+        $array = array();
+        $array['found'] = false;
+        $json_str = json_encode($array);
+        $json = json_decode($json_str);
+        $this->response($json);
+    }    
     public function geo_data_get($image_id, $slice_index)
     {
         $dbutil = new DBUtil();
