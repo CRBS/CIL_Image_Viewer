@@ -514,7 +514,87 @@
         </div>
     
     
-    
+    <div class="row">
+            <div class="col-md-12">
+            <!----------NCMIR Model--------------------->    
+            <div class="modal fade" id="ncmir_modal_id" role="dialog">
+                <div class="modal-dialog" role="document" id="ncmir_modal_id">
+                  <div class="modal-content" >
+                    <div class="modal-header" style="background-color: #4582EC; color: white">
+                      <h5 class="modal-title">NCMIR metadata</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div class="modal-body" id="ncmir-modal-body-id">
+
+                        <div class="row">
+                            <div class="col-md-4">Project ID:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_project_id"></div>
+                            </div>
+                            
+                        </div> 
+                        <div class="row" style="background-color: #D3D3D3">
+                            <div class="col-md-4">Project name:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_project_name"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Project description:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_project_desc"></div>
+                            </div>   
+                        </div> 
+                        <div class="row" style="background-color: #D3D3D3">
+                            <div class="col-md-4">Experiment ID:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_experiment_id"></div>
+                            </div>   
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Experiment title:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_experiment_title"></div>
+                            </div>   
+                        </div> 
+                        <div class="row" style="background-color: #D3D3D3">
+                            <div class="col-md-4">Experiment purpose:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_experiment_purpose"></div>
+                            </div>   
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Microscopy ID:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_microscopy_id"></div>
+                            </div>   
+                        </div>
+                        <div class="row" style="background-color: #D3D3D3">
+                            <div class="col-md-4">Image basename:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_image_basename"></div>
+                            </div>   
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Notes:</div>
+                            <div class="col-md-8">
+                                <div id="ncmir_notes"></div>
+                            </div>   
+                        </div>
+                    
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!----------End NCMIR Model----------------->  
+            </div>
+        </div>
     
         <div class="row">
             <div class="col-md-12">
@@ -1446,7 +1526,35 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
         
         function ncmir_click_func()
         {
-            alert('ncmir_click');
+            $.get( "<?php echo $serverName; ?>/Metadata_rest/mpid_metadata/<?php echo $ncmir_mpid; ?>", function( data ) {
+            //console.log("-----Getting NCMIR data");
+            //console.log(data);
+            var ncmir_json = data;
+            //alert(ncmir_json.project_id);
+            if(ncmir_json.project_id)
+                document.getElementById('ncmir_project_id').innerHTML = ncmir_json.project_id;
+            
+            if(ncmir_json.project_name)
+                document.getElementById('ncmir_project_name').innerHTML = ncmir_json.project_name;
+            
+            if(ncmir_json.project_desc)
+                document.getElementById('ncmir_project_desc').innerHTML = ncmir_json.project_desc;
+            if(ncmir_json.experiment_id)
+                document.getElementById('ncmir_experiment_id').innerHTML = ncmir_json.experiment_id;
+            if(ncmir_json.experiment_title)
+                document.getElementById('ncmir_experiment_title').innerHTML = ncmir_json.experiment_title;
+            if(ncmir_json.experiment_purpose)
+                document.getElementById('ncmir_experiment_purpose').innerHTML = ncmir_json.experiment_purpose;
+            if(ncmir_json.mpid)
+                document.getElementById('ncmir_microscopy_id').innerHTML = ncmir_json.mpid;
+            if(ncmir_json.image_basename)
+                document.getElementById('ncmir_image_basename').innerHTML = ncmir_json.image_basename;
+            if(ncmir_json.notes)
+                document.getElementById('ncmir_notes').innerHTML = ncmir_json.notes;
+            
+            });
+            
+            $("#ncmir_modal_id").modal('show');
         }
         
         function notes_click_func()

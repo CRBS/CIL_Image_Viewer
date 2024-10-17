@@ -47,6 +47,8 @@ class DBUtil
             $array['notes'] = $row[8];
             $array['portal_screenname'] = $row[9];
         }
+        else
+            $array = NULL;
         pg_close($conn);
         return $array;
         

@@ -271,11 +271,11 @@
             if(is_null($mpid))
             {
                 //echo "<br/>MPID is NULL";
-                $data['ncmir_mpid'] = false;
+                $data['ncmir_mpid'] = NULL;
             }
             else 
             {
-                $data['ncmir_mpid'] = true;
+                $data['ncmir_mpid'] = $mpid;
                 //echo "<br/>MPID:".$mpid;
             }
 

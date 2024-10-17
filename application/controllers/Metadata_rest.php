@@ -23,12 +23,12 @@ class Metadata_rest extends REST_Controller
         $array = array();
         $ncmir_pgsql_db = $this->config->item('ncmir_pgsql_db');
         //echo $ncmir_pgsql_db;
-        $array['found'] = true;
+        /*$array['found'] = true;
         $array['db'] = $ncmir_pgsql_db;
         $json_str = json_encode($array);
         $json = json_decode($json_str);
-        $this->response($json);
-        /*$dbutil = new DBUtil();
+        $this->response($json);*/
+        $dbutil = new DBUtil();
         $dataArray = $dbutil->getMpidInfo($ncmir_pgsql_db, $mpid);
         if(!is_null($dataArray))
         {
@@ -44,7 +44,7 @@ class Metadata_rest extends REST_Controller
             $json_str = json_encode($array);
             $json = json_decode($json_str);
             $this->response($json);
-        }*/
+        }
     }
     
 }
