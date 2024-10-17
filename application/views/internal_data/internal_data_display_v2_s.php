@@ -586,7 +586,7 @@
                     
                     </div>
                     <div class="modal-footer">
-                      
+                        <a href="/Ncmir_metadata/edit/<?php if(!is_null($ncmir_mpid)) echo $ncmir_mpid."?token=".$token;?>" target="_blank" class="btn btn-primary">Edit</a>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>
