@@ -8,6 +8,12 @@
     
     class Ncmir_metadata extends CI_Controller
     {
+        public function submit()
+        {
+            
+        }
+        
+        
         public function edit($mpid="0")
         {
             $this->load->helper('url');
@@ -53,7 +59,11 @@
                 return;
             }
             /***********End user_json*******************/
-            
+            $ncmir_pgsql_db = $this->config->item('ncmir_pgsql_db');
+            $dataArray = $dbutil->getMpidInfo($ncmir_pgsql_db, $mpid);
+            $ncmir_json_str = json_encode($dataArray);
+            $ncmir_json = json_decode($ncmir_json_str);
+            $data['ncmir_json'] = $ncmir_json;
             $this->load->view('ncmir_metadata/edit_metadata_display', $data);
         }
     }
