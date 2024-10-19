@@ -535,7 +535,7 @@
                             </div>
                             
                         </div> 
-                        <div class="row" style="background-color: #D3D3D3">
+                        <div class="row" style="background-color: #e6f7ff">
                             <div class="col-md-4">Project name:</div>
                             <div class="col-md-8">
                                 <div id="ncmir_project_name"></div>
@@ -547,7 +547,7 @@
                                 <div id="ncmir_project_desc"></div>
                             </div>   
                         </div> 
-                        <div class="row" style="background-color: #D3D3D3">
+                        <div class="row" style="background-color: #e6f7ff">
                             <div class="col-md-4">Experiment ID:</div>
                             <div class="col-md-8">
                                 <div id="ncmir_experiment_id"></div>
@@ -559,7 +559,7 @@
                                 <div id="ncmir_experiment_title"></div>
                             </div>   
                         </div> 
-                        <div class="row" style="background-color: #D3D3D3">
+                        <div class="row" style="background-color: #e6f7ff">
                             <div class="col-md-4">Experiment purpose:</div>
                             <div class="col-md-8">
                                 <div id="ncmir_experiment_purpose"></div>
@@ -571,7 +571,7 @@
                                 <div id="ncmir_microscopy_id"></div>
                             </div>   
                         </div>
-                        <div class="row" style="background-color: #D3D3D3">
+                        <div class="row" style="background-color: #e6f7ff">
                             <div class="col-md-4">Image basename:</div>
                             <div class="col-md-8">
                                 <div id="ncmir_image_basename"></div>

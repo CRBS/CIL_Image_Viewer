@@ -10,6 +10,77 @@ class DBUtil
     
     private $success = "success";
     
+    
+    public function updateMicroscopy($ncmir_pgsql_db, $mpid, $image_basename, $notes)
+    {
+        $sql = "update microscopy_products set image_basename = $1, notes = $2 where mpid = $3";
+        $conn = pg_pconnect($ncmir_pgsql_db);
+        if (!$conn)
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input, $image_basename);
+        array_push($input, $notes);
+        array_push($input, $mpid);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+    }
+    
+    public function updateExperment($ncmir_pgsql_db, $experiment_id, $experiment_title, $experiment_purpose)
+    {
+        $sql = "update experiment set experiment_title = $1, experiment_purpose = $2 where experiment_id = $3";
+        $conn = pg_pconnect($ncmir_pgsql_db);
+        if (!$conn)
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input, $experiment_title);
+        array_push($input, $experiment_purpose);
+        array_push($input, $experiment_id);
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+    }
+    
+    public function updateProject($ncmir_pgsql_db, $project_id, $project_name, $project_desc)
+    {
+        $sql = "update project set project_name = $1, project_desc= $2 where project_id = $3";
+        $conn = pg_pconnect($ncmir_pgsql_db);
+        if (!$conn)
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input, $project_name);
+        array_push($input, $project_desc);
+        array_push($input, $project_id);
+        
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+    }
+    
     public function getMpidInfo($ncmir_pgsql_db, $mpid)
     {
         $array = array();

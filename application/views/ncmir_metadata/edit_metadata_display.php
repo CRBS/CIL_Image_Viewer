@@ -27,6 +27,7 @@
     </div>
     <br/>
     <div class="row">
+<input type="hidden" id="token" name="token" value="<?php echo $token;?>">
 <input type="hidden" id="project_id" name="project_id" value="<?php echo $ncmir_json->project_id;?>">
         <div class="col-md-2">Project ID:</div>
         <div class="col-md-4">
