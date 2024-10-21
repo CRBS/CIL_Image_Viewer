@@ -27,6 +27,20 @@
     </div>
     <br/>
     <div class="row">
+        <div class="col-md-12">
+            <?php
+                if($submitted_data)
+                {
+            ?>
+            <div class="alert alert-success" role="alert">
+                The metadata has been updated successfully!
+            </div>
+            <?php 
+                }
+            ?>
+        </div>
+    </div>
+    <div class="row">
 <input type="hidden" id="token" name="token" value="<?php echo $token;?>">
 <input type="hidden" id="project_id" name="project_id" value="<?php echo $ncmir_json->project_id;?>">
         <div class="col-md-2">Project ID:</div>
@@ -123,10 +137,21 @@
     <div class="row">
         <div class="col-md-12"><br/></div>
         <div class="col-md-12">
-            <center><button class="btn btn-primary" type="submit" class="btn-info" value="Submit">Submit</button></center>
+            <center>
+                <button class="btn btn-primary" type="submit" class="btn-info" value="Submit">Submit</button>
+                &nbsp;&nbsp;
+                <a href="#" target="_self" class="btn btn-danger" onclick="closeWindow()">close</a>
+            </center>
         </div>
         <!-- <div class="col-md-6"></div> -->
     </div>
 </div>
 </body>
 </html>
+<script>
+    function closeWindow()
+    {
+        window.close(); 
+    }
+    
+</script>

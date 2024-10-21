@@ -55,25 +55,37 @@
             }
             /***********End user_json*******************/
             $token = $this->input->post('token', TRUE);
-            echo $token;
+            //echo $token;
             $project_id = $this->input->post('project_id', TRUE);
-            echo "\n<br/>".$project_id;
+            //echo "\n<br/>".$project_id;
             $project_name = $this->input->post('project_name', TRUE);
-            echo "\n<br/>".$project_name;
+            //echo "\n<br/>".$project_name;
             $project_desc = $this->input->post('project_desc', TRUE);
-            echo "\n<br/>".$project_desc;
+            //echo "\n<br/>".$project_desc;
             $experiment_id = $this->input->post('experiment_id', TRUE);
-            echo "\n<br/>".$experiment_id;
+            //echo "\n<br/>".$experiment_id;
             $experiment_title = $this->input->post('experiment_title', TRUE);
-            echo "\n<br/>".$experiment_title;
+            //echo "\n<br/>".$experiment_title;
             $experiment_purpose = $this->input->post('experiment_purpose', TRUE);
-            echo "\n<br/>".$experiment_purpose;
+            //echo "\n<br/>".$experiment_purpose;
             $mpid = $this->input->post('mpid', TRUE);
-            echo "\n<br/>".$mpid;
+            //echo "\n<br/>".$mpid;
             $image_basename = $this->input->post('image_basename', TRUE);
-            echo "\n<br/>".$image_basename;
+            //echo "\n<br/>".$image_basename;
             $notes = $this->input->post('notes', TRUE);
-            echo "\n<br/>".$notes;
+            //echo "\n<br/>".$notes;
+            $dbutil = new DBUtil();
+            $ncmir_pgsql_db = $this->config->item('ncmir_pgsql_db');
+            $dbutil->updateProject($ncmir_pgsql_db, $project_id, $project_name, $project_desc);
+            $dbutil->updateExperment($ncmir_pgsql_db, $experiment_id, $experiment_title, $experiment_purpose);
+            $dbutil->updateMicroscopy($ncmir_pgsql_db, $mpid, $image_basename, $notes);
+            //Return back to the Edit page
+            $data['submitted_data'] = true;
+            $dataArray = $dbutil->getMpidInfo($ncmir_pgsql_db, $mpid);
+            $ncmir_json_str = json_encode($dataArray);
+            $ncmir_json = json_decode($ncmir_json_str);
+            $data['ncmir_json'] = $ncmir_json;
+            $this->load->view('ncmir_metadata/edit_metadata_display', $data);
         }
         
         
@@ -123,6 +135,7 @@
                 return;
             }
             /***********End user_json*******************/
+            $data['submitted_data'] = false;
             $ncmir_pgsql_db = $this->config->item('ncmir_pgsql_db');
             $dataArray = $dbutil->getMpidInfo($ncmir_pgsql_db, $mpid);
             $ncmir_json_str = json_encode($dataArray);
