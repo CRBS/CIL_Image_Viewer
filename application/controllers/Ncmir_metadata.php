@@ -8,7 +8,7 @@
     
     class Ncmir_metadata extends CI_Controller
     {
-        public function submit()
+        public function submit($username, $token)
         {
             $this->load->helper('url');
             $dbutil = new DBUtil();
@@ -20,8 +20,8 @@
             
             $data['base_url'] = $base_url;
             
-            $token = $this->input->get('token', TRUE);
-            $username = $this->input->get('username', TRUE);
+            //$token = $this->input->get('token', TRUE);
+            //$username = $this->input->get('username', TRUE);
             $data['username'] = $username;
             $data['token'] = $token;
             if(!is_null($username) && !is_null($token))
@@ -76,11 +76,34 @@
             //echo "\n<br/>".$notes;
             $dbutil = new DBUtil();
             $ncmir_pgsql_db = $this->config->item('ncmir_pgsql_db');
-            $dbutil->updateProject($ncmir_pgsql_db, $project_id, $project_name, $project_desc);
-            $dbutil->updateExperment($ncmir_pgsql_db, $experiment_id, $experiment_title, $experiment_purpose);
-            $dbutil->updateMicroscopy($ncmir_pgsql_db, $mpid, $image_basename, $notes);
+            
+            $proj_update_success = false;
+            $exp_update_success = false;
+            $mic_update_success = false;
+            
+            $canUserEdit =$dbutil->canUserEditMetadata($cil_pgsql_db, $username);
+            /*if($canUserEdit)
+                echo "<br/>User: ".$username." can edit";
+            else
+                echo "<br/>User: ".$username." cannot edit";*/
+            if($canUserEdit &&
+                    $dbutil->isMpidEditable($cil_pgsql_db, $mpid))
+            {
+            $proj_update_success = $dbutil->updateProject($ncmir_pgsql_db, $project_id, $project_name, $project_desc);
+            $exp_update_success = $dbutil->updateExperment($ncmir_pgsql_db, $experiment_id, $experiment_title, $experiment_purpose);
+            $mic_update_success = $dbutil->updateMicroscopy($ncmir_pgsql_db, $mpid, $image_basename, $notes);
+            }
+            //$mic_update_success = false; // For testing
             //Return back to the Edit page
-            $data['submitted_data'] = true;
+            /***********************Getting timestamp**************/
+            date_default_timezone_set('America/Los_Angeles');
+            $mdate = date('m/d/Y h:i:s', time());
+            $data['modified_date'] = $mdate;
+            /***********************End Getting timestamp***********/
+            if($proj_update_success && $exp_update_success && $mic_update_success)
+                $data['submitted_data'] = true;
+            else
+                $data['submitted_data'] = false;
             $dataArray = $dbutil->getMpidInfo($ncmir_pgsql_db, $mpid);
             $ncmir_json_str = json_encode($dataArray);
             $ncmir_json = json_decode($ncmir_json_str);
@@ -142,6 +165,35 @@
             $ncmir_json = json_decode($ncmir_json_str);
             $data['ncmir_json'] = $ncmir_json;
             $this->load->view('ncmir_metadata/edit_metadata_display', $data);
+        }
+        
+        
+        private function authenticateByToken($username, $token,$ip_address)
+        {
+            $cil_pgsql_db = $this->config->item('cil_pgsql_db');
+            $db_params = $this->config->item('db_params');
+            $dbutil = new DBUtil();
+            $isTokenCorrect = $dbutil->isTokenCorrect($cil_pgsql_db, $username, $token);
+            if(!$isTokenCorrect)
+            {
+                //$this->session->set_userdata('data_login', NULL);
+                //$this->session->set_userdata('user_json', NULL);
+                
+                return false;
+            }
+            
+            $user_json = $dbutil->getPortalUserInfo($cil_pgsql_db, $username);
+            if(is_null($user_json))
+            {
+                //$this->session->set_userdata('data_login', NULL);
+                //$this->session->set_userdata('user_json', NULL);
+                return false;
+            }
+            $this->session->set_userdata('data_login', "true");
+            $this->session->set_userdata('user_json', $user_json);
+            if(isset($user_json->username))
+                 $dbutil->insertUserAction($db_params, $user_json->username, $ip_address, "login");
+            return true;
         }
     }
 

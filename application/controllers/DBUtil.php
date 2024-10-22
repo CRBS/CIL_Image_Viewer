@@ -10,6 +10,63 @@ class DBUtil
     
     private $success = "success";
     
+    public function isMpidEditable($cil_pgsql_db, $mpid)
+    {
+        $isEditable = false;
+        $sql = "select id from group_images where ncmir_mpid = $1";
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn)
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input, $mpid);
+        
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        
+        if($row = pg_fetch_row($result))
+        {
+            $isEditable = true;
+        }
+        
+        pg_close($conn);
+        return $isEditable;
+    }
+    
+    public function canUserEditMetadata($cil_pgsql_db, $username)
+    {
+        $canEdit = false;
+        $sql = "select id from cil_users where username = $1 and can_edit_metadata = true";
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn)
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input, $username);
+        
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        if($row = pg_fetch_row($result))
+        {
+            $canEdit = true;
+        }
+        
+        
+        pg_close($conn);
+        return $canEdit;
+    }
     
     public function updateMicroscopy($ncmir_pgsql_db, $mpid, $image_basename, $notes)
     {

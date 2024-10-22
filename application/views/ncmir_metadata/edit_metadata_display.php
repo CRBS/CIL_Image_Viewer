@@ -17,7 +17,7 @@
     </script>
 <div class="container">
     <br/>
-    <form action="/Ncmir_metadata/submit" method="post">
+    <form action="/Ncmir_metadata/submit/<?php echo $username ?>/<?php echo $token; ?>" method="post">
     <input type="hidden" name="image_id" value="<?php  ?>">
     <div class="row">
         <div class="col-md-2">
@@ -29,14 +29,25 @@
     <div class="row">
         <div class="col-md-12">
             <?php
-                if($submitted_data)
+                if(isset($submitted_data)&& !is_null($submitted_data) && $submitted_data)
                 {
             ?>
             <div class="alert alert-success" role="alert">
-                The metadata has been updated successfully!
+                The metadata has been updated successfully! (<?php echo  $modified_date ?>) 
             </div>
             <?php 
                 }
+                else if(isset($submitted_data) && !is_null($submitted_data) && !$submitted_data)
+                {
+                    if(isset($modified_date) && !is_null($modified_date))
+                    {
+            ?>
+            <div class="alert alert-danger" role="alert">
+               The metadata was NOT updated! (<?php echo $modified_date ?>)
+            </div>
+            <?php
+                    }
+                } 
             ?>
         </div>
     </div>

@@ -586,7 +586,7 @@
                     
                     </div>
                     <div class="modal-footer">
-                        <a href="/Ncmir_metadata/edit/<?php if(!is_null($ncmir_mpid)) echo $ncmir_mpid."?token=".$token;?>" target="_blank" class="btn btn-primary">Edit</a>
+                        <a id="edit_metadata_btn_id" href="/Ncmir_metadata/edit/<?php if(!is_null($ncmir_mpid)) echo $ncmir_mpid."?username=".$username."&token=".$token;?>" target="_blank" class="btn btn-primary">Edit</a>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                   </div>
@@ -1468,6 +1468,8 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
         //document.getElementById("hist_btn_id").addEventListener ("click", hist_click_func, false);
         document.getElementById("ncmir_btn_id").addEventListener ("click", ncmir_click_func, false);
         
+        document.getElementById("edit_metadata_btn_id").addEventListener ("click", edit_metadata_click_func, false);
+        
         document.getElementById ("annotation_check").addEventListener ("click", annotation_check_func, false);
         document.getElementById("keywords_search_btn_id").addEventListener ("click", keyword_search_func, false);
         
@@ -1523,9 +1525,17 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
             console.log('Out of the function');
         }
         
+        function edit_metadata_click_func()
+        {
+            $('#ncmir_modal_id').modal('hide');
+        }
         
         function ncmir_click_func()
         {
+            <?php
+                if(!is_null($ncmir_mpid))
+                {
+            ?>
             $.get( "<?php echo $serverName; ?>/Metadata_rest/mpid_metadata/<?php echo $ncmir_mpid; ?>", function( data ) {
             //console.log("-----Getting NCMIR data");
             //console.log(data);
@@ -1555,6 +1565,9 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
             });
             
             $("#ncmir_modal_id").modal('show');
+            <?php 
+                }
+            ?>
         }
         
         function notes_click_func()
