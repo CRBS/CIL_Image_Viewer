@@ -226,7 +226,7 @@
                         <div class="row">
                             <div class="col-md-3">Description:</div>
                             <div class="col-md-9">
-                                <textarea id="annotation_desc_id" rows="4" cols="40"></textarea>
+                                <textarea id="annotation_desc_id" rows="4" cols="35"></textarea>
                             </div>
                             <div class="col-md-12"><hr></div>
                             
@@ -244,7 +244,7 @@
                                 <center><button id="submit_annotation_id" type="button" class="btn btn-info" data-dismiss="modal">Submit</button></center>
                             </div>
                         </div>
-                        <hr>
+                        <!-- <hr> -->
                           <div class="row">
                             <div class="col-md-12">
                                 <center><button id="manage_priority_id" type="button" class="btn btn-outline-primary" onclick="manage_priority()">Manage priorities</button></center>
@@ -1162,7 +1162,7 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
         
         
         //Is the annotation owner?
-        if(selectedProps.hasOwnProperty("username") && selectedProps.username == '<?php echo $username; ?>')
+        /*if(selectedProps.hasOwnProperty("username") && selectedProps.username == '<?php //echo $username; ?>')
         {
             document.getElementById('remove_annotation_id').style.display = "block";
             //document.getElementById('manage_priority_id').style.display = "block";
@@ -1171,7 +1171,7 @@ function formatScaleValue(pixel_size_v, pixel_size_u)
         {
             document.getElementById('remove_annotation_id').style.display = "none";
             document.getElementById('manage_priority_id').style.display = "none";
-        }
+        }*/
         
         /*
         var coor = null;
@@ -2061,7 +2061,7 @@ onElementHeightChange(document.body, function(){
     function manage_priority()
     {
         //console.log('manage_priority');
-        
+        /*
         saveDescription();
         
         
@@ -2134,7 +2134,7 @@ onElementHeightChange(document.body, function(){
             
             
         }
-        
+        */
         
     }
     

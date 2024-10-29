@@ -68,7 +68,13 @@
         <div class="col-md-10">
             <input class="form-control" type="text" name="project_name" value="<?php 
                 if(isset($ncmir_json) && !is_null($ncmir_json))
-                    echo $ncmir_json->project_name;
+                {
+                    if(!is_null($ncmir_json->project_name))
+                    {
+                        echo htmlspecialchars($ncmir_json->project_name);
+                    }
+                    
+                }
             ?>">
         </div>
         <!-- <div class="col-md-6"></div> -->
@@ -78,7 +84,12 @@
         <div class="col-md-10">
             <input class="form-control" type="text" name="project_desc" value="<?php 
                 if(isset($ncmir_json) && !is_null($ncmir_json))
-                    echo $ncmir_json->project_desc;
+                {
+                    if(!is_null($ncmir_json->project_desc))
+                    {
+                        echo htmlspecialchars($ncmir_json->project_desc);
+                    }
+                }
             ?>">
         </div>
         <!-- <div class="col-md-6"></div> -->
@@ -89,7 +100,9 @@
         <div class="col-md-4">
             <?php
             if(isset($ncmir_json) && !is_null($ncmir_json))
+            {
                 echo $ncmir_json->experiment_id;
+            }
             ?>
         </div>
         <div class="col-md-6"></div>
@@ -99,7 +112,12 @@
         <div class="col-md-10">
             <input class="form-control" type="text" name="experiment_title" value="<?php 
                 if(isset($ncmir_json) && !is_null($ncmir_json))
-                    echo $ncmir_json->experiment_title;
+                {
+                    if(!is_null($ncmir_json->experiment_title))
+                    {
+                        echo htmlspecialchars($ncmir_json->experiment_title);
+                    }
+                }
             ?>">
         </div>
         <!-- <div class="col-md-6"></div> -->
@@ -109,7 +127,12 @@
         <div class="col-md-10">
             <input class="form-control" type="text" name="experiment_purpose" value="<?php 
                 if(isset($ncmir_json) && !is_null($ncmir_json))
-                    echo $ncmir_json->experiment_purpose;
+                {
+                    if(!is_null($ncmir_json->experiment_purpose))
+                    {
+                        echo htmlspecialchars($ncmir_json->experiment_purpose);
+                    }
+                }
             ?>">
         </div>
         <!-- <div class="col-md-6"></div> -->
@@ -130,7 +153,12 @@
         <div class="col-md-10">
             <input class="form-control" type="text" name="image_basename" value="<?php 
                 if(isset($ncmir_json) && !is_null($ncmir_json))
-                    echo $ncmir_json->image_basename;
+                {
+                    if(!is_null($ncmir_json->image_basename))
+                    {
+                        echo htmlspecialchars($ncmir_json->image_basename);
+                    }
+                }
             ?>">
         </div>
         <!-- <div class="col-md-6"></div> -->
@@ -140,7 +168,12 @@
         <div class="col-md-10">
             <input class="form-control" type="text" name="notes" value="<?php 
                 if(isset($ncmir_json) && !is_null($ncmir_json))
-                    echo $ncmir_json->notes;
+                {
+                    if(!is_null($ncmir_json->notes))
+                    {
+                        echo htmlspecialchars($ncmir_json->notes);
+                    }
+                }
             ?>">
         </div>
         <!-- <div class="col-md-6"></div> -->
