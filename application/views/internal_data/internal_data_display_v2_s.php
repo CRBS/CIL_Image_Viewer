@@ -446,7 +446,7 @@
                         <div class="row">
                             <div class="col-md-3">Sharable URL:</div>
                             <div class="col-md-9">
-                                <textarea id="sharable_url_id" rows="5" cols="40"></textarea>
+                                <textarea id="sharable_url_id" rows="5" cols="35"></textarea>
                             </div>
                             <div class="col-md-12"><hr></div>
                             <div class="col-md-3">User name:</div>
