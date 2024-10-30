@@ -498,7 +498,7 @@
                         <div class="row">
                             <div class="col-md-3">Sharable URL:</div>
                             <div class="col-md-9">
-                                <textarea id="share_url_id" rows="5" cols="40" readonly></textarea>
+                                <textarea id="share_url_id" rows="5" cols="35" readonly></textarea>
                             </div>
                         </div> 
                     </div>
