@@ -68,6 +68,44 @@ class DBUtil
         return $canEdit;
     }
     
+    public function insertOldNcmirMetadata($cil_pgsql_db, $ncmir_json, $username)
+    {
+        if(is_null($ncmir_json))
+            return false;
+        
+        $sql = "insert into old_ncmir_metadata(id, update_time, project_id, project_name, project_desc, ".
+        " experiment_id, experiment_title, experiment_purpose, mpid, image_basename, notes, image_viewer_username) ".
+        " values(nextval('general_seq'), now(), $1, $2, $3, $4, $5, ".
+        " $6, $7, $8, $9, $10) ";
+        
+        $conn = pg_pconnect($cil_pgsql_db);
+        if (!$conn)
+        {
+            return false;
+        }
+        
+        $input = array();
+        array_push($input, $ncmir_json->project_id);  //1
+        array_push($input, $ncmir_json->project_name); //2
+        array_push($input, $ncmir_json->project_desc); //3
+        array_push($input, $ncmir_json->experiment_id); //4
+        array_push($input, $ncmir_json->experiment_title); //5
+        array_push($input, $ncmir_json->experiment_purpose); //6
+        array_push($input, $ncmir_json->mpid); //7
+        array_push($input, $ncmir_json->image_basename); //8
+        array_push($input, $ncmir_json->notes); //9
+        array_push($input, $username);
+        
+        $result = pg_query_params($conn, $sql, $input);
+        if(!$result) 
+        {
+            pg_close($conn);
+            return false;
+        }
+        pg_close($conn);
+        return true;
+    }
+    
     public function updateMicroscopy($ncmir_pgsql_db, $mpid, $image_basename, $notes)
     {
         $sql = "update microscopy_products set image_basename = $1, notes = $2 where mpid = $3";

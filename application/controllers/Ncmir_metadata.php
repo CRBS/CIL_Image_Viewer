@@ -86,12 +86,17 @@
                 echo "<br/>User: ".$username." can edit";
             else
                 echo "<br/>User: ".$username." cannot edit";*/
-            if($canUserEdit &&
-                    $dbutil->isMpidEditable($cil_pgsql_db, $mpid))
+            if($canUserEdit && $dbutil->isMpidEditable($cil_pgsql_db, $mpid))
             {
-            $proj_update_success = $dbutil->updateProject($ncmir_pgsql_db, $project_id, $project_name, $project_desc);
-            $exp_update_success = $dbutil->updateExperment($ncmir_pgsql_db, $experiment_id, $experiment_title, $experiment_purpose);
-            $mic_update_success = $dbutil->updateMicroscopy($ncmir_pgsql_db, $mpid, $image_basename, $notes);
+                
+                $dataArray = $dbutil->getMpidInfo($ncmir_pgsql_db, $mpid);
+                $ncmir_json_str = json_encode($dataArray);
+                $ncmir_json = json_decode($ncmir_json_str);
+                $dbutil->insertOldNcmirMetadata($cil_pgsql_db, $ncmir_json, $username);
+                
+                $proj_update_success = $dbutil->updateProject($ncmir_pgsql_db, $project_id, $project_name, $project_desc);
+                $exp_update_success = $dbutil->updateExperment($ncmir_pgsql_db, $experiment_id, $experiment_title, $experiment_purpose);
+                $mic_update_success = $dbutil->updateMicroscopy($ncmir_pgsql_db, $mpid, $image_basename, $notes);
             }
             //$mic_update_success = false; // For testing
             //Return back to the Edit page
